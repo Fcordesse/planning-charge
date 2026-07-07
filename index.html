@@ -145,7 +145,13 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div style="font-size:.9rem;color:var(--text-light)">Chargement des données...</div>
 </div>
 
-<header class="app-header"><h1>📊 Planning <span>de Charge</span></h1><div style="font-size:.8rem;opacity:.7" id="curDate"></div></header>
+<header class="app-header">
+  <h1>📊 Planning <span>de Charge</span></h1>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="font-size:.8rem;opacity:.7" id="curDate"></div>
+    <button onclick="logout()" style="padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">🚪 Déconnexion</button>
+  </div>
+</header>
 <nav class="tabs-container">
   <button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button>
   <button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button>
@@ -195,6 +201,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <!-- FIREBASE SDK (version modulaire via CDN compat) -->
 <!-- ============================================================ -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <script>
@@ -210,7 +217,23 @@ const firebaseConfig = {
   appId: "1:876833423306:web:f0e352b6648269f526d933"
 };
 firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 const db = firebase.database();
+
+// 🔒 PROTECTION : vérifier que l'utilisateur est connecté
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    // Non connecté → retour à la page de login
+    window.location.href = 'login.html';
+  }
+});
+
+// Fonction de déconnexion
+function logout() {
+  auth.signOut().then(() => {
+    window.location.href = 'login.html';
+  });
+}
 
 // ============================================================
 // VARIABLES GLOBALES
