@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning de Charge — Accueil</title>
+<style>
+:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--text:#1a1a2e;--border:#dee2e6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
+.app-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 30px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+.app-header h1{font-size:1.3rem;font-weight:600}.app-header h1 span{color:var(--highlight)}
+.header-right{display:flex;align-items:center;gap:16px}
+.user-badge{font-size:.8rem;opacity:.8}
+.btn-logout{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s}
+.btn-logout:hover{background:rgba(255,255,255,.2)}
+.hub-container{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,320px));gap:32px;justify-content:center;max-width:750px;width:100%}
+.hub-card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:40px 32px;text-align:center;cursor:pointer;transition:.3s;border:2px solid transparent;text-decoration:none;color:var(--text)}
+.hub-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.12)}
+.hub-card.card-planning:hover{border-color:var(--accent)}
+.hub-card.card-pointage:hover{border-color:var(--highlight)}
+.hub-icon{font-size:3.5rem;margin-bottom:20px}
+.hub-card h2{font-size:1.2rem;margin-bottom:10px;font-weight:700}
+.hub-card p{font-size:.85rem;color:#6c757d;line-height:1.5}
+.hub-card .arrow{margin-top:20px;font-size:1.2rem;opacity:.3;transition:.3s}
+.hub-card:hover .arrow{opacity:.8;transform:translateX(4px)}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <h1>📊 Planning <span>de Charge</span></h1>
+  <div class="header-right">
+    <span class="user-badge" id="userBadge"></span>
+    <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
+  </div>
+</header>
+
+<div class="hub-container">
+  <div class="hub-grid">
+    <a href="planning.html" class="hub-card card-planning">
+      <div class="hub-icon">📅</div>
+      <h2>Planning de Charge</h2>
+      <p>Gérer les affectations, les affaires et visualiser la charge globale de l'équipe.</p>
+      <div class="arrow">→</div>
+    </a>
+    <a href="pointage.html" class="hub-card card-pointage">
+      <div class="hub-icon">👤</div>
+      <h2>Mon Planning</h2>
+      <p>Consulter votre planning personnel, vos affectations et congés mois par mois.</p>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",
+  authDomain: "planning-charge-18dea.firebaseapp.com",
+  databaseURL: "https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "planning-charge-18dea",
+  storageBucket: "planning-charge-18dea.firebasestorage.app",
+  messagingSenderId: "876833423306",
+  appId: "1:876833423306:web:f0e352b6648269f526d933"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = 'index.html';
+  } else {
+    document.getElementById('userBadge').textContent = '👤 ' + user.email;
+  }
+});
+
+function logout() {
+  auth.signOut().then(() => { window.location.href = 'index.html'; });
+}
+</script>
+</body>
+</html>

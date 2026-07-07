@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Planning</title>
+<style>
+:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--card-bg:#fff;--text:#1a1a2e;--text-light:#6c757d;--border:#dee2e6;--success:#28a745;--radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);--etudes-border:#1565c0;--travaux-border:#e65100}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 30px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 15px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
+.app-header h1{font-size:1.3rem;font-weight:600}.app-header h1 span{color:var(--highlight)}
+.header-right{display:flex;align-items:center;gap:12px}
+.hdr-btn{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s;text-decoration:none}
+.hdr-btn:hover{background:rgba(255,255,255,.2)}
+.main{max-width:1100px;margin:0 auto;padding:24px 20px}
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.welcome-info{display:flex;align-items:center;gap:16px}
+.avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff}
+.welcome-text h2{font-size:1.1rem;font-weight:700}.welcome-text p{font-size:.82rem;color:var(--text-light)}
+.month-selector{display:flex;align-items:center;gap:8px}
+.month-selector button{padding:8px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+.month-selector button:hover{background:#0b2a4a}
+.month-selector .month-label{font-size:1rem;font-weight:700;min-width:160px;text-align:center}
+.not-found{background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius);padding:24px;text-align:center;color:#856404;font-size:.9rem;margin-top:40px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border:1px solid var(--border);text-align:center}
+.stat-card .stat-value{font-size:2rem;font-weight:800;margin-bottom:4px}
+.stat-card .stat-label{font-size:.78rem;color:var(--text-light);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.stat-card.stat-ouvres .stat-value{color:var(--accent)}
+.stat-card.stat-planifie .stat-value{color:var(--highlight)}
+.stat-card.stat-conge .stat-value{color:#ff9800}
+.stat-card.stat-dispo .stat-value{color:var(--success)}
+.detail-section{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;border:1px solid var(--border);margin-bottom:20px}
+.detail-section h3{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.detail-table{width:100%;border-collapse:collapse}
+.detail-table th{text-align:left;padding:10px 14px;background:var(--bg);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);border-bottom:2px solid var(--border)}
+.detail-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:.88rem}
+.detail-table tr:last-child td{border-bottom:none}
+.detail-table tr:hover{background:#f8f9ff}
+.detail-table .type-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:700;text-transform:uppercase}
+.detail-table .type-etudes{background:#e3f2fd;color:var(--etudes-border)}
+.detail-table .type-travaux{background:#fff3e0;color:var(--travaux-border)}
+.detail-table .days-bar{display:flex;align-items:center;gap:8px}
+.detail-table .bar{height:8px;border-radius:4px;min-width:4px;transition:.3s}
+.detail-table .bar-etudes{background:var(--etudes-border)}
+.detail-table .bar-travaux{background:var(--travaux-border)}
+.detail-table .bar-conge{background:#ff9800}
+.detail-table .days-num{font-weight:700;min-width:35px;text-align:right}
+.conge-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:#333;color:#fff;border-radius:12px;font-size:.78rem;font-weight:700;margin:3px}
+.calendar-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:16px}
+.cal-header{padding:8px 4px;text-align:center;font-size:.72rem;font-weight:700;color:var(--text-light);text-transform:uppercase}
+.cal-day{padding:10px 6px;border-radius:8px;text-align:center;font-size:.75rem;border:1px solid #eee;min-height:70px;display:flex;flex-direction:column;gap:2px}
+.cal-day .day-num{font-weight:700;font-size:.82rem;margin-bottom:4px}
+.cal-day.day-ferie{background:#e0e0e0;opacity:.6}
+.cal-day .day-tag{font-size:.55rem;padding:1px 4px;border-radius:3px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-day .day-leave{background:#333;color:#fff;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex:1;border-radius:4px}
+.loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.9);z-index:9999;justify-content:center;align-items:center;flex-direction:column;gap:16px}
+.loading-overlay.show{display:flex}
+.loading-overlay .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--highlight);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.total-row td{font-weight:700!important;border-top:2px solid var(--accent)!important;background:#f8f9ff!important}
+</style>
+</head>
+<body>
+
+<div class="loading-overlay show" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div style="font-size:.9rem;color:var(--text-light)">Chargement de votre planning...</div>
+</div>
+
+<header class="app-header">
+  <h1>👤 Mon <span>Planning</span></h1>
+  <div class="header-right">
+    <a href="hub.html" class="hdr-btn">🏠 Accueil</a>
+    <button class="hdr-btn" onclick="logout()">🚪 Déconnexion</button>
+  </div>
+</header>
+
+<div class="main">
+  <div class="welcome-bar">
+    <div class="welcome-info">
+      <div class="avatar" id="avatarEl"></div>
+      <div class="welcome-text">
+        <h2 id="welcomeName">Chargement...</h2>
+        <p id="welcomeEmail"></p>
+      </div>
+    </div>
+    <div class="month-selector">
+      <button onclick="changeMonth(-1)">◀</button>
+      <span class="month-label" id="monthLabel"></span>
+      <button onclick="changeMonth(1)">▶</button>
+    </div>
+  </div>
+
+  <div id="notFound" class="not-found" style="display:none">
+    ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>
+    Contactez l'administrateur du planning.
+  </div>
+
+  <div id="content" style="display:none">
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="detail-section">
+      <h3>📋 Détail des affectations</h3>
+      <table class="detail-table"><thead><tr><th>Affaire</th><th>Type</th><th>Charge</th><th>Jours</th></tr></thead><tbody id="affTable"></tbody></table>
+    </div>
+    <div class="detail-section" id="congeSection" style="display:none">
+      <h3>🏖️ Congés & Absences</h3>
+      <table class="detail-table"><thead><tr><th>Type</th><th>Jours</th><th></th></tr></thead><tbody id="congeTable"></tbody></table>
+    </div>
+    <div class="detail-section">
+      <h3>📅 Vue calendrier</h3>
+      <div class="calendar-grid" id="calGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+// ============================================================
+// FIREBASE
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",
+  authDomain: "planning-charge-18dea.firebaseapp.com",
+  databaseURL: "https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "planning-charge-18dea",
+  storageBucket: "planning-charge-18dea.firebasestorage.app",
+  messagingSenderId: "876833423306",
+  appId: "1:876833423306:web:f0e352b6648269f526d933"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+// ============================================================
+// VARIABLES
+// ============================================================
+let Co=[], Af=[], Dt={}, LT=[], LD={};
+let collabName = null;
+let collabColor = '#888';
+let curMonth = new Date().getMonth();
+let curYear = new Date().getFullYear();
+const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+// ============================================================
+// AUTH + CHARGEMENT
+// ============================================================
+auth.onAuthStateChanged(user => {
+  if (!user) { window.location.href = 'index.html'; return; }
+  document.getElementById('welcomeEmail').textContent = user.email;
+  db.ref('planning').once('value').then(snap => {
+    const data = snap.val();
+    if (data) {
+      Co = data.collaborateurs || [];
+      Af = data.affaires || [];
+      Dt = data.donnees || {};
+      LT = data.typesConges || [];
+      LD = data.conges || {};
+    }
+    matchCollab(user.email);
+    document.getElementById('loadingOverlay').classList.remove('show');
+  });
+});
+
+function logout() {
+  auth.signOut().then(() => { window.location.href = 'index.html'; });
+}
+
+// ============================================================
+// CORRESPONDANCE EMAIL → COLLABORATEUR
+// ============================================================
+function normalize(s) {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
+function matchCollab(email) {
+  const local = email.split('@')[0]; // prenom.nom ou prenom.nom1.nom2
+  const parts = local.split('.');
+
+  if (parts.length < 2) {
+    showNotFound();
+    return;
+  }
+
+  // Extraire prénom (1ère partie) et nom (le reste)
+  const emailPrenom = normalize(parts[0]);
+  const emailNom = normalize(parts.slice(1).join(' '));
+
+  let bestMatch = null;
+
+  Co.forEach(c => {
+    const cParts = c.name.trim().split(/\s+/);
+    if (cParts.length < 2) return;
+
+    // Format BDD : "NOM Prénom" ou "NOM COMPOSE Prénom"
+    // On teste : dernier mot = prénom, tout le reste = nom
+    const cPrenom = normalize(cParts[cParts.length - 1]);
+    const cNom = normalize(cParts.slice(0, -1).join(' '));
+
+    if (cPrenom === emailPrenom && cNom === emailNom) {
+      bestMatch = c;
+    }
+
+    // Aussi tester avec tirets (jean-pierre → jean-pierre)
+    const emailPrenomDash = emailPrenom.replace(/-/g, ' ');
+    const cPrenomDash = cPrenom.replace(/-/g, ' ');
+    if (cPrenomDash === emailPrenomDash && cNom === emailNom) {
+      bestMatch = c;
+    }
+  });
+
+  if (!bestMatch) {
+    showNotFound();
+    return;
+  }
+
+  collabName = bestMatch.name;
+  collabColor = bestMatch.color;
+
+  const ini = getIni(collabName);
+  document.getElementById('avatarEl').textContent = ini;
+  document.getElementById('avatarEl').style.background = collabColor;
+  document.getElementById('welcomeName').textContent = collabName;
+  document.getElementById('content').style.display = 'block';
+  renderMonth();
+}
+
+function showNotFound() {
+  document.getElementById('welcomeName').textContent = 'Non trouvé';
+  document.getElementById('notFound').style.display = 'block';
+}
+
+function getIni(n) {
+  const p = n.trim().split(/\s+/);
+  return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : n.substring(0, 2).toUpperCase();
+}
+
+// ============================================================
+// JOURS FÉRIÉS
+// ============================================================
+function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
+
+function getFeries(y){const s=new Set(),f=d=>dk(d),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};s.add(f(new Date(y,0,1)));s.add(f(new Date(y,4,1)));s.add(f(new Date(y,4,8)));s.add(f(new Date(y,6,14)));s.add(f(new Date(y,7,15)));s.add(f(new Date(y,10,1)));s.add(f(new Date(y,10,11)));s.add(f(new Date(y,11,25)));const e=getEaster(y);s.add(f(ad(e,1)));s.add(f(ad(e,39)));s.add(f(ad(e,50)));return s}
+
+let _fc={};
+function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
+function isWE(d){return d.getDay()===0||d.getDay()===6}
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+// ============================================================
+// NAVIGATION MOIS
+// ============================================================
+function changeMonth(offset) {
+  curMonth += offset;
+  if (curMonth > 11) { curMonth = 0; curYear++; }
+  if (curMonth < 0) { curMonth = 11; curYear--; }
+  renderMonth();
+}
+
+// ============================================================
+// RENDU MENSUEL
+// ============================================================
+function renderMonth() {
+  document.getElementById('monthLabel').textContent = MN[curMonth] + ' ' + curYear;
+
+  // Collecter tous les jours ouvrés du mois
+  const ouvres = [];
+  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(curYear, curMonth, d);
+    if (!isWE(date) && !isF(date)) {
+      ouvres.push(dk(date));
+    }
+  }
+
+  const nbOuvres = ouvres.length;
+
+  // Calculer la charge par affaire
+  const affCharge = {}; // {nomAffaire: {jours: X, type: 'etudes'|'travaux'}}
+  let totalSlots = 0;
+
+  Af.forEach(aff => {
+    let slots = 0;
+    ouvres.forEach(dkey => {
+      const k = aff.name + '|' + dkey;
+      const sl = Dt[k];
+      if (sl && Array.isArray(sl)) {
+        for (let i = 0; i < 5; i++) {
+          if (sl[i] === collabName) slots++;
+        }
+      }
+    });
+    if (slots > 0) {
+      affCharge[aff.name] = { slots, jours: slots / 5, type: aff.type };
+      totalSlots += slots;
+    }
+  });
+
+  const totalJoursPlanif = totalSlots / 5;
+
+  // Calculer les congés
+  const congeCount = {}; // {type: nbJours}
+  let totalConges = 0;
+
+  ouvres.forEach(dkey => {
+    const lv = LD[collabName + '|' + dkey];
+    if (lv) {
+      congeCount[lv] = (congeCount[lv] || 0) + 1;
+      totalConges++;
+    }
+  });
+
+  const joursDispo = nbOuvres - totalJoursPlanif - totalConges;
+
+  // ── STATS CARDS ──
+  document.getElementById('statsGrid').innerHTML =
+    '<div class="stat-card stat-ouvres"><div class="stat-value">' + nbOuvres + '</div><div class="stat-label">Jours ouvrés</div></div>' +
+    '<div class="stat-card stat-planifie"><div class="stat-value">' + totalJoursPlanif.toFixed(1).replace('.0', '') + '</div><div class="stat-label">Jours planifiés</div></div>' +
+    '<div class="stat-card stat-conge"><div class="stat-value">' + totalConges + '</div><div class="stat-label">Jours de congé</div></div>' +
+    '<div class="stat-card stat-dispo"><div class="stat-value">' + joursDispo.toFixed(1).replace('.0', '') + '</div><div class="stat-label">Jours disponibles</div></div>';
+
+  // ── TABLEAU AFFECTATIONS ──
+  const affTableEl = document.getElementById('affTable');
+  const affEntries = Object.entries(affCharge).sort((a, b) => b[1].jours - a[1].jours);
+  const maxJours = affEntries.length ? Math.max(...affEntries.map(e => e[1].jours)) : 1;
+
+  if (!affEntries.length) {
+    affTableEl.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px;font-style:italic">Aucune affectation ce mois</td></tr>';
+  } else {
+    let html = '';
+    affEntries.forEach(([name, data]) => {
+      const pct = nbOuvres > 0 ? Math.round((data.jours / nbOuvres) * 100) : 0;
+      const barW = Math.max(4, (data.jours / maxJours) * 120);
+      const typeCls = data.type === 'etudes' ? 'etudes' : 'travaux';
+      const typeLabel = data.type === 'etudes' ? 'Études' : 'Travaux';
+      html += '<tr>' +
+        '<td style="font-weight:600">' + escH(name) + '</td>' +
+        '<td><span class="type-badge type-' + typeCls + '">' + typeLabel + '</span></td>' +
+        '<td><div class="days-bar"><div class="bar bar-' + typeCls + '" style="width:' + barW + 'px"></div><span style="font-size:.75rem;color:var(--text-light)">' + pct + '%</span></div></td>' +
+        '<td><span class="days-num">' + data.jours.toFixed(1).replace('.0', '') + 'j</span></td>' +
+        '</tr>';
+    });
+    // Ligne total
+    html += '<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">' + totalJoursPlanif.toFixed(1).replace('.0', '') + 'j</span></td></tr>';
+    affTableEl.innerHTML = html;
+  }
+
+  // ── TABLEAU CONGÉS ──
+  const congeSec = document.getElementById('congeSection');
+  const congeTableEl = document.getElementById('congeTable');
+  const congeEntries = Object.entries(congeCount).sort((a, b) => b[1] - a[1]);
+
+  if (!congeEntries.length) {
+    congeSec.style.display = 'none';
+  } else {
+    congeSec.style.display = 'block';
+    let html = '';
+    congeEntries.forEach(([type, jours]) => {
+      const barW = Math.max(4, (jours / nbOuvres) * 200);
+      html += '<tr>' +
+        '<td><span class="conge-tag">' + escH(type) + '</span></td>' +
+        '<td><span class="days-num">' + jours + 'j</span></td>' +
+        '<td><div class="days-bar"><div class="bar bar-conge" style="width:' + barW + 'px"></div></div></td>' +
+        '</tr>';
+    });
+    html += '<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">' + totalConges + 'j</span></td><td></td></tr>';
+    congeTableEl.innerHTML = html;
+  }
+
+  // ── CALENDRIER ──
+  renderCalendar(ouvres, affCharge, congeCount);
+}
+
+// ============================================================
+// VUE CALENDRIER
+// ============================================================
+function renderCalendar(ouvres, affCharge, congeCount) {
+  const grid = document.getElementById('calGrid');
+  const DL = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
+  let html = DL.map(d => '<div class="cal-header">' + d + '</div>').join('');
+
+  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+
+  // Trouver le premier jour ouvré pour aligner la grille
+  const firstDay = new Date(curYear, curMonth, 1);
+  let startDow = firstDay.getDay(); // 0=dim, 1=lun...
+  if (startDow === 0) startDow = 7;
+  // Ajouter des cellules vides pour l'alignement (lun=1)
+  for (let i = 1; i < startDow; i++) {
+    if (i <= 5) html += '<div></div>'; // seulement lun-ven
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(curYear, curMonth, d);
+    const dow = date.getDay();
+    if (dow === 0 || dow === 6) continue; // skip weekends
+
+    const dkey = dk(date);
+    const ferie = isF(date);
+    const leave = LD[collabName + '|' + dkey];
+
+    let cls = 'cal-day';
+    if (ferie) cls += ' day-ferie';
+
+    html += '<div class="' + cls + '">';
+    html += '<div class="day-num">' + d + '</div>';
+
+    if (ferie) {
+      html += '<div style="font-size:.55rem;color:#666;font-style:italic">Férié</div>';
+    } else if (leave) {
+      html += '<div class="day-leave">' + escH(leave) + '</div>';
+    } else {
+      // Afficher les affectations du jour
+      Af.forEach(aff => {
+        const k = aff.name + '|' + dkey;
+        const sl = Dt[k];
+        if (sl && Array.isArray(sl)) {
+          let cnt = 0;
+          for (let i = 0; i < 5; i++) { if (sl[i] === collabName) cnt++; }
+          if (cnt > 0) {
+            const bg = aff.type === 'etudes' ? '#e3f2fd' : '#fff3e0';
+            const col = aff.type === 'etudes' ? '#1565c0' : '#e65100';
+            const label = aff.name.length > 10 ? aff.name.substring(0, 10) + '…' : aff.name;
+            html += '<div class="day-tag" style="background:' + bg + ';color:' + col + '">' + escH(label) + ' ' + (cnt * 20) + '%</div>';
+          }
+        }
+      });
+    }
+    html += '</div>';
+  }
+
+  grid.innerHTML = html;
+}
+
+function escH(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+</script>
+</body>
+</html>
