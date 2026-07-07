@@ -224,14 +224,14 @@ const db = firebase.database();
 auth.onAuthStateChanged(user => {
   if (!user) {
     // Non connecté → retour à la page de login
-    window.location.href = 'index.html';
+    window.location.href = 'hub.html';
   }
 });
 
 // Fonction de déconnexion
 function logout() {
   auth.signOut().then(() => {
-    window.location.href = 'index.html';
+    window.location.href = 'hub.html';
   });
 }
 
