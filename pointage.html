@@ -60,6 +60,80 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .loading-overlay .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--highlight);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .total-row td{font-weight:700!important;border-top:2px solid var(--accent)!important;background:#f8f9ff!important}
+
+/* ── COMPARATIF POINTAGE ── */
+.comparatif-section{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;border:2px solid #9c27b0;margin-bottom:20px}
+.comparatif-section h3{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:#6a1b9a}
+.comparatif-table{width:100%;border-collapse:collapse}
+.comparatif-table th{text-align:left;padding:10px 14px;background:#f3e5f5;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6a1b9a;border-bottom:2px solid #ce93d8}
+.comparatif-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:.88rem}
+.comparatif-table tr:hover{background:#fce4ec08}
+.comparatif-table .delta-pos{color:var(--success);font-weight:700}
+.comparatif-table .delta-neg{color:var(--highlight);font-weight:700}
+.comparatif-table .delta-zero{color:var(--text-light);font-weight:700}
+.comparatif-total td{font-weight:700!important;border-top:2px solid #9c27b0!important;background:#f3e5f5!important}
+.pointage-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:700;background:#e8f5e9;color:#2e7d32;margin-left:8px}
+
+/* ── MODAL POINTAGE ── */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;width:95%;max-width:680px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
+.modal-header{padding:20px 24px;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;display:flex;align-items:center;justify-content:space-between}
+.modal-header h2{font-size:1.1rem;font-weight:700}
+.modal-close{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.8;transition:.2s;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.modal-close:hover{opacity:1;background:rgba(255,255,255,.2)}
+.modal-body{padding:24px;overflow-y:auto;flex:1}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fafafa}
+
+/* ── Step 1: Sélection du mois ── */
+.month-select-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.month-select-btn{padding:14px 10px;border:2px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-size:.88rem;font-weight:600;text-align:center;transition:.2s}
+.month-select-btn:hover{border-color:#9c27b0;background:#f3e5f5}
+.month-select-btn.selected{border-color:#9c27b0;background:#9c27b0;color:#fff}
+.month-select-btn .month-year{font-size:.7rem;color:var(--text-light);margin-top:2px;font-weight:400}
+.month-select-btn.selected .month-year{color:rgba(255,255,255,.8)}
+
+/* ── Step 2: Saisie pointage ── */
+.pointage-header-info{background:#f3e5f5;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.pointage-header-info .ouvres-label{font-size:.88rem;font-weight:600;color:#6a1b9a}
+.pointage-header-info .ouvres-value{font-size:1.6rem;font-weight:800;color:#6a1b9a}
+.pointage-header-info .total-saisi{font-size:.88rem;font-weight:700}
+.total-ok{color:var(--success)}
+.total-warn{color:var(--highlight)}
+
+.pointage-group{margin-bottom:20px}
+.pointage-group-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.pointage-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f5f5f5}
+.pointage-row:last-child{border-bottom:none}
+.pointage-row .row-label{flex:1;font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.pointage-row .row-label .sub-type{font-size:.7rem;color:var(--text-light);font-weight:400}
+.pointage-row .row-input{display:flex;align-items:center;gap:6px}
+.pointage-row .row-input button{width:30px;height:30px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--text)}
+.pointage-row .row-input button:hover{background:var(--bg);border-color:#9c27b0}
+.pointage-row .row-input button:disabled{opacity:.3;cursor:not-allowed}
+.pointage-row .row-value{width:50px;text-align:center;font-weight:700;font-size:1rem}
+.pointage-row .row-unit{font-size:.78rem;color:var(--text-light)}
+.pointage-row .row-remove{background:none;border:none;cursor:pointer;font-size:1.1rem;opacity:.4;transition:.2s;padding:4px}
+.pointage-row .row-remove:hover{opacity:1;color:var(--highlight)}
+
+.add-line-area{margin-top:16px;display:flex;align-items:center;gap:10px}
+.add-line-select{flex:1;padding:10px 14px;border:2px dashed var(--border);border-radius:10px;font-size:.85rem;background:#fff;cursor:pointer;color:var(--text);appearance:none;-webkit-appearance:none}
+.add-line-select:focus{border-color:#9c27b0;outline:none}
+.add-line-btn{padding:10px 18px;border:none;border-radius:10px;background:#9c27b0;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+.add-line-btn:hover{background:#7b1fa2}
+.add-line-btn:disabled{opacity:.4;cursor:not-allowed}
+
+.btn-validate{padding:10px 28px;border:none;border-radius:10px;background:#9c27b0;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s}
+.btn-validate:hover{background:#7b1fa2}
+.btn-validate:disabled{opacity:.4;cursor:not-allowed}
+.btn-cancel{padding:10px 28px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-cancel:hover{background:var(--bg)}
+.btn-delete-pointage{padding:10px 20px;border:1px solid var(--highlight);border-radius:10px;background:#fff;color:var(--highlight);font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-delete-pointage:hover{background:#fce4ec}
+
+/* ── Bouton pointer ── */
+.btn-pointer{padding:8px 20px;border:none;border-radius:8px;background:#9c27b0;color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-pointer:hover{background:#7b1fa2}
 </style>
 </head>
 <body>
@@ -67,6 +141,18 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <div class="loading-overlay show" id="loadingOverlay">
   <div class="spinner"></div>
   <div style="font-size:.9rem;color:var(--text-light)">Chargement de votre planning...</div>
+</div>
+
+<!-- MODAL POINTAGE -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">📌 Pointer le mois</h2>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
 </div>
 
 <header class="app-header">
@@ -86,10 +172,13 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
         <p id="welcomeEmail"></p>
       </div>
     </div>
-    <div class="month-selector">
-      <button onclick="changeMonth(-1)">◀</button>
-      <span class="month-label" id="monthLabel"></span>
-      <button onclick="changeMonth(1)">▶</button>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <button class="btn-pointer" id="btnPointer" style="display:none" onclick="openPointageModal()">📌 Pointer le mois</button>
+      <div class="month-selector">
+        <button onclick="changeMonth(-1)">◀</button>
+        <span class="month-label" id="monthLabel"></span>
+        <button onclick="changeMonth(1)">▶</button>
+      </div>
     </div>
   </div>
 
@@ -99,6 +188,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 
   <div id="content" style="display:none">
+    <!-- Comparatif pointage (affiché si pointage validé) -->
+    <div id="comparatifSection" style="display:none"></div>
+
     <div class="stats-grid" id="statsGrid"></div>
     <div class="detail-section">
       <h3>📋 Détail des affectations</h3>
@@ -146,6 +238,13 @@ let curMonth = new Date().getMonth();
 let curYear = new Date().getFullYear();
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
+// Pointage : stocké en local + Firebase
+// Structure: pointages[collabName]["2025-06"] = { lines: [{label, type, jours}], validatedAt: timestamp }
+let pointages = {};
+
+// Lignes spéciales pour le pointage
+const LIGNES_SPECIALES = ['Formation', 'Événements entreprise', 'Développement', 'Autres chantiers'];
+
 // ============================================================
 // AUTH + CHARGEMENT
 // ============================================================
@@ -178,7 +277,7 @@ function normalize(s) {
 }
 
 function matchCollab(email) {
-  const local = email.split('@')[0]; // prenom.nom ou prenom.nom1.nom2
+  const local = email.split('@')[0];
   const parts = local.split('.');
 
   if (parts.length < 2) {
@@ -186,7 +285,6 @@ function matchCollab(email) {
     return;
   }
 
-  // Extraire prénom (1ère partie) et nom (le reste)
   const emailPrenom = normalize(parts[0]);
   const emailNom = normalize(parts.slice(1).join(' '));
 
@@ -195,17 +293,12 @@ function matchCollab(email) {
   Co.forEach(c => {
     const cParts = c.name.trim().split(/\s+/);
     if (cParts.length < 2) return;
-
-    // Format BDD : "NOM Prénom" ou "NOM COMPOSE Prénom"
-    // On teste : dernier mot = prénom, tout le reste = nom
     const cPrenom = normalize(cParts[cParts.length - 1]);
     const cNom = normalize(cParts.slice(0, -1).join(' '));
 
     if (cPrenom === emailPrenom && cNom === emailNom) {
       bestMatch = c;
     }
-
-    // Aussi tester avec tirets (jean-pierre → jean-pierre)
     const emailPrenomDash = emailPrenom.replace(/-/g, ' ');
     const cPrenomDash = cPrenom.replace(/-/g, ' ');
     if (cPrenomDash === emailPrenomDash && cNom === emailNom) {
@@ -226,7 +319,12 @@ function matchCollab(email) {
   document.getElementById('avatarEl').style.background = collabColor;
   document.getElementById('welcomeName').textContent = collabName;
   document.getElementById('content').style.display = 'block';
-  renderMonth();
+  document.getElementById('btnPointer').style.display = 'flex';
+
+  // Charger les pointages depuis Firebase
+  loadPointages().then(() => {
+    renderMonth();
+  });
 }
 
 function showNotFound() {
@@ -240,6 +338,35 @@ function getIni(n) {
 }
 
 // ============================================================
+// POINTAGE – PERSISTANCE FIREBASE
+// ============================================================
+function getPointageRef() {
+  // Clé safe pour Firebase (pas de . # $ [ ] /)
+  const safeKey = collabName.replace(/[.#$\[\]\/]/g, '_');
+  return db.ref('pointages/' + safeKey);
+}
+
+function loadPointages() {
+  return getPointageRef().once('value').then(snap => {
+    pointages = snap.val() || {};
+  });
+}
+
+function savePointage(monthKey, data) {
+  pointages[monthKey] = data;
+  return getPointageRef().child(monthKey).set(data);
+}
+
+function deletePointage(monthKey) {
+  delete pointages[monthKey];
+  return getPointageRef().child(monthKey).remove();
+}
+
+function getMonthKey(year, month) {
+  return year + '-' + String(month + 1).padStart(2, '0');
+}
+
+// ============================================================
 // JOURS FÉRIÉS
 // ============================================================
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
@@ -250,6 +377,60 @@ let _fc={};
 function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
 function isWE(d){return d.getDay()===0||d.getDay()===6}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+function getOuvres(year, month) {
+  const ouvres = [];
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    if (!isWE(date) && !isF(date)) {
+      ouvres.push(dk(date));
+    }
+  }
+  return ouvres;
+}
+
+// ============================================================
+// CALCULS PLANNING (pour un mois donné)
+// ============================================================
+function computePlanningData(year, month) {
+  const ouvres = getOuvres(year, month);
+  const nbOuvres = ouvres.length;
+
+  // Charge par affaire
+  const affCharge = {};
+  let totalSlots = 0;
+  Af.forEach(aff => {
+    let slots = 0;
+    ouvres.forEach(dkey => {
+      const k = aff.name + '|' + dkey;
+      const sl = Dt[k];
+      if (sl && Array.isArray(sl)) {
+        for (let i = 0; i < 5; i++) {
+          if (sl[i] === collabName) slots++;
+        }
+      }
+    });
+    if (slots > 0) {
+      affCharge[aff.name] = { slots, jours: slots / 5, type: aff.type };
+      totalSlots += slots;
+    }
+  });
+  const totalJoursPlanif = totalSlots / 5;
+
+  // Congés
+  const congeCount = {};
+  let totalConges = 0;
+  ouvres.forEach(dkey => {
+    const lv = LD[collabName + '|' + dkey];
+    if (lv) {
+      congeCount[lv] = (congeCount[lv] || 0) + 1;
+      totalConges++;
+    }
+  });
+
+  return { ouvres, nbOuvres, affCharge, totalJoursPlanif, congeCount, totalConges };
+}
 
 // ============================================================
 // NAVIGATION MOIS
@@ -267,62 +448,15 @@ function changeMonth(offset) {
 function renderMonth() {
   document.getElementById('monthLabel').textContent = MN[curMonth] + ' ' + curYear;
 
-  // Collecter tous les jours ouvrés du mois
-  const ouvres = [];
-  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = new Date(curYear, curMonth, d);
-    if (!isWE(date) && !isF(date)) {
-      ouvres.push(dk(date));
-    }
-  }
-
-  const nbOuvres = ouvres.length;
-
-  // Calculer la charge par affaire
-  const affCharge = {}; // {nomAffaire: {jours: X, type: 'etudes'|'travaux'}}
-  let totalSlots = 0;
-
-  Af.forEach(aff => {
-    let slots = 0;
-    ouvres.forEach(dkey => {
-      const k = aff.name + '|' + dkey;
-      const sl = Dt[k];
-      if (sl && Array.isArray(sl)) {
-        for (let i = 0; i < 5; i++) {
-          if (sl[i] === collabName) slots++;
-        }
-      }
-    });
-    if (slots > 0) {
-      affCharge[aff.name] = { slots, jours: slots / 5, type: aff.type };
-      totalSlots += slots;
-    }
-  });
-
-  const totalJoursPlanif = totalSlots / 5;
-
-  // Calculer les congés
-  const congeCount = {}; // {type: nbJours}
-  let totalConges = 0;
-
-  ouvres.forEach(dkey => {
-    const lv = LD[collabName + '|' + dkey];
-    if (lv) {
-      congeCount[lv] = (congeCount[lv] || 0) + 1;
-      totalConges++;
-    }
-  });
-
+  const { ouvres, nbOuvres, affCharge, totalJoursPlanif, congeCount, totalConges } = computePlanningData(curYear, curMonth);
   const joursDispo = nbOuvres - totalJoursPlanif - totalConges;
 
   // ── STATS CARDS ──
   document.getElementById('statsGrid').innerHTML =
     '<div class="stat-card stat-ouvres"><div class="stat-value">' + nbOuvres + '</div><div class="stat-label">Jours ouvrés</div></div>' +
-    '<div class="stat-card stat-planifie"><div class="stat-value">' + totalJoursPlanif.toFixed(1).replace('.0', '') + '</div><div class="stat-label">Jours planifiés</div></div>' +
+    '<div class="stat-card stat-planifie"><div class="stat-value">' + fmtNum(totalJoursPlanif) + '</div><div class="stat-label">Jours planifiés</div></div>' +
     '<div class="stat-card stat-conge"><div class="stat-value">' + totalConges + '</div><div class="stat-label">Jours de congé</div></div>' +
-    '<div class="stat-card stat-dispo"><div class="stat-value">' + joursDispo.toFixed(1).replace('.0', '') + '</div><div class="stat-label">Jours disponibles</div></div>';
+    '<div class="stat-card stat-dispo"><div class="stat-value">' + fmtNum(joursDispo) + '</div><div class="stat-label">Jours disponibles</div></div>';
 
   // ── TABLEAU AFFECTATIONS ──
   const affTableEl = document.getElementById('affTable');
@@ -342,11 +476,10 @@ function renderMonth() {
         '<td style="font-weight:600">' + escH(name) + '</td>' +
         '<td><span class="type-badge type-' + typeCls + '">' + typeLabel + '</span></td>' +
         '<td><div class="days-bar"><div class="bar bar-' + typeCls + '" style="width:' + barW + 'px"></div><span style="font-size:.75rem;color:var(--text-light)">' + pct + '%</span></div></td>' +
-        '<td><span class="days-num">' + data.jours.toFixed(1).replace('.0', '') + 'j</span></td>' +
+        '<td><span class="days-num">' + fmtNum(data.jours) + 'j</span></td>' +
         '</tr>';
     });
-    // Ligne total
-    html += '<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">' + totalJoursPlanif.toFixed(1).replace('.0', '') + 'j</span></td></tr>';
+    html += '<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">' + fmtNum(totalJoursPlanif) + 'j</span></td></tr>';
     affTableEl.innerHTML = html;
   }
 
@@ -372,8 +505,436 @@ function renderMonth() {
     congeTableEl.innerHTML = html;
   }
 
+  // ── COMPARATIF POINTAGE ──
+  renderComparatif(curYear, curMonth, affCharge, congeCount, nbOuvres, totalJoursPlanif, totalConges);
+
   // ── CALENDRIER ──
   renderCalendar(ouvres, affCharge, congeCount);
+}
+
+// ============================================================
+// COMPARATIF POINTAGE vs PLANNING
+// ============================================================
+function renderComparatif(year, month, affCharge, congeCount, nbOuvres, totalJoursPlanif, totalConges) {
+  const section = document.getElementById('comparatifSection');
+  const monthKey = getMonthKey(year, month);
+  const ptg = pointages[monthKey];
+
+  if (!ptg || !ptg.lines) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+
+  const validDate = ptg.validatedAt ? new Date(ptg.validatedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+
+  // Construire la map pointage
+  const ptgMap = {}; // label -> jours
+  let totalPointage = 0;
+  ptg.lines.forEach(l => {
+    ptgMap[l.label] = (ptgMap[l.label] || 0) + l.jours;
+    if (l.category !== 'conge') totalPointage += l.jours;
+  });
+
+  // Construire la map planning (affaires + congés)
+  const planMap = {};
+  Object.entries(affCharge).forEach(([name, data]) => {
+    planMap[name] = { jours: data.jours, type: data.type === 'etudes' ? 'Études' : 'Travaux', category: 'affaire' };
+  });
+  Object.entries(congeCount).forEach(([type, jours]) => {
+    planMap[type] = { jours, type: 'Congé', category: 'conge' };
+  });
+
+  // Union des labels
+  const allLabels = new Set([...Object.keys(planMap), ...Object.keys(ptgMap)]);
+
+  let html = '<div class="comparatif-section">';
+  html += '<h3>📊 Comparatif Planning vs Pointage réel';
+  html += '<span class="pointage-badge">✓ Validé le ' + escH(validDate) + '</span>';
+  html += '</h3>';
+  html += '<table class="comparatif-table"><thead><tr><th>Ligne</th><th>Type</th><th>Planning</th><th>Pointage</th><th>Écart</th></tr></thead><tbody>';
+
+  let totalPlanAff = 0, totalPtgAff = 0;
+  let totalPlanConge = 0, totalPtgConge = 0;
+
+  // D'abord les affaires
+  const affLabels = [];
+  const congeLabels = [];
+  const specialLabels = [];
+
+  allLabels.forEach(label => {
+    const inPlan = planMap[label];
+    const isConge = (inPlan && inPlan.category === 'conge') || (ptg.lines.find(l => l.label === label && l.category === 'conge'));
+    const isSpecial = LIGNES_SPECIALES.includes(label);
+
+    if (isConge) congeLabels.push(label);
+    else if (isSpecial || (!inPlan && !isConge)) specialLabels.push(label);
+    else affLabels.push(label);
+  });
+
+  // Affaires
+  affLabels.forEach(label => {
+    const planJ = planMap[label] ? planMap[label].jours : 0;
+    const ptgJ = ptgMap[label] || 0;
+    const delta = ptgJ - planJ;
+    const typeLabel = planMap[label] ? planMap[label].type : 'Affaire';
+    totalPlanAff += planJ;
+    totalPtgAff += ptgJ;
+    html += buildComparatifRow(label, typeLabel, planJ, ptgJ, delta);
+  });
+
+  // Lignes spéciales (uniquement dans pointage)
+  specialLabels.forEach(label => {
+    const planJ = 0;
+    const ptgJ = ptgMap[label] || 0;
+    const delta = ptgJ - planJ;
+    totalPlanAff += planJ;
+    totalPtgAff += ptgJ;
+    html += buildComparatifRow(label, 'Autre', planJ, ptgJ, delta);
+  });
+
+  // Total affaires
+  const deltaAff = totalPtgAff - totalPlanAff;
+  html += '<tr class="comparatif-total"><td>TOTAL ACTIVITÉ</td><td></td><td><b>' + fmtNum(totalPlanAff) + 'j</b></td><td><b>' + fmtNum(totalPtgAff) + 'j</b></td><td><b class="' + deltaClass(deltaAff) + '">' + fmtDelta(deltaAff) + '</b></td></tr>';
+
+  // Séparateur congés
+  if (congeLabels.length > 0) {
+    html += '<tr><td colspan="5" style="padding:6px 14px;background:#fff8e1;font-size:.78rem;font-weight:700;color:#f57f17">🏖️ CONGÉS & ABSENCES</td></tr>';
+    congeLabels.forEach(label => {
+      const planJ = planMap[label] ? planMap[label].jours : 0;
+      const ptgJ = ptgMap[label] || 0;
+      const delta = ptgJ - planJ;
+      totalPlanConge += planJ;
+      totalPtgConge += ptgJ;
+      html += buildComparatifRow(label, 'Congé', planJ, ptgJ, delta);
+    });
+    const deltaConge = totalPtgConge - totalPlanConge;
+    html += '<tr class="comparatif-total"><td>TOTAL CONGÉS</td><td></td><td><b>' + fmtNum(totalPlanConge) + 'j</b></td><td><b>' + fmtNum(totalPtgConge) + 'j</b></td><td><b class="' + deltaClass(deltaConge) + '">' + fmtDelta(deltaConge) + '</b></td></tr>';
+  }
+
+  html += '</tbody></table></div>';
+  section.innerHTML = html;
+}
+
+function buildComparatifRow(label, typeLabel, planJ, ptgJ, delta) {
+  return '<tr>' +
+    '<td style="font-weight:600">' + escH(label) + '</td>' +
+    '<td><span style="font-size:.75rem;color:var(--text-light)">' + escH(typeLabel) + '</span></td>' +
+    '<td>' + fmtNum(planJ) + 'j</td>' +
+    '<td>' + fmtNum(ptgJ) + 'j</td>' +
+    '<td class="' + deltaClass(delta) + '">' + fmtDelta(delta) + '</td>' +
+    '</tr>';
+}
+
+function deltaClass(d) {
+  if (Math.abs(d) < 0.01) return 'delta-zero';
+  return d > 0 ? 'delta-neg' : 'delta-pos'; // Plus de pointage que prévu = rouge (surcharge)
+}
+
+function fmtDelta(d) {
+  if (Math.abs(d) < 0.01) return '=';
+  return (d > 0 ? '+' : '') + fmtNum(d) + 'j';
+}
+
+// ============================================================
+// MODAL POINTAGE
+// ============================================================
+let modalStep = 1;
+let selectedPtgMonth = null;
+let selectedPtgYear = null;
+let ptgLines = []; // [{id, label, category: 'conge'|'affaire'|'special', jours, removable}]
+let ptgNbOuvres = 0;
+
+function openPointageModal() {
+  modalStep = 1;
+  renderModalStep1();
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+// ── STEP 1 : Sélection du mois ──
+function renderModalStep1() {
+  document.getElementById('modalTitle').textContent = '📌 Pointer le mois – Choisir le mois';
+
+  const now = new Date();
+  const months = [];
+  // Afficher 12 mois: 6 avant + mois courant + 5 après
+  for (let i = -6; i <= 5; i++) {
+    let m = now.getMonth() + i;
+    let y = now.getFullYear();
+    while (m > 11) { m -= 12; y++; }
+    while (m < 0) { m += 12; y--; }
+    months.push({ month: m, year: y });
+  }
+
+  let html = '<p style="font-size:.9rem;color:var(--text-light);margin-bottom:12px">Sélectionnez le mois que vous souhaitez pointer :</p>';
+  html += '<div class="month-select-grid">';
+  months.forEach(({ month, year }) => {
+    const mk = getMonthKey(year, month);
+    const hasPointage = pointages[mk] && pointages[mk].lines;
+    const badge = hasPointage ? ' ✓' : '';
+    html += '<button class="month-select-btn" onclick="selectPtgMonth(' + month + ',' + year + ')" data-m="' + month + '" data-y="' + year + '">' +
+      MN[month] + badge + '<div class="month-year">' + year + '</div></button>';
+  });
+  html += '</div>';
+
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalFooter').innerHTML = '<button class="btn-cancel" onclick="closeModal()">Annuler</button><div></div>';
+}
+
+function selectPtgMonth(month, year) {
+  selectedPtgMonth = month;
+  selectedPtgYear = year;
+
+  // Highlight
+  document.querySelectorAll('.month-select-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.month-select-btn[data-m="' + month + '"][data-y="' + year + '"]').classList.add('selected');
+
+  // Passer au step 2 après un court délai
+  setTimeout(() => {
+    modalStep = 2;
+    renderModalStep2();
+  }, 200);
+}
+
+// ── STEP 2 : Saisie du pointage ──
+function renderModalStep2() {
+  const { ouvres, nbOuvres, affCharge, totalJoursPlanif, congeCount, totalConges } = computePlanningData(selectedPtgYear, selectedPtgMonth);
+  ptgNbOuvres = nbOuvres;
+
+  document.getElementById('modalTitle').textContent = '📌 Pointer – ' + MN[selectedPtgMonth] + ' ' + selectedPtgYear;
+
+  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
+  const existingPtg = pointages[monthKey];
+
+  if (existingPtg && existingPtg.lines) {
+    // Charger le pointage existant
+    ptgLines = existingPtg.lines.map((l, i) => ({ ...l, id: i }));
+  } else {
+    // Pré-remplir avec les données du planning
+    ptgLines = [];
+    let id = 0;
+
+    // Congés
+    Object.entries(congeCount).forEach(([type, jours]) => {
+      ptgLines.push({ id: id++, label: type, category: 'conge', jours, removable: false });
+    });
+
+    // Affaires
+    Object.entries(affCharge).sort((a, b) => b[1].jours - a[1].jours).forEach(([name, data]) => {
+      ptgLines.push({ id: id++, label: name, category: 'affaire', jours: data.jours, removable: false, type: data.type });
+    });
+  }
+
+  renderPointageForm();
+}
+
+function renderPointageForm() {
+  const totalSaisi = ptgLines.reduce((s, l) => s + l.jours, 0);
+  const remaining = ptgNbOuvres - totalSaisi;
+  const isOver = totalSaisi > ptgNbOuvres + 0.01;
+
+  let html = '';
+
+  // Header info
+  html += '<div class="pointage-header-info">';
+  html += '<div><div class="ouvres-label">Jours ouvrés dans le mois</div><div class="ouvres-value">' + ptgNbOuvres + '</div></div>';
+  html += '<div style="text-align:right"><div class="total-saisi ' + (isOver ? 'total-warn' : 'total-ok') + '">Total saisi : ' + fmtNum(totalSaisi) + ' / ' + ptgNbOuvres + ' j</div>';
+  html += '<div style="font-size:.78rem;color:var(--text-light)">Restant : ' + fmtNum(remaining) + 'j</div></div>';
+  html += '</div>';
+
+  // Groupe Congés
+  const congeLines = ptgLines.filter(l => l.category === 'conge');
+  if (congeLines.length > 0) {
+    html += '<div class="pointage-group">';
+    html += '<div class="pointage-group-title">🏖️ Congés & Absences</div>';
+    congeLines.forEach(line => {
+      html += buildPointageRow(line, totalSaisi);
+    });
+    html += '</div>';
+  }
+
+  // Groupe Affaires
+  const affLines = ptgLines.filter(l => l.category === 'affaire');
+  if (affLines.length > 0) {
+    html += '<div class="pointage-group">';
+    html += '<div class="pointage-group-title">📋 Affaires</div>';
+    affLines.forEach(line => {
+      html += buildPointageRow(line, totalSaisi);
+    });
+    html += '</div>';
+  }
+
+  // Groupe Lignes spéciales
+  const specLines = ptgLines.filter(l => l.category === 'special');
+  if (specLines.length > 0) {
+    html += '<div class="pointage-group">';
+    html += '<div class="pointage-group-title">📂 Autres activités</div>';
+    specLines.forEach(line => {
+      html += buildPointageRow(line, totalSaisi);
+    });
+    html += '</div>';
+  }
+
+  // Ajouter une ligne
+  html += '<div class="pointage-group">';
+  html += '<div class="pointage-group-title">➕ Ajouter une ligne</div>';
+  html += '<div class="add-line-area">';
+  html += '<select class="add-line-select" id="addLineSelect"><option value="">-- Choisir --</option>';
+
+  // Affaires du planning (pas déjà ajoutées)
+  const existingLabels = new Set(ptgLines.map(l => l.label));
+  const availableAffaires = Af.filter(a => !existingLabels.has(a.name));
+  if (availableAffaires.length > 0) {
+    html += '<optgroup label="Affaires du planning">';
+    availableAffaires.forEach(a => {
+      html += '<option value="aff|' + escH(a.name) + '|' + a.type + '">' + escH(a.name) + ' (' + (a.type === 'etudes' ? 'Études' : 'Travaux') + ')</option>';
+    });
+    html += '</optgroup>';
+  }
+
+  // Lignes spéciales
+  const availableSpecial = LIGNES_SPECIALES.filter(s => !existingLabels.has(s));
+  if (availableSpecial.length > 0) {
+    html += '<optgroup label="Autres">';
+    availableSpecial.forEach(s => {
+      html += '<option value="spec|' + escH(s) + '">' + s + '</option>';
+    });
+    html += '</optgroup>';
+  }
+
+  html += '</select>';
+  html += '<button class="add-line-btn" onclick="addPtgLine()">+ Ajouter</button>';
+  html += '</div></div>';
+
+  document.getElementById('modalBody').innerHTML = html;
+
+  // Footer
+  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
+  const hasExisting = pointages[monthKey] && pointages[monthKey].lines;
+
+  let footerHtml = '<div style="display:flex;gap:8px">';
+  footerHtml += '<button class="btn-cancel" onclick="goBackStep1()">◀ Retour</button>';
+  if (hasExisting) {
+    footerHtml += '<button class="btn-delete-pointage" onclick="deletePtgConfirm()">🗑️ Supprimer</button>';
+  }
+  footerHtml += '</div>';
+  footerHtml += '<button class="btn-validate' + (isOver ? '' : '') + '" onclick="validatePointage()" ' + (isOver ? 'disabled' : '') + '>✓ Valider le pointage</button>';
+
+  document.getElementById('modalFooter').innerHTML = footerHtml;
+}
+
+function buildPointageRow(line, totalSaisi) {
+  const canIncrease = (totalSaisi + 0.5) <= ptgNbOuvres + 0.01;
+  const canDecrease = line.jours >= 0.5;
+
+  let html = '<div class="pointage-row">';
+  html += '<div class="row-label">' + escH(line.label);
+  if (line.type) {
+    const tl = line.type === 'etudes' ? 'Études' : 'Travaux';
+    html += ' <span class="sub-type">(' + tl + ')</span>';
+  }
+  if (line.category === 'conge') html += ' <span class="sub-type">(congé)</span>';
+  html += '</div>';
+  html += '<div class="row-input">';
+  html += '<button onclick="changePtgValue(' + line.id + ',-0.5)" ' + (!canDecrease ? 'disabled' : '') + '>−</button>';
+  html += '<span class="row-value">' + fmtNum(line.jours) + '</span>';
+  html += '<button onclick="changePtgValue(' + line.id + ',0.5)" ' + (!canIncrease ? 'disabled' : '') + '>+</button>';
+  html += '<span class="row-unit">j</span>';
+  html += '</div>';
+  if (line.removable !== false || line.category === 'special') {
+    html += '<button class="row-remove" onclick="removePtgLine(' + line.id + ')" title="Supprimer cette ligne">✕</button>';
+  } else {
+    html += '<div style="width:28px"></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function changePtgValue(id, delta) {
+  const line = ptgLines.find(l => l.id === id);
+  if (!line) return;
+
+  const newVal = Math.round((line.jours + delta) * 10) / 10;
+  if (newVal < 0) return;
+
+  const totalSaisi = ptgLines.reduce((s, l) => s + l.jours, 0);
+  const newTotal = Math.round((totalSaisi + delta) * 10) / 10;
+
+  if (newTotal > ptgNbOuvres + 0.01 && delta > 0) return;
+
+  line.jours = newVal;
+  renderPointageForm();
+}
+
+function removePtgLine(id) {
+  ptgLines = ptgLines.filter(l => l.id !== id);
+  renderPointageForm();
+}
+
+function addPtgLine() {
+  const sel = document.getElementById('addLineSelect');
+  if (!sel.value) return;
+
+  const maxId = ptgLines.length > 0 ? Math.max(...ptgLines.map(l => l.id)) : 0;
+
+  if (sel.value.startsWith('aff|')) {
+    const parts = sel.value.split('|');
+    const name = parts[1];
+    const type = parts[2];
+    ptgLines.push({ id: maxId + 1, label: name, category: 'affaire', jours: 0, removable: true, type });
+  } else if (sel.value.startsWith('spec|')) {
+    const name = sel.value.split('|')[1];
+    ptgLines.push({ id: maxId + 1, label: name, category: 'special', jours: 0, removable: true });
+  }
+
+  renderPointageForm();
+}
+
+function goBackStep1() {
+  modalStep = 1;
+  renderModalStep1();
+}
+
+function validatePointage() {
+  const totalSaisi = ptgLines.reduce((s, l) => s + l.jours, 0);
+  if (totalSaisi > ptgNbOuvres + 0.01) {
+    alert('Le total saisi dépasse le nombre de jours ouvrés !');
+    return;
+  }
+
+  // Retirer les lignes à 0 jour
+  const cleanLines = ptgLines.filter(l => l.jours > 0).map(l => ({
+    label: l.label,
+    category: l.category,
+    jours: l.jours,
+    type: l.type || null
+  }));
+
+  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
+  const data = {
+    lines: cleanLines,
+    validatedAt: new Date().toISOString(),
+    nbOuvres: ptgNbOuvres
+  };
+
+  savePointage(monthKey, data).then(() => {
+    closeModal();
+    renderMonth();
+  });
+}
+
+function deletePtgConfirm() {
+  if (!confirm('Supprimer le pointage de ' + MN[selectedPtgMonth] + ' ' + selectedPtgYear + ' ?')) return;
+  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
+  deletePointage(monthKey).then(() => {
+    closeModal();
+    renderMonth();
+  });
 }
 
 // ============================================================
@@ -386,19 +947,17 @@ function renderCalendar(ouvres, affCharge, congeCount) {
 
   const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
 
-  // Trouver le premier jour ouvré pour aligner la grille
   const firstDay = new Date(curYear, curMonth, 1);
-  let startDow = firstDay.getDay(); // 0=dim, 1=lun...
+  let startDow = firstDay.getDay();
   if (startDow === 0) startDow = 7;
-  // Ajouter des cellules vides pour l'alignement (lun=1)
   for (let i = 1; i < startDow; i++) {
-    if (i <= 5) html += '<div></div>'; // seulement lun-ven
+    if (i <= 5) html += '<div></div>';
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(curYear, curMonth, d);
     const dow = date.getDay();
-    if (dow === 0 || dow === 6) continue; // skip weekends
+    if (dow === 0 || dow === 6) continue;
 
     const dkey = dk(date);
     const ferie = isF(date);
@@ -415,7 +974,6 @@ function renderCalendar(ouvres, affCharge, congeCount) {
     } else if (leave) {
       html += '<div class="day-leave">' + escH(leave) + '</div>';
     } else {
-      // Afficher les affectations du jour
       Af.forEach(aff => {
         const k = aff.name + '|' + dkey;
         const sl = Dt[k];
@@ -437,8 +995,16 @@ function renderCalendar(ouvres, affCharge, congeCount) {
   grid.innerHTML = html;
 }
 
+// ============================================================
+// UTILITAIRES
+// ============================================================
 function escH(s) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function fmtNum(n) {
+  const r = Math.round(n * 10) / 10;
+  return r % 1 === 0 ? r.toFixed(0) : r.toFixed(1);
 }
 </script>
 </body>
