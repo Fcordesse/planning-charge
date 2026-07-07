@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning de Charge — Connexion</title>
+<style>
+:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--text:#1a1a2e;--border:#dee2e6;--radius:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.login-container{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.1);width:420px;max-width:92vw;overflow:hidden;animation:slideUp .4s ease}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.login-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:32px 32px 28px;text-align:center}
+.login-header h1{font-size:1.4rem;font-weight:700;margin-bottom:6px}
+.login-header h1 span{color:var(--highlight)}
+.login-header p{font-size:.82rem;opacity:.7}
+.login-body{padding:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.85rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+.form-group input{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius);font-size:.92rem;outline:none;transition:.2s}
+.form-group input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.1)}
+.btn-login{width:100%;padding:14px;border:none;border-radius:var(--radius);background:var(--highlight);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:8px}
+.btn-login:hover{background:#d63851;transform:translateY(-1px);box-shadow:0 6px 20px rgba(233,69,96,.3)}
+.btn-login:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
+.error-msg{background:#fff5f5;border:1px solid #fecaca;color:#dc3545;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:16px;display:none;align-items:center;gap:8px}
+.error-msg.show{display:flex}
+.forgot-link{text-align:center;margin-top:16px}
+.forgot-link a{color:var(--accent);font-size:.8rem;text-decoration:none;font-weight:500}
+.forgot-link a:hover{text-decoration:underline}
+.loading-spinner{display:none;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.footer-note{margin-top:24px;font-size:.72rem;color:#999;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-header">
+    <h1>📊 Planning <span>de Charge</span></h1>
+    <p>Connectez-vous pour accéder au planning</p>
+  </div>
+  <div class="login-body">
+    <div class="error-msg" id="errorMsg">
+      <span>⚠️</span><span id="errorText"></span>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="email">📧 Adresse e-mail</label>
+        <input type="email" id="email" placeholder="prenom.nom@eiffage.com" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="password">🔒 Mot de passe</label>
+        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-login" id="btnLogin">
+        <span id="btnText">Se connecter</span>
+        <div class="loading-spinner" id="btnSpinner"></div>
+      </button>
+    </form>
+
+    <div class="forgot-link">
+      <a href="#" onclick="resetPassword(event)">Mot de passe oublié ?</a>
+    </div>
+  </div>
+</div>
+<p class="footer-note">Accès réservé aux collaborateurs autorisés</p>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+// 🔥 Ta config Firebase (la même que dans index.html)
+const firebaseConfig = {
+  apiKey: "AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",
+  authDomain: "planning-charge-18dea.firebaseapp.com",
+  databaseURL: "https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "planning-charge-18dea",
+  storageBucket: "planning-charge-18dea.firebasestorage.app",
+  messagingSenderId: "876833423306",
+  appId: "1:876833423306:web:f0e352b6648269f526d933"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// Si déjà connecté → rediriger directement vers le planning
+auth.onAuthStateChanged(user => {
+  if (user) {
+    window.location.href = 'index.html';
+  }
+});
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  document.getElementById('errorText').textContent = msg;
+  el.classList.add('show');
+}
+
+function hideError() {
+  document.getElementById('errorMsg').classList.remove('show');
+}
+
+function setLoading(loading) {
+  const btn = document.getElementById('btnLogin');
+  const text = document.getElementById('btnText');
+  const spinner = document.getElementById('btnSpinner');
+  btn.disabled = loading;
+  text.style.display = loading ? 'none' : 'inline';
+  spinner.style.display = loading ? 'inline-block' : 'none';
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  hideError();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    showError('Veuillez remplir tous les champs.');
+    return;
+  }
+
+  setLoading(true);
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      // Succès → redirection vers le planning
+      window.location.href = 'index.html';
+    })
+    .catch(error => {
+      setLoading(false);
+      switch (error.code) {
+        case 'auth/user-not-found':
+          showError('Aucun compte associé à cet e-mail.');
+          break;
+        case 'auth/wrong-password':
+        case 'auth/invalid-credential':
+          showError('Mot de passe incorrect.');
+          break;
+        case 'auth/invalid-email':
+          showError('Format d\'e-mail invalide.');
+          break;
+        case 'auth/too-many-requests':
+          showError('Trop de tentatives. Réessayez plus tard.');
+          break;
+        default:
+          showError('Erreur de connexion : ' + error.message);
+      }
+    });
+}
+
+function resetPassword(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+
+  if (!email) {
+    showError('Entrez votre e-mail ci-dessus, puis cliquez sur "Mot de passe oublié".');
+    return;
+  }
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      hideError();
+      alert('📧 Un e-mail de réinitialisation a été envoyé à ' + email);
+    })
+    .catch(error => {
+      if (error.code === 'auth/user-not-found') {
+        showError('Aucun compte associé à cet e-mail.');
+      } else {
+        showError('Erreur : ' + error.message);
+      }
+    });
+}
+</script>
+</body>
+</html>
