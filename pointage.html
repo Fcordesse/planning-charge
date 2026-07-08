@@ -33,17 +33,14 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .toolbox-month-btn .month-name{flex:1}
 .toolbox-month-btn .month-status{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap}
 
-/* État : données présentes (orange) */
 .toolbox-month-btn.has-data{border-color:#ff9800;background:#fff8e1}
 .toolbox-month-btn.has-data:hover{border-color:#e65100;background:#fff3e0}
 .toolbox-month-btn.has-data .month-status{background:#ff9800;color:#fff}
 
-/* État : validé (vert) */
 .toolbox-month-btn.validated{border-color:var(--success);background:#e8f5e9}
 .toolbox-month-btn.validated:hover{border-color:#1b5e20;background:#c8e6c9}
 .toolbox-month-btn.validated .month-status{background:var(--success);color:#fff}
 
-/* État : vide (blanc) */
 .toolbox-month-btn.empty{border-color:var(--border);background:#fff}
 
 .toolbox-legend{padding:10px 14px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
@@ -128,6 +125,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .pointage-header-info .total-saisi{font-size:.88rem;font-weight:700}
 .total-ok{color:var(--success)}
 .total-warn{color:var(--highlight)}
+.total-incomplete{color:#ff9800}
 
 .pointage-group{margin-bottom:20px}
 .pointage-group-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
@@ -161,6 +159,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .btn-cancel:hover{background:var(--bg)}
 .btn-delete-pointage{padding:10px 20px;border:1px solid var(--highlight);border-radius:10px;background:#fff;color:var(--highlight);font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
 .btn-delete-pointage:hover{background:#fce4ec}
+
+.validate-hint{font-size:.75rem;color:var(--text-light);margin-top:4px;font-style:italic}
+.validate-hint.hint-error{color:var(--highlight)}
 
 /* ── Responsive ── */
 @media(max-width:900px){
@@ -286,7 +287,6 @@ let curMonth=new Date().getMonth();
 let curYear=new Date().getFullYear();
 let toolboxYear=new Date().getFullYear();
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-const MN_SHORT=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 
 let pointages={};
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
@@ -413,7 +413,6 @@ function computePlanningData(year,month){
   return{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges};
 }
 
-// Vérifie si un mois a des données planning (affaires ou congés)
 function monthHasPlanningData(year,month){
   const{totalJoursPlanif,totalConges}=computePlanningData(year,month);
   return(totalJoursPlanif>0||totalConges>0);
@@ -484,14 +483,12 @@ function renderMonth(){
   const{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges}=computePlanningData(curYear,curMonth);
   const joursDispo=nbOuvres-totalJoursPlanif-totalConges;
 
-  // Stats
   document.getElementById('statsGrid').innerHTML=
     '<div class="stat-card stat-ouvres"><div class="stat-value">'+nbOuvres+'</div><div class="stat-label">Jours ouvrés</div></div>'+
     '<div class="stat-card stat-planifie"><div class="stat-value">'+fmtNum(totalJoursPlanif)+'</div><div class="stat-label">Jours planifiés</div></div>'+
     '<div class="stat-card stat-conge"><div class="stat-value">'+totalConges+'</div><div class="stat-label">Jours de congé</div></div>'+
     '<div class="stat-card stat-dispo"><div class="stat-value">'+fmtNum(joursDispo)+'</div><div class="stat-label">Jours disponibles</div></div>';
 
-  // Table affectations
   const affTableEl=document.getElementById('affTable');
   const affEntries=Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours);
   const maxJours=affEntries.length?Math.max(...affEntries.map(e=>e[1].jours)):1;
@@ -511,7 +508,6 @@ function renderMonth(){
     affTableEl.innerHTML=html;
   }
 
-  // Table congés
   const congeSec=document.getElementById('congeSection');
   const congeTableEl=document.getElementById('congeTable');
   const congeEntries=Object.entries(congeCount).sort((a,b)=>b[1]-a[1]);
@@ -527,9 +523,7 @@ function renderMonth(){
     congeTableEl.innerHTML=html;
   }
 
-  // Comparatif
   renderComparatif(curYear,curMonth,affCharge,congeCount,nbOuvres,totalJoursPlanif,totalConges);
-  // Calendrier
   renderCalendar(ouvres,affCharge,congeCount);
 }
 
@@ -609,7 +603,7 @@ function deltaClass(d){if(Math.abs(d)<0.01)return'delta-zero';return d>0?'delta-
 function fmtDelta(d){if(Math.abs(d)<0.01)return'=';return(d>0?'+':'')+fmtNum(d)+'j'}
 
 // ============================================================
-// MODAL POINTAGE (step 2 direct – mois choisi depuis toolbox)
+// MODAL POINTAGE
 // ============================================================
 function renderModalStep2(){
   const{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges}=computePlanningData(selectedPtgYear,selectedPtgMonth);
@@ -637,14 +631,26 @@ function renderModalStep2(){
 }
 
 function renderPointageForm(){
-  const totalSaisi=ptgLines.reduce((s,l)=>s+l.jours,0);
+  const totalSaisi=Math.round(ptgLines.reduce((s,l)=>s+l.jours,0)*100)/100;
   const remaining=Math.round((ptgNbOuvres-totalSaisi)*100)/100;
   const isOver=totalSaisi>ptgNbOuvres+0.01;
+  const isExact=Math.abs(totalSaisi-ptgNbOuvres)<0.01;
+  const isUnder=totalSaisi<ptgNbOuvres-0.01;
+
+  // Classe CSS pour le total
+  let totalClass='total-ok';
+  if(isOver) totalClass='total-warn';
+  else if(isUnder) totalClass='total-incomplete';
 
   let html='';
   html+='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés dans le mois</div><div class="ouvres-value">'+ptgNbOuvres+'</div></div>';
-  html+='<div style="text-align:right"><div class="total-saisi '+(isOver?'total-warn':'total-ok')+'">Total saisi : '+fmtNum(totalSaisi)+' / '+ptgNbOuvres+' j</div>';
-  html+='<div style="font-size:.78rem;color:var(--text-light)">Restant : '+fmtNum(remaining)+'j</div></div></div>';
+  html+='<div style="text-align:right"><div class="total-saisi '+totalClass+'">Total saisi : '+fmtNum(totalSaisi)+' / '+ptgNbOuvres+' j';
+  if(isExact) html+=' ✓';
+  html+='</div>';
+  if(isUnder) html+='<div style="font-size:.78rem;color:#ff9800;font-weight:600">Restant : '+fmtNum(remaining)+'j à répartir</div>';
+  else if(isOver) html+='<div style="font-size:.78rem;color:var(--highlight);font-weight:600">⚠️ Dépassement de '+fmtNum(Math.abs(remaining))+'j</div>';
+  else html+='<div style="font-size:.78rem;color:var(--success);font-weight:600">✓ Complet</div>';
+  html+='</div></div>';
 
   // Congés
   const congeLines=ptgLines.filter(l=>l.category==='conge');
@@ -693,14 +699,22 @@ function renderPointageForm(){
 
   document.getElementById('modalBody').innerHTML=html;
 
-  // Footer
+  // Footer avec contrôle strict
   const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
   const hasExisting=pointages[monthKey]&&pointages[monthKey].lines;
+  const canValidate=isExact;
+
   let footerHtml='<div style="display:flex;gap:8px">';
   footerHtml+='<button class="btn-cancel" onclick="closeModal()">Fermer</button>';
   if(hasExisting)footerHtml+='<button class="btn-delete-pointage" onclick="deletePtgConfirm()">🗑️ Supprimer</button>';
   footerHtml+='</div>';
-  footerHtml+='<button class="btn-validate" onclick="validatePointage()" '+(isOver?'disabled':'')+'>✓ Valider le pointage</button>';
+  footerHtml+='<div style="text-align:right">';
+  if(!canValidate){
+    if(isUnder) footerHtml+='<div class="validate-hint hint-error">Il reste '+fmtNum(remaining)+'j à répartir pour valider</div>';
+    else if(isOver) footerHtml+='<div class="validate-hint hint-error">Le total dépasse de '+fmtNum(Math.abs(remaining))+'j</div>';
+  }
+  footerHtml+='<button class="btn-validate" onclick="validatePointage()" '+(canValidate?'':'disabled')+'>✓ Valider le pointage</button>';
+  footerHtml+='</div>';
   document.getElementById('modalFooter').innerHTML=footerHtml;
 }
 
@@ -728,28 +742,17 @@ function buildPointageRow(line,totalSaisi){
   return html;
 }
 
-// ── Saisie manuelle dans l'input ──
-function onPtgInputChange(id,inputEl){
-  applyManualInput(id,inputEl);
-}
-
-function onPtgInputKey(event,id,inputEl){
-  if(event.key==='Enter'){
-    event.preventDefault();
-    applyManualInput(id,inputEl);
-    inputEl.blur();
-  }
-}
+// ── Saisie manuelle ──
+function onPtgInputChange(id,inputEl){applyManualInput(id,inputEl)}
+function onPtgInputKey(event,id,inputEl){if(event.key==='Enter'){event.preventDefault();applyManualInput(id,inputEl);inputEl.blur()}}
 
 function applyManualInput(id,inputEl){
   const line=ptgLines.find(l=>l.id===id);
   if(!line)return;
 
-  // Normaliser la saisie : accepter virgule et point
   let raw=inputEl.value.replace(',','.').trim();
   let val=parseFloat(raw);
 
-  // Validation
   if(isNaN(val)||val<0){
     inputEl.classList.add('input-error');
     setTimeout(()=>{inputEl.classList.remove('input-error')},1000);
@@ -757,16 +760,12 @@ function applyManualInput(id,inputEl){
     return;
   }
 
-  // Arrondir au 0.5 le plus proche si souhaité ? Non – l'utilisateur veut saisir librement
-  // On arrondit au dixième pour éviter les problèmes de flottants
   val=Math.round(val*100)/100;
 
-  // Vérifier que le total ne dépasse pas
-  const totalSansCetteLigne=ptgLines.reduce((s,l)=>s+(l.id===id?0:l.jours),0);
-  const newTotal=totalSansCetteLigne+val;
+  const totalSansCetteLigne=Math.round(ptgLines.reduce((s,l)=>s+(l.id===id?0:l.jours),0)*100)/100;
+  const newTotal=Math.round((totalSansCetteLigne+val)*100)/100;
 
   if(newTotal>ptgNbOuvres+0.01){
-    // Plafonner à la valeur max possible
     val=Math.round((ptgNbOuvres-totalSansCetteLigne)*100)/100;
     if(val<0)val=0;
   }
@@ -774,7 +773,6 @@ function applyManualInput(id,inputEl){
   line.jours=val;
   renderPointageForm();
 
-  // Remettre le focus sur le bon input après re-render
   setTimeout(()=>{
     const newInput=document.getElementById('ptgInput_'+id);
     if(newInput)newInput.focus();
@@ -786,7 +784,7 @@ function changePtgValue(id,delta){
   if(!line)return;
   const newVal=Math.round((line.jours+delta)*100)/100;
   if(newVal<0)return;
-  const totalSaisi=ptgLines.reduce((s,l)=>s+l.jours,0);
+  const totalSaisi=Math.round(ptgLines.reduce((s,l)=>s+l.jours,0)*100)/100;
   const newTotal=Math.round((totalSaisi+delta)*100)/100;
   if(newTotal>ptgNbOuvres+0.01&&delta>0)return;
   line.jours=newVal;
@@ -813,8 +811,18 @@ function addPtgLine(){
 }
 
 function validatePointage(){
-  const totalSaisi=ptgLines.reduce((s,l)=>s+l.jours,0);
-  if(totalSaisi>ptgNbOuvres+0.01){alert('Le total saisi dépasse le nombre de jours ouvrés !');return}
+  const totalSaisi=Math.round(ptgLines.reduce((s,l)=>s+l.jours,0)*100)/100;
+
+  // Vérification stricte : total doit être exactement égal aux jours ouvrés
+  if(Math.abs(totalSaisi-ptgNbOuvres)>0.01){
+    const diff=ptgNbOuvres-totalSaisi;
+    if(diff>0){
+      alert('Le total saisi ('+fmtNum(totalSaisi)+'j) est inférieur aux jours ouvrés ('+ptgNbOuvres+'j).\nIl reste '+fmtNum(diff)+'j à répartir.');
+    }else{
+      alert('Le total saisi ('+fmtNum(totalSaisi)+'j) dépasse les jours ouvrés ('+ptgNbOuvres+'j).\nVeuillez retirer '+fmtNum(Math.abs(diff))+'j.');
+    }
+    return;
+  }
 
   const cleanLines=ptgLines.filter(l=>l.jours>0).map(l=>({label:l.label,category:l.category,jours:l.jours,type:l.type||null}));
 
