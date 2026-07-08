@@ -15,7 +15,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .role-badge{font-size:.7rem;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px}
 .btn-logout{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s}
 .btn-logout:hover{background:rgba(255,255,255,.2)}
-.hub-container{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.hub-container{flex:1;display:none;align-items:center;justify-content:center;padding:40px 20px}
 .hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,320px));gap:32px;justify-content:center;max-width:1100px;width:100%}
 .hub-card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:40px 32px;text-align:center;cursor:pointer;transition:.3s;border:2px solid transparent;text-decoration:none;color:var(--text);display:none}
 .hub-card.visible{display:block}
@@ -29,6 +29,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .hub-card .arrow{margin-top:20px;font-size:1.2rem;opacity:.3;transition:.3s}
 .hub-card:hover .arrow{opacity:.8;transform:translateX(4px)}
 
+/* Écran de blocage */
+.blocked-screen{display:none;flex:1;align-items:center;justify-content:center;padding:40px 20px}
+.blocked-screen.active{display:flex}
+.blocked-box{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:50px 40px;text-align:center;max-width:500px}
+.blocked-box .blocked-icon{font-size:4rem;margin-bottom:20px}
+.blocked-box h2{font-size:1.3rem;margin-bottom:12px;color:var(--text)}
+.blocked-box p{font-size:.9rem;color:#6c757d;line-height:1.6}
+
+/* Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.active{display:flex}
 .modal{background:#fff;border-radius:16px;width:95%;max-width:700px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);display:flex;flex-direction:column}
@@ -71,7 +80,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </header>
 
-<div class="hub-container">
+<!-- Écran normal avec les cartes -->
+<div class="hub-container" id="hubContainer">
   <div class="hub-grid">
     <a id="cardPlanning" href="planning.html" class="hub-card card-planning">
       <div class="hub-icon">📅</div>
@@ -94,7 +104,16 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Écran de blocage pour utilisateurs non enregistrés -->
+<div class="blocked-screen" id="blockedScreen">
+  <div class="blocked-box">
+    <div class="blocked-icon">🔒</div>
+    <h2>Accès non autorisé</h2>
+    <p>Votre compte a été créé mais n'a pas encore été activé par un administrateur.<br><br>Contactez votre administrateur pour qu'il vous attribue un rôle dans la <strong>Gestion des Utilisateurs</strong>.</p>
+  </div>
+</div>
+
+<!-- Modal Gestion des Utilisateurs -->
 <div class="modal-overlay" id="adminModal">
   <div class="modal">
     <div class="modal-header">
@@ -147,25 +166,59 @@ const ROLE_LABELS = {
   collaborateur: 'Collaborateur'
 };
 
-// ========== AUTH ==========
+// ========== AUTH + RÔLE ==========
 auth.onAuthStateChanged(user => {
   if (!user) { window.location.href = 'index.html'; return; }
 
   document.getElementById('userBadge').textContent = '👤 ' + user.email;
 
-  // Chercher le rôle par UID
+  // 1. Chercher par UID direct
   db.ref('users/' + user.uid).once('value', snapshot => {
-    if (snapshot.exists()) {
-      currentUserRole = snapshot.val().role || 'collaborateur';
+    if (snapshot.exists() && snapshot.val().role) {
+      // Trouvé par UID → accès direct
+      currentUserRole = snapshot.val().role;
+      showAccess();
     } else {
-      currentUserRole = 'collaborateur';
+      // 2. Chercher par email (clé temporaire créée par l'admin)
+      db.ref('users').orderByChild('email').equalTo(user.email.toLowerCase()).once('value', emailSnap => {
+        if (emailSnap.exists()) {
+          // Trouvé par email → migrer vers le vrai UID
+          const oldKey = Object.keys(emailSnap.val())[0];
+          const userData = emailSnap.val()[oldKey];
+
+          // Créer l'entrée avec le vrai UID
+          db.ref('users/' + user.uid).set({
+            email: userData.email,
+            role: userData.role
+          }).then(() => {
+            // Supprimer l'ancienne clé temporaire
+            if (oldKey !== user.uid) {
+              db.ref('users/' + oldKey).remove();
+            }
+            currentUserRole = userData.role;
+            showAccess();
+          });
+        } else {
+          // Pas trouvé du tout → BLOQUÉ
+          currentUserRole = null;
+          document.getElementById('roleBadge').textContent = 'Non autorisé';
+          document.getElementById('hubContainer').style.display = 'none';
+          document.getElementById('blockedScreen').classList.add('active');
+        }
+      });
     }
-    document.getElementById('roleBadge').textContent = ROLE_LABELS[currentUserRole] || currentUserRole;
-    applyRoleVisibility();
   });
 });
 
-// ========== VISIBILITÉ ==========
+// ========== AFFICHER L'ACCÈS ==========
+function showAccess() {
+  document.getElementById('roleBadge').textContent = ROLE_LABELS[currentUserRole] || currentUserRole;
+  document.getElementById('hubContainer').style.display = 'flex';
+  document.getElementById('blockedScreen').classList.remove('active');
+  applyRoleVisibility();
+}
+
+// ========== VISIBILITÉ SELON RÔLE ==========
 function applyRoleVisibility() {
   const cardPlanning = document.getElementById('cardPlanning');
   const cardPointage = document.getElementById('cardPointage');
@@ -192,12 +245,12 @@ function applyRoleVisibility() {
       cardPointage.classList.add('visible');
       break;
     case 'collaborateur':
-    default:
       cardPointage.classList.add('visible');
       break;
   }
 }
 
+// ========== DÉCONNEXION ==========
 function logout() {
   auth.signOut().then(() => { window.location.href = 'index.html'; });
 }
@@ -209,9 +262,11 @@ function openAdminModal() {
   clearMsg();
   loadUsers();
 }
+
 function closeAdminModal() {
   document.getElementById('adminModal').classList.remove('active');
 }
+
 document.getElementById('adminModal').addEventListener('click', function(e) {
   if (e.target === this) closeAdminModal();
 });
@@ -222,6 +277,7 @@ function showMsg(text, type) {
   el.textContent = text;
   el.className = 'msg ' + type;
 }
+
 function clearMsg() {
   const el = document.getElementById('adminMsg');
   el.className = 'msg';
@@ -239,32 +295,33 @@ async function addUser() {
   if (!email) { showMsg('Veuillez saisir une adresse e-mail.', 'error'); return; }
   if (!role) { showMsg('Veuillez choisir un rôle.', 'error'); return; }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showMsg('❌ Format d\'adresse e-mail invalide.', 'error');
+    return;
+  }
+
   const btn = document.getElementById('btnAddUser');
   btn.disabled = true;
-  btn.textContent = '⏳ Vérification...';
+  btn.textContent = '⏳ Ajout...';
 
   try {
-    // Vérifier si l'email est enregistré dans Firebase Auth
-    const methods = await auth.fetchSignInMethodsForEmail(email);
-    if (!methods || methods.length === 0) {
-      showMsg('❌ Adresse mail non répertoriée. L\'utilisateur doit d\'abord être autorisé dans Firebase Authentication.', 'error');
-      btn.disabled = false;
-      btn.textContent = '➕ Ajouter';
-      return;
-    }
-
-    // Chercher si cet email existe déjà dans /users
+    // Vérifier si cet email existe déjà dans /users
     const snapshot = await db.ref('users').orderByChild('email').equalTo(email).once('value');
 
     if (snapshot.exists()) {
+      // Existe déjà → mettre à jour le rôle
       const uid = Object.keys(snapshot.val())[0];
       await db.ref('users/' + uid).update({ role: role });
       showMsg('✅ Rôle mis à jour pour ' + email + ' → ' + ROLE_LABELS[role], 'success');
     } else {
-      // On ne connaît pas l'UID → stocker temporairement avec une clé basée sur l'email
-      const tempKey = email.replace(/\./g, '_dot_').replace(/@/g, '_at_');
-      await db.ref('users/' + tempKey).set({ email: email, role: role, pending: true });
-      showMsg('✅ Utilisateur ajouté : ' + email + ' → ' + ROLE_LABELS[role] + ' (sera activé à sa première connexion)', 'success');
+      // Nouvel utilisateur → clé temporaire basée sur l'email
+      const tempKey = 'pending_' + email.replace(/\./g, '_dot_').replace(/@/g, '_at_');
+      await db.ref('users/' + tempKey).set({
+        email: email,
+        role: role
+      });
+      showMsg('✅ Utilisateur ajouté : ' + email + ' → ' + ROLE_LABELS[role], 'success');
     }
 
     emailInput.value = '';
@@ -273,18 +330,14 @@ async function addUser() {
 
   } catch (err) {
     console.error(err);
-    if (err.code === 'auth/invalid-email') {
-      showMsg('❌ Adresse e-mail invalide.', 'error');
-    } else {
-      showMsg('❌ Adresse mail non répertoriée ou erreur : ' + err.message, 'error');
-    }
+    showMsg('❌ Erreur : ' + err.message, 'error');
   }
 
   btn.disabled = false;
   btn.textContent = '➕ Ajouter';
 }
 
-// ========== CHARGER UTILISATEURS ==========
+// ========== CHARGER LISTE UTILISATEURS ==========
 function loadUsers() {
   const container = document.getElementById('usersListContainer');
   container.innerHTML = '<div class="loading-spinner">Chargement...</div>';
@@ -297,10 +350,9 @@ function loadUsers() {
 
     const users = snapshot.val();
     let html = `<table class="users-table">
-      <thead><tr><th>Email</th><th>Rôle</th><th>Statut</th><th>Action</th></tr></thead><tbody>`;
+      <thead><tr><th>Email</th><th>Rôle</th><th>Action</th></tr></thead><tbody>`;
 
     Object.entries(users).forEach(([uid, u]) => {
-      const statusLabel = u.pending ? '⏳ En attente' : '✅ Actif';
       html += `<tr>
         <td>${u.email}</td>
         <td>
@@ -311,8 +363,7 @@ function loadUsers() {
             <option value="collaborateur" ${u.role === 'collaborateur' ? 'selected' : ''}>Collaborateur</option>
           </select>
         </td>
-        <td style="font-size:.8rem">${statusLabel}</td>
-        <td><button class="btn-delete" onclick="deleteUser('${uid}', '${u.email}')">🗑</button></td>
+        <td><button class="btn-delete" onclick="deleteUser('${uid}', '${u.email}')">🗑 Supprimer</button></td>
       </tr>`;
     });
 
@@ -331,7 +382,7 @@ function updateRole(uid, newRole) {
   });
 }
 
-// ========== SUPPRIMER ==========
+// ========== SUPPRIMER UTILISATEUR ==========
 function deleteUser(uid, email) {
   clearMsg();
   const currentUser = auth.currentUser;
