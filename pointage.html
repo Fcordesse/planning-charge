@@ -14,12 +14,21 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .hdr-btn{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s;text-decoration:none}
 .hdr-btn:hover{background:rgba(255,255,255,.2)}
 
+/* ── TABS ── */
+.tabs-bar{background:var(--card-bg);border-bottom:2px solid var(--border);display:flex;padding:0 30px;gap:0}
+.tab-btn{padding:14px 24px;font-size:.88rem;font-weight:600;color:var(--text-light);border:none;background:none;cursor:pointer;position:relative;transition:.2s;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn:hover{color:var(--text);background:#f8f9ff}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn .tab-icon{margin-right:6px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
 /* ── LAYOUT PRINCIPAL AVEC TOOLBOX ── */
-.page-layout{display:flex;min-height:calc(100vh - 60px)}
+.page-layout{display:flex;min-height:calc(100vh - 108px)}
 .main{flex:1;max-width:1100px;margin:0 auto;padding:24px 20px}
 
 /* ── TOOLBOX POINTAGE ── */
-.toolbox{width:var(--toolbox-width);background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-2px 0 12px rgba(0,0,0,.05);position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;display:none;flex-direction:column;z-index:50}
+.toolbox{width:var(--toolbox-width);background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-2px 0 12px rgba(0,0,0,.05);position:sticky;top:108px;height:calc(100vh - 108px);overflow-y:auto;display:none;flex-direction:column;z-index:50}
 .toolbox.show{display:flex}
 .toolbox-header{padding:16px 14px 12px;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;text-align:center}
 .toolbox-header h3{font-size:.85rem;font-weight:700;margin-bottom:10px}
@@ -28,21 +37,17 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .toolbox-year-selector button:hover{background:rgba(255,255,255,.3)}
 .toolbox-year-label{font-size:1.05rem;font-weight:800;min-width:60px;text-align:center}
 .toolbox-months{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
-.toolbox-month-btn{padding:10px 14px;border:2px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-size:.82rem;font-weight:600;text-align:left;transition:all .2s;display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative}
+.toolbox-month-btn{padding:10px 14px;border:2px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-size:.82rem;font-weight:600;text-align:left;transition:all .2s;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .toolbox-month-btn:hover{border-color:#9c27b0;background:#f9f0ff;transform:translateX(-2px);box-shadow:0 2px 8px rgba(156,39,176,.15)}
 .toolbox-month-btn .month-name{flex:1}
 .toolbox-month-btn .month-status{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap}
-
 .toolbox-month-btn.has-data{border-color:#ff9800;background:#fff8e1}
 .toolbox-month-btn.has-data:hover{border-color:#e65100;background:#fff3e0}
 .toolbox-month-btn.has-data .month-status{background:#ff9800;color:#fff}
-
 .toolbox-month-btn.validated{border-color:var(--success);background:#e8f5e9}
 .toolbox-month-btn.validated:hover{border-color:#1b5e20;background:#c8e6c9}
 .toolbox-month-btn.validated .month-status{background:var(--success);color:#fff}
-
 .toolbox-month-btn.empty{border-color:var(--border);background:#fff}
-
 .toolbox-legend{padding:10px 14px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
 .toolbox-legend-item{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--text-light)}
 .toolbox-legend-dot{width:10px;height:10px;border-radius:3px;border:1px solid rgba(0,0,0,.1)}
@@ -94,7 +99,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 @keyframes spin{to{transform:rotate(360deg)}}
 .total-row td{font-weight:700!important;border-top:2px solid var(--accent)!important;background:#f8f9ff!important}
 
-/* ── COMPARATIF POINTAGE ── */
+/* ── COMPARATIF ── */
 .comparatif-section{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;border:2px solid #9c27b0;margin-bottom:20px}
 .comparatif-section h3{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:#6a1b9a;flex-wrap:wrap}
 .comparatif-table{width:100%;border-collapse:collapse}
@@ -107,7 +112,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .comparatif-total td{font-weight:700!important;border-top:2px solid #9c27b0!important;background:#f3e5f5!important}
 .pointage-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:700;background:#e8f5e9;color:#2e7d32;margin-left:8px}
 
-/* ── MODAL POINTAGE ── */
+/* ── MODAL ── */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;width:95%;max-width:680px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
@@ -118,14 +123,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .modal-body{padding:24px;overflow-y:auto;flex:1}
 .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fafafa}
 
-/* ── Pointage form ── */
 .pointage-header-info{background:#f3e5f5;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
 .pointage-header-info .ouvres-label{font-size:.88rem;font-weight:600;color:#6a1b9a}
 .pointage-header-info .ouvres-value{font-size:1.6rem;font-weight:800;color:#6a1b9a}
 .pointage-header-info .total-saisi{font-size:.88rem;font-weight:700}
-.total-ok{color:var(--success)}
-.total-warn{color:var(--highlight)}
-.total-incomplete{color:#ff9800}
+.total-ok{color:var(--success)}.total-warn{color:var(--highlight)}.total-incomplete{color:#ff9800}
 
 .pointage-group{margin-bottom:20px}
 .pointage-group-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
@@ -150,7 +152,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .add-line-select:focus{border-color:#9c27b0;outline:none}
 .add-line-btn{padding:10px 18px;border:none;border-radius:10px;background:#9c27b0;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
 .add-line-btn:hover{background:#7b1fa2}
-.add-line-btn:disabled{opacity:.4;cursor:not-allowed}
 
 .btn-validate{padding:10px 28px;border:none;border-radius:10px;background:#9c27b0;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s}
 .btn-validate:hover{background:#7b1fa2}
@@ -159,15 +160,72 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .btn-cancel:hover{background:var(--bg)}
 .btn-delete-pointage{padding:10px 20px;border:1px solid var(--highlight);border-radius:10px;background:#fff;color:var(--highlight);font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
 .btn-delete-pointage:hover{background:#fce4ec}
-
 .validate-hint{font-size:.75rem;color:var(--text-light);margin-top:4px;font-style:italic}
 .validate-hint.hint-error{color:var(--highlight)}
 
+/* ══════════════════════════════════════════
+   ONGLET RÉCAPITULATIF ÉQUIPE
+   ══════════════════════════════════════════ */
+.team-layout{max-width:1400px;margin:0 auto;padding:24px 20px}
+.team-header-bar{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.team-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.team-year-selector{display:flex;align-items:center;gap:8px}
+.team-year-selector button{padding:8px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+.team-year-selector button:hover{background:#0b2a4a}
+.team-year-selector .year-label{font-size:1.1rem;font-weight:800;min-width:60px;text-align:center}
+
+/* Stats globales équipe */
+.team-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.team-stat-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);text-align:center}
+.team-stat-card .tv{font-size:1.8rem;font-weight:800;margin-bottom:2px}
+.team-stat-card .tl{font-size:.72rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+
+/* Grille régie */
+.regie-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
+.regie-card h3{padding:16px 20px;margin:0;font-size:.92rem;font-weight:700;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;gap:8px}
+.regie-scroll{overflow-x:auto}
+.regie-table{width:100%;border-collapse:collapse;min-width:900px}
+.regie-table th{padding:10px 12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--text-light);background:#fafbfc;border-bottom:2px solid var(--border);text-align:center;position:sticky;top:0;z-index:2}
+.regie-table th:first-child{text-align:left;min-width:200px;position:sticky;left:0;background:#fafbfc;z-index:3}
+.regie-table td{padding:10px 12px;border-bottom:1px solid #f0f0f0;text-align:center;font-size:.82rem}
+.regie-table td:first-child{text-align:left;font-weight:600;position:sticky;left:0;background:#fff;z-index:1}
+.regie-table tr:hover td{background:#f8f9ff}
+.regie-table tr:hover td:first-child{background:#f0f2ff}
+
+/* Cellules de statut */
+.regie-cell{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;font-size:.7rem;font-weight:700;cursor:default;transition:.2s;position:relative}
+.regie-cell.cell-validated{background:#e8f5e9;color:#2e7d32;border:2px solid #a5d6a7}
+.regie-cell.cell-validated:hover{background:#c8e6c9;transform:scale(1.1)}
+.regie-cell.cell-has-data{background:#fff8e1;color:#e65100;border:2px solid #ffcc80}
+.regie-cell.cell-has-data:hover{background:#ffecb3;transform:scale(1.1)}
+.regie-cell.cell-empty{background:#f5f5f5;color:#bdbdbd;border:2px solid #e0e0e0}
+.regie-cell.cell-future{background:#f5f5f5;color:#e0e0e0;border:2px dashed #e0e0e0}
+
+/* Collab avatar dans régie */
+.regie-collab{display:flex;align-items:center;gap:10px}
+.regie-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
+.regie-collab-info{display:flex;flex-direction:column}
+.regie-collab-name{font-size:.85rem;font-weight:700}
+.regie-collab-score{font-size:.68rem;color:var(--text-light)}
+
+/* Barre de progression */
+.team-progress-bar{height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:3px;width:100px}
+.team-progress-fill{height:100%;border-radius:3px;transition:width .3s}
+
+/* Légende régie */
+.regie-legend{display:flex;gap:20px;padding:14px 20px;border-top:1px solid var(--border);background:#fafbfc;flex-wrap:wrap}
+.regie-legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--text-light)}
+
+/* Détail modal lecture seule */
+.detail-readonly-section{margin-bottom:16px}
+.detail-readonly-title{font-size:.82rem;font-weight:700;color:#6a1b9a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
+.detail-readonly-table{width:100%;border-collapse:collapse}
+.detail-readonly-table th{text-align:left;padding:8px 12px;background:#f3e5f5;font-size:.72rem;font-weight:600;color:#6a1b9a;border-bottom:1px solid #ce93d8}
+.detail-readonly-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:.85rem}
+.detail-readonly-table tr:last-child td{border-bottom:none}
+
 /* ── Responsive ── */
-@media(max-width:900px){
-  .toolbox{width:180px}
-  :root{--toolbox-width:180px}
-}
+@media(max-width:900px){.toolbox{width:180px}:root{--toolbox-width:180px}}
 @media(max-width:700px){
   .page-layout{flex-direction:column}
   .toolbox{width:100%;height:auto;position:relative;top:0;border-left:none;border-bottom:1px solid var(--border);flex-direction:row;overflow-x:auto;overflow-y:hidden}
@@ -175,6 +233,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   .toolbox-months{flex-direction:row;padding:8px;gap:6px;overflow-x:auto}
   .toolbox-month-btn{min-width:90px;padding:8px 10px;font-size:.75rem}
   .toolbox-legend{display:none}
+  .tabs-bar{padding:0 10px}
+  .tab-btn{padding:10px 14px;font-size:.8rem}
 }
 </style>
 </head>
@@ -197,6 +257,21 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </div>
 
+<!-- MODAL DÉTAIL LECTURE SEULE (récap équipe) -->
+<div class="modal-overlay" id="modalDetailOverlay">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h2 id="modalDetailTitle">📋 Détail pointage</h2>
+      <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalDetailBody"></div>
+    <div class="modal-footer">
+      <div></div>
+      <button class="btn-cancel" onclick="closeDetailModal()">Fermer</button>
+    </div>
+  </div>
+</div>
+
 <header class="app-header">
   <h1>👤 Mon <span>Planning</span></h1>
   <div class="header-right">
@@ -205,63 +280,95 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </header>
 
-<div class="page-layout">
-  <div class="main">
-    <div class="welcome-bar">
-      <div class="welcome-info">
-        <div class="avatar" id="avatarEl"></div>
-        <div class="welcome-text">
-          <h2 id="welcomeName">Chargement...</h2>
-          <p id="welcomeEmail"></p>
+<!-- ONGLETS -->
+<div class="tabs-bar" id="tabsBar" style="display:none">
+  <button class="tab-btn active" onclick="switchTab('myplanning')"><span class="tab-icon">👤</span>Mon planning</button>
+  <button class="tab-btn" onclick="switchTab('team')" id="tabTeamBtn" style="display:none"><span class="tab-icon">👥</span>Récapitulatif équipe</button>
+</div>
+
+<!-- ONGLET 1 : MON PLANNING -->
+<div class="tab-content active" id="tabMyPlanning">
+  <div class="page-layout">
+    <div class="main">
+      <div class="welcome-bar">
+        <div class="welcome-info">
+          <div class="avatar" id="avatarEl"></div>
+          <div class="welcome-text">
+            <h2 id="welcomeName">Chargement...</h2>
+            <p id="welcomeEmail"></p>
+          </div>
+        </div>
+        <div class="month-selector">
+          <button onclick="changeMonth(-1)">◀</button>
+          <span class="month-label" id="monthLabel"></span>
+          <button onclick="changeMonth(1)">▶</button>
         </div>
       </div>
-      <div class="month-selector">
-        <button onclick="changeMonth(-1)">◀</button>
-        <span class="month-label" id="monthLabel"></span>
-        <button onclick="changeMonth(1)">▶</button>
+      <div id="notFound" class="not-found" style="display:none">
+        ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>
+        Contactez l'administrateur du planning.
+      </div>
+      <div id="content" style="display:none">
+        <div id="comparatifSection" style="display:none"></div>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="detail-section">
+          <h3>📋 Détail des affectations</h3>
+          <table class="detail-table"><thead><tr><th>Affaire</th><th>Type</th><th>Charge</th><th>Jours</th></tr></thead><tbody id="affTable"></tbody></table>
+        </div>
+        <div class="detail-section" id="congeSection" style="display:none">
+          <h3>🏖️ Congés & Absences</h3>
+          <table class="detail-table"><thead><tr><th>Type</th><th>Jours</th><th></th></tr></thead><tbody id="congeTable"></tbody></table>
+        </div>
+        <div class="detail-section">
+          <h3>📅 Vue calendrier</h3>
+          <div class="calendar-grid" id="calGrid"></div>
+        </div>
       </div>
     </div>
+    <aside class="toolbox" id="toolbox">
+      <div class="toolbox-header">
+        <h3>📌 Pointage</h3>
+        <div class="toolbox-year-selector">
+          <button onclick="changeToolboxYear(-1)">◀</button>
+          <span class="toolbox-year-label" id="toolboxYearLabel"></span>
+          <button onclick="changeToolboxYear(1)">▶</button>
+        </div>
+      </div>
+      <div class="toolbox-months" id="toolboxMonths"></div>
+      <div class="toolbox-legend">
+        <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#fff;border-color:#ccc"></div> Aucune donnée</div>
+        <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#fff8e1;border-color:#ff9800"></div> Données présentes</div>
+        <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#e8f5e9;border-color:#28a745"></div> Pointage validé</div>
+      </div>
+    </aside>
+  </div>
+</div>
 
-    <div id="notFound" class="not-found" style="display:none">
-      ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>
-      Contactez l'administrateur du planning.
+<!-- ONGLET 2 : RÉCAPITULATIF ÉQUIPE -->
+<div class="tab-content" id="tabTeam">
+  <div class="team-layout">
+    <div class="team-header-bar">
+      <h2>👥 Récapitulatif équipe – Pointages</h2>
+      <div class="team-year-selector">
+        <button onclick="changeTeamYear(-1)">◀</button>
+        <span class="year-label" id="teamYearLabel"></span>
+        <button onclick="changeTeamYear(1)">▶</button>
+      </div>
     </div>
-
-    <div id="content" style="display:none">
-      <div id="comparatifSection" style="display:none"></div>
-      <div class="stats-grid" id="statsGrid"></div>
-      <div class="detail-section">
-        <h3>📋 Détail des affectations</h3>
-        <table class="detail-table"><thead><tr><th>Affaire</th><th>Type</th><th>Charge</th><th>Jours</th></tr></thead><tbody id="affTable"></tbody></table>
+    <div class="team-stats" id="teamStats"></div>
+    <div class="regie-card">
+      <h3>📊 Vue régie – Statut des pointages par mois</h3>
+      <div class="regie-scroll">
+        <table class="regie-table" id="regieTable"></table>
       </div>
-      <div class="detail-section" id="congeSection" style="display:none">
-        <h3>🏖️ Congés & Absences</h3>
-        <table class="detail-table"><thead><tr><th>Type</th><th>Jours</th><th></th></tr></thead><tbody id="congeTable"></tbody></table>
-      </div>
-      <div class="detail-section">
-        <h3>📅 Vue calendrier</h3>
-        <div class="calendar-grid" id="calGrid"></div>
+      <div class="regie-legend">
+        <div class="regie-legend-item"><div class="regie-cell cell-validated" style="width:18px;height:18px;font-size:.55rem">✓</div> Validé</div>
+        <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données présentes (non validé)</div>
+        <div class="regie-legend-item"><div class="regie-cell cell-empty" style="width:18px;height:18px;font-size:.55rem">—</div> Aucun pointage</div>
+        <div class="regie-legend-item"><div class="regie-cell cell-future" style="width:18px;height:18px;font-size:.55rem">·</div> Mois futur</div>
       </div>
     </div>
   </div>
-
-  <!-- TOOLBOX POINTAGE -->
-  <aside class="toolbox" id="toolbox">
-    <div class="toolbox-header">
-      <h3>📌 Pointage</h3>
-      <div class="toolbox-year-selector">
-        <button onclick="changeToolboxYear(-1)">◀</button>
-        <span class="toolbox-year-label" id="toolboxYearLabel"></span>
-        <button onclick="changeToolboxYear(1)">▶</button>
-      </div>
-    </div>
-    <div class="toolbox-months" id="toolboxMonths"></div>
-    <div class="toolbox-legend">
-      <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#fff;border-color:#ccc"></div> Aucune donnée</div>
-      <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#fff8e1;border-color:#ff9800"></div> Données présentes</div>
-      <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#e8f5e9;border-color:#28a745"></div> Pointage validé</div>
-    </div>
-  </aside>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -281,21 +388,19 @@ const db=firebase.database();
 // VARIABLES
 // ============================================================
 let Co=[],Af=[],Dt={},LT=[],LD={};
-let collabName=null;
-let collabColor='#888';
-let curMonth=new Date().getMonth();
-let curYear=new Date().getFullYear();
-let toolboxYear=new Date().getFullYear();
+let collabName=null,collabColor='#888';
+let curMonth=new Date().getMonth(),curYear=new Date().getFullYear();
+let toolboxYear=new Date().getFullYear(),teamYear=new Date().getFullYear();
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const MN_S=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 
-let pointages={};
+let pointages={};       // Pointages du collaborateur connecté
+let allPointages={};    // Tous les pointages (pour le récap équipe)
+let userRole=null;
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
+const ROLES_TEAM=['admin','responsable','responsable_viewer'];
 
-// Modal state
-let selectedPtgMonth=null;
-let selectedPtgYear=null;
-let ptgLines=[];
-let ptgNbOuvres=0;
+let selectedPtgMonth=null,selectedPtgYear=null,ptgLines=[],ptgNbOuvres=0;
 
 // ============================================================
 // AUTH + CHARGEMENT
@@ -303,9 +408,18 @@ let ptgNbOuvres=0;
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='index.html';return}
   document.getElementById('welcomeEmail').textContent=user.email;
-  db.ref('planning').once('value').then(snap=>{
-    const data=snap.val();
+
+  // Charger rôle depuis hub
+  const uid=user.uid;
+  Promise.all([
+    db.ref('planning').once('value'),
+    db.ref('users/'+uid+'/role').once('value'),
+    db.ref('pointages').once('value')
+  ]).then(([planSnap,roleSnap,ptgSnap])=>{
+    const data=planSnap.val();
     if(data){Co=data.collaborateurs||[];Af=data.affaires||[];Dt=data.donnees||{};LT=data.typesConges||[];LD=data.conges||{}}
+    userRole=(roleSnap.val()||'viewer').toLowerCase().replace(/\s+/g,'_');
+    allPointages=ptgSnap.val()||{};
     matchCollab(user.email);
     document.getElementById('loadingOverlay').classList.remove('show');
   });
@@ -314,60 +428,82 @@ auth.onAuthStateChanged(user=>{
 function logout(){auth.signOut().then(()=>{window.location.href='index.html'})}
 
 // ============================================================
+// TABS
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  if(tab==='team'){
+    document.getElementById('tabTeamBtn').classList.add('active');
+    document.getElementById('tabTeam').classList.add('active');
+    renderTeamView();
+  }else{
+    document.querySelector('.tab-btn:first-child').classList.add('active');
+    document.getElementById('tabMyPlanning').classList.add('active');
+  }
+}
+
+// ============================================================
 // CORRESPONDANCE EMAIL → COLLABORATEUR
 // ============================================================
 function normalize(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
 
 function matchCollab(email){
-  const local=email.split('@')[0];
-  const parts=local.split('.');
+  const local=email.split('@')[0],parts=local.split('.');
   if(parts.length<2){showNotFound();return}
-  const emailPrenom=normalize(parts[0]);
-  const emailNom=normalize(parts.slice(1).join(' '));
+  const emailPrenom=normalize(parts[0]),emailNom=normalize(parts.slice(1).join(' '));
   let bestMatch=null;
   Co.forEach(c=>{
     const cParts=c.name.trim().split(/\s+/);
     if(cParts.length<2)return;
-    const cPrenom=normalize(cParts[cParts.length-1]);
-    const cNom=normalize(cParts.slice(0,-1).join(' '));
+    const cPrenom=normalize(cParts[cParts.length-1]),cNom=normalize(cParts.slice(0,-1).join(' '));
     if(cPrenom===emailPrenom&&cNom===emailNom)bestMatch=c;
-    const emailPrenomDash=emailPrenom.replace(/-/g,' ');
-    const cPrenomDash=cPrenom.replace(/-/g,' ');
-    if(cPrenomDash===emailPrenomDash&&cNom===emailNom)bestMatch=c;
+    if(cPrenom.replace(/-/g,' ')===emailPrenom.replace(/-/g,' ')&&cNom===emailNom)bestMatch=c;
   });
   if(!bestMatch){showNotFound();return}
-  collabName=bestMatch.name;
-  collabColor=bestMatch.color;
-  const ini=getIni(collabName);
-  document.getElementById('avatarEl').textContent=ini;
+  collabName=bestMatch.name;collabColor=bestMatch.color;
+  document.getElementById('avatarEl').textContent=getIni(collabName);
   document.getElementById('avatarEl').style.background=collabColor;
   document.getElementById('welcomeName').textContent=collabName;
   document.getElementById('content').style.display='block';
   document.getElementById('toolbox').classList.add('show');
-  loadPointages().then(()=>{
-    renderMonth();
-    renderToolbox();
-  });
+  document.getElementById('tabsBar').style.display='flex';
+
+  // Afficher onglet équipe si rôle autorisé
+  if(ROLES_TEAM.includes(userRole)){
+    document.getElementById('tabTeamBtn').style.display='';
+  }
+
+  // Charger pointages perso
+  const safeKey=collabName.replace(/[.#$\[\]\/]/g,'_');
+  pointages=allPointages[safeKey]||{};
+
+  renderMonth();
+  renderToolbox();
 }
 
-function showNotFound(){
-  document.getElementById('welcomeName').textContent='Non trouvé';
-  document.getElementById('notFound').style.display='block';
-}
-
+function showNotFound(){document.getElementById('welcomeName').textContent='Non trouvé';document.getElementById('notFound').style.display='block';document.getElementById('tabsBar').style.display='flex'}
 function getIni(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 
 // ============================================================
-// POINTAGE – PERSISTANCE FIREBASE
+// POINTAGE FIREBASE
 // ============================================================
-function getPointageRef(){
-  const safeKey=collabName.replace(/[.#$\[\]\/]/g,'_');
-  return db.ref('pointages/'+safeKey);
-}
+function getPointageRef(){const sk=collabName.replace(/[.#$\[\]\/]/g,'_');return db.ref('pointages/'+sk)}
 function loadPointages(){return getPointageRef().once('value').then(snap=>{pointages=snap.val()||{}})}
-function savePointage(monthKey,data){pointages[monthKey]=data;return getPointageRef().child(monthKey).set(data)}
-function deletePointage(monthKey){delete pointages[monthKey];return getPointageRef().child(monthKey).remove()}
-function getMonthKey(year,month){return year+'-'+String(month+1).padStart(2,'0')}
+function savePointage(mk,data){
+  pointages[mk]=data;
+  const sk=collabName.replace(/[.#$\[\]\/]/g,'_');
+  allPointages[sk]=allPointages[sk]||{};
+  allPointages[sk][mk]=data;
+  return getPointageRef().child(mk).set(data);
+}
+function deletePointage(mk){
+  delete pointages[mk];
+  const sk=collabName.replace(/[.#$\[\]\/]/g,'_');
+  if(allPointages[sk])delete allPointages[sk][mk];
+  return getPointageRef().child(mk).remove();
+}
+function getMonthKey(y,m){return y+'-'+String(m+1).padStart(2,'0')}
 
 // ============================================================
 // JOURS FÉRIÉS
@@ -378,102 +514,48 @@ let _fc={};
 function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
 function isWE(d){return d.getDay()===0||d.getDay()===6}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-
-function getOuvres(year,month){
-  const ouvres=[];
-  const dim=new Date(year,month+1,0).getDate();
-  for(let d=1;d<=dim;d++){const date=new Date(year,month,d);if(!isWE(date)&&!isF(date))ouvres.push(dk(date))}
-  return ouvres;
-}
+function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let d=1;d<=dim;d++){const dt=new Date(y,m,d);if(!isWE(dt)&&!isF(dt))o.push(dk(dt))}return o}
 
 // ============================================================
 // CALCULS PLANNING
 // ============================================================
-function computePlanningData(year,month){
-  const ouvres=getOuvres(year,month);
-  const nbOuvres=ouvres.length;
-  const affCharge={};
-  let totalSlots=0;
-  Af.forEach(aff=>{
-    let slots=0;
-    ouvres.forEach(dkey=>{
-      const k=aff.name+'|'+dkey;
-      const sl=Dt[k];
-      if(sl&&Array.isArray(sl)){for(let i=0;i<5;i++){if(sl[i]===collabName)slots++}}
-    });
-    if(slots>0){affCharge[aff.name]={slots,jours:slots/5,type:aff.type};totalSlots+=slots}
-  });
+function computePlanningData(y,m,cName){
+  cName=cName||collabName;
+  const ouvres=getOuvres(y,m),nbOuvres=ouvres.length;
+  const affCharge={};let totalSlots=0;
+  Af.forEach(aff=>{let slots=0;ouvres.forEach(dkey=>{const k=aff.name+'|'+dkey;const sl=Dt[k];if(sl&&Array.isArray(sl)){for(let i=0;i<5;i++){if(sl[i]===cName)slots++}}});if(slots>0){affCharge[aff.name]={slots,jours:slots/5,type:aff.type};totalSlots+=slots}});
   const totalJoursPlanif=totalSlots/5;
-  const congeCount={};
-  let totalConges=0;
-  ouvres.forEach(dkey=>{
-    const lv=LD[collabName+'|'+dkey];
-    if(lv){congeCount[lv]=(congeCount[lv]||0)+1;totalConges++}
-  });
+  const congeCount={};let totalConges=0;
+  ouvres.forEach(dkey=>{const lv=LD[cName+'|'+dkey];if(lv){congeCount[lv]=(congeCount[lv]||0)+1;totalConges++}});
   return{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges};
 }
 
-function monthHasPlanningData(year,month){
-  const{totalJoursPlanif,totalConges}=computePlanningData(year,month);
-  return(totalJoursPlanif>0||totalConges>0);
-}
+function monthHasPlanningData(y,m){const{totalJoursPlanif,totalConges}=computePlanningData(y,m);return(totalJoursPlanif>0||totalConges>0)}
 
 // ============================================================
 // TOOLBOX
 // ============================================================
-function changeToolboxYear(offset){
-  toolboxYear+=offset;
-  renderToolbox();
-}
-
+function changeToolboxYear(o){toolboxYear+=o;renderToolbox()}
 function renderToolbox(){
   document.getElementById('toolboxYearLabel').textContent=toolboxYear;
-  const container=document.getElementById('toolboxMonths');
-  let html='';
+  const c=document.getElementById('toolboxMonths');let h='';
   for(let m=0;m<12;m++){
-    const mk=getMonthKey(toolboxYear,m);
-    const ptg=pointages[mk];
-    const isValidated=ptg&&ptg.lines&&ptg.validatedAt;
-    const hasData=monthHasPlanningData(toolboxYear,m);
-
-    let stateClass='empty';
-    let statusHtml='';
-    if(isValidated){
-      stateClass='validated';
-      statusHtml='<span class="month-status">✓</span>';
-    }else if(hasData){
-      stateClass='has-data';
-      statusHtml='<span class="month-status">●</span>';
-    }
-
-    html+='<button class="toolbox-month-btn '+stateClass+'" onclick="openPointageForMonth('+m+','+toolboxYear+')">';
-    html+='<span class="month-name">'+MN[m]+'</span>';
-    html+=statusHtml;
-    html+='</button>';
+    const mk=getMonthKey(toolboxYear,m),ptg=pointages[mk];
+    const isV=ptg&&ptg.lines&&ptg.validatedAt,hasD=monthHasPlanningData(toolboxYear,m);
+    let sc='empty',sh='';
+    if(isV){sc='validated';sh='<span class="month-status">✓</span>'}
+    else if(hasD){sc='has-data';sh='<span class="month-status">●</span>'}
+    h+='<button class="toolbox-month-btn '+sc+'" onclick="openPointageForMonth('+m+','+toolboxYear+')"><span class="month-name">'+MN[m]+'</span>'+sh+'</button>';
   }
-  container.innerHTML=html;
+  c.innerHTML=h;
 }
-
-function openPointageForMonth(month,year){
-  selectedPtgMonth=month;
-  selectedPtgYear=year;
-  renderModalStep2();
-  document.getElementById('modalOverlay').classList.add('show');
-}
-
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('show');
-}
+function openPointageForMonth(m,y){selectedPtgMonth=m;selectedPtgYear=y;renderModalStep2();document.getElementById('modalOverlay').classList.add('show')}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show')}
 
 // ============================================================
 // NAVIGATION MOIS
 // ============================================================
-function changeMonth(offset){
-  curMonth+=offset;
-  if(curMonth>11){curMonth=0;curYear++}
-  if(curMonth<0){curMonth=11;curYear--}
-  renderMonth();
-}
+function changeMonth(o){curMonth+=o;if(curMonth>11){curMonth=0;curYear++}if(curMonth<0){curMonth=11;curYear--}renderMonth()}
 
 // ============================================================
 // RENDU MENSUEL
@@ -491,116 +573,42 @@ function renderMonth(){
 
   const affTableEl=document.getElementById('affTable');
   const affEntries=Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours);
-  const maxJours=affEntries.length?Math.max(...affEntries.map(e=>e[1].jours)):1;
+  const maxJ=affEntries.length?Math.max(...affEntries.map(e=>e[1].jours)):1;
+  if(!affEntries.length){affTableEl.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px;font-style:italic">Aucune affectation ce mois</td></tr>'}
+  else{let h='';affEntries.forEach(([n,d])=>{const p=nbOuvres>0?Math.round((d.jours/nbOuvres)*100):0,bW=Math.max(4,(d.jours/maxJ)*120),tc=d.type==='etudes'?'etudes':'travaux',tl=d.type==='etudes'?'Études':'Travaux';h+='<tr><td style="font-weight:600">'+escH(n)+'</td><td><span class="type-badge type-'+tc+'">'+tl+'</span></td><td><div class="days-bar"><div class="bar bar-'+tc+'" style="width:'+bW+'px"></div><span style="font-size:.75rem;color:var(--text-light)">'+p+'%</span></div></td><td><span class="days-num">'+fmtNum(d.jours)+'j</span></td></tr>'});h+='<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">'+fmtNum(totalJoursPlanif)+'j</span></td></tr>';affTableEl.innerHTML=h}
 
-  if(!affEntries.length){
-    affTableEl.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px;font-style:italic">Aucune affectation ce mois</td></tr>';
-  }else{
-    let html='';
-    affEntries.forEach(([name,data])=>{
-      const pct=nbOuvres>0?Math.round((data.jours/nbOuvres)*100):0;
-      const barW=Math.max(4,(data.jours/maxJours)*120);
-      const typeCls=data.type==='etudes'?'etudes':'travaux';
-      const typeLabel=data.type==='etudes'?'Études':'Travaux';
-      html+='<tr><td style="font-weight:600">'+escH(name)+'</td><td><span class="type-badge type-'+typeCls+'">'+typeLabel+'</span></td><td><div class="days-bar"><div class="bar bar-'+typeCls+'" style="width:'+barW+'px"></div><span style="font-size:.75rem;color:var(--text-light)">'+pct+'%</span></div></td><td><span class="days-num">'+fmtNum(data.jours)+'j</span></td></tr>';
-    });
-    html+='<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">'+fmtNum(totalJoursPlanif)+'j</span></td></tr>';
-    affTableEl.innerHTML=html;
-  }
-
-  const congeSec=document.getElementById('congeSection');
-  const congeTableEl=document.getElementById('congeTable');
+  const congeSec=document.getElementById('congeSection'),congeTableEl=document.getElementById('congeTable');
   const congeEntries=Object.entries(congeCount).sort((a,b)=>b[1]-a[1]);
   if(!congeEntries.length){congeSec.style.display='none'}
-  else{
-    congeSec.style.display='block';
-    let html='';
-    congeEntries.forEach(([type,jours])=>{
-      const barW=Math.max(4,(jours/nbOuvres)*200);
-      html+='<tr><td><span class="conge-tag">'+escH(type)+'</span></td><td><span class="days-num">'+jours+'j</span></td><td><div class="days-bar"><div class="bar bar-conge" style="width:'+barW+'px"></div></div></td></tr>';
-    });
-    html+='<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">'+totalConges+'j</span></td><td></td></tr>';
-    congeTableEl.innerHTML=html;
-  }
+  else{congeSec.style.display='block';let h='';congeEntries.forEach(([t,j])=>{const bW=Math.max(4,(j/nbOuvres)*200);h+='<tr><td><span class="conge-tag">'+escH(t)+'</span></td><td><span class="days-num">'+j+'j</span></td><td><div class="days-bar"><div class="bar bar-conge" style="width:'+bW+'px"></div></div></td></tr>'});h+='<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">'+totalConges+'j</span></td><td></td></tr>';congeTableEl.innerHTML=h}
 
   renderComparatif(curYear,curMonth,affCharge,congeCount,nbOuvres,totalJoursPlanif,totalConges);
   renderCalendar(ouvres,affCharge,congeCount);
 }
 
 // ============================================================
-// COMPARATIF POINTAGE vs PLANNING
+// COMPARATIF
 // ============================================================
-function renderComparatif(year,month,affCharge,congeCount,nbOuvres,totalJoursPlanif,totalConges){
-  const section=document.getElementById('comparatifSection');
-  const monthKey=getMonthKey(year,month);
-  const ptg=pointages[monthKey];
-  if(!ptg||!ptg.lines){section.style.display='none';return}
-  section.style.display='block';
-
-  const validDate=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
-
-  const ptgMap={};
-  let totalPointageAct=0;
-  ptg.lines.forEach(l=>{ptgMap[l.label]=(ptgMap[l.label]||0)+l.jours;if(l.category!=='conge')totalPointageAct+=l.jours});
-
-  const planMap={};
-  Object.entries(affCharge).forEach(([name,data])=>{planMap[name]={jours:data.jours,type:data.type==='etudes'?'Études':'Travaux',category:'affaire'}});
-  Object.entries(congeCount).forEach(([type,jours])=>{planMap[type]={jours,type:'Congé',category:'conge'}});
-
-  const allLabels=new Set([...Object.keys(planMap),...Object.keys(ptgMap)]);
-  const affLabels=[],congeLabels=[],specialLabels=[];
-  allLabels.forEach(label=>{
-    const inPlan=planMap[label];
-    const isConge=(inPlan&&inPlan.category==='conge')||(ptg.lines.find(l=>l.label===label&&l.category==='conge'));
-    if(isConge)congeLabels.push(label);
-    else if(LIGNES_SPECIALES.includes(label)||(!inPlan&&!isConge))specialLabels.push(label);
-    else affLabels.push(label);
-  });
-
-  let html='<div class="comparatif-section"><h3>📊 Comparatif Planning vs Pointage réel<span class="pointage-badge">✓ Validé le '+escH(validDate)+'</span></h3>';
-  html+='<table class="comparatif-table"><thead><tr><th>Ligne</th><th>Type</th><th>Planning</th><th>Pointage</th><th>Écart</th></tr></thead><tbody>';
-
-  let totalPlanAff=0,totalPtgAff=0,totalPlanConge=0,totalPtgConge=0;
-
-  affLabels.forEach(label=>{
-    const planJ=planMap[label]?planMap[label].jours:0;
-    const ptgJ=ptgMap[label]||0;
-    const delta=ptgJ-planJ;
-    const typeLabel=planMap[label]?planMap[label].type:'Affaire';
-    totalPlanAff+=planJ;totalPtgAff+=ptgJ;
-    html+=buildComparatifRow(label,typeLabel,planJ,ptgJ,delta);
-  });
-  specialLabels.forEach(label=>{
-    const planJ=0;const ptgJ=ptgMap[label]||0;const delta=ptgJ;
-    totalPlanAff+=planJ;totalPtgAff+=ptgJ;
-    html+=buildComparatifRow(label,'Autre',planJ,ptgJ,delta);
-  });
-
-  const deltaAff=totalPtgAff-totalPlanAff;
-  html+='<tr class="comparatif-total"><td>TOTAL ACTIVITÉ</td><td></td><td><b>'+fmtNum(totalPlanAff)+'j</b></td><td><b>'+fmtNum(totalPtgAff)+'j</b></td><td><b class="'+deltaClass(deltaAff)+'">'+fmtDelta(deltaAff)+'</b></td></tr>';
-
-  if(congeLabels.length>0){
-    html+='<tr><td colspan="5" style="padding:6px 14px;background:#fff8e1;font-size:.78rem;font-weight:700;color:#f57f17">🏖️ CONGÉS & ABSENCES</td></tr>';
-    congeLabels.forEach(label=>{
-      const planJ=planMap[label]?planMap[label].jours:0;
-      const ptgJ=ptgMap[label]||0;const delta=ptgJ-planJ;
-      totalPlanConge+=planJ;totalPtgConge+=ptgJ;
-      html+=buildComparatifRow(label,'Congé',planJ,ptgJ,delta);
-    });
-    const deltaConge=totalPtgConge-totalPlanConge;
-    html+='<tr class="comparatif-total"><td>TOTAL CONGÉS</td><td></td><td><b>'+fmtNum(totalPlanConge)+'j</b></td><td><b>'+fmtNum(totalPtgConge)+'j</b></td><td><b class="'+deltaClass(deltaConge)+'">'+fmtDelta(deltaConge)+'</b></td></tr>';
-  }
-
-  html+='</tbody></table></div>';
-  section.innerHTML=html;
+function renderComparatif(y,m,affCharge,congeCount,nbOuvres,totalJP,totalC){
+  const sec=document.getElementById('comparatifSection'),mk=getMonthKey(y,m),ptg=pointages[mk];
+  if(!ptg||!ptg.lines){sec.style.display='none';return}
+  sec.style.display='block';
+  const vd=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+  const ptgMap={};let tPA=0;ptg.lines.forEach(l=>{ptgMap[l.label]=(ptgMap[l.label]||0)+l.jours;if(l.category!=='conge')tPA+=l.jours});
+  const planMap={};Object.entries(affCharge).forEach(([n,d])=>{planMap[n]={jours:d.jours,type:d.type==='etudes'?'Études':'Travaux',category:'affaire'}});Object.entries(congeCount).forEach(([t,j])=>{planMap[t]={jours:j,type:'Congé',category:'conge'}});
+  const all=new Set([...Object.keys(planMap),...Object.keys(ptgMap)]);const aL=[],cL=[],sL=[];
+  all.forEach(l=>{const ip=planMap[l];const ic=(ip&&ip.category==='conge')||(ptg.lines.find(x=>x.label===l&&x.category==='conge'));if(ic)cL.push(l);else if(LIGNES_SPECIALES.includes(l)||(!ip&&!ic))sL.push(l);else aL.push(l)});
+  let h='<div class="comparatif-section"><h3>📊 Comparatif Planning vs Pointage réel<span class="pointage-badge">✓ Validé le '+escH(vd)+'</span></h3><table class="comparatif-table"><thead><tr><th>Ligne</th><th>Type</th><th>Planning</th><th>Pointage</th><th>Écart</th></tr></thead><tbody>';
+  let tPAf=0,tPtAf=0,tPC=0,tPtC=0;
+  aL.forEach(l=>{const pJ=planMap[l]?planMap[l].jours:0,ptJ=ptgMap[l]||0,d=ptJ-pJ;tPAf+=pJ;tPtAf+=ptJ;h+=bCR(l,planMap[l]?planMap[l].type:'Affaire',pJ,ptJ,d)});
+  sL.forEach(l=>{const ptJ=ptgMap[l]||0;tPtAf+=ptJ;h+=bCR(l,'Autre',0,ptJ,ptJ)});
+  const dA=tPtAf-tPAf;h+='<tr class="comparatif-total"><td>TOTAL ACTIVITÉ</td><td></td><td><b>'+fmtNum(tPAf)+'j</b></td><td><b>'+fmtNum(tPtAf)+'j</b></td><td><b class="'+dC(dA)+'">'+fD(dA)+'</b></td></tr>';
+  if(cL.length){h+='<tr><td colspan="5" style="padding:6px 14px;background:#fff8e1;font-size:.78rem;font-weight:700;color:#f57f17">🏖️ CONGÉS & ABSENCES</td></tr>';cL.forEach(l=>{const pJ=planMap[l]?planMap[l].jours:0,ptJ=ptgMap[l]||0,d=ptJ-pJ;tPC+=pJ;tPtC+=ptJ;h+=bCR(l,'Congé',pJ,ptJ,d)});const dCo=tPtC-tPC;h+='<tr class="comparatif-total"><td>TOTAL CONGÉS</td><td></td><td><b>'+fmtNum(tPC)+'j</b></td><td><b>'+fmtNum(tPtC)+'j</b></td><td><b class="'+dC(dCo)+'">'+fD(dCo)+'</b></td></tr>'}
+  h+='</tbody></table></div>';sec.innerHTML=h;
 }
-
-function buildComparatifRow(label,typeLabel,planJ,ptgJ,delta){
-  return '<tr><td style="font-weight:600">'+escH(label)+'</td><td><span style="font-size:.75rem;color:var(--text-light)">'+escH(typeLabel)+'</span></td><td>'+fmtNum(planJ)+'j</td><td>'+fmtNum(ptgJ)+'j</td><td class="'+deltaClass(delta)+'">'+fmtDelta(delta)+'</td></tr>';
-}
-
-function deltaClass(d){if(Math.abs(d)<0.01)return'delta-zero';return d>0?'delta-neg':'delta-pos'}
-function fmtDelta(d){if(Math.abs(d)<0.01)return'=';return(d>0?'+':'')+fmtNum(d)+'j'}
+function bCR(l,t,pJ,ptJ,d){return'<tr><td style="font-weight:600">'+escH(l)+'</td><td><span style="font-size:.75rem;color:var(--text-light)">'+escH(t)+'</span></td><td>'+fmtNum(pJ)+'j</td><td>'+fmtNum(ptJ)+'j</td><td class="'+dC(d)+'">'+fD(d)+'</td></tr>'}
+function dC(d){return Math.abs(d)<.01?'delta-zero':d>0?'delta-neg':'delta-pos'}
+function fD(d){return Math.abs(d)<.01?'=':(d>0?'+':'')+fmtNum(d)+'j'}
 
 // ============================================================
 // MODAL POINTAGE
@@ -608,295 +616,250 @@ function fmtDelta(d){if(Math.abs(d)<0.01)return'=';return(d>0?'+':'')+fmtNum(d)+
 function renderModalStep2(){
   const{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges}=computePlanningData(selectedPtgYear,selectedPtgMonth);
   ptgNbOuvres=nbOuvres;
-
   document.getElementById('modalTitle').textContent='📌 Pointer – '+MN[selectedPtgMonth]+' '+selectedPtgYear;
-
-  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
-  const existingPtg=pointages[monthKey];
-
-  if(existingPtg&&existingPtg.lines){
-    ptgLines=existingPtg.lines.map((l,i)=>({...l,id:i,removable:l.removable!==undefined?l.removable:(['special'].includes(l.category)||!Object.keys(affCharge).includes(l.label)&&l.category!=='conge')}));
-  }else{
-    ptgLines=[];
-    let id=0;
-    Object.entries(congeCount).forEach(([type,jours])=>{
-      ptgLines.push({id:id++,label:type,category:'conge',jours,removable:false});
-    });
-    Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours).forEach(([name,data])=>{
-      ptgLines.push({id:id++,label:name,category:'affaire',jours:data.jours,removable:false,type:data.type});
-    });
-  }
-
+  const mk=getMonthKey(selectedPtgYear,selectedPtgMonth),ep=pointages[mk];
+  if(ep&&ep.lines){ptgLines=ep.lines.map((l,i)=>({...l,id:i,removable:l.removable!==undefined?l.removable:(['special'].includes(l.category)||!Object.keys(affCharge).includes(l.label)&&l.category!=='conge')}))}
+  else{ptgLines=[];let id=0;Object.entries(congeCount).forEach(([t,j])=>{ptgLines.push({id:id++,label:t,category:'conge',jours:j,removable:false})});Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours).forEach(([n,d])=>{ptgLines.push({id:id++,label:n,category:'affaire',jours:d.jours,removable:false,type:d.type})})}
   renderPointageForm();
 }
 
 function renderPointageForm(){
-  const totalSaisi=Math.round(ptgLines.reduce((s,l)=>s+l.jours,0)*100)/100;
-  const remaining=Math.round((ptgNbOuvres-totalSaisi)*100)/100;
-  const isOver=totalSaisi>ptgNbOuvres+0.01;
-  const isExact=Math.abs(totalSaisi-ptgNbOuvres)<0.01;
-  const isUnder=totalSaisi<ptgNbOuvres-0.01;
+  const tS=r2(ptgLines.reduce((s,l)=>s+l.jours,0)),rem=r2(ptgNbOuvres-tS),isOver=tS>ptgNbOuvres+.01,isExact=Math.abs(tS-ptgNbOuvres)<.01,isUnder=tS<ptgNbOuvres-.01;
+  let tc='total-ok';if(isOver)tc='total-warn';else if(isUnder)tc='total-incomplete';
+  let h='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés dans le mois</div><div class="ouvres-value">'+ptgNbOuvres+'</div></div><div style="text-align:right"><div class="total-saisi '+tc+'">Total saisi : '+fmtNum(tS)+' / '+ptgNbOuvres+' j'+(isExact?' ✓':'')+'</div>';
+  if(isUnder)h+='<div style="font-size:.78rem;color:#ff9800;font-weight:600">Restant : '+fmtNum(rem)+'j à répartir</div>';
+  else if(isOver)h+='<div style="font-size:.78rem;color:var(--highlight);font-weight:600">⚠️ Dépassement de '+fmtNum(Math.abs(rem))+'j</div>';
+  else h+='<div style="font-size:.78rem;color:var(--success);font-weight:600">✓ Complet</div>';
+  h+='</div></div>';
 
-  // Classe CSS pour le total
-  let totalClass='total-ok';
-  if(isOver) totalClass='total-warn';
-  else if(isUnder) totalClass='total-incomplete';
+  const groups=[{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}];
+  groups.forEach(g=>{const lines=ptgLines.filter(l=>l.category===g.cat);if(!lines.length)return;h+='<div class="pointage-group"><div class="pointage-group-title">'+g.icon+' '+g.title+'</div>';lines.forEach(l=>{h+=buildPR(l,tS)});h+='</div>'});
 
-  let html='';
-  html+='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés dans le mois</div><div class="ouvres-value">'+ptgNbOuvres+'</div></div>';
-  html+='<div style="text-align:right"><div class="total-saisi '+totalClass+'">Total saisi : '+fmtNum(totalSaisi)+' / '+ptgNbOuvres+' j';
-  if(isExact) html+=' ✓';
-  html+='</div>';
-  if(isUnder) html+='<div style="font-size:.78rem;color:#ff9800;font-weight:600">Restant : '+fmtNum(remaining)+'j à répartir</div>';
-  else if(isOver) html+='<div style="font-size:.78rem;color:var(--highlight);font-weight:600">⚠️ Dépassement de '+fmtNum(Math.abs(remaining))+'j</div>';
-  else html+='<div style="font-size:.78rem;color:var(--success);font-weight:600">✓ Complet</div>';
-  html+='</div></div>';
+  h+='<div class="pointage-group"><div class="pointage-group-title">➕ Ajouter une ligne</div><div class="add-line-area"><select class="add-line-select" id="addLineSelect"><option value="">-- Choisir --</option>';
+  const eL=new Set(ptgLines.map(l=>l.label));
+  const avA=Af.filter(a=>!eL.has(a.name));if(avA.length){h+='<optgroup label="Affaires du planning">';avA.forEach(a=>{h+='<option value="aff|'+escH(a.name)+'|'+a.type+'">'+escH(a.name)+' ('+(a.type==='etudes'?'Études':'Travaux')+')</option>'});h+='</optgroup>'}
+  const avS=LIGNES_SPECIALES.filter(s=>!eL.has(s));if(avS.length){h+='<optgroup label="Autres">';avS.forEach(s=>{h+='<option value="spec|'+escH(s)+'">'+s+'</option>'});h+='</optgroup>'}
+  h+='</select><button class="add-line-btn" onclick="addPtgLine()">+ Ajouter</button></div></div>';
 
-  // Congés
-  const congeLines=ptgLines.filter(l=>l.category==='conge');
-  if(congeLines.length>0){
-    html+='<div class="pointage-group"><div class="pointage-group-title">🏖️ Congés & Absences</div>';
-    congeLines.forEach(line=>{html+=buildPointageRow(line,totalSaisi)});
-    html+='</div>';
-  }
-
-  // Affaires
-  const affLines=ptgLines.filter(l=>l.category==='affaire');
-  if(affLines.length>0){
-    html+='<div class="pointage-group"><div class="pointage-group-title">📋 Affaires</div>';
-    affLines.forEach(line=>{html+=buildPointageRow(line,totalSaisi)});
-    html+='</div>';
-  }
-
-  // Spéciales
-  const specLines=ptgLines.filter(l=>l.category==='special');
-  if(specLines.length>0){
-    html+='<div class="pointage-group"><div class="pointage-group-title">📂 Autres activités</div>';
-    specLines.forEach(line=>{html+=buildPointageRow(line,totalSaisi)});
-    html+='</div>';
-  }
-
-  // Ajout
-  html+='<div class="pointage-group"><div class="pointage-group-title">➕ Ajouter une ligne</div>';
-  html+='<div class="add-line-area"><select class="add-line-select" id="addLineSelect"><option value="">-- Choisir --</option>';
-
-  const existingLabels=new Set(ptgLines.map(l=>l.label));
-  const availableAffaires=Af.filter(a=>!existingLabels.has(a.name));
-  if(availableAffaires.length>0){
-    html+='<optgroup label="Affaires du planning">';
-    availableAffaires.forEach(a=>{html+='<option value="aff|'+escH(a.name)+'|'+a.type+'">'+escH(a.name)+' ('+(a.type==='etudes'?'Études':'Travaux')+')</option>'});
-    html+='</optgroup>';
-  }
-
-  const availableSpecial=LIGNES_SPECIALES.filter(s=>!existingLabels.has(s));
-  if(availableSpecial.length>0){
-    html+='<optgroup label="Autres">';
-    availableSpecial.forEach(s=>{html+='<option value="spec|'+escH(s)+'">'+s+'</option>'});
-    html+='</optgroup>';
-  }
-
-  html+='</select><button class="add-line-btn" onclick="addPtgLine()">+ Ajouter</button></div></div>';
-
-  document.getElementById('modalBody').innerHTML=html;
-
-  // Footer avec contrôle strict
-  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
-  const hasExisting=pointages[monthKey]&&pointages[monthKey].lines;
-  const canValidate=isExact;
-
-  let footerHtml='<div style="display:flex;gap:8px">';
-  footerHtml+='<button class="btn-cancel" onclick="closeModal()">Fermer</button>';
-  if(hasExisting)footerHtml+='<button class="btn-delete-pointage" onclick="deletePtgConfirm()">🗑️ Supprimer</button>';
-  footerHtml+='</div>';
-  footerHtml+='<div style="text-align:right">';
-  if(!canValidate){
-    if(isUnder) footerHtml+='<div class="validate-hint hint-error">Il reste '+fmtNum(remaining)+'j à répartir pour valider</div>';
-    else if(isOver) footerHtml+='<div class="validate-hint hint-error">Le total dépasse de '+fmtNum(Math.abs(remaining))+'j</div>';
-  }
-  footerHtml+='<button class="btn-validate" onclick="validatePointage()" '+(canValidate?'':'disabled')+'>✓ Valider le pointage</button>';
-  footerHtml+='</div>';
-  document.getElementById('modalFooter').innerHTML=footerHtml;
+  document.getElementById('modalBody').innerHTML=h;
+  const mk=getMonthKey(selectedPtgYear,selectedPtgMonth),hasE=pointages[mk]&&pointages[mk].lines,canV=isExact;
+  let fh='<div style="display:flex;gap:8px"><button class="btn-cancel" onclick="closeModal()">Fermer</button>';
+  if(hasE)fh+='<button class="btn-delete-pointage" onclick="deletePtgConfirm()">🗑️ Supprimer</button>';
+  fh+='</div><div style="text-align:right">';
+  if(!canV){if(isUnder)fh+='<div class="validate-hint hint-error">Il reste '+fmtNum(rem)+'j à répartir pour valider</div>';else if(isOver)fh+='<div class="validate-hint hint-error">Le total dépasse de '+fmtNum(Math.abs(rem))+'j</div>'}
+  fh+='<button class="btn-validate" onclick="validatePointage()" '+(canV?'':'disabled')+'>✓ Valider le pointage</button></div>';
+  document.getElementById('modalFooter').innerHTML=fh;
 }
 
-function buildPointageRow(line,totalSaisi){
-  const canIncrease=(totalSaisi+0.5)<=ptgNbOuvres+0.01;
-  const canDecrease=line.jours>=0.5;
-
-  let html='<div class="pointage-row">';
-  html+='<div class="row-label">'+escH(line.label);
-  if(line.type){const tl=line.type==='etudes'?'Études':'Travaux';html+=' <span class="sub-type">('+tl+')</span>'}
-  if(line.category==='conge')html+=' <span class="sub-type">(congé)</span>';
-  html+='</div>';
-  html+='<div class="row-input">';
-  html+='<button onclick="changePtgValue('+line.id+',-0.5)" '+(!canDecrease?'disabled':'')+'>−</button>';
-  html+='<input type="text" class="ptg-value-input" id="ptgInput_'+line.id+'" value="'+fmtNum(line.jours)+'" onchange="onPtgInputChange('+line.id+',this)" onkeydown="onPtgInputKey(event,'+line.id+',this)" />';
-  html+='<button onclick="changePtgValue('+line.id+',0.5)" '+(!canIncrease?'disabled':'')+'>+</button>';
-  html+='<span class="row-unit">j</span>';
-  html+='</div>';
-  if(line.removable!==false||line.category==='special'){
-    html+='<button class="row-remove" onclick="removePtgLine('+line.id+')" title="Supprimer cette ligne">✕</button>';
-  }else{
-    html+='<div style="width:28px"></div>';
-  }
-  html+='</div>';
-  return html;
+function buildPR(line,tS){
+  const cI=(tS+.5)<=ptgNbOuvres+.01,cD=line.jours>=.5;
+  let h='<div class="pointage-row"><div class="row-label">'+escH(line.label);
+  if(line.type)h+=' <span class="sub-type">('+(line.type==='etudes'?'Études':'Travaux')+')</span>';
+  if(line.category==='conge')h+=' <span class="sub-type">(congé)</span>';
+  h+='</div><div class="row-input"><button onclick="changePtgValue('+line.id+',-0.5)" '+(!cD?'disabled':'')+'>−</button>';
+  h+='<input type="text" class="ptg-value-input" id="ptgInput_'+line.id+'" value="'+fmtNum(line.jours)+'" onchange="onPtgInputChange('+line.id+',this)" onkeydown="onPtgInputKey(event,'+line.id+',this)" />';
+  h+='<button onclick="changePtgValue('+line.id+',0.5)" '+(!cI?'disabled':'')+'>+</button><span class="row-unit">j</span></div>';
+  if(line.removable!==false||line.category==='special')h+='<button class="row-remove" onclick="removePtgLine('+line.id+')" title="Supprimer">✕</button>';
+  else h+='<div style="width:28px"></div>';
+  h+='</div>';return h;
 }
 
-// ── Saisie manuelle ──
-function onPtgInputChange(id,inputEl){applyManualInput(id,inputEl)}
-function onPtgInputKey(event,id,inputEl){if(event.key==='Enter'){event.preventDefault();applyManualInput(id,inputEl);inputEl.blur()}}
-
-function applyManualInput(id,inputEl){
-  const line=ptgLines.find(l=>l.id===id);
-  if(!line)return;
-
-  let raw=inputEl.value.replace(',','.').trim();
-  let val=parseFloat(raw);
-
-  if(isNaN(val)||val<0){
-    inputEl.classList.add('input-error');
-    setTimeout(()=>{inputEl.classList.remove('input-error')},1000);
-    inputEl.value=fmtNum(line.jours);
-    return;
-  }
-
-  val=Math.round(val*100)/100;
-
-  const totalSansCetteLigne=Math.round(ptgLines.reduce((s,l)=>s+(l.id===id?0:l.jours),0)*100)/100;
-  const newTotal=Math.round((totalSansCetteLigne+val)*100)/100;
-
-  if(newTotal>ptgNbOuvres+0.01){
-    val=Math.round((ptgNbOuvres-totalSansCetteLigne)*100)/100;
-    if(val<0)val=0;
-  }
-
-  line.jours=val;
-  renderPointageForm();
-
-  setTimeout(()=>{
-    const newInput=document.getElementById('ptgInput_'+id);
-    if(newInput)newInput.focus();
-  },50);
+function onPtgInputChange(id,el){applyMI(id,el)}
+function onPtgInputKey(ev,id,el){if(ev.key==='Enter'){ev.preventDefault();applyMI(id,el);el.blur()}}
+function applyMI(id,el){
+  const line=ptgLines.find(l=>l.id===id);if(!line)return;
+  let v=parseFloat(el.value.replace(',','.').trim());
+  if(isNaN(v)||v<0){el.classList.add('input-error');setTimeout(()=>el.classList.remove('input-error'),1000);el.value=fmtNum(line.jours);return}
+  v=r2(v);const tSans=r2(ptgLines.reduce((s,l)=>s+(l.id===id?0:l.jours),0)),nT=r2(tSans+v);
+  if(nT>ptgNbOuvres+.01){v=r2(ptgNbOuvres-tSans);if(v<0)v=0}
+  line.jours=v;renderPointageForm();
+  setTimeout(()=>{const ni=document.getElementById('ptgInput_'+id);if(ni)ni.focus()},50);
 }
-
-function changePtgValue(id,delta){
-  const line=ptgLines.find(l=>l.id===id);
-  if(!line)return;
-  const newVal=Math.round((line.jours+delta)*100)/100;
-  if(newVal<0)return;
-  const totalSaisi=Math.round(ptgLines.reduce((s,l)=>s+l.jours,0)*100)/100;
-  const newTotal=Math.round((totalSaisi+delta)*100)/100;
-  if(newTotal>ptgNbOuvres+0.01&&delta>0)return;
-  line.jours=newVal;
-  renderPointageForm();
-}
-
-function removePtgLine(id){
-  ptgLines=ptgLines.filter(l=>l.id!==id);
-  renderPointageForm();
-}
-
-function addPtgLine(){
-  const sel=document.getElementById('addLineSelect');
-  if(!sel.value)return;
-  const maxId=ptgLines.length>0?Math.max(...ptgLines.map(l=>l.id)):0;
-  if(sel.value.startsWith('aff|')){
-    const parts=sel.value.split('|');
-    ptgLines.push({id:maxId+1,label:parts[1],category:'affaire',jours:0,removable:true,type:parts[2]});
-  }else if(sel.value.startsWith('spec|')){
-    const name=sel.value.split('|')[1];
-    ptgLines.push({id:maxId+1,label:name,category:'special',jours:0,removable:true});
-  }
-  renderPointageForm();
-}
+function changePtgValue(id,d){const line=ptgLines.find(l=>l.id===id);if(!line)return;const nv=r2(line.jours+d);if(nv<0)return;const tS=r2(ptgLines.reduce((s,l)=>s+l.jours,0)),nT=r2(tS+d);if(nT>ptgNbOuvres+.01&&d>0)return;line.jours=nv;renderPointageForm()}
+function removePtgLine(id){ptgLines=ptgLines.filter(l=>l.id!==id);renderPointageForm()}
+function addPtgLine(){const sel=document.getElementById('addLineSelect');if(!sel.value)return;const mx=ptgLines.length?Math.max(...ptgLines.map(l=>l.id)):0;if(sel.value.startsWith('aff|')){const p=sel.value.split('|');ptgLines.push({id:mx+1,label:p[1],category:'affaire',jours:0,removable:true,type:p[2]})}else if(sel.value.startsWith('spec|')){ptgLines.push({id:mx+1,label:sel.value.split('|')[1],category:'special',jours:0,removable:true})}renderPointageForm()}
 
 function validatePointage(){
-  const totalSaisi=Math.round(ptgLines.reduce((s,l)=>s+l.jours,0)*100)/100;
-
-  // Vérification stricte : total doit être exactement égal aux jours ouvrés
-  if(Math.abs(totalSaisi-ptgNbOuvres)>0.01){
-    const diff=ptgNbOuvres-totalSaisi;
-    if(diff>0){
-      alert('Le total saisi ('+fmtNum(totalSaisi)+'j) est inférieur aux jours ouvrés ('+ptgNbOuvres+'j).\nIl reste '+fmtNum(diff)+'j à répartir.');
-    }else{
-      alert('Le total saisi ('+fmtNum(totalSaisi)+'j) dépasse les jours ouvrés ('+ptgNbOuvres+'j).\nVeuillez retirer '+fmtNum(Math.abs(diff))+'j.');
-    }
-    return;
-  }
-
-  const cleanLines=ptgLines.filter(l=>l.jours>0).map(l=>({label:l.label,category:l.category,jours:l.jours,type:l.type||null}));
-
-  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
-  const data={lines:cleanLines,validatedAt:new Date().toISOString(),nbOuvres:ptgNbOuvres};
-
-  savePointage(monthKey,data).then(()=>{
-    closeModal();
-    renderMonth();
-    renderToolbox();
-  });
+  const tS=r2(ptgLines.reduce((s,l)=>s+l.jours,0));
+  if(Math.abs(tS-ptgNbOuvres)>.01){const d=ptgNbOuvres-tS;alert(d>0?'Il reste '+fmtNum(d)+'j à répartir.':'Dépassement de '+fmtNum(Math.abs(d))+'j.');return}
+  const cl=ptgLines.filter(l=>l.jours>0).map(l=>({label:l.label,category:l.category,jours:l.jours,type:l.type||null}));
+  const mk=getMonthKey(selectedPtgYear,selectedPtgMonth);
+  savePointage(mk,{lines:cl,validatedAt:new Date().toISOString(),nbOuvres:ptgNbOuvres}).then(()=>{closeModal();renderMonth();renderToolbox()});
 }
-
-function deletePtgConfirm(){
-  if(!confirm('Supprimer le pointage de '+MN[selectedPtgMonth]+' '+selectedPtgYear+' ?'))return;
-  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
-  deletePointage(monthKey).then(()=>{
-    closeModal();
-    renderMonth();
-    renderToolbox();
-  });
-}
+function deletePtgConfirm(){if(!confirm('Supprimer le pointage de '+MN[selectedPtgMonth]+' '+selectedPtgYear+' ?'))return;deletePointage(getMonthKey(selectedPtgYear,selectedPtgMonth)).then(()=>{closeModal();renderMonth();renderToolbox()})}
 
 // ============================================================
 // VUE CALENDRIER
 // ============================================================
 function renderCalendar(ouvres,affCharge,congeCount){
-  const grid=document.getElementById('calGrid');
-  const DL=['Lun','Mar','Mer','Jeu','Ven'];
-  let html=DL.map(d=>'<div class="cal-header">'+d+'</div>').join('');
-  const daysInMonth=new Date(curYear,curMonth+1,0).getDate();
-  const firstDay=new Date(curYear,curMonth,1);
-  let startDow=firstDay.getDay();
-  if(startDow===0)startDow=7;
-  for(let i=1;i<startDow;i++){if(i<=5)html+='<div></div>'}
-
-  for(let d=1;d<=daysInMonth;d++){
-    const date=new Date(curYear,curMonth,d);
-    const dow=date.getDay();
-    if(dow===0||dow===6)continue;
-    const dkey=dk(date);
-    const ferie=isF(date);
-    const leave=LD[collabName+'|'+dkey];
-    let cls='cal-day';
-    if(ferie)cls+=' day-ferie';
-    html+='<div class="'+cls+'">';
-    html+='<div class="day-num">'+d+'</div>';
-    if(ferie){html+='<div style="font-size:.55rem;color:#666;font-style:italic">Férié</div>'}
-    else if(leave){html+='<div class="day-leave">'+escH(leave)+'</div>'}
-    else{
-      Af.forEach(aff=>{
-        const k=aff.name+'|'+dkey;
-        const sl=Dt[k];
-        if(sl&&Array.isArray(sl)){
-          let cnt=0;for(let i=0;i<5;i++){if(sl[i]===collabName)cnt++}
-          if(cnt>0){
-            const bg=aff.type==='etudes'?'#e3f2fd':'#fff3e0';
-            const col=aff.type==='etudes'?'#1565c0':'#e65100';
-            const label=aff.name.length>10?aff.name.substring(0,10)+'…':aff.name;
-            html+='<div class="day-tag" style="background:'+bg+';color:'+col+'">'+escH(label)+' '+(cnt*20)+'%</div>';
-          }
-        }
-      });
-    }
-    html+='</div>';
-  }
-  grid.innerHTML=html;
+  const grid=document.getElementById('calGrid'),DL=['Lun','Mar','Mer','Jeu','Ven'];
+  let h=DL.map(d=>'<div class="cal-header">'+d+'</div>').join('');
+  const dim=new Date(curYear,curMonth+1,0).getDate(),fd=new Date(curYear,curMonth,1);
+  let sd=fd.getDay();if(sd===0)sd=7;for(let i=1;i<sd;i++){if(i<=5)h+='<div></div>'}
+  for(let d=1;d<=dim;d++){const dt=new Date(curYear,curMonth,d),dow=dt.getDay();if(!dow||dow===6)continue;const dkey=dk(dt),fer=isF(dt),lv=LD[collabName+'|'+dkey];let cls='cal-day';if(fer)cls+=' day-ferie';h+='<div class="'+cls+'"><div class="day-num">'+d+'</div>';if(fer)h+='<div style="font-size:.55rem;color:#666;font-style:italic">Férié</div>';else if(lv)h+='<div class="day-leave">'+escH(lv)+'</div>';else{Af.forEach(aff=>{const k=aff.name+'|'+dkey,sl=Dt[k];if(sl&&Array.isArray(sl)){let cnt=0;for(let i=0;i<5;i++){if(sl[i]===collabName)cnt++}if(cnt){const bg=aff.type==='etudes'?'#e3f2fd':'#fff3e0',col=aff.type==='etudes'?'#1565c0':'#e65100',lb=aff.name.length>10?aff.name.substring(0,10)+'…':aff.name;h+='<div class="day-tag" style="background:'+bg+';color:'+col+'">'+escH(lb)+' '+(cnt*20)+'%</div>'}}})}h+='</div>'}
+  grid.innerHTML=h;
 }
+
+// ============================================================
+// ══════════════ ONGLET RÉCAPITULATIF ÉQUIPE ══════════════
+// ============================================================
+function changeTeamYear(o){teamYear+=o;renderTeamView()}
+
+function renderTeamView(){
+  document.getElementById('teamYearLabel').textContent=teamYear;
+  const now=new Date(),curM=now.getMonth(),curY=now.getFullYear();
+
+  // Construire les données pour chaque collaborateur
+  const teamData=[];
+  Co.forEach(c=>{
+    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
+    const cPtg=allPointages[sk]||{};
+    const months=[];
+    let validated=0,hasData=0,empty=0,future=0;
+
+    for(let m=0;m<12;m++){
+      const mk=getMonthKey(teamYear,m);
+      const ptg=cPtg[mk];
+      const isFuture=(teamYear>curY||(teamYear===curY&&m>curM));
+      const planning=computePlanningData(teamYear,m,c.name);
+      const hasPlanData=(planning.totalJoursPlanif>0||planning.totalConges>0);
+      const isValidated=ptg&&ptg.lines&&ptg.validatedAt;
+
+      let status='empty';
+      if(isFuture)status='future';
+      else if(isValidated)status='validated';
+      else if(hasPlanData)status='has-data';
+
+      if(status==='validated')validated++;
+      else if(status==='has-data')hasData++;
+      else if(status==='future')future++;
+      else empty++;
+
+      months.push({month:m,status,ptg:ptg||null,hasPlanData,isFuture,nbOuvres:planning.nbOuvres});
+    }
+
+    // Nombre de mois échus (passés + courant)
+    let echus=0;
+    for(let m=0;m<12;m++){if(!(teamYear>curY||(teamYear===curY&&m>curM)))echus++}
+
+    teamData.push({name:c.name,color:c.color,safeKey:sk,months,validated,hasData,empty,future,echus});
+  });
+
+  // Stats globales
+  const totalCollabs=teamData.length;
+  const totalEchus=teamData.reduce((s,c)=>s+c.echus,0);
+  const totalValidated=teamData.reduce((s,c)=>s+c.validated,0);
+  const totalHasData=teamData.reduce((s,c)=>s+c.hasData,0);
+  const totalEmpty=teamData.reduce((s,c)=>s+c.empty,0);
+  const pctValidated=totalEchus>0?Math.round((totalValidated/totalEchus)*100):0;
+
+  // Collaborateurs 100% à jour
+  const collabsAJour=teamData.filter(c=>c.validated===c.echus&&c.echus>0).length;
+
+  document.getElementById('teamStats').innerHTML=
+    '<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+totalCollabs+'</div><div class="tl">Collaborateurs</div></div>'+
+    '<div class="team-stat-card"><div class="tv" style="color:var(--success)">'+totalValidated+'</div><div class="tl">Mois validés</div></div>'+
+    '<div class="team-stat-card"><div class="tv" style="color:#ff9800">'+totalHasData+'</div><div class="tl">En attente</div></div>'+
+    '<div class="team-stat-card"><div class="tv" style="color:var(--highlight)">'+totalEmpty+'</div><div class="tl">Non pointés</div></div>'+
+    '<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+pctValidated+'%</div><div class="tl">Taux validation</div></div>'+
+    '<div class="team-stat-card"><div class="tv" style="color:var(--success)">'+collabsAJour+'/'+totalCollabs+'</div><div class="tl">100% à jour</div></div>';
+
+  // Table régie
+  let th='<thead><tr><th>Collaborateur</th>';
+  for(let m=0;m<12;m++)th+='<th>'+MN_S[m]+'</th>';
+  th+='<th>Progression</th></tr></thead>';
+
+  let tb='<tbody>';
+  // Trier : ceux qui ont le moins validé en premier
+  teamData.sort((a,b)=>a.validated-b.validated);
+
+  teamData.forEach(c=>{
+    tb+='<tr>';
+    // Collab
+    const pct=c.echus>0?Math.round((c.validated/c.echus)*100):0;
+    const pctColor=pct===100?'var(--success)':pct>=50?'#ff9800':'var(--highlight)';
+    tb+='<td><div class="regie-collab"><div class="regie-avatar" style="background:'+c.color+'">'+getIni(c.name)+'</div><div class="regie-collab-info"><span class="regie-collab-name">'+escH(formatName(c.name))+'</span><span class="regie-collab-score">'+c.validated+'/'+c.echus+' validés</span></div></div></td>';
+
+    // Mois
+    c.months.forEach(md=>{
+      let cellCls='cell-empty',icon='—',tooltip='Aucun pointage';
+      if(md.status==='validated'){cellCls='cell-validated';icon='✓';tooltip='Validé'}
+      else if(md.status==='has-data'){cellCls='cell-has-data';icon='●';tooltip='Données présentes – non validé'}
+      else if(md.status==='future'){cellCls='cell-future';icon='·';tooltip='Mois futur'}
+
+      const clickable=md.status==='validated';
+      const onclick=clickable?'onclick="showTeamDetail(\''+c.safeKey+'\','+md.month+','+teamYear+')" style="cursor:pointer"':'';
+      tb+='<td><div class="regie-cell '+cellCls+'" title="'+tooltip+'" '+onclick+'>'+icon+'</div></td>';
+    });
+
+    // Progression
+    tb+='<td><div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:.82rem;color:'+pctColor+'">'+pct+'%</span><div class="team-progress-bar"><div class="team-progress-fill" style="width:'+pct+'%;background:'+pctColor+'"></div></div></div></td>';
+    tb+='</tr>';
+  });
+  tb+='</tbody>';
+
+  document.getElementById('regieTable').innerHTML=th+tb;
+}
+
+function formatName(n){
+  const p=n.trim().split(/\s+/);
+  if(p.length<2)return n;
+  const prenom=p[p.length-1];
+  const nom=p.slice(0,-1).join(' ');
+  return prenom+' '+nom.charAt(0)+nom.slice(1).toLowerCase();
+}
+
+// ── Modal détail lecture seule ──
+function showTeamDetail(safeKey,month,year){
+  const cPtg=allPointages[safeKey]||{};
+  const mk=getMonthKey(year,month);
+  const ptg=cPtg[mk];
+  if(!ptg||!ptg.lines)return;
+
+  // Retrouver le nom du collaborateur
+  let cName='';
+  Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===safeKey)cName=c.name});
+
+  document.getElementById('modalDetailTitle').textContent='📋 Pointage – '+escH(formatName(cName))+' – '+MN[month]+' '+year;
+
+  const vd=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+
+  let h='<div style="margin-bottom:16px"><span class="pointage-badge" style="font-size:.78rem">✓ Validé le '+escH(vd)+'</span></div>';
+
+  // Infos jours ouvrés
+  const nbO=ptg.nbOuvres||getOuvres(year,month).length;
+  h+='<div class="pointage-header-info" style="margin-bottom:20px"><div><div class="ouvres-label">Jours ouvrés</div><div class="ouvres-value">'+nbO+'</div></div><div style="text-align:right"><div class="ouvres-label">Total pointé</div><div class="ouvres-value">'+fmtNum(ptg.lines.reduce((s,l)=>s+l.jours,0))+'</div></div></div>';
+
+  // Groupes
+  const groups=[{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}];
+  groups.forEach(g=>{
+    const lines=ptg.lines.filter(l=>l.category===g.cat);
+    if(!lines.length)return;
+    h+='<div class="detail-readonly-section"><div class="detail-readonly-title">'+g.icon+' '+g.title+'</div>';
+    h+='<table class="detail-readonly-table"><thead><tr><th>Ligne</th><th style="text-align:right">Jours</th></tr></thead><tbody>';
+    let subtotal=0;
+    lines.forEach(l=>{
+      subtotal+=l.jours;
+      let typeInfo='';
+      if(l.type)typeInfo=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';
+      h+='<tr><td>'+escH(l.label)+typeInfo+'</td><td style="text-align:right;font-weight:700">'+fmtNum(l.jours)+'j</td></tr>';
+    });
+    h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fmtNum(subtotal)+'j</td></tr>';
+    h+='</tbody></table></div>';
+  });
+
+  document.getElementById('modalDetailBody').innerHTML=h;
+  document.getElementById('modalDetailOverlay').classList.add('show');
+}
+
+function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
 
 // ============================================================
 // UTILITAIRES
 // ============================================================
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function fmtNum(n){const r=Math.round(n*100)/100;return r%1===0?r.toFixed(0):parseFloat(r.toFixed(2)).toString()}
+function r2(n){return Math.round(n*100)/100}
 </script>
 </body>
 </html>
