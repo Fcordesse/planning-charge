@@ -29,7 +29,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .hub-card .arrow{margin-top:20px;font-size:1.2rem;opacity:.3;transition:.3s}
 .hub-card:hover .arrow{opacity:.8;transform:translateX(4px)}
 
-/* Écran de blocage */
 .blocked-screen{display:none;flex:1;align-items:center;justify-content:center;padding:40px 20px}
 .blocked-screen.active{display:flex}
 .blocked-box{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:50px 40px;text-align:center;max-width:500px}
@@ -37,7 +36,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .blocked-box h2{font-size:1.3rem;margin-bottom:12px;color:var(--text)}
 .blocked-box p{font-size:.9rem;color:#6c757d;line-height:1.6}
 
-/* Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.active{display:flex}
 .modal{background:#fff;border-radius:16px;width:95%;max-width:700px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);display:flex;flex-direction:column}
@@ -80,7 +78,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </header>
 
-<!-- Écran normal avec les cartes -->
 <div class="hub-container" id="hubContainer">
   <div class="hub-grid">
     <a id="cardPlanning" href="planning.html" class="hub-card card-planning">
@@ -104,7 +101,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </div>
 
-<!-- Écran de blocage pour utilisateurs non enregistrés -->
 <div class="blocked-screen" id="blockedScreen">
   <div class="blocked-box">
     <div class="blocked-icon">🔒</div>
@@ -113,7 +109,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </div>
 
-<!-- Modal Gestion des Utilisateurs -->
 <div class="modal-overlay" id="adminModal">
   <div class="modal">
     <div class="modal-header">
@@ -170,36 +165,59 @@ const ROLE_LABELS = {
 auth.onAuthStateChanged(user => {
   if (!user) { window.location.href = 'index.html'; return; }
 
+  console.log('=== CONNEXION ===');
+  console.log('Email:', user.email);
+  console.log('UID:', user.uid);
+
   document.getElementById('userBadge').textContent = '👤 ' + user.email;
 
   // 1. Chercher par UID direct
-  db.ref('users/' + user.uid).once('value', snapshot => {
+  db.ref('users/' + user.uid).once('value').then(snapshot => {
+    console.log('Recherche par UID:', user.uid, '→ Trouvé:', snapshot.exists());
+    if (snapshot.exists()) {
+      console.log('Données:', snapshot.val());
+    }
+
     if (snapshot.exists() && snapshot.val().role) {
-      // Trouvé par UID → accès direct
       currentUserRole = snapshot.val().role;
       showAccess();
     } else {
-      // 2. Chercher par email (clé temporaire créée par l'admin)
-      db.ref('users').orderByChild('email').equalTo(user.email.toLowerCase()).once('value', emailSnap => {
-        if (emailSnap.exists()) {
-          // Trouvé par email → migrer vers le vrai UID
-          const oldKey = Object.keys(emailSnap.val())[0];
-          const userData = emailSnap.val()[oldKey];
+      // 2. Chercher par email dans toute la table users
+      console.log('Recherche par email:', user.email.toLowerCase());
+      db.ref('users').once('value').then(allSnap => {
+        console.log('Tous les users:', allSnap.val());
 
-          // Créer l'entrée avec le vrai UID
-          db.ref('users/' + user.uid).set({
-            email: userData.email,
-            role: userData.role
-          }).then(() => {
-            // Supprimer l'ancienne clé temporaire
-            if (oldKey !== user.uid) {
-              db.ref('users/' + oldKey).remove();
+        let foundKey = null;
+        let foundData = null;
+
+        if (allSnap.exists()) {
+          allSnap.forEach(child => {
+            if (child.val().email && child.val().email.toLowerCase() === user.email.toLowerCase()) {
+              foundKey = child.key;
+              foundData = child.val();
             }
-            currentUserRole = userData.role;
+          });
+        }
+
+        console.log('Trouvé par email:', foundKey, foundData);
+
+        if (foundKey && foundData) {
+          // Migrer vers le vrai UID
+          db.ref('users/' + user.uid).set({
+            email: foundData.email,
+            role: foundData.role
+          }).then(() => {
+            if (foundKey !== user.uid) {
+              db.ref('users/' + foundKey).remove();
+              console.log('Ancienne clé supprimée:', foundKey);
+            }
+            currentUserRole = foundData.role;
+            console.log('Migration OK → rôle:', currentUserRole);
             showAccess();
           });
         } else {
-          // Pas trouvé du tout → BLOQUÉ
+          // BLOQUÉ
+          console.log('BLOQUÉ — utilisateur non trouvé dans /users');
           currentUserRole = null;
           document.getElementById('roleBadge').textContent = 'Non autorisé';
           document.getElementById('hubContainer').style.display = 'none';
@@ -207,18 +225,20 @@ auth.onAuthStateChanged(user => {
         }
       });
     }
+  }).catch(err => {
+    console.error('Erreur lecture DB:', err);
   });
 });
 
-// ========== AFFICHER L'ACCÈS ==========
 function showAccess() {
+  console.log('=== ACCÈS AUTORISÉ → rôle:', currentUserRole, '===');
   document.getElementById('roleBadge').textContent = ROLE_LABELS[currentUserRole] || currentUserRole;
   document.getElementById('hubContainer').style.display = 'flex';
   document.getElementById('blockedScreen').classList.remove('active');
   applyRoleVisibility();
 }
 
-// ========== VISIBILITÉ SELON RÔLE ==========
+// ========== VISIBILITÉ ==========
 function applyRoleVisibility() {
   const cardPlanning = document.getElementById('cardPlanning');
   const cardPointage = document.getElementById('cardPointage');
@@ -250,7 +270,6 @@ function applyRoleVisibility() {
   }
 }
 
-// ========== DÉCONNEXION ==========
 function logout() {
   auth.signOut().then(() => { window.location.href = 'index.html'; });
 }
@@ -306,16 +325,26 @@ async function addUser() {
   btn.textContent = '⏳ Ajout...';
 
   try {
-    // Vérifier si cet email existe déjà dans /users
-    const snapshot = await db.ref('users').orderByChild('email').equalTo(email).once('value');
+    // Chercher si cet email existe déjà dans /users
+    let found = false;
+    let foundUid = null;
+    const allSnap = await db.ref('users').once('value');
 
-    if (snapshot.exists()) {
+    if (allSnap.exists()) {
+      allSnap.forEach(child => {
+        if (child.val().email && child.val().email.toLowerCase() === email) {
+          found = true;
+          foundUid = child.key;
+        }
+      });
+    }
+
+    if (found) {
       // Existe déjà → mettre à jour le rôle
-      const uid = Object.keys(snapshot.val())[0];
-      await db.ref('users/' + uid).update({ role: role });
+      await db.ref('users/' + foundUid).update({ role: role });
       showMsg('✅ Rôle mis à jour pour ' + email + ' → ' + ROLE_LABELS[role], 'success');
     } else {
-      // Nouvel utilisateur → clé temporaire basée sur l'email
+      // Nouveau → créer avec clé temporaire
       const tempKey = 'pending_' + email.replace(/\./g, '_dot_').replace(/@/g, '_at_');
       await db.ref('users/' + tempKey).set({
         email: email,
@@ -329,7 +358,7 @@ async function addUser() {
     loadUsers();
 
   } catch (err) {
-    console.error(err);
+    console.error('Erreur addUser:', err);
     showMsg('❌ Erreur : ' + err.message, 'error');
   }
 
@@ -337,7 +366,7 @@ async function addUser() {
   btn.textContent = '➕ Ajouter';
 }
 
-// ========== CHARGER LISTE UTILISATEURS ==========
+// ========== CHARGER UTILISATEURS ==========
 function loadUsers() {
   const container = document.getElementById('usersListContainer');
   container.innerHTML = '<div class="loading-spinner">Chargement...</div>';
@@ -382,7 +411,7 @@ function updateRole(uid, newRole) {
   });
 }
 
-// ========== SUPPRIMER UTILISATEUR ==========
+// ========== SUPPRIMER ==========
 function deleteUser(uid, email) {
   clearMsg();
   const currentUser = auth.currentUser;
