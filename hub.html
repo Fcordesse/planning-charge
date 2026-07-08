@@ -165,28 +165,14 @@ const ROLE_LABELS = {
 auth.onAuthStateChanged(user => {
   if (!user) { window.location.href = 'index.html'; return; }
 
-  console.log('=== CONNEXION ===');
-  console.log('Email:', user.email);
-  console.log('UID:', user.uid);
-
   document.getElementById('userBadge').textContent = '👤 ' + user.email;
 
-  // 1. Chercher par UID direct
   db.ref('users/' + user.uid).once('value').then(snapshot => {
-    console.log('Recherche par UID:', user.uid, '→ Trouvé:', snapshot.exists());
-    if (snapshot.exists()) {
-      console.log('Données:', snapshot.val());
-    }
-
     if (snapshot.exists() && snapshot.val().role) {
       currentUserRole = snapshot.val().role;
       showAccess();
     } else {
-      // 2. Chercher par email dans toute la table users
-      console.log('Recherche par email:', user.email.toLowerCase());
       db.ref('users').once('value').then(allSnap => {
-        console.log('Tous les users:', allSnap.val());
-
         let foundKey = null;
         let foundData = null;
 
@@ -199,25 +185,18 @@ auth.onAuthStateChanged(user => {
           });
         }
 
-        console.log('Trouvé par email:', foundKey, foundData);
-
         if (foundKey && foundData) {
-          // Migrer vers le vrai UID
           db.ref('users/' + user.uid).set({
             email: foundData.email,
             role: foundData.role
           }).then(() => {
             if (foundKey !== user.uid) {
               db.ref('users/' + foundKey).remove();
-              console.log('Ancienne clé supprimée:', foundKey);
             }
             currentUserRole = foundData.role;
-            console.log('Migration OK → rôle:', currentUserRole);
             showAccess();
           });
         } else {
-          // BLOQUÉ
-          console.log('BLOQUÉ — utilisateur non trouvé dans /users');
           currentUserRole = null;
           document.getElementById('roleBadge').textContent = 'Non autorisé';
           document.getElementById('hubContainer').style.display = 'none';
@@ -225,8 +204,6 @@ auth.onAuthStateChanged(user => {
         }
       });
     }
-  }).catch(err => {
-    console.error('Erreur lecture DB:', err);
   });
 });
 
