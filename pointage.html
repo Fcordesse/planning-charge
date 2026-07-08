@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mon Planning</title>
 <style>
-:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--card-bg:#fff;--text:#1a1a2e;--text-light:#6c757d;--border:#dee2e6;--success:#28a745;--radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);--etudes-border:#1565c0;--travaux-border:#e65100}
+:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--card-bg:#fff;--text:#1a1a2e;--text-light:#6c757d;--border:#dee2e6;--success:#28a745;--radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);--etudes-border:#1565c0;--travaux-border:#e65100;--toolbox-width:220px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .app-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 30px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 15px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
@@ -13,7 +13,43 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .header-right{display:flex;align-items:center;gap:12px}
 .hdr-btn{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s;text-decoration:none}
 .hdr-btn:hover{background:rgba(255,255,255,.2)}
-.main{max-width:1100px;margin:0 auto;padding:24px 20px}
+
+/* ── LAYOUT PRINCIPAL AVEC TOOLBOX ── */
+.page-layout{display:flex;min-height:calc(100vh - 60px)}
+.main{flex:1;max-width:1100px;margin:0 auto;padding:24px 20px}
+
+/* ── TOOLBOX POINTAGE ── */
+.toolbox{width:var(--toolbox-width);background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-2px 0 12px rgba(0,0,0,.05);position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;display:none;flex-direction:column;z-index:50}
+.toolbox.show{display:flex}
+.toolbox-header{padding:16px 14px 12px;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;text-align:center}
+.toolbox-header h3{font-size:.85rem;font-weight:700;margin-bottom:10px}
+.toolbox-year-selector{display:flex;align-items:center;justify-content:center;gap:6px}
+.toolbox-year-selector button{width:28px;height:28px;border:1px solid rgba(255,255,255,.4);border-radius:6px;background:rgba(255,255,255,.15);color:#fff;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.2s}
+.toolbox-year-selector button:hover{background:rgba(255,255,255,.3)}
+.toolbox-year-label{font-size:1.05rem;font-weight:800;min-width:60px;text-align:center}
+.toolbox-months{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.toolbox-month-btn{padding:10px 14px;border:2px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-size:.82rem;font-weight:600;text-align:left;transition:all .2s;display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative}
+.toolbox-month-btn:hover{border-color:#9c27b0;background:#f9f0ff;transform:translateX(-2px);box-shadow:0 2px 8px rgba(156,39,176,.15)}
+.toolbox-month-btn .month-name{flex:1}
+.toolbox-month-btn .month-status{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap}
+
+/* État : données présentes (orange) */
+.toolbox-month-btn.has-data{border-color:#ff9800;background:#fff8e1}
+.toolbox-month-btn.has-data:hover{border-color:#e65100;background:#fff3e0}
+.toolbox-month-btn.has-data .month-status{background:#ff9800;color:#fff}
+
+/* État : validé (vert) */
+.toolbox-month-btn.validated{border-color:var(--success);background:#e8f5e9}
+.toolbox-month-btn.validated:hover{border-color:#1b5e20;background:#c8e6c9}
+.toolbox-month-btn.validated .month-status{background:var(--success);color:#fff}
+
+/* État : vide (blanc) */
+.toolbox-month-btn.empty{border-color:var(--border);background:#fff}
+
+.toolbox-legend{padding:10px 14px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
+.toolbox-legend-item{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--text-light)}
+.toolbox-legend-dot{width:10px;height:10px;border-radius:3px;border:1px solid rgba(0,0,0,.1)}
+
 .welcome-bar{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .welcome-info{display:flex;align-items:center;gap:16px}
 .avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff}
@@ -63,7 +99,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 /* ── COMPARATIF POINTAGE ── */
 .comparatif-section{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;border:2px solid #9c27b0;margin-bottom:20px}
-.comparatif-section h3{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:#6a1b9a}
+.comparatif-section h3{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:#6a1b9a;flex-wrap:wrap}
 .comparatif-table{width:100%;border-collapse:collapse}
 .comparatif-table th{text-align:left;padding:10px 14px;background:#f3e5f5;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6a1b9a;border-bottom:2px solid #ce93d8}
 .comparatif-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:.88rem}
@@ -85,15 +121,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .modal-body{padding:24px;overflow-y:auto;flex:1}
 .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fafafa}
 
-/* ── Step 1: Sélection du mois ── */
-.month-select-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.month-select-btn{padding:14px 10px;border:2px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-size:.88rem;font-weight:600;text-align:center;transition:.2s}
-.month-select-btn:hover{border-color:#9c27b0;background:#f3e5f5}
-.month-select-btn.selected{border-color:#9c27b0;background:#9c27b0;color:#fff}
-.month-select-btn .month-year{font-size:.7rem;color:var(--text-light);margin-top:2px;font-weight:400}
-.month-select-btn.selected .month-year{color:rgba(255,255,255,.8)}
-
-/* ── Step 2: Saisie pointage ── */
+/* ── Pointage form ── */
 .pointage-header-info{background:#f3e5f5;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
 .pointage-header-info .ouvres-label{font-size:.88rem;font-weight:600;color:#6a1b9a}
 .pointage-header-info .ouvres-value{font-size:1.6rem;font-weight:800;color:#6a1b9a}
@@ -111,13 +139,16 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .pointage-row .row-input button{width:30px;height:30px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--text)}
 .pointage-row .row-input button:hover{background:var(--bg);border-color:#9c27b0}
 .pointage-row .row-input button:disabled{opacity:.3;cursor:not-allowed}
-.pointage-row .row-value{width:50px;text-align:center;font-weight:700;font-size:1rem}
+.ptg-value-input{width:56px;text-align:center;font-weight:700;font-size:.95rem;border:2px solid var(--border);border-radius:6px;padding:4px 2px;outline:none;transition:border-color .2s;background:#fff;-moz-appearance:textfield}
+.ptg-value-input::-webkit-outer-spin-button,.ptg-value-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.ptg-value-input:focus{border-color:#9c27b0;box-shadow:0 0 0 3px rgba(156,39,176,.12)}
+.ptg-value-input.input-error{border-color:var(--highlight);background:#fff5f5}
 .pointage-row .row-unit{font-size:.78rem;color:var(--text-light)}
 .pointage-row .row-remove{background:none;border:none;cursor:pointer;font-size:1.1rem;opacity:.4;transition:.2s;padding:4px}
 .pointage-row .row-remove:hover{opacity:1;color:var(--highlight)}
 
 .add-line-area{margin-top:16px;display:flex;align-items:center;gap:10px}
-.add-line-select{flex:1;padding:10px 14px;border:2px dashed var(--border);border-radius:10px;font-size:.85rem;background:#fff;cursor:pointer;color:var(--text);appearance:none;-webkit-appearance:none}
+.add-line-select{flex:1;padding:10px 14px;border:2px dashed var(--border);border-radius:10px;font-size:.85rem;background:#fff;cursor:pointer;color:var(--text)}
 .add-line-select:focus{border-color:#9c27b0;outline:none}
 .add-line-btn{padding:10px 18px;border:none;border-radius:10px;background:#9c27b0;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
 .add-line-btn:hover{background:#7b1fa2}
@@ -131,9 +162,19 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .btn-delete-pointage{padding:10px 20px;border:1px solid var(--highlight);border-radius:10px;background:#fff;color:var(--highlight);font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
 .btn-delete-pointage:hover{background:#fce4ec}
 
-/* ── Bouton pointer ── */
-.btn-pointer{padding:8px 20px;border:none;border-radius:8px;background:#9c27b0;color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
-.btn-pointer:hover{background:#7b1fa2}
+/* ── Responsive ── */
+@media(max-width:900px){
+  .toolbox{width:180px}
+  :root{--toolbox-width:180px}
+}
+@media(max-width:700px){
+  .page-layout{flex-direction:column}
+  .toolbox{width:100%;height:auto;position:relative;top:0;border-left:none;border-bottom:1px solid var(--border);flex-direction:row;overflow-x:auto;overflow-y:hidden}
+  .toolbox-header{padding:10px;min-width:120px}
+  .toolbox-months{flex-direction:row;padding:8px;gap:6px;overflow-x:auto}
+  .toolbox-month-btn{min-width:90px;padding:8px 10px;font-size:.75rem}
+  .toolbox-legend{display:none}
+}
 </style>
 </head>
 <body>
@@ -163,48 +204,63 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </header>
 
-<div class="main">
-  <div class="welcome-bar">
-    <div class="welcome-info">
-      <div class="avatar" id="avatarEl"></div>
-      <div class="welcome-text">
-        <h2 id="welcomeName">Chargement...</h2>
-        <p id="welcomeEmail"></p>
+<div class="page-layout">
+  <div class="main">
+    <div class="welcome-bar">
+      <div class="welcome-info">
+        <div class="avatar" id="avatarEl"></div>
+        <div class="welcome-text">
+          <h2 id="welcomeName">Chargement...</h2>
+          <p id="welcomeEmail"></p>
+        </div>
       </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <button class="btn-pointer" id="btnPointer" style="display:none" onclick="openPointageModal()">📌 Pointer le mois</button>
       <div class="month-selector">
         <button onclick="changeMonth(-1)">◀</button>
         <span class="month-label" id="monthLabel"></span>
         <button onclick="changeMonth(1)">▶</button>
       </div>
     </div>
-  </div>
 
-  <div id="notFound" class="not-found" style="display:none">
-    ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>
-    Contactez l'administrateur du planning.
-  </div>
-
-  <div id="content" style="display:none">
-    <!-- Comparatif pointage (affiché si pointage validé) -->
-    <div id="comparatifSection" style="display:none"></div>
-
-    <div class="stats-grid" id="statsGrid"></div>
-    <div class="detail-section">
-      <h3>📋 Détail des affectations</h3>
-      <table class="detail-table"><thead><tr><th>Affaire</th><th>Type</th><th>Charge</th><th>Jours</th></tr></thead><tbody id="affTable"></tbody></table>
+    <div id="notFound" class="not-found" style="display:none">
+      ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>
+      Contactez l'administrateur du planning.
     </div>
-    <div class="detail-section" id="congeSection" style="display:none">
-      <h3>🏖️ Congés & Absences</h3>
-      <table class="detail-table"><thead><tr><th>Type</th><th>Jours</th><th></th></tr></thead><tbody id="congeTable"></tbody></table>
-    </div>
-    <div class="detail-section">
-      <h3>📅 Vue calendrier</h3>
-      <div class="calendar-grid" id="calGrid"></div>
+
+    <div id="content" style="display:none">
+      <div id="comparatifSection" style="display:none"></div>
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="detail-section">
+        <h3>📋 Détail des affectations</h3>
+        <table class="detail-table"><thead><tr><th>Affaire</th><th>Type</th><th>Charge</th><th>Jours</th></tr></thead><tbody id="affTable"></tbody></table>
+      </div>
+      <div class="detail-section" id="congeSection" style="display:none">
+        <h3>🏖️ Congés & Absences</h3>
+        <table class="detail-table"><thead><tr><th>Type</th><th>Jours</th><th></th></tr></thead><tbody id="congeTable"></tbody></table>
+      </div>
+      <div class="detail-section">
+        <h3>📅 Vue calendrier</h3>
+        <div class="calendar-grid" id="calGrid"></div>
+      </div>
     </div>
   </div>
+
+  <!-- TOOLBOX POINTAGE -->
+  <aside class="toolbox" id="toolbox">
+    <div class="toolbox-header">
+      <h3>📌 Pointage</h3>
+      <div class="toolbox-year-selector">
+        <button onclick="changeToolboxYear(-1)">◀</button>
+        <span class="toolbox-year-label" id="toolboxYearLabel"></span>
+        <button onclick="changeToolboxYear(1)">▶</button>
+      </div>
+    </div>
+    <div class="toolbox-months" id="toolboxMonths"></div>
+    <div class="toolbox-legend">
+      <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#fff;border-color:#ccc"></div> Aucune donnée</div>
+      <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#fff8e1;border-color:#ff9800"></div> Données présentes</div>
+      <div class="toolbox-legend-item"><div class="toolbox-legend-dot" style="background:#e8f5e9;border-color:#28a745"></div> Pointage validé</div>
+    </div>
+  </aside>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -215,797 +271,624 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 // ============================================================
 // FIREBASE
 // ============================================================
-const firebaseConfig = {
-  apiKey: "AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",
-  authDomain: "planning-charge-18dea.firebaseapp.com",
-  databaseURL: "https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "planning-charge-18dea",
-  storageBucket: "planning-charge-18dea.firebasestorage.app",
-  messagingSenderId: "876833423306",
-  appId: "1:876833423306:web:f0e352b6648269f526d933"
-};
+const firebaseConfig={apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"};
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
+const auth=firebase.auth();
+const db=firebase.database();
 
 // ============================================================
 // VARIABLES
 // ============================================================
-let Co=[], Af=[], Dt={}, LT=[], LD={};
-let collabName = null;
-let collabColor = '#888';
-let curMonth = new Date().getMonth();
-let curYear = new Date().getFullYear();
+let Co=[],Af=[],Dt={},LT=[],LD={};
+let collabName=null;
+let collabColor='#888';
+let curMonth=new Date().getMonth();
+let curYear=new Date().getFullYear();
+let toolboxYear=new Date().getFullYear();
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const MN_SHORT=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 
-// Pointage : stocké en local + Firebase
-// Structure: pointages[collabName]["2025-06"] = { lines: [{label, type, jours}], validatedAt: timestamp }
-let pointages = {};
+let pointages={};
+const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
 
-// Lignes spéciales pour le pointage
-const LIGNES_SPECIALES = ['Formation', 'Événements entreprise', 'Développement', 'Autres chantiers'];
+// Modal state
+let selectedPtgMonth=null;
+let selectedPtgYear=null;
+let ptgLines=[];
+let ptgNbOuvres=0;
 
 // ============================================================
 // AUTH + CHARGEMENT
 // ============================================================
-auth.onAuthStateChanged(user => {
-  if (!user) { window.location.href = 'index.html'; return; }
-  document.getElementById('welcomeEmail').textContent = user.email;
-  db.ref('planning').once('value').then(snap => {
-    const data = snap.val();
-    if (data) {
-      Co = data.collaborateurs || [];
-      Af = data.affaires || [];
-      Dt = data.donnees || {};
-      LT = data.typesConges || [];
-      LD = data.conges || {};
-    }
+auth.onAuthStateChanged(user=>{
+  if(!user){window.location.href='index.html';return}
+  document.getElementById('welcomeEmail').textContent=user.email;
+  db.ref('planning').once('value').then(snap=>{
+    const data=snap.val();
+    if(data){Co=data.collaborateurs||[];Af=data.affaires||[];Dt=data.donnees||{};LT=data.typesConges||[];LD=data.conges||{}}
     matchCollab(user.email);
     document.getElementById('loadingOverlay').classList.remove('show');
   });
 });
 
-function logout() {
-  auth.signOut().then(() => { window.location.href = 'index.html'; });
-}
+function logout(){auth.signOut().then(()=>{window.location.href='index.html'})}
 
 // ============================================================
 // CORRESPONDANCE EMAIL → COLLABORATEUR
 // ============================================================
-function normalize(s) {
-  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
-}
+function normalize(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
 
-function matchCollab(email) {
-  const local = email.split('@')[0];
-  const parts = local.split('.');
-
-  if (parts.length < 2) {
-    showNotFound();
-    return;
-  }
-
-  const emailPrenom = normalize(parts[0]);
-  const emailNom = normalize(parts.slice(1).join(' '));
-
-  let bestMatch = null;
-
-  Co.forEach(c => {
-    const cParts = c.name.trim().split(/\s+/);
-    if (cParts.length < 2) return;
-    const cPrenom = normalize(cParts[cParts.length - 1]);
-    const cNom = normalize(cParts.slice(0, -1).join(' '));
-
-    if (cPrenom === emailPrenom && cNom === emailNom) {
-      bestMatch = c;
-    }
-    const emailPrenomDash = emailPrenom.replace(/-/g, ' ');
-    const cPrenomDash = cPrenom.replace(/-/g, ' ');
-    if (cPrenomDash === emailPrenomDash && cNom === emailNom) {
-      bestMatch = c;
-    }
+function matchCollab(email){
+  const local=email.split('@')[0];
+  const parts=local.split('.');
+  if(parts.length<2){showNotFound();return}
+  const emailPrenom=normalize(parts[0]);
+  const emailNom=normalize(parts.slice(1).join(' '));
+  let bestMatch=null;
+  Co.forEach(c=>{
+    const cParts=c.name.trim().split(/\s+/);
+    if(cParts.length<2)return;
+    const cPrenom=normalize(cParts[cParts.length-1]);
+    const cNom=normalize(cParts.slice(0,-1).join(' '));
+    if(cPrenom===emailPrenom&&cNom===emailNom)bestMatch=c;
+    const emailPrenomDash=emailPrenom.replace(/-/g,' ');
+    const cPrenomDash=cPrenom.replace(/-/g,' ');
+    if(cPrenomDash===emailPrenomDash&&cNom===emailNom)bestMatch=c;
   });
-
-  if (!bestMatch) {
-    showNotFound();
-    return;
-  }
-
-  collabName = bestMatch.name;
-  collabColor = bestMatch.color;
-
-  const ini = getIni(collabName);
-  document.getElementById('avatarEl').textContent = ini;
-  document.getElementById('avatarEl').style.background = collabColor;
-  document.getElementById('welcomeName').textContent = collabName;
-  document.getElementById('content').style.display = 'block';
-  document.getElementById('btnPointer').style.display = 'flex';
-
-  // Charger les pointages depuis Firebase
-  loadPointages().then(() => {
+  if(!bestMatch){showNotFound();return}
+  collabName=bestMatch.name;
+  collabColor=bestMatch.color;
+  const ini=getIni(collabName);
+  document.getElementById('avatarEl').textContent=ini;
+  document.getElementById('avatarEl').style.background=collabColor;
+  document.getElementById('welcomeName').textContent=collabName;
+  document.getElementById('content').style.display='block';
+  document.getElementById('toolbox').classList.add('show');
+  loadPointages().then(()=>{
     renderMonth();
+    renderToolbox();
   });
 }
 
-function showNotFound() {
-  document.getElementById('welcomeName').textContent = 'Non trouvé';
-  document.getElementById('notFound').style.display = 'block';
+function showNotFound(){
+  document.getElementById('welcomeName').textContent='Non trouvé';
+  document.getElementById('notFound').style.display='block';
 }
 
-function getIni(n) {
-  const p = n.trim().split(/\s+/);
-  return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : n.substring(0, 2).toUpperCase();
-}
+function getIni(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 
 // ============================================================
 // POINTAGE – PERSISTANCE FIREBASE
 // ============================================================
-function getPointageRef() {
-  // Clé safe pour Firebase (pas de . # $ [ ] /)
-  const safeKey = collabName.replace(/[.#$\[\]\/]/g, '_');
-  return db.ref('pointages/' + safeKey);
+function getPointageRef(){
+  const safeKey=collabName.replace(/[.#$\[\]\/]/g,'_');
+  return db.ref('pointages/'+safeKey);
 }
-
-function loadPointages() {
-  return getPointageRef().once('value').then(snap => {
-    pointages = snap.val() || {};
-  });
-}
-
-function savePointage(monthKey, data) {
-  pointages[monthKey] = data;
-  return getPointageRef().child(monthKey).set(data);
-}
-
-function deletePointage(monthKey) {
-  delete pointages[monthKey];
-  return getPointageRef().child(monthKey).remove();
-}
-
-function getMonthKey(year, month) {
-  return year + '-' + String(month + 1).padStart(2, '0');
-}
+function loadPointages(){return getPointageRef().once('value').then(snap=>{pointages=snap.val()||{}})}
+function savePointage(monthKey,data){pointages[monthKey]=data;return getPointageRef().child(monthKey).set(data)}
+function deletePointage(monthKey){delete pointages[monthKey];return getPointageRef().child(monthKey).remove()}
+function getMonthKey(year,month){return year+'-'+String(month+1).padStart(2,'0')}
 
 // ============================================================
 // JOURS FÉRIÉS
 // ============================================================
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
-
 function getFeries(y){const s=new Set(),f=d=>dk(d),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};s.add(f(new Date(y,0,1)));s.add(f(new Date(y,4,1)));s.add(f(new Date(y,4,8)));s.add(f(new Date(y,6,14)));s.add(f(new Date(y,7,15)));s.add(f(new Date(y,10,1)));s.add(f(new Date(y,10,11)));s.add(f(new Date(y,11,25)));const e=getEaster(y);s.add(f(ad(e,1)));s.add(f(ad(e,39)));s.add(f(ad(e,50)));return s}
-
 let _fc={};
 function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
 function isWE(d){return d.getDay()===0||d.getDay()===6}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 
-function getOuvres(year, month) {
-  const ouvres = [];
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = new Date(year, month, d);
-    if (!isWE(date) && !isF(date)) {
-      ouvres.push(dk(date));
-    }
-  }
+function getOuvres(year,month){
+  const ouvres=[];
+  const dim=new Date(year,month+1,0).getDate();
+  for(let d=1;d<=dim;d++){const date=new Date(year,month,d);if(!isWE(date)&&!isF(date))ouvres.push(dk(date))}
   return ouvres;
 }
 
 // ============================================================
-// CALCULS PLANNING (pour un mois donné)
+// CALCULS PLANNING
 // ============================================================
-function computePlanningData(year, month) {
-  const ouvres = getOuvres(year, month);
-  const nbOuvres = ouvres.length;
-
-  // Charge par affaire
-  const affCharge = {};
-  let totalSlots = 0;
-  Af.forEach(aff => {
-    let slots = 0;
-    ouvres.forEach(dkey => {
-      const k = aff.name + '|' + dkey;
-      const sl = Dt[k];
-      if (sl && Array.isArray(sl)) {
-        for (let i = 0; i < 5; i++) {
-          if (sl[i] === collabName) slots++;
-        }
-      }
+function computePlanningData(year,month){
+  const ouvres=getOuvres(year,month);
+  const nbOuvres=ouvres.length;
+  const affCharge={};
+  let totalSlots=0;
+  Af.forEach(aff=>{
+    let slots=0;
+    ouvres.forEach(dkey=>{
+      const k=aff.name+'|'+dkey;
+      const sl=Dt[k];
+      if(sl&&Array.isArray(sl)){for(let i=0;i<5;i++){if(sl[i]===collabName)slots++}}
     });
-    if (slots > 0) {
-      affCharge[aff.name] = { slots, jours: slots / 5, type: aff.type };
-      totalSlots += slots;
-    }
+    if(slots>0){affCharge[aff.name]={slots,jours:slots/5,type:aff.type};totalSlots+=slots}
   });
-  const totalJoursPlanif = totalSlots / 5;
-
-  // Congés
-  const congeCount = {};
-  let totalConges = 0;
-  ouvres.forEach(dkey => {
-    const lv = LD[collabName + '|' + dkey];
-    if (lv) {
-      congeCount[lv] = (congeCount[lv] || 0) + 1;
-      totalConges++;
-    }
+  const totalJoursPlanif=totalSlots/5;
+  const congeCount={};
+  let totalConges=0;
+  ouvres.forEach(dkey=>{
+    const lv=LD[collabName+'|'+dkey];
+    if(lv){congeCount[lv]=(congeCount[lv]||0)+1;totalConges++}
   });
+  return{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges};
+}
 
-  return { ouvres, nbOuvres, affCharge, totalJoursPlanif, congeCount, totalConges };
+// Vérifie si un mois a des données planning (affaires ou congés)
+function monthHasPlanningData(year,month){
+  const{totalJoursPlanif,totalConges}=computePlanningData(year,month);
+  return(totalJoursPlanif>0||totalConges>0);
+}
+
+// ============================================================
+// TOOLBOX
+// ============================================================
+function changeToolboxYear(offset){
+  toolboxYear+=offset;
+  renderToolbox();
+}
+
+function renderToolbox(){
+  document.getElementById('toolboxYearLabel').textContent=toolboxYear;
+  const container=document.getElementById('toolboxMonths');
+  let html='';
+  for(let m=0;m<12;m++){
+    const mk=getMonthKey(toolboxYear,m);
+    const ptg=pointages[mk];
+    const isValidated=ptg&&ptg.lines&&ptg.validatedAt;
+    const hasData=monthHasPlanningData(toolboxYear,m);
+
+    let stateClass='empty';
+    let statusHtml='';
+    if(isValidated){
+      stateClass='validated';
+      statusHtml='<span class="month-status">✓</span>';
+    }else if(hasData){
+      stateClass='has-data';
+      statusHtml='<span class="month-status">●</span>';
+    }
+
+    html+='<button class="toolbox-month-btn '+stateClass+'" onclick="openPointageForMonth('+m+','+toolboxYear+')">';
+    html+='<span class="month-name">'+MN[m]+'</span>';
+    html+=statusHtml;
+    html+='</button>';
+  }
+  container.innerHTML=html;
+}
+
+function openPointageForMonth(month,year){
+  selectedPtgMonth=month;
+  selectedPtgYear=year;
+  renderModalStep2();
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
 }
 
 // ============================================================
 // NAVIGATION MOIS
 // ============================================================
-function changeMonth(offset) {
-  curMonth += offset;
-  if (curMonth > 11) { curMonth = 0; curYear++; }
-  if (curMonth < 0) { curMonth = 11; curYear--; }
+function changeMonth(offset){
+  curMonth+=offset;
+  if(curMonth>11){curMonth=0;curYear++}
+  if(curMonth<0){curMonth=11;curYear--}
   renderMonth();
 }
 
 // ============================================================
 // RENDU MENSUEL
 // ============================================================
-function renderMonth() {
-  document.getElementById('monthLabel').textContent = MN[curMonth] + ' ' + curYear;
+function renderMonth(){
+  document.getElementById('monthLabel').textContent=MN[curMonth]+' '+curYear;
+  const{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges}=computePlanningData(curYear,curMonth);
+  const joursDispo=nbOuvres-totalJoursPlanif-totalConges;
 
-  const { ouvres, nbOuvres, affCharge, totalJoursPlanif, congeCount, totalConges } = computePlanningData(curYear, curMonth);
-  const joursDispo = nbOuvres - totalJoursPlanif - totalConges;
+  // Stats
+  document.getElementById('statsGrid').innerHTML=
+    '<div class="stat-card stat-ouvres"><div class="stat-value">'+nbOuvres+'</div><div class="stat-label">Jours ouvrés</div></div>'+
+    '<div class="stat-card stat-planifie"><div class="stat-value">'+fmtNum(totalJoursPlanif)+'</div><div class="stat-label">Jours planifiés</div></div>'+
+    '<div class="stat-card stat-conge"><div class="stat-value">'+totalConges+'</div><div class="stat-label">Jours de congé</div></div>'+
+    '<div class="stat-card stat-dispo"><div class="stat-value">'+fmtNum(joursDispo)+'</div><div class="stat-label">Jours disponibles</div></div>';
 
-  // ── STATS CARDS ──
-  document.getElementById('statsGrid').innerHTML =
-    '<div class="stat-card stat-ouvres"><div class="stat-value">' + nbOuvres + '</div><div class="stat-label">Jours ouvrés</div></div>' +
-    '<div class="stat-card stat-planifie"><div class="stat-value">' + fmtNum(totalJoursPlanif) + '</div><div class="stat-label">Jours planifiés</div></div>' +
-    '<div class="stat-card stat-conge"><div class="stat-value">' + totalConges + '</div><div class="stat-label">Jours de congé</div></div>' +
-    '<div class="stat-card stat-dispo"><div class="stat-value">' + fmtNum(joursDispo) + '</div><div class="stat-label">Jours disponibles</div></div>';
+  // Table affectations
+  const affTableEl=document.getElementById('affTable');
+  const affEntries=Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours);
+  const maxJours=affEntries.length?Math.max(...affEntries.map(e=>e[1].jours)):1;
 
-  // ── TABLEAU AFFECTATIONS ──
-  const affTableEl = document.getElementById('affTable');
-  const affEntries = Object.entries(affCharge).sort((a, b) => b[1].jours - a[1].jours);
-  const maxJours = affEntries.length ? Math.max(...affEntries.map(e => e[1].jours)) : 1;
-
-  if (!affEntries.length) {
-    affTableEl.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px;font-style:italic">Aucune affectation ce mois</td></tr>';
-  } else {
-    let html = '';
-    affEntries.forEach(([name, data]) => {
-      const pct = nbOuvres > 0 ? Math.round((data.jours / nbOuvres) * 100) : 0;
-      const barW = Math.max(4, (data.jours / maxJours) * 120);
-      const typeCls = data.type === 'etudes' ? 'etudes' : 'travaux';
-      const typeLabel = data.type === 'etudes' ? 'Études' : 'Travaux';
-      html += '<tr>' +
-        '<td style="font-weight:600">' + escH(name) + '</td>' +
-        '<td><span class="type-badge type-' + typeCls + '">' + typeLabel + '</span></td>' +
-        '<td><div class="days-bar"><div class="bar bar-' + typeCls + '" style="width:' + barW + 'px"></div><span style="font-size:.75rem;color:var(--text-light)">' + pct + '%</span></div></td>' +
-        '<td><span class="days-num">' + fmtNum(data.jours) + 'j</span></td>' +
-        '</tr>';
+  if(!affEntries.length){
+    affTableEl.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px;font-style:italic">Aucune affectation ce mois</td></tr>';
+  }else{
+    let html='';
+    affEntries.forEach(([name,data])=>{
+      const pct=nbOuvres>0?Math.round((data.jours/nbOuvres)*100):0;
+      const barW=Math.max(4,(data.jours/maxJours)*120);
+      const typeCls=data.type==='etudes'?'etudes':'travaux';
+      const typeLabel=data.type==='etudes'?'Études':'Travaux';
+      html+='<tr><td style="font-weight:600">'+escH(name)+'</td><td><span class="type-badge type-'+typeCls+'">'+typeLabel+'</span></td><td><div class="days-bar"><div class="bar bar-'+typeCls+'" style="width:'+barW+'px"></div><span style="font-size:.75rem;color:var(--text-light)">'+pct+'%</span></div></td><td><span class="days-num">'+fmtNum(data.jours)+'j</span></td></tr>';
     });
-    html += '<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">' + fmtNum(totalJoursPlanif) + 'j</span></td></tr>';
-    affTableEl.innerHTML = html;
+    html+='<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">'+fmtNum(totalJoursPlanif)+'j</span></td></tr>';
+    affTableEl.innerHTML=html;
   }
 
-  // ── TABLEAU CONGÉS ──
-  const congeSec = document.getElementById('congeSection');
-  const congeTableEl = document.getElementById('congeTable');
-  const congeEntries = Object.entries(congeCount).sort((a, b) => b[1] - a[1]);
-
-  if (!congeEntries.length) {
-    congeSec.style.display = 'none';
-  } else {
-    congeSec.style.display = 'block';
-    let html = '';
-    congeEntries.forEach(([type, jours]) => {
-      const barW = Math.max(4, (jours / nbOuvres) * 200);
-      html += '<tr>' +
-        '<td><span class="conge-tag">' + escH(type) + '</span></td>' +
-        '<td><span class="days-num">' + jours + 'j</span></td>' +
-        '<td><div class="days-bar"><div class="bar bar-conge" style="width:' + barW + 'px"></div></div></td>' +
-        '</tr>';
+  // Table congés
+  const congeSec=document.getElementById('congeSection');
+  const congeTableEl=document.getElementById('congeTable');
+  const congeEntries=Object.entries(congeCount).sort((a,b)=>b[1]-a[1]);
+  if(!congeEntries.length){congeSec.style.display='none'}
+  else{
+    congeSec.style.display='block';
+    let html='';
+    congeEntries.forEach(([type,jours])=>{
+      const barW=Math.max(4,(jours/nbOuvres)*200);
+      html+='<tr><td><span class="conge-tag">'+escH(type)+'</span></td><td><span class="days-num">'+jours+'j</span></td><td><div class="days-bar"><div class="bar bar-conge" style="width:'+barW+'px"></div></div></td></tr>';
     });
-    html += '<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">' + totalConges + 'j</span></td><td></td></tr>';
-    congeTableEl.innerHTML = html;
+    html+='<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">'+totalConges+'j</span></td><td></td></tr>';
+    congeTableEl.innerHTML=html;
   }
 
-  // ── COMPARATIF POINTAGE ──
-  renderComparatif(curYear, curMonth, affCharge, congeCount, nbOuvres, totalJoursPlanif, totalConges);
-
-  // ── CALENDRIER ──
-  renderCalendar(ouvres, affCharge, congeCount);
+  // Comparatif
+  renderComparatif(curYear,curMonth,affCharge,congeCount,nbOuvres,totalJoursPlanif,totalConges);
+  // Calendrier
+  renderCalendar(ouvres,affCharge,congeCount);
 }
 
 // ============================================================
 // COMPARATIF POINTAGE vs PLANNING
 // ============================================================
-function renderComparatif(year, month, affCharge, congeCount, nbOuvres, totalJoursPlanif, totalConges) {
-  const section = document.getElementById('comparatifSection');
-  const monthKey = getMonthKey(year, month);
-  const ptg = pointages[monthKey];
+function renderComparatif(year,month,affCharge,congeCount,nbOuvres,totalJoursPlanif,totalConges){
+  const section=document.getElementById('comparatifSection');
+  const monthKey=getMonthKey(year,month);
+  const ptg=pointages[monthKey];
+  if(!ptg||!ptg.lines){section.style.display='none';return}
+  section.style.display='block';
 
-  if (!ptg || !ptg.lines) {
-    section.style.display = 'none';
-    return;
-  }
+  const validDate=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
 
-  section.style.display = 'block';
+  const ptgMap={};
+  let totalPointageAct=0;
+  ptg.lines.forEach(l=>{ptgMap[l.label]=(ptgMap[l.label]||0)+l.jours;if(l.category!=='conge')totalPointageAct+=l.jours});
 
-  const validDate = ptg.validatedAt ? new Date(ptg.validatedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+  const planMap={};
+  Object.entries(affCharge).forEach(([name,data])=>{planMap[name]={jours:data.jours,type:data.type==='etudes'?'Études':'Travaux',category:'affaire'}});
+  Object.entries(congeCount).forEach(([type,jours])=>{planMap[type]={jours,type:'Congé',category:'conge'}});
 
-  // Construire la map pointage
-  const ptgMap = {}; // label -> jours
-  let totalPointage = 0;
-  ptg.lines.forEach(l => {
-    ptgMap[l.label] = (ptgMap[l.label] || 0) + l.jours;
-    if (l.category !== 'conge') totalPointage += l.jours;
-  });
-
-  // Construire la map planning (affaires + congés)
-  const planMap = {};
-  Object.entries(affCharge).forEach(([name, data]) => {
-    planMap[name] = { jours: data.jours, type: data.type === 'etudes' ? 'Études' : 'Travaux', category: 'affaire' };
-  });
-  Object.entries(congeCount).forEach(([type, jours]) => {
-    planMap[type] = { jours, type: 'Congé', category: 'conge' };
-  });
-
-  // Union des labels
-  const allLabels = new Set([...Object.keys(planMap), ...Object.keys(ptgMap)]);
-
-  let html = '<div class="comparatif-section">';
-  html += '<h3>📊 Comparatif Planning vs Pointage réel';
-  html += '<span class="pointage-badge">✓ Validé le ' + escH(validDate) + '</span>';
-  html += '</h3>';
-  html += '<table class="comparatif-table"><thead><tr><th>Ligne</th><th>Type</th><th>Planning</th><th>Pointage</th><th>Écart</th></tr></thead><tbody>';
-
-  let totalPlanAff = 0, totalPtgAff = 0;
-  let totalPlanConge = 0, totalPtgConge = 0;
-
-  // D'abord les affaires
-  const affLabels = [];
-  const congeLabels = [];
-  const specialLabels = [];
-
-  allLabels.forEach(label => {
-    const inPlan = planMap[label];
-    const isConge = (inPlan && inPlan.category === 'conge') || (ptg.lines.find(l => l.label === label && l.category === 'conge'));
-    const isSpecial = LIGNES_SPECIALES.includes(label);
-
-    if (isConge) congeLabels.push(label);
-    else if (isSpecial || (!inPlan && !isConge)) specialLabels.push(label);
+  const allLabels=new Set([...Object.keys(planMap),...Object.keys(ptgMap)]);
+  const affLabels=[],congeLabels=[],specialLabels=[];
+  allLabels.forEach(label=>{
+    const inPlan=planMap[label];
+    const isConge=(inPlan&&inPlan.category==='conge')||(ptg.lines.find(l=>l.label===label&&l.category==='conge'));
+    if(isConge)congeLabels.push(label);
+    else if(LIGNES_SPECIALES.includes(label)||(!inPlan&&!isConge))specialLabels.push(label);
     else affLabels.push(label);
   });
 
-  // Affaires
-  affLabels.forEach(label => {
-    const planJ = planMap[label] ? planMap[label].jours : 0;
-    const ptgJ = ptgMap[label] || 0;
-    const delta = ptgJ - planJ;
-    const typeLabel = planMap[label] ? planMap[label].type : 'Affaire';
-    totalPlanAff += planJ;
-    totalPtgAff += ptgJ;
-    html += buildComparatifRow(label, typeLabel, planJ, ptgJ, delta);
+  let html='<div class="comparatif-section"><h3>📊 Comparatif Planning vs Pointage réel<span class="pointage-badge">✓ Validé le '+escH(validDate)+'</span></h3>';
+  html+='<table class="comparatif-table"><thead><tr><th>Ligne</th><th>Type</th><th>Planning</th><th>Pointage</th><th>Écart</th></tr></thead><tbody>';
+
+  let totalPlanAff=0,totalPtgAff=0,totalPlanConge=0,totalPtgConge=0;
+
+  affLabels.forEach(label=>{
+    const planJ=planMap[label]?planMap[label].jours:0;
+    const ptgJ=ptgMap[label]||0;
+    const delta=ptgJ-planJ;
+    const typeLabel=planMap[label]?planMap[label].type:'Affaire';
+    totalPlanAff+=planJ;totalPtgAff+=ptgJ;
+    html+=buildComparatifRow(label,typeLabel,planJ,ptgJ,delta);
+  });
+  specialLabels.forEach(label=>{
+    const planJ=0;const ptgJ=ptgMap[label]||0;const delta=ptgJ;
+    totalPlanAff+=planJ;totalPtgAff+=ptgJ;
+    html+=buildComparatifRow(label,'Autre',planJ,ptgJ,delta);
   });
 
-  // Lignes spéciales (uniquement dans pointage)
-  specialLabels.forEach(label => {
-    const planJ = 0;
-    const ptgJ = ptgMap[label] || 0;
-    const delta = ptgJ - planJ;
-    totalPlanAff += planJ;
-    totalPtgAff += ptgJ;
-    html += buildComparatifRow(label, 'Autre', planJ, ptgJ, delta);
-  });
+  const deltaAff=totalPtgAff-totalPlanAff;
+  html+='<tr class="comparatif-total"><td>TOTAL ACTIVITÉ</td><td></td><td><b>'+fmtNum(totalPlanAff)+'j</b></td><td><b>'+fmtNum(totalPtgAff)+'j</b></td><td><b class="'+deltaClass(deltaAff)+'">'+fmtDelta(deltaAff)+'</b></td></tr>';
 
-  // Total affaires
-  const deltaAff = totalPtgAff - totalPlanAff;
-  html += '<tr class="comparatif-total"><td>TOTAL ACTIVITÉ</td><td></td><td><b>' + fmtNum(totalPlanAff) + 'j</b></td><td><b>' + fmtNum(totalPtgAff) + 'j</b></td><td><b class="' + deltaClass(deltaAff) + '">' + fmtDelta(deltaAff) + '</b></td></tr>';
-
-  // Séparateur congés
-  if (congeLabels.length > 0) {
-    html += '<tr><td colspan="5" style="padding:6px 14px;background:#fff8e1;font-size:.78rem;font-weight:700;color:#f57f17">🏖️ CONGÉS & ABSENCES</td></tr>';
-    congeLabels.forEach(label => {
-      const planJ = planMap[label] ? planMap[label].jours : 0;
-      const ptgJ = ptgMap[label] || 0;
-      const delta = ptgJ - planJ;
-      totalPlanConge += planJ;
-      totalPtgConge += ptgJ;
-      html += buildComparatifRow(label, 'Congé', planJ, ptgJ, delta);
+  if(congeLabels.length>0){
+    html+='<tr><td colspan="5" style="padding:6px 14px;background:#fff8e1;font-size:.78rem;font-weight:700;color:#f57f17">🏖️ CONGÉS & ABSENCES</td></tr>';
+    congeLabels.forEach(label=>{
+      const planJ=planMap[label]?planMap[label].jours:0;
+      const ptgJ=ptgMap[label]||0;const delta=ptgJ-planJ;
+      totalPlanConge+=planJ;totalPtgConge+=ptgJ;
+      html+=buildComparatifRow(label,'Congé',planJ,ptgJ,delta);
     });
-    const deltaConge = totalPtgConge - totalPlanConge;
-    html += '<tr class="comparatif-total"><td>TOTAL CONGÉS</td><td></td><td><b>' + fmtNum(totalPlanConge) + 'j</b></td><td><b>' + fmtNum(totalPtgConge) + 'j</b></td><td><b class="' + deltaClass(deltaConge) + '">' + fmtDelta(deltaConge) + '</b></td></tr>';
+    const deltaConge=totalPtgConge-totalPlanConge;
+    html+='<tr class="comparatif-total"><td>TOTAL CONGÉS</td><td></td><td><b>'+fmtNum(totalPlanConge)+'j</b></td><td><b>'+fmtNum(totalPtgConge)+'j</b></td><td><b class="'+deltaClass(deltaConge)+'">'+fmtDelta(deltaConge)+'</b></td></tr>';
   }
 
-  html += '</tbody></table></div>';
-  section.innerHTML = html;
+  html+='</tbody></table></div>';
+  section.innerHTML=html;
 }
 
-function buildComparatifRow(label, typeLabel, planJ, ptgJ, delta) {
-  return '<tr>' +
-    '<td style="font-weight:600">' + escH(label) + '</td>' +
-    '<td><span style="font-size:.75rem;color:var(--text-light)">' + escH(typeLabel) + '</span></td>' +
-    '<td>' + fmtNum(planJ) + 'j</td>' +
-    '<td>' + fmtNum(ptgJ) + 'j</td>' +
-    '<td class="' + deltaClass(delta) + '">' + fmtDelta(delta) + '</td>' +
-    '</tr>';
+function buildComparatifRow(label,typeLabel,planJ,ptgJ,delta){
+  return '<tr><td style="font-weight:600">'+escH(label)+'</td><td><span style="font-size:.75rem;color:var(--text-light)">'+escH(typeLabel)+'</span></td><td>'+fmtNum(planJ)+'j</td><td>'+fmtNum(ptgJ)+'j</td><td class="'+deltaClass(delta)+'">'+fmtDelta(delta)+'</td></tr>';
 }
 
-function deltaClass(d) {
-  if (Math.abs(d) < 0.01) return 'delta-zero';
-  return d > 0 ? 'delta-neg' : 'delta-pos'; // Plus de pointage que prévu = rouge (surcharge)
-}
-
-function fmtDelta(d) {
-  if (Math.abs(d) < 0.01) return '=';
-  return (d > 0 ? '+' : '') + fmtNum(d) + 'j';
-}
+function deltaClass(d){if(Math.abs(d)<0.01)return'delta-zero';return d>0?'delta-neg':'delta-pos'}
+function fmtDelta(d){if(Math.abs(d)<0.01)return'=';return(d>0?'+':'')+fmtNum(d)+'j'}
 
 // ============================================================
-// MODAL POINTAGE
+// MODAL POINTAGE (step 2 direct – mois choisi depuis toolbox)
 // ============================================================
-let modalStep = 1;
-let selectedPtgMonth = null;
-let selectedPtgYear = null;
-let ptgLines = []; // [{id, label, category: 'conge'|'affaire'|'special', jours, removable}]
-let ptgNbOuvres = 0;
+function renderModalStep2(){
+  const{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges}=computePlanningData(selectedPtgYear,selectedPtgMonth);
+  ptgNbOuvres=nbOuvres;
 
-function openPointageModal() {
-  modalStep = 1;
-  renderModalStep1();
-  document.getElementById('modalOverlay').classList.add('show');
-}
+  document.getElementById('modalTitle').textContent='📌 Pointer – '+MN[selectedPtgMonth]+' '+selectedPtgYear;
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('show');
-}
+  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
+  const existingPtg=pointages[monthKey];
 
-// ── STEP 1 : Sélection du mois ──
-function renderModalStep1() {
-  document.getElementById('modalTitle').textContent = '📌 Pointer le mois – Choisir le mois';
-
-  const now = new Date();
-  const months = [];
-  // Afficher 12 mois: 6 avant + mois courant + 5 après
-  for (let i = -6; i <= 5; i++) {
-    let m = now.getMonth() + i;
-    let y = now.getFullYear();
-    while (m > 11) { m -= 12; y++; }
-    while (m < 0) { m += 12; y--; }
-    months.push({ month: m, year: y });
-  }
-
-  let html = '<p style="font-size:.9rem;color:var(--text-light);margin-bottom:12px">Sélectionnez le mois que vous souhaitez pointer :</p>';
-  html += '<div class="month-select-grid">';
-  months.forEach(({ month, year }) => {
-    const mk = getMonthKey(year, month);
-    const hasPointage = pointages[mk] && pointages[mk].lines;
-    const badge = hasPointage ? ' ✓' : '';
-    html += '<button class="month-select-btn" onclick="selectPtgMonth(' + month + ',' + year + ')" data-m="' + month + '" data-y="' + year + '">' +
-      MN[month] + badge + '<div class="month-year">' + year + '</div></button>';
-  });
-  html += '</div>';
-
-  document.getElementById('modalBody').innerHTML = html;
-  document.getElementById('modalFooter').innerHTML = '<button class="btn-cancel" onclick="closeModal()">Annuler</button><div></div>';
-}
-
-function selectPtgMonth(month, year) {
-  selectedPtgMonth = month;
-  selectedPtgYear = year;
-
-  // Highlight
-  document.querySelectorAll('.month-select-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelector('.month-select-btn[data-m="' + month + '"][data-y="' + year + '"]').classList.add('selected');
-
-  // Passer au step 2 après un court délai
-  setTimeout(() => {
-    modalStep = 2;
-    renderModalStep2();
-  }, 200);
-}
-
-// ── STEP 2 : Saisie du pointage ──
-function renderModalStep2() {
-  const { ouvres, nbOuvres, affCharge, totalJoursPlanif, congeCount, totalConges } = computePlanningData(selectedPtgYear, selectedPtgMonth);
-  ptgNbOuvres = nbOuvres;
-
-  document.getElementById('modalTitle').textContent = '📌 Pointer – ' + MN[selectedPtgMonth] + ' ' + selectedPtgYear;
-
-  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
-  const existingPtg = pointages[monthKey];
-
-  if (existingPtg && existingPtg.lines) {
-    // Charger le pointage existant
-    ptgLines = existingPtg.lines.map((l, i) => ({ ...l, id: i }));
-  } else {
-    // Pré-remplir avec les données du planning
-    ptgLines = [];
-    let id = 0;
-
-    // Congés
-    Object.entries(congeCount).forEach(([type, jours]) => {
-      ptgLines.push({ id: id++, label: type, category: 'conge', jours, removable: false });
+  if(existingPtg&&existingPtg.lines){
+    ptgLines=existingPtg.lines.map((l,i)=>({...l,id:i,removable:l.removable!==undefined?l.removable:(['special'].includes(l.category)||!Object.keys(affCharge).includes(l.label)&&l.category!=='conge')}));
+  }else{
+    ptgLines=[];
+    let id=0;
+    Object.entries(congeCount).forEach(([type,jours])=>{
+      ptgLines.push({id:id++,label:type,category:'conge',jours,removable:false});
     });
-
-    // Affaires
-    Object.entries(affCharge).sort((a, b) => b[1].jours - a[1].jours).forEach(([name, data]) => {
-      ptgLines.push({ id: id++, label: name, category: 'affaire', jours: data.jours, removable: false, type: data.type });
+    Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours).forEach(([name,data])=>{
+      ptgLines.push({id:id++,label:name,category:'affaire',jours:data.jours,removable:false,type:data.type});
     });
   }
 
   renderPointageForm();
 }
 
-function renderPointageForm() {
-  const totalSaisi = ptgLines.reduce((s, l) => s + l.jours, 0);
-  const remaining = ptgNbOuvres - totalSaisi;
-  const isOver = totalSaisi > ptgNbOuvres + 0.01;
+function renderPointageForm(){
+  const totalSaisi=ptgLines.reduce((s,l)=>s+l.jours,0);
+  const remaining=Math.round((ptgNbOuvres-totalSaisi)*100)/100;
+  const isOver=totalSaisi>ptgNbOuvres+0.01;
 
-  let html = '';
+  let html='';
+  html+='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés dans le mois</div><div class="ouvres-value">'+ptgNbOuvres+'</div></div>';
+  html+='<div style="text-align:right"><div class="total-saisi '+(isOver?'total-warn':'total-ok')+'">Total saisi : '+fmtNum(totalSaisi)+' / '+ptgNbOuvres+' j</div>';
+  html+='<div style="font-size:.78rem;color:var(--text-light)">Restant : '+fmtNum(remaining)+'j</div></div></div>';
 
-  // Header info
-  html += '<div class="pointage-header-info">';
-  html += '<div><div class="ouvres-label">Jours ouvrés dans le mois</div><div class="ouvres-value">' + ptgNbOuvres + '</div></div>';
-  html += '<div style="text-align:right"><div class="total-saisi ' + (isOver ? 'total-warn' : 'total-ok') + '">Total saisi : ' + fmtNum(totalSaisi) + ' / ' + ptgNbOuvres + ' j</div>';
-  html += '<div style="font-size:.78rem;color:var(--text-light)">Restant : ' + fmtNum(remaining) + 'j</div></div>';
-  html += '</div>';
-
-  // Groupe Congés
-  const congeLines = ptgLines.filter(l => l.category === 'conge');
-  if (congeLines.length > 0) {
-    html += '<div class="pointage-group">';
-    html += '<div class="pointage-group-title">🏖️ Congés & Absences</div>';
-    congeLines.forEach(line => {
-      html += buildPointageRow(line, totalSaisi);
-    });
-    html += '</div>';
+  // Congés
+  const congeLines=ptgLines.filter(l=>l.category==='conge');
+  if(congeLines.length>0){
+    html+='<div class="pointage-group"><div class="pointage-group-title">🏖️ Congés & Absences</div>';
+    congeLines.forEach(line=>{html+=buildPointageRow(line,totalSaisi)});
+    html+='</div>';
   }
 
-  // Groupe Affaires
-  const affLines = ptgLines.filter(l => l.category === 'affaire');
-  if (affLines.length > 0) {
-    html += '<div class="pointage-group">';
-    html += '<div class="pointage-group-title">📋 Affaires</div>';
-    affLines.forEach(line => {
-      html += buildPointageRow(line, totalSaisi);
-    });
-    html += '</div>';
+  // Affaires
+  const affLines=ptgLines.filter(l=>l.category==='affaire');
+  if(affLines.length>0){
+    html+='<div class="pointage-group"><div class="pointage-group-title">📋 Affaires</div>';
+    affLines.forEach(line=>{html+=buildPointageRow(line,totalSaisi)});
+    html+='</div>';
   }
 
-  // Groupe Lignes spéciales
-  const specLines = ptgLines.filter(l => l.category === 'special');
-  if (specLines.length > 0) {
-    html += '<div class="pointage-group">';
-    html += '<div class="pointage-group-title">📂 Autres activités</div>';
-    specLines.forEach(line => {
-      html += buildPointageRow(line, totalSaisi);
-    });
-    html += '</div>';
+  // Spéciales
+  const specLines=ptgLines.filter(l=>l.category==='special');
+  if(specLines.length>0){
+    html+='<div class="pointage-group"><div class="pointage-group-title">📂 Autres activités</div>';
+    specLines.forEach(line=>{html+=buildPointageRow(line,totalSaisi)});
+    html+='</div>';
   }
 
-  // Ajouter une ligne
-  html += '<div class="pointage-group">';
-  html += '<div class="pointage-group-title">➕ Ajouter une ligne</div>';
-  html += '<div class="add-line-area">';
-  html += '<select class="add-line-select" id="addLineSelect"><option value="">-- Choisir --</option>';
+  // Ajout
+  html+='<div class="pointage-group"><div class="pointage-group-title">➕ Ajouter une ligne</div>';
+  html+='<div class="add-line-area"><select class="add-line-select" id="addLineSelect"><option value="">-- Choisir --</option>';
 
-  // Affaires du planning (pas déjà ajoutées)
-  const existingLabels = new Set(ptgLines.map(l => l.label));
-  const availableAffaires = Af.filter(a => !existingLabels.has(a.name));
-  if (availableAffaires.length > 0) {
-    html += '<optgroup label="Affaires du planning">';
-    availableAffaires.forEach(a => {
-      html += '<option value="aff|' + escH(a.name) + '|' + a.type + '">' + escH(a.name) + ' (' + (a.type === 'etudes' ? 'Études' : 'Travaux') + ')</option>';
-    });
-    html += '</optgroup>';
+  const existingLabels=new Set(ptgLines.map(l=>l.label));
+  const availableAffaires=Af.filter(a=>!existingLabels.has(a.name));
+  if(availableAffaires.length>0){
+    html+='<optgroup label="Affaires du planning">';
+    availableAffaires.forEach(a=>{html+='<option value="aff|'+escH(a.name)+'|'+a.type+'">'+escH(a.name)+' ('+(a.type==='etudes'?'Études':'Travaux')+')</option>'});
+    html+='</optgroup>';
   }
 
-  // Lignes spéciales
-  const availableSpecial = LIGNES_SPECIALES.filter(s => !existingLabels.has(s));
-  if (availableSpecial.length > 0) {
-    html += '<optgroup label="Autres">';
-    availableSpecial.forEach(s => {
-      html += '<option value="spec|' + escH(s) + '">' + s + '</option>';
-    });
-    html += '</optgroup>';
+  const availableSpecial=LIGNES_SPECIALES.filter(s=>!existingLabels.has(s));
+  if(availableSpecial.length>0){
+    html+='<optgroup label="Autres">';
+    availableSpecial.forEach(s=>{html+='<option value="spec|'+escH(s)+'">'+s+'</option>'});
+    html+='</optgroup>';
   }
 
-  html += '</select>';
-  html += '<button class="add-line-btn" onclick="addPtgLine()">+ Ajouter</button>';
-  html += '</div></div>';
+  html+='</select><button class="add-line-btn" onclick="addPtgLine()">+ Ajouter</button></div></div>';
 
-  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalBody').innerHTML=html;
 
   // Footer
-  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
-  const hasExisting = pointages[monthKey] && pointages[monthKey].lines;
-
-  let footerHtml = '<div style="display:flex;gap:8px">';
-  footerHtml += '<button class="btn-cancel" onclick="goBackStep1()">◀ Retour</button>';
-  if (hasExisting) {
-    footerHtml += '<button class="btn-delete-pointage" onclick="deletePtgConfirm()">🗑️ Supprimer</button>';
-  }
-  footerHtml += '</div>';
-  footerHtml += '<button class="btn-validate' + (isOver ? '' : '') + '" onclick="validatePointage()" ' + (isOver ? 'disabled' : '') + '>✓ Valider le pointage</button>';
-
-  document.getElementById('modalFooter').innerHTML = footerHtml;
+  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
+  const hasExisting=pointages[monthKey]&&pointages[monthKey].lines;
+  let footerHtml='<div style="display:flex;gap:8px">';
+  footerHtml+='<button class="btn-cancel" onclick="closeModal()">Fermer</button>';
+  if(hasExisting)footerHtml+='<button class="btn-delete-pointage" onclick="deletePtgConfirm()">🗑️ Supprimer</button>';
+  footerHtml+='</div>';
+  footerHtml+='<button class="btn-validate" onclick="validatePointage()" '+(isOver?'disabled':'')+'>✓ Valider le pointage</button>';
+  document.getElementById('modalFooter').innerHTML=footerHtml;
 }
 
-function buildPointageRow(line, totalSaisi) {
-  const canIncrease = (totalSaisi + 0.5) <= ptgNbOuvres + 0.01;
-  const canDecrease = line.jours >= 0.5;
+function buildPointageRow(line,totalSaisi){
+  const canIncrease=(totalSaisi+0.5)<=ptgNbOuvres+0.01;
+  const canDecrease=line.jours>=0.5;
 
-  let html = '<div class="pointage-row">';
-  html += '<div class="row-label">' + escH(line.label);
-  if (line.type) {
-    const tl = line.type === 'etudes' ? 'Études' : 'Travaux';
-    html += ' <span class="sub-type">(' + tl + ')</span>';
+  let html='<div class="pointage-row">';
+  html+='<div class="row-label">'+escH(line.label);
+  if(line.type){const tl=line.type==='etudes'?'Études':'Travaux';html+=' <span class="sub-type">('+tl+')</span>'}
+  if(line.category==='conge')html+=' <span class="sub-type">(congé)</span>';
+  html+='</div>';
+  html+='<div class="row-input">';
+  html+='<button onclick="changePtgValue('+line.id+',-0.5)" '+(!canDecrease?'disabled':'')+'>−</button>';
+  html+='<input type="text" class="ptg-value-input" id="ptgInput_'+line.id+'" value="'+fmtNum(line.jours)+'" onchange="onPtgInputChange('+line.id+',this)" onkeydown="onPtgInputKey(event,'+line.id+',this)" />';
+  html+='<button onclick="changePtgValue('+line.id+',0.5)" '+(!canIncrease?'disabled':'')+'>+</button>';
+  html+='<span class="row-unit">j</span>';
+  html+='</div>';
+  if(line.removable!==false||line.category==='special'){
+    html+='<button class="row-remove" onclick="removePtgLine('+line.id+')" title="Supprimer cette ligne">✕</button>';
+  }else{
+    html+='<div style="width:28px"></div>';
   }
-  if (line.category === 'conge') html += ' <span class="sub-type">(congé)</span>';
-  html += '</div>';
-  html += '<div class="row-input">';
-  html += '<button onclick="changePtgValue(' + line.id + ',-0.5)" ' + (!canDecrease ? 'disabled' : '') + '>−</button>';
-  html += '<span class="row-value">' + fmtNum(line.jours) + '</span>';
-  html += '<button onclick="changePtgValue(' + line.id + ',0.5)" ' + (!canIncrease ? 'disabled' : '') + '>+</button>';
-  html += '<span class="row-unit">j</span>';
-  html += '</div>';
-  if (line.removable !== false || line.category === 'special') {
-    html += '<button class="row-remove" onclick="removePtgLine(' + line.id + ')" title="Supprimer cette ligne">✕</button>';
-  } else {
-    html += '<div style="width:28px"></div>';
-  }
-  html += '</div>';
+  html+='</div>';
   return html;
 }
 
-function changePtgValue(id, delta) {
-  const line = ptgLines.find(l => l.id === id);
-  if (!line) return;
-
-  const newVal = Math.round((line.jours + delta) * 10) / 10;
-  if (newVal < 0) return;
-
-  const totalSaisi = ptgLines.reduce((s, l) => s + l.jours, 0);
-  const newTotal = Math.round((totalSaisi + delta) * 10) / 10;
-
-  if (newTotal > ptgNbOuvres + 0.01 && delta > 0) return;
-
-  line.jours = newVal;
-  renderPointageForm();
+// ── Saisie manuelle dans l'input ──
+function onPtgInputChange(id,inputEl){
+  applyManualInput(id,inputEl);
 }
 
-function removePtgLine(id) {
-  ptgLines = ptgLines.filter(l => l.id !== id);
-  renderPointageForm();
-}
-
-function addPtgLine() {
-  const sel = document.getElementById('addLineSelect');
-  if (!sel.value) return;
-
-  const maxId = ptgLines.length > 0 ? Math.max(...ptgLines.map(l => l.id)) : 0;
-
-  if (sel.value.startsWith('aff|')) {
-    const parts = sel.value.split('|');
-    const name = parts[1];
-    const type = parts[2];
-    ptgLines.push({ id: maxId + 1, label: name, category: 'affaire', jours: 0, removable: true, type });
-  } else if (sel.value.startsWith('spec|')) {
-    const name = sel.value.split('|')[1];
-    ptgLines.push({ id: maxId + 1, label: name, category: 'special', jours: 0, removable: true });
+function onPtgInputKey(event,id,inputEl){
+  if(event.key==='Enter'){
+    event.preventDefault();
+    applyManualInput(id,inputEl);
+    inputEl.blur();
   }
-
-  renderPointageForm();
 }
 
-function goBackStep1() {
-  modalStep = 1;
-  renderModalStep1();
-}
+function applyManualInput(id,inputEl){
+  const line=ptgLines.find(l=>l.id===id);
+  if(!line)return;
 
-function validatePointage() {
-  const totalSaisi = ptgLines.reduce((s, l) => s + l.jours, 0);
-  if (totalSaisi > ptgNbOuvres + 0.01) {
-    alert('Le total saisi dépasse le nombre de jours ouvrés !');
+  // Normaliser la saisie : accepter virgule et point
+  let raw=inputEl.value.replace(',','.').trim();
+  let val=parseFloat(raw);
+
+  // Validation
+  if(isNaN(val)||val<0){
+    inputEl.classList.add('input-error');
+    setTimeout(()=>{inputEl.classList.remove('input-error')},1000);
+    inputEl.value=fmtNum(line.jours);
     return;
   }
 
-  // Retirer les lignes à 0 jour
-  const cleanLines = ptgLines.filter(l => l.jours > 0).map(l => ({
-    label: l.label,
-    category: l.category,
-    jours: l.jours,
-    type: l.type || null
-  }));
+  // Arrondir au 0.5 le plus proche si souhaité ? Non – l'utilisateur veut saisir librement
+  // On arrondit au dixième pour éviter les problèmes de flottants
+  val=Math.round(val*100)/100;
 
-  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
-  const data = {
-    lines: cleanLines,
-    validatedAt: new Date().toISOString(),
-    nbOuvres: ptgNbOuvres
-  };
+  // Vérifier que le total ne dépasse pas
+  const totalSansCetteLigne=ptgLines.reduce((s,l)=>s+(l.id===id?0:l.jours),0);
+  const newTotal=totalSansCetteLigne+val;
 
-  savePointage(monthKey, data).then(() => {
+  if(newTotal>ptgNbOuvres+0.01){
+    // Plafonner à la valeur max possible
+    val=Math.round((ptgNbOuvres-totalSansCetteLigne)*100)/100;
+    if(val<0)val=0;
+  }
+
+  line.jours=val;
+  renderPointageForm();
+
+  // Remettre le focus sur le bon input après re-render
+  setTimeout(()=>{
+    const newInput=document.getElementById('ptgInput_'+id);
+    if(newInput)newInput.focus();
+  },50);
+}
+
+function changePtgValue(id,delta){
+  const line=ptgLines.find(l=>l.id===id);
+  if(!line)return;
+  const newVal=Math.round((line.jours+delta)*100)/100;
+  if(newVal<0)return;
+  const totalSaisi=ptgLines.reduce((s,l)=>s+l.jours,0);
+  const newTotal=Math.round((totalSaisi+delta)*100)/100;
+  if(newTotal>ptgNbOuvres+0.01&&delta>0)return;
+  line.jours=newVal;
+  renderPointageForm();
+}
+
+function removePtgLine(id){
+  ptgLines=ptgLines.filter(l=>l.id!==id);
+  renderPointageForm();
+}
+
+function addPtgLine(){
+  const sel=document.getElementById('addLineSelect');
+  if(!sel.value)return;
+  const maxId=ptgLines.length>0?Math.max(...ptgLines.map(l=>l.id)):0;
+  if(sel.value.startsWith('aff|')){
+    const parts=sel.value.split('|');
+    ptgLines.push({id:maxId+1,label:parts[1],category:'affaire',jours:0,removable:true,type:parts[2]});
+  }else if(sel.value.startsWith('spec|')){
+    const name=sel.value.split('|')[1];
+    ptgLines.push({id:maxId+1,label:name,category:'special',jours:0,removable:true});
+  }
+  renderPointageForm();
+}
+
+function validatePointage(){
+  const totalSaisi=ptgLines.reduce((s,l)=>s+l.jours,0);
+  if(totalSaisi>ptgNbOuvres+0.01){alert('Le total saisi dépasse le nombre de jours ouvrés !');return}
+
+  const cleanLines=ptgLines.filter(l=>l.jours>0).map(l=>({label:l.label,category:l.category,jours:l.jours,type:l.type||null}));
+
+  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
+  const data={lines:cleanLines,validatedAt:new Date().toISOString(),nbOuvres:ptgNbOuvres};
+
+  savePointage(monthKey,data).then(()=>{
     closeModal();
     renderMonth();
+    renderToolbox();
   });
 }
 
-function deletePtgConfirm() {
-  if (!confirm('Supprimer le pointage de ' + MN[selectedPtgMonth] + ' ' + selectedPtgYear + ' ?')) return;
-  const monthKey = getMonthKey(selectedPtgYear, selectedPtgMonth);
-  deletePointage(monthKey).then(() => {
+function deletePtgConfirm(){
+  if(!confirm('Supprimer le pointage de '+MN[selectedPtgMonth]+' '+selectedPtgYear+' ?'))return;
+  const monthKey=getMonthKey(selectedPtgYear,selectedPtgMonth);
+  deletePointage(monthKey).then(()=>{
     closeModal();
     renderMonth();
+    renderToolbox();
   });
 }
 
 // ============================================================
 // VUE CALENDRIER
 // ============================================================
-function renderCalendar(ouvres, affCharge, congeCount) {
-  const grid = document.getElementById('calGrid');
-  const DL = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
-  let html = DL.map(d => '<div class="cal-header">' + d + '</div>').join('');
+function renderCalendar(ouvres,affCharge,congeCount){
+  const grid=document.getElementById('calGrid');
+  const DL=['Lun','Mar','Mer','Jeu','Ven'];
+  let html=DL.map(d=>'<div class="cal-header">'+d+'</div>').join('');
+  const daysInMonth=new Date(curYear,curMonth+1,0).getDate();
+  const firstDay=new Date(curYear,curMonth,1);
+  let startDow=firstDay.getDay();
+  if(startDow===0)startDow=7;
+  for(let i=1;i<startDow;i++){if(i<=5)html+='<div></div>'}
 
-  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
-
-  const firstDay = new Date(curYear, curMonth, 1);
-  let startDow = firstDay.getDay();
-  if (startDow === 0) startDow = 7;
-  for (let i = 1; i < startDow; i++) {
-    if (i <= 5) html += '<div></div>';
-  }
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = new Date(curYear, curMonth, d);
-    const dow = date.getDay();
-    if (dow === 0 || dow === 6) continue;
-
-    const dkey = dk(date);
-    const ferie = isF(date);
-    const leave = LD[collabName + '|' + dkey];
-
-    let cls = 'cal-day';
-    if (ferie) cls += ' day-ferie';
-
-    html += '<div class="' + cls + '">';
-    html += '<div class="day-num">' + d + '</div>';
-
-    if (ferie) {
-      html += '<div style="font-size:.55rem;color:#666;font-style:italic">Férié</div>';
-    } else if (leave) {
-      html += '<div class="day-leave">' + escH(leave) + '</div>';
-    } else {
-      Af.forEach(aff => {
-        const k = aff.name + '|' + dkey;
-        const sl = Dt[k];
-        if (sl && Array.isArray(sl)) {
-          let cnt = 0;
-          for (let i = 0; i < 5; i++) { if (sl[i] === collabName) cnt++; }
-          if (cnt > 0) {
-            const bg = aff.type === 'etudes' ? '#e3f2fd' : '#fff3e0';
-            const col = aff.type === 'etudes' ? '#1565c0' : '#e65100';
-            const label = aff.name.length > 10 ? aff.name.substring(0, 10) + '…' : aff.name;
-            html += '<div class="day-tag" style="background:' + bg + ';color:' + col + '">' + escH(label) + ' ' + (cnt * 20) + '%</div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(curYear,curMonth,d);
+    const dow=date.getDay();
+    if(dow===0||dow===6)continue;
+    const dkey=dk(date);
+    const ferie=isF(date);
+    const leave=LD[collabName+'|'+dkey];
+    let cls='cal-day';
+    if(ferie)cls+=' day-ferie';
+    html+='<div class="'+cls+'">';
+    html+='<div class="day-num">'+d+'</div>';
+    if(ferie){html+='<div style="font-size:.55rem;color:#666;font-style:italic">Férié</div>'}
+    else if(leave){html+='<div class="day-leave">'+escH(leave)+'</div>'}
+    else{
+      Af.forEach(aff=>{
+        const k=aff.name+'|'+dkey;
+        const sl=Dt[k];
+        if(sl&&Array.isArray(sl)){
+          let cnt=0;for(let i=0;i<5;i++){if(sl[i]===collabName)cnt++}
+          if(cnt>0){
+            const bg=aff.type==='etudes'?'#e3f2fd':'#fff3e0';
+            const col=aff.type==='etudes'?'#1565c0':'#e65100';
+            const label=aff.name.length>10?aff.name.substring(0,10)+'…':aff.name;
+            html+='<div class="day-tag" style="background:'+bg+';color:'+col+'">'+escH(label)+' '+(cnt*20)+'%</div>';
           }
         }
       });
     }
-    html += '</div>';
+    html+='</div>';
   }
-
-  grid.innerHTML = html;
+  grid.innerHTML=html;
 }
 
 // ============================================================
 // UTILITAIRES
 // ============================================================
-function escH(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-function fmtNum(n) {
-  const r = Math.round(n * 10) / 10;
-  return r % 1 === 0 ? r.toFixed(0) : r.toFixed(1);
-}
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function fmtNum(n){const r=Math.round(n*100)/100;return r%1===0?r.toFixed(0):parseFloat(r.toFixed(2)).toString()}
 </script>
 </body>
 </html>
