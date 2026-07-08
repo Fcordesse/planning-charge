@@ -5,32 +5,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planning de Charge — Accueil</title>
 <style>
-:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--text:#1a1a2e;--border:#dee2e6}
+:root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--text:#1a1a2e;--border:#dee2e6;--success:#28a745;--warning:#ffc107;--danger:#dc3545}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
 .app-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 30px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 15px rgba(0,0,0,.15)}
 .app-header h1{font-size:1.3rem;font-weight:600}.app-header h1 span{color:var(--highlight)}
 .header-right{display:flex;align-items:center;gap:16px}
 .user-badge{font-size:.8rem;opacity:.8}
+.role-badge{font-size:.7rem;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px}
 .btn-logout{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s}
 .btn-logout:hover{background:rgba(255,255,255,.2)}
 .hub-container{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
-.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,320px));gap:32px;justify-content:center;max-width:750px;width:100%}
-.hub-card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:40px 32px;text-align:center;cursor:pointer;transition:.3s;border:2px solid transparent;text-decoration:none;color:var(--text)}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,320px));gap:32px;justify-content:center;max-width:1100px;width:100%}
+.hub-card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:40px 32px;text-align:center;cursor:pointer;transition:.3s;border:2px solid transparent;text-decoration:none;color:var(--text);display:none}
+.hub-card.visible{display:block}
 .hub-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.12)}
 .hub-card.card-planning:hover{border-color:var(--accent)}
 .hub-card.card-pointage:hover{border-color:var(--highlight)}
+.hub-card.card-admin:hover{border-color:var(--success)}
 .hub-icon{font-size:3.5rem;margin-bottom:20px}
 .hub-card h2{font-size:1.2rem;margin-bottom:10px;font-weight:700}
 .hub-card p{font-size:.85rem;color:#6c757d;line-height:1.5}
 .hub-card .arrow{margin-top:20px;font-size:1.2rem;opacity:.3;transition:.3s}
 .hub-card:hover .arrow{opacity:.8;transform:translateX(4px)}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:16px;width:95%;max-width:700px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);display:flex;flex-direction:column}
+.modal-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:20px 28px;display:flex;align-items:center;justify-content:space-between}
+.modal-header h2{font-size:1.15rem;font-weight:600}
+.modal-close{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.7;transition:.2s}
+.modal-close:hover{opacity:1}
+.modal-body{padding:28px;overflow-y:auto;flex:1}
+
+/* Form ajout */
+.add-user-form{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.add-user-form input[type="email"]{flex:1;min-width:200px;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:.9rem;outline:none;transition:.2s}
+.add-user-form input[type="email"]:focus{border-color:var(--accent)}
+.add-user-form select{padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:.9rem;outline:none;background:#fff;cursor:pointer}
+.add-user-form select:focus{border-color:var(--accent)}
+.btn-add{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:.9rem;cursor:pointer;font-weight:600;transition:.2s;white-space:nowrap}
+.btn-add:hover{background:var(--primary)}
+.btn-add:disabled{opacity:.5;cursor:not-allowed}
+
+/* Messages */
+.msg{padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:.85rem;display:none}
+.msg.error{display:block;background:#fde8e8;color:var(--danger);border:1px solid #f5c6cb}
+.msg.success{display:block;background:#d4edda;color:var(--success);border:1px solid #c3e6cb}
+.msg.info{display:block;background:#d1ecf1;color:#0c5460;border:1px solid #bee5eb}
+
+/* Table users */
+.users-table{width:100%;border-collapse:collapse}
+.users-table th{text-align:left;padding:10px 12px;font-size:.75rem;text-transform:uppercase;color:#6c757d;border-bottom:2px solid var(--border);letter-spacing:.5px}
+.users-table td{padding:10px 12px;font-size:.85rem;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.users-table tr:hover td{background:#f8f9fa}
+.users-table select{padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:.82rem;cursor:pointer}
+.btn-delete{padding:4px 12px;background:var(--danger);color:#fff;border:none;border-radius:6px;font-size:.78rem;cursor:pointer;transition:.2s}
+.btn-delete:hover{background:#c82333}
+.no-users{text-align:center;padding:30px;color:#adb5bd;font-size:.9rem}
+
+.loading-spinner{text-align:center;padding:20px;color:#6c757d}
 </style>
 </head>
 <body>
 <header class="app-header">
   <h1>📊 Planning <span>de Charge</span></h1>
   <div class="header-right">
+    <span class="role-badge" id="roleBadge"></span>
     <span class="user-badge" id="userBadge"></span>
     <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
   </div>
@@ -38,23 +80,57 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div class="hub-container">
   <div class="hub-grid">
-    <a href="planning.html" class="hub-card card-planning">
+    <a id="cardPlanning" href="planning.html" class="hub-card card-planning">
       <div class="hub-icon">📅</div>
       <h2>Planning de Charge</h2>
       <p>Gérer les affectations, les affaires et visualiser la charge globale de l'équipe.</p>
       <div class="arrow">→</div>
     </a>
-    <a href="pointage.html" class="hub-card card-pointage">
+    <a id="cardPointage" href="pointage.html" class="hub-card card-pointage">
       <div class="hub-icon">👤</div>
       <h2>Mon Planning</h2>
       <p>Consulter votre planning personnel, vos affectations et congés mois par mois.</p>
       <div class="arrow">→</div>
     </a>
+    <div id="cardAdmin" class="hub-card card-admin" onclick="openAdminModal()">
+      <div class="hub-icon">⚙️</div>
+      <h2>Gestion des Utilisateurs</h2>
+      <p>Ajouter des utilisateurs, attribuer des rôles et gérer les accès à l'application.</p>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Gestion des Utilisateurs -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>⚙️ Gestion des Utilisateurs</h2>
+      <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="adminMsg" class="msg"></div>
+      <div class="add-user-form">
+        <input type="email" id="newUserEmail" placeholder="Adresse e-mail..." />
+        <select id="newUserRole">
+          <option value="">— Choisir un rôle —</option>
+          <option value="admin">Admin</option>
+          <option value="responsable">Responsable</option>
+          <option value="responsable_viewer">Responsable viewer</option>
+          <option value="collaborateur">Collaborateur</option>
+        </select>
+        <button class="btn-add" id="btnAddUser" onclick="addUser()">➕ Ajouter</button>
+      </div>
+      <div id="usersListContainer">
+        <div class="loading-spinner">Chargement...</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",
@@ -67,17 +143,240 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.database();
 
+let currentUserRole = null;
+
+const ROLE_LABELS = {
+  admin: 'Admin',
+  responsable: 'Responsable',
+  responsable_viewer: 'Responsable viewer',
+  collaborateur: 'Collaborateur'
+};
+
+// ========== AUTH STATE ==========
 auth.onAuthStateChanged(user => {
   if (!user) {
     window.location.href = 'index.html';
-  } else {
-    document.getElementById('userBadge').textContent = '👤 ' + user.email;
+    return;
   }
+
+  document.getElementById('userBadge').textContent = '👤 ' + user.email;
+
+  // Chercher le rôle de l'utilisateur dans la DB
+  db.ref('users').orderByChild('email').equalTo(user.email).once('value', snapshot => {
+    if (snapshot.exists()) {
+      const userData = Object.values(snapshot.val())[0];
+      currentUserRole = userData.role || 'collaborateur';
+    } else {
+      // Utilisateur connecté mais pas encore dans la DB de rôles
+      // Par défaut : collaborateur
+      currentUserRole = 'collaborateur';
+    }
+
+    document.getElementById('roleBadge').textContent = ROLE_LABELS[currentUserRole] || currentUserRole;
+    applyRoleVisibility();
+  });
 });
 
+// ========== VISIBILITÉ SELON RÔLE ==========
+function applyRoleVisibility() {
+  const cardPlanning = document.getElementById('cardPlanning');
+  const cardPointage = document.getElementById('cardPointage');
+  const cardAdmin = document.getElementById('cardAdmin');
+
+  // Reset
+  cardPlanning.classList.remove('visible');
+  cardPointage.classList.remove('visible');
+  cardAdmin.classList.remove('visible');
+
+  switch (currentUserRole) {
+    case 'admin':
+      cardPlanning.classList.add('visible');
+      cardPointage.classList.add('visible');
+      cardAdmin.classList.add('visible');
+      break;
+
+    case 'responsable':
+      cardPlanning.classList.add('visible');
+      cardPointage.classList.add('visible');
+      break;
+
+    case 'responsable_viewer':
+      // Accès en lecture seule — on ajoute ?viewer=true aux liens
+      cardPlanning.href = 'planning.html?viewer=true';
+      cardPointage.href = 'pointage.html?viewer=true';
+      cardPlanning.classList.add('visible');
+      cardPointage.classList.add('visible');
+      break;
+
+    case 'collaborateur':
+    default:
+      cardPointage.classList.add('visible');
+      break;
+  }
+}
+
+// ========== LOGOUT ==========
 function logout() {
   auth.signOut().then(() => { window.location.href = 'index.html'; });
+}
+
+// ========== ADMIN MODAL ==========
+function openAdminModal() {
+  if (currentUserRole !== 'admin') return;
+  document.getElementById('adminModal').classList.add('active');
+  clearMsg();
+  loadUsers();
+}
+
+function closeAdminModal() {
+  document.getElementById('adminModal').classList.remove('active');
+}
+
+// Fermer modal en cliquant à l'extérieur
+document.getElementById('adminModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAdminModal();
+});
+
+// ========== MESSAGES ==========
+function showMsg(text, type) {
+  const el = document.getElementById('adminMsg');
+  el.textContent = text;
+  el.className = 'msg ' + type;
+}
+
+function clearMsg() {
+  const el = document.getElementById('adminMsg');
+  el.className = 'msg';
+  el.textContent = '';
+}
+
+// ========== AJOUTER UTILISATEUR ==========
+async function addUser() {
+  const emailInput = document.getElementById('newUserEmail');
+  const roleSelect = document.getElementById('newUserRole');
+  const email = emailInput.value.trim().toLowerCase();
+  const role = roleSelect.value;
+
+  clearMsg();
+
+  if (!email) { showMsg('Veuillez saisir une adresse e-mail.', 'error'); return; }
+  if (!role) { showMsg('Veuillez choisir un rôle.', 'error'); return; }
+
+  const btn = document.getElementById('btnAddUser');
+  btn.disabled = true;
+  btn.textContent = '⏳ Vérification...';
+
+  try {
+    // Vérifier si l'email existe dans Firebase Auth via fetchSignInMethodsForEmail
+    const methods = await auth.fetchSignInMethodsForEmail(email);
+
+    if (methods.length === 0) {
+      showMsg('❌ Adresse mail non répertoriée. L\'utilisateur doit d\'abord être autorisé dans Firebase Authentication.', 'error');
+      btn.disabled = false;
+      btn.textContent = '➕ Ajouter';
+      return;
+    }
+
+    // Vérifier si l'utilisateur existe déjà dans la DB de rôles
+    const snapshot = await db.ref('users').orderByChild('email').equalTo(email).once('value');
+
+    if (snapshot.exists()) {
+      // Mettre à jour le rôle
+      const uid = Object.keys(snapshot.val())[0];
+      await db.ref('users/' + uid).update({ role: role });
+      showMsg('✅ Rôle mis à jour pour ' + email + ' → ' + ROLE_LABELS[role], 'success');
+    } else {
+      // Ajouter nouveau
+      const newRef = db.ref('users').push();
+      await newRef.set({ email: email, role: role });
+      showMsg('✅ Utilisateur ajouté : ' + email + ' → ' + ROLE_LABELS[role], 'success');
+    }
+
+    emailInput.value = '';
+    roleSelect.value = '';
+    loadUsers();
+
+  } catch (err) {
+    console.error(err);
+    // fetchSignInMethodsForEmail peut échouer si l'email n'existe pas selon la config
+    if (err.code === 'auth/invalid-email') {
+      showMsg('❌ Adresse e-mail invalide.', 'error');
+    } else if (err.code === 'auth/user-not-found') {
+      showMsg('❌ Adresse mail non répertoriée.', 'error');
+    } else {
+      showMsg('❌ Adresse mail non répertoriée ou erreur : ' + err.message, 'error');
+    }
+  }
+
+  btn.disabled = false;
+  btn.textContent = '➕ Ajouter';
+}
+
+// ========== CHARGER LISTE UTILISATEURS ==========
+function loadUsers() {
+  const container = document.getElementById('usersListContainer');
+  container.innerHTML = '<div class="loading-spinner">Chargement...</div>';
+
+  db.ref('users').once('value', snapshot => {
+    if (!snapshot.exists() || Object.keys(snapshot.val()).length === 0) {
+      container.innerHTML = '<div class="no-users">Aucun utilisateur enregistré.</div>';
+      return;
+    }
+
+    const users = snapshot.val();
+    let html = `<table class="users-table">
+      <thead><tr><th>Email</th><th>Rôle</th><th>Action</th></tr></thead><tbody>`;
+
+    Object.entries(users).forEach(([uid, u]) => {
+      html += `<tr>
+        <td>${u.email}</td>
+        <td>
+          <select onchange="updateRole('${uid}', this.value)">
+            <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Admin</option>
+            <option value="responsable" ${u.role === 'responsable' ? 'selected' : ''}>Responsable</option>
+            <option value="responsable_viewer" ${u.role === 'responsable_viewer' ? 'selected' : ''}>Responsable viewer</option>
+            <option value="collaborateur" ${u.role === 'collaborateur' ? 'selected' : ''}>Collaborateur</option>
+          </select>
+        </td>
+        <td><button class="btn-delete" onclick="deleteUser('${uid}', '${u.email}')">🗑 Supprimer</button></td>
+      </tr>`;
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  });
+}
+
+// ========== MODIFIER RÔLE ==========
+function updateRole(uid, newRole) {
+  clearMsg();
+  db.ref('users/' + uid).update({ role: newRole }).then(() => {
+    showMsg('✅ Rôle mis à jour avec succès.', 'success');
+  }).catch(err => {
+    showMsg('❌ Erreur : ' + err.message, 'error');
+  });
+}
+
+// ========== SUPPRIMER UTILISATEUR ==========
+function deleteUser(uid, email) {
+  clearMsg();
+  // Empêcher de se supprimer soi-même
+  const currentUser = auth.currentUser;
+  if (currentUser && currentUser.email.toLowerCase() === email.toLowerCase()) {
+    showMsg('⚠️ Vous ne pouvez pas supprimer votre propre compte.', 'error');
+    return;
+  }
+
+  if (!confirm('Supprimer l\'utilisateur ' + email + ' ?')) return;
+
+  db.ref('users/' + uid).remove().then(() => {
+    showMsg('✅ Utilisateur supprimé.', 'success');
+    loadUsers();
+  }).catch(err => {
+    showMsg('❌ Erreur : ' + err.message, 'error');
+  });
 }
 </script>
 </body>
