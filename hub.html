@@ -10,11 +10,14 @@
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
 .app-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 30px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 15px rgba(0,0,0,.15)}
 .app-header h1{font-size:1.3rem;font-weight:600}.app-header h1 span{color:var(--highlight)}
-.header-right{display:flex;align-items:center;gap:16px}
+.header-right{display:flex;align-items:center;gap:12px}
 .user-badge{font-size:.8rem;opacity:.8}
 .role-badge{font-size:.7rem;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px}
 .btn-logout{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s}
 .btn-logout:hover{background:rgba(255,255,255,.2)}
+.btn-admin-header{padding:5px 14px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(233,69,96,.25);color:#fff;font-size:.75rem;cursor:pointer;transition:.2s;display:none;font-weight:600}
+.btn-admin-header.visible{display:inline-flex;align-items:center;gap:5px}
+.btn-admin-header:hover{background:rgba(233,69,96,.45)}
 .hub-container{flex:1;display:none;align-items:center;justify-content:center;padding:40px 20px}
 .hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,320px));gap:32px;justify-content:center;max-width:1100px;width:100%}
 .hub-card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:40px 32px;text-align:center;cursor:pointer;transition:.3s;border:2px solid transparent;text-decoration:none;color:var(--text);display:none}
@@ -22,7 +25,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .hub-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.12)}
 .hub-card.card-planning:hover{border-color:var(--accent)}
 .hub-card.card-pointage:hover{border-color:var(--highlight)}
-.hub-card.card-admin:hover{border-color:var(--success)}
+.hub-card.card-gestion:hover{border-color:#6f42c1}
 .hub-icon{font-size:3.5rem;margin-bottom:20px}
 .hub-card h2{font-size:1.2rem;margin-bottom:10px;font-weight:700}
 .hub-card p{font-size:.85rem;color:#6c757d;line-height:1.5}
@@ -74,6 +77,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div class="header-right">
     <span class="role-badge" id="roleBadge"></span>
     <span class="user-badge" id="userBadge"></span>
+    <button class="btn-admin-header" id="btnAdminHeader" onclick="openAdminModal()">⚙️ Utilisateurs</button>
     <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
   </div>
 </header>
@@ -86,18 +90,18 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       <p>Gérer les affectations, les affaires et visualiser la charge globale de l'équipe.</p>
       <div class="arrow">→</div>
     </a>
+    <a id="cardGestion" href="gestion.html" class="hub-card card-gestion">
+      <div class="hub-icon">📋</div>
+      <h2>Gestion</h2>
+      <p>Gérer les pointages, valider les heures et suivre l'activité des collaborateurs.</p>
+      <div class="arrow">→</div>
+    </a>
     <a id="cardPointage" href="pointage.html" class="hub-card card-pointage">
       <div class="hub-icon">👤</div>
       <h2>Mon Planning</h2>
       <p>Consulter votre planning personnel, vos affectations et congés mois par mois.</p>
       <div class="arrow">→</div>
     </a>
-    <div id="cardAdmin" class="hub-card card-admin" onclick="openAdminModal()">
-      <div class="hub-icon">⚙️</div>
-      <h2>Gestion des Utilisateurs</h2>
-      <p>Ajouter des utilisateurs, attribuer des rôles et gérer les accès à l'application.</p>
-      <div class="arrow">→</div>
-    </div>
   </div>
 </div>
 
@@ -109,6 +113,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   </div>
 </div>
 
+<!-- Modal Gestion des Utilisateurs -->
 <div class="modal-overlay" id="adminModal">
   <div class="modal">
     <div class="modal-header">
@@ -208,37 +213,42 @@ auth.onAuthStateChanged(user => {
 });
 
 function showAccess() {
-  console.log('=== ACCÈS AUTORISÉ → rôle:', currentUserRole, '===');
   document.getElementById('roleBadge').textContent = ROLE_LABELS[currentUserRole] || currentUserRole;
   document.getElementById('hubContainer').style.display = 'flex';
   document.getElementById('blockedScreen').classList.remove('active');
   applyRoleVisibility();
 }
 
-// ========== VISIBILITÉ ==========
+// ========== VISIBILITÉ SELON RÔLE ==========
 function applyRoleVisibility() {
   const cardPlanning = document.getElementById('cardPlanning');
+  const cardGestion = document.getElementById('cardGestion');
   const cardPointage = document.getElementById('cardPointage');
-  const cardAdmin = document.getElementById('cardAdmin');
+  const btnAdmin = document.getElementById('btnAdminHeader');
 
   cardPlanning.classList.remove('visible');
+  cardGestion.classList.remove('visible');
   cardPointage.classList.remove('visible');
-  cardAdmin.classList.remove('visible');
+  btnAdmin.classList.remove('visible');
 
   switch (currentUserRole) {
     case 'admin':
       cardPlanning.classList.add('visible');
+      cardGestion.classList.add('visible');
       cardPointage.classList.add('visible');
-      cardAdmin.classList.add('visible');
+      btnAdmin.classList.add('visible');  // Bouton header visible uniquement pour admin
       break;
     case 'responsable':
       cardPlanning.classList.add('visible');
+      cardGestion.classList.add('visible');
       cardPointage.classList.add('visible');
       break;
     case 'responsable_viewer':
       cardPlanning.href = 'planning.html?viewer=true';
+      cardGestion.href = 'gestion.html?viewer=true';
       cardPointage.href = 'pointage.html?viewer=true';
       cardPlanning.classList.add('visible');
+      cardGestion.classList.add('visible');
       cardPointage.classList.add('visible');
       break;
     case 'collaborateur':
@@ -302,7 +312,6 @@ async function addUser() {
   btn.textContent = '⏳ Ajout...';
 
   try {
-    // Chercher si cet email existe déjà dans /users
     let found = false;
     let foundUid = null;
     const allSnap = await db.ref('users').once('value');
@@ -317,11 +326,9 @@ async function addUser() {
     }
 
     if (found) {
-      // Existe déjà → mettre à jour le rôle
       await db.ref('users/' + foundUid).update({ role: role });
       showMsg('✅ Rôle mis à jour pour ' + email + ' → ' + ROLE_LABELS[role], 'success');
     } else {
-      // Nouveau → créer avec clé temporaire
       const tempKey = 'pending_' + email.replace(/\./g, '_dot_').replace(/@/g, '_at_');
       await db.ref('users/' + tempKey).set({
         email: email,
