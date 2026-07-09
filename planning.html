@@ -75,16 +75,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .sb{display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#000;cursor:pointer;overflow:hidden;user-select:none;transition:filter .15s;position:relative;border-bottom:1px dotted rgba(0,0,0,.06)}
 .sb:last-child{border-bottom:none}.sb:hover{filter:brightness(1.15)}
 .sb.eb{color:transparent;background:transparent;cursor:pointer}.sb.eb:hover{background:rgba(0,0,0,.05)}
-.cvb{display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;overflow:hidden;user-select:none;border-bottom:1px dotted rgba(0,0,0,.06);white-space:nowrap;padding:0 1px}
+.cvb{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;overflow:hidden;user-select:none;border-bottom:1px dotted rgba(0,0,0,.06);white-space:nowrap;padding:0 2px}
 .cvb:last-child{border-bottom:none}
-.cv-avail{display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:800;user-select:none}
+.cv-avail{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;user-select:none}
 .cv-avail.avail-free{background:#e8f5e9;color:#2e7d32}
 .overload-cell{outline:3px solid #d32f2f;outline-offset:-3px;z-index:3}
-/* MODIF 2 : texte surcharge au-dessus des colonnes, chevauchement autorisé */
-.overload-wm{position:absolute;top:-18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:50;overflow:visible;white-space:nowrap}
-.overload-wm span{font-size:.7rem;font-weight:900;color:#d32f2f;white-space:nowrap;letter-spacing:.5px;background:rgba(255,255,255,.9);padding:1px 6px;border-radius:4px;border:1px solid #d32f2f}
+.overload-wm{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:900;color:#d32f2f;user-select:none;white-space:nowrap;padding:0 2px;background:#fff3f3;border-bottom:1px dotted rgba(211,47,47,.2)}
+.overload-wm:last-child{border-bottom:none}
 .leave-cell{display:flex;align-items:center;justify-content:center;width:100%;height:calc(var(--slot-h)*5);background:#222;color:#fff;font-size:.65rem;font-weight:800;user-select:none;letter-spacing:.5px}
-.leave-cell-cv{background:#333;color:#fff;font-size:.55rem;font-weight:700;display:flex;align-items:center;justify-content:center;height:calc(var(--slot-h)*5)}
+.leave-cell-cv{background:#333;color:#fff;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;height:calc(var(--slot-h)*5);white-space:nowrap}
 .jalon-overlay{position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none;z-index:6}
 .jalon-tri{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #ff1744}
 .jalon-lbl{font-size:.48rem;font-weight:800;text-align:center;text-shadow:0 0 2px #fff,0 0 2px #fff;white-space:nowrap}
@@ -136,7 +135,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .loading-overlay.show{display:flex}
 .loading-overlay .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--highlight);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* MODIF 5 : styles pour les sections Offre */
 .offre-section{background:#eef2ff;border-radius:8px;padding:14px;margin-bottom:12px;border:1px solid #c5cae9}
 .offre-section h5{font-size:.82rem;margin-bottom:10px;color:#283593;display:flex;align-items:center;gap:6px}
 .offre-add-btn{padding:6px 14px;border:2px dashed #7986cb;border-radius:8px;background:none;color:#3949ab;font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;margin-top:4px}
@@ -147,7 +145,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </head>
 <body>
 
-<!-- ÉCRAN DE CHARGEMENT -->
 <div class="loading-overlay show" id="loadingOverlay">
   <div class="spinner"></div>
   <div style="font-size:.9rem;color:var(--text-light)">Chargement des données...</div>
@@ -204,7 +201,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <div class="modal-overlay" id="mAdd"><div class="modal"><div class="modal-header"><h2>Ajouter une affaire</h2></div><div class="modal-body"><label>Nom</label><input type="text" id="nAN" placeholder="Projet Alpha"><label>Type</label><select id="nAT" onchange="updJF('add')"><option value="etudes">📐 Études</option><option value="travaux">🔨 Travaux</option></select><div class="jalons-section"><h4>🚩 Jalons (optionnels)</h4><div id="addJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mAdd')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="addAff()">Valider</button></div></div></div>
 <div class="modal-overlay" id="mDel"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#c82333,#dc3545)"><h2>Supprimer</h2></div><div class="modal-body"><label>Nom exact</label><input type="text" id="dAN"><div id="dAL" style="font-size:.8rem;color:var(--text-light);margin-top:-8px;margin-bottom:8px"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mDel')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="delAff()">Supprimer</button></div></div></div>
 <div class="modal-overlay" id="mEJ"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>Jalons</h2></div><div class="modal-body"><div style="font-size:.9rem;font-weight:600;margin-bottom:12px" id="eJN"></div><div class="jalons-section"><h4>🚩 Jalons</h4><div id="eJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mEJ')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="saveJ()">Enregistrer</button></div></div></div>
-<!-- MODIF 4 : Modal de confirmation conflit congé/affaire -->
 <div class="modal-overlay" id="mLeaveConfirm"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>⚠️ Conflit détecté</h2></div><div class="modal-body"><div id="leaveConflictMsg" style="font-size:.9rem;line-height:1.5"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="cancelLeaveConflict()">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmLeaveConflict()">Appliquer le congé</button></div></div></div>
 <div class="toast-container" id="toastC"></div>
 
@@ -234,9 +230,6 @@ function logout() {
   auth.signOut().then(() => { window.location.href = 'hub.html'; });
 }
 
-// ============================================================
-// VARIABLES GLOBALES
-// ============================================================
 let Co = [];
 let Af = [];
 let Dt = {};
@@ -251,25 +244,14 @@ const JE=['Prébouclage','Bouclage','Remise offre','Oral'];
 const JT=['Fin prépa','Fin GO','Réception'];
 const JC={'Prébouclage':'#ff1744','Bouclage':'#d500f9','Remise offre':'#2979ff','Oral':'#00c853','Fin prépa':'#ff6d00','Fin GO':'#aa00ff','Réception':'#00bfa5'};
 
-// MODIF 4 : variable temporaire pour le conflit congé
 let _pendingLeave = null;
 
-// ============================================================
-// 🔥 FIREBASE : SAUVEGARDE ET CHARGEMENT
-// ============================================================
-
-// MODIF 3 : sv() affiche un toast "Sauvegardé ✓" après écriture réussie
 function sv() {
   if (_saving) return;
   _saving = true;
   setTimeout(() => { _saving = false; }, 300);
-
   db.ref('planning').set({
-    collaborateurs: Co,
-    affaires: Af,
-    donnees: Dt,
-    typesConges: LT,
-    conges: LD
+    collaborateurs: Co, affaires: Af, donnees: Dt, typesConges: LT, conges: LD
   }).then(() => {
     toast('Sauvegardé ✓','success');
   }).catch(err => {
@@ -287,17 +269,13 @@ function loadFromFirebase() {
       Dt = data.donnees || {};
       LT = data.typesConges || ["CP","RTT","CM","AM"];
       LD = data.conges || {};
-      // MODIF 5 : migration des anciennes affaires études sans offres
       Af.forEach(a => {
         if (a.type === 'etudes' && a.jalons && !a.offres) {
           const hasEtudeJalons = JE.some(j => a.jalons[j] !== undefined);
           if (hasEtudeJalons) {
             a.offres = [{ label: 'Offre 1', jalons: {} }];
             JE.forEach(j => {
-              if (a.jalons[j]) {
-                a.offres[0].jalons[j] = a.jalons[j];
-                delete a.jalons[j];
-              }
+              if (a.jalons[j]) { a.offres[0].jalons[j] = a.jalons[j]; delete a.jalons[j]; }
             });
           }
         }
@@ -309,9 +287,6 @@ function loadFromFirebase() {
   });
 }
 
-// ============================================================
-// FONCTIONS UTILITAIRES
-// ============================================================
 function toast(m,t='info'){const c=document.getElementById('toastC'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),3000)}
 function swT(t,b){curTab=t;document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');b.classList.add('active');render()}
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
@@ -338,7 +313,6 @@ function setFill(m){fillMode=m;document.querySelectorAll('#tab-affaire .fill-btn
 function setLFill(m){lFillMode=m;document.querySelectorAll('#tab-conges .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('lfill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
 function getBD(f,t){const d=[];const x=new Date(f);while(x<=t){if(!isWE(x)&&!isF(x))d.push(dk(x));x.setDate(x.getDate()+1)}return d}
 function getTD(an,ck){const cd=pdk(ck);if(fillMode==='none')return[ck];if(fillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(fillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));if(fillMode==='jalon'){const af=Af.find(a=>a.name===an);if(!af){toast('Aucun jalon.','error');return[ck]}
-// MODIF 5 : collecter jalons depuis offres aussi
 const allJalonDates=[];
 if(af.jalons)Object.values(af.jalons).forEach(v=>{if(v)allJalonDates.push(v)});
 if(af.offres)af.offres.forEach(o=>{if(o.jalons)Object.values(o.jalons).forEach(v=>{if(v)allJalonDates.push(v)})});
@@ -347,7 +321,6 @@ const jd=allJalonDates.filter(v=>v).sort();let tg=null;for(const j of jd){if(j>c
 function getLTD(ck){const cd=pdk(ck);if(lFillMode==='none')return[ck];if(lFillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(lFillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));return[ck]}
 function jK(t){return t==='etudes'?JE:JT}
 
-// MODIF 5 : rJI gère les offres (études) et jalons plats (travaux)
 function rJI(cid,t,v,offres){
   const container=document.getElementById(cid);
   if(t==='etudes'){
@@ -416,7 +389,6 @@ function updJF(m){
   }
 }
 
-// MODIF 5 : cJ collecte les jalons par offre (études) ou à plat (travaux)
 function cJ(cid,type){
   if(type==='etudes'){
     const container=document.getElementById(cid);
@@ -443,10 +415,8 @@ function getDates(){const dates=[];let d=new Date(sDate),s=0;while(dates.length<
 function buildHead(thId,label){const dates=getDates(),thead=document.getElementById(thId);let yc='<th class="col-aff" rowspan="4">'+label+'</th>',i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}let mc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}let wc='';i=0;while(i<dates.length){const w=wn(dates[i]),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w&&dates[i+sp].getFullYear()===y)sp++;wc+='<th colspan="'+sp+'">S'+w+'</th>';i+=sp}let dc='';dates.forEach(dd=>{let cl='';if(isT(dd))cl+=' today';if(isF(dd))cl+=' ferie-day';dc+='<th class="'+cl+'">'+DI[dd.getDay()]+dd.getDate()+'</th>'});thead.innerHTML='<tr class="row-year">'+yc+'</tr><tr class="row-month">'+mc+'</tr><tr class="row-week">'+wc+'</tr><tr class="row-day">'+dc+'</tr>';return dates}
 
 // ============================================================
-// RENDU DES VUES
+// HELPERS JALONS
 // ============================================================
-
-// MODIF 5 : helpers pour collecter tous les jalons d'une affaire (offres incluses)
 function getAllJalons(aff){
   const jd={};
   if(aff.jalons){Object.entries(aff.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}})}
@@ -457,7 +427,7 @@ function getAllJalons(aff){
 function getAllJalonsBadges(aff){
   let badges='';const entries=[];
   if(aff.jalons){Object.entries(aff.jalons).forEach(([k,v])=>{if(v)entries.push([k,v])})}
-  if(aff.offres){aff.offres.forEach((o,oi)=>{if(o.jalons){Object.entries(o.jalons).forEach(([k,v])=>{if(v)entries.push([k,v,o.label])})}})}
+  if(aff.offres){aff.offres.forEach((o)=>{if(o.jalons){Object.entries(o.jalons).forEach(([k,v])=>{if(v)entries.push([k,v,o.label])})}})}
   if(entries.length){
     badges='<div class="jb">';
     entries.forEach(([k,v,lbl])=>{
@@ -470,6 +440,9 @@ function getAllJalonsBadges(aff){
   return badges;
 }
 
+// ============================================================
+// RENDU VUE AFFAIRE (inchangé)
+// ============================================================
 function renderAffaire(){const dates=buildHead('pH1','Affaires');const tbody=document.getElementById('pB1');const{etudes,travaux}=sortAf();if(!etudes.length&&!travaux.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucune affaire</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
 function sec(items,type){const icon=type==='etudes'?'📐':'🔨',label=type==='etudes'?'ÉTUDES':'TRAVAUX';bh+='<tr class="section-header-row"><td class="col-aff section-cell">'+icon+' '+label+'</td>';dates.forEach(()=>{bh+='<td class="section-cell"></td>'});bh+='</tr>';if(!items.length)return;
 items.forEach(aff=>{const ai=Af.indexOf(aff);
@@ -481,56 +454,107 @@ sec(etudes,'etudes');sec(travaux,'travaux');tbody.innerHTML=bh;}
 
 function getLoad(cn,dkey){const entries=[];Af.forEach(aff=>{const sl=getSl(aff.name,dkey);let cnt=0;for(let i=0;i<5;i++){if(sl[i]===cn)cnt++}if(cnt>0)entries.push({name:aff.name,cnt,type:aff.type})});return{used:entries.reduce((s,e)=>s+e.cnt,0),entries}}
 
-// MODIF 2 : texte surcharge au-dessus des colonnes, chevauchement multi-colonnes
-function renderCollab(){const dates=buildHead('pH2','Collaborateurs');const tbody=document.getElementById('pB2');if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
-Co.forEach(col=>{const loads=dates.map(dd=>{if(isF(dd))return{fer:true,used:0,entries:[],status:'fer',pct:0};const lv=hasLeave(col.name,dk(dd));if(lv)return{fer:false,leave:lv,used:5,entries:[],status:'leave',pct:100};const ld=getLoad(col.name,dk(dd));let st='full';if(ld.used>5)st='over';else if(ld.used<5)st='free';return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st,pct:ld.used*20}});
-
-// MODIF 2 : identifier les groupes de surcharge contigus
-const overGroups=[];
-let ogi=0;
-while(ogi<dates.length){
-  if(loads[ogi].status==='over'){
-    let ostart=ogi;let maxPct=loads[ogi].pct;
-    while(ogi<dates.length&&loads[ogi].status==='over'){if(loads[ogi].pct>maxPct)maxPct=loads[ogi].pct;ogi++}
-    overGroups.push({start:ostart,len:ogi-ostart,pct:maxPct});
-  } else {ogi++}
-}
-const overMap=new Array(dates.length).fill(null);
-overGroups.forEach(g=>{for(let i=0;i<g.len;i++)overMap[g.start+i]={g,pos:i}});
-
-bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';
-
-dates.forEach((dd,di)=>{const ld=loads[di];const dkey=dk(dd);let cls='dc';if(isT(dd))cls+=' tc';if(ld.fer)cls+=' fc';
-
-if(ld.fer){bh+='<td class="'+cls+'"><div class="sw"></div></td>';return}
-if(ld.leave){bh+='<td class="'+cls+'"><div class="leave-cell-cv">'+eH(ld.leave)+'</div></td>';return}
-
-let sh='';ld.entries.forEach(e=>{const st='height:calc(var(--slot-h)*'+e.cnt+')';const bg=e.type==='etudes'?'#ffe0b2':'#bbdefb';const lb=e.name.length>6?e.name.substring(0,6)+'…':e.name;sh+='<div class="cvb" style="'+st+';background:'+bg+';color:#000" title="'+eA(e.name)+' '+e.cnt*20+'%">'+eH(lb)+'</div>'});
-
-if(ld.status==='free'){const fs=5-ld.used;const fp=fs*20;
-// Calcul du milieu du groupe libre contigu
-let gStart=di,gEnd=di;
-while(gStart>0&&!loads[gStart-1].fer&&!loads[gStart-1].leave&&loads[gStart-1].status==='free'&&loads[gStart-1].pct===ld.pct)gStart--;
-while(gEnd<dates.length-1&&!loads[gEnd+1].fer&&!loads[gEnd+1].leave&&loads[gEnd+1].status==='free'&&loads[gEnd+1].pct===ld.pct)gEnd++;
-const isMid2=di===gStart+Math.floor((gEnd-gStart)/2);
-sh+='<div class="cv-avail avail-free" style="height:calc(var(--slot-h)*'+fs+')">'+(isMid2?fp+'%':'')+'</div>'}
-
-if(ld.status==='over')cls+=' overload-cell';
-
-// MODIF 2 : texte surcharge positionné au-dessus, couvrant le groupe
-let overHtml='';
-if(ld.status==='over'){
-  const og=overMap[di];
-  if(og&&og.pos===0){
-    const spanWidth=og.g.len;
-    overHtml='<div class="overload-wm" style="width:calc(40px * '+spanWidth+');left:0;transform:none;"><span>⚠ Surcharge '+og.g.pct+'%</span></div>';
-  }
+// ============================================================
+// RENDU VUE COLLABORATEUR — FUSION DE CELLULES ADJACENTES
+// ============================================================
+function makeLoadSig(ld){
+  if(ld.fer) return 'FER';
+  if(ld.leave) return 'LV|'+ld.leave;
+  const parts=ld.entries.map(e=>e.name+':'+e.cnt).sort();
+  return 'W|'+ld.used+'|'+parts.join(',');
 }
 
-bh+='<td class="'+cls+'"><div class="sw">'+sh+'</div>'+overHtml+'</td>';
+function renderCollab(){
+  const dates=buildHead('pH2','Collaborateurs');
+  const tbody=document.getElementById('pB2');
+  if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}
+  let bh='';
 
-});bh+='</tr>';});tbody.innerHTML=bh;}
+  Co.forEach(col=>{
+    // 1) Calculer le load de chaque jour
+    const loads=dates.map(dd=>{
+      if(isF(dd)) return{fer:true,used:0,entries:[],status:'fer',pct:0,leave:null};
+      const lv=hasLeave(col.name,dk(dd));
+      if(lv) return{fer:false,leave:lv,used:5,entries:[],status:'leave',pct:100};
+      const ld=getLoad(col.name,dk(dd));
+      let st='full';
+      if(ld.used>5)st='over';else if(ld.used<5)st='free';
+      return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st,pct:ld.used*20};
+    });
 
+    // 2) Signatures et groupement des jours consécutifs identiques
+    const sigs=loads.map(l=>makeLoadSig(l));
+    const groups=[];
+    let gi=0;
+    while(gi<dates.length){
+      const sig=sigs[gi];
+      let glen=1;
+      while(gi+glen<dates.length && sigs[gi+glen]===sig) glen++;
+      groups.push({start:gi, len:glen, load:loads[gi]});
+      gi+=glen;
+    }
+
+    // 3) Générer le HTML avec colspan
+    bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';
+
+    groups.forEach(g=>{
+      const ld=g.load;
+      const nj=g.len;
+      const cs=nj>1?' colspan="'+nj+'"':'';
+
+      // Férié
+      if(ld.fer){
+        bh+='<td class="dc fc"'+cs+'><div class="sw"></div></td>';
+        return;
+      }
+
+      // Congé
+      if(ld.leave){
+        const txt=eH(ld.leave)+(nj>1?' - '+nj+'j':'');
+        bh+='<td class="dc"'+cs+'><div class="leave-cell-cv">'+txt+'</div></td>';
+        return;
+      }
+
+      // Jour de travail
+      let cls='dc';
+      if(ld.status==='over') cls+=' overload-cell';
+
+      let sh='';
+
+      // Barres d'affaires
+      ld.entries.forEach(e=>{
+        const pct=e.cnt*20;
+        const st='height:calc(var(--slot-h)*'+e.cnt+')';
+        const bg=e.type==='etudes'?'#ffe0b2':'#bbdefb';
+        const label=e.name+(nj>1?' - '+nj+'j':'')+' - '+pct+'%';
+        sh+='<div class="cvb" style="'+st+';background:'+bg+';color:#000" title="'+eA(e.name)+' '+pct+'%">'+eH(label)+'</div>';
+      });
+
+      // Surcharge : ⚠ X% dans la cellule
+      if(ld.status==='over'){
+        const overSlots=ld.used-5;
+        sh+='<div class="overload-wm" style="height:calc(var(--slot-h)*'+Math.max(overSlots,1)+')">⚠ '+ld.pct+'%</div>';
+      }
+
+      // Disponibilité restante
+      if(ld.status==='free'){
+        const fs=5-ld.used;
+        const fp=fs*20;
+        const label=nj>1?fp+'% - '+nj+'j':fp+'%';
+        sh+='<div class="cv-avail avail-free" style="height:calc(var(--slot-h)*'+fs+')">'+label+'</div>';
+      }
+
+      bh+='<td class="'+cls+'"'+cs+'><div class="sw">'+sh+'</div></td>';
+    });
+
+    bh+='</tr>';
+  });
+  tbody.innerHTML=bh;
+}
+
+// ============================================================
+// RENDU VUE CONGÉS (inchangé)
+// ============================================================
 function renderConges(){const dates=buildHead('pH3','Collaborateurs');const tbody=document.getElementById('pB3');if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
 Co.forEach(col=>{bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';const cn=eA(col.name).replace(/'/g,"\\'");
 dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"></div></td>';return}
@@ -542,8 +566,6 @@ function render(){if(curTab==='affaire'){renderToolbox();renderAffaire()}else if
 // ============================================================
 // ACTIONS PLANNING
 // ============================================================
-
-// MODIF 1 : onBl remplit uniquement les slots NULL, refuse si pas assez de slots libres
 function onBl(aff,dkey,si,bs){const sl=getSl(aff,dkey);
 
 if(eraser){const nm=sl[si];if(nm){const tg=getTD(aff,dkey);tg.forEach(d=>{const s=getSl(aff,d);for(let i=0;i<5;i++){if(s[i]===nm)s[i]=null}Dt[aff+'|'+d]=s});sv();render();toast('Effacé ('+tg.length+'j).','info')}return}
@@ -553,10 +575,8 @@ if(!selCol){toast('Sélectionnez un collaborateur.','error');return}
 const tg=getTD(aff,dkey);const need=selPct/20;let filled=0,blocked=0,full=0;
 
 tg.forEach(d=>{if(hasLeave(selCol,d)){blocked++;return}const s=getSl(aff,d);
-// Compter uniquement les slots libres (null)
 const freeSlots=[];for(let i=0;i<5;i++){if(s[i]===null)freeSlots.push(i)}
 if(freeSlots.length<need){full++;return}
-// Trier par proximité au slot cliqué
 freeSlots.sort((a,b)=>Math.abs(a-si)-Math.abs(b-si));
 for(let n=0;n<need;n++)s[freeSlots[n]]=selCol;
 Dt[aff+'|'+d]=s;filled++});
@@ -566,13 +586,11 @@ if(blocked)toast(blocked+'j bloqué(s) (congé).','error');
 if(full)toast(full+'j ignoré(s) (100% atteint).','error');
 if(tg.length>1&&filled)toast('Rempli '+filled+'/'+tg.length+'j.','success');}
 
-// MODIF 4 : onLC vérifie les conflits avant de poser un congé
 function onLC(cn,dkey){
 if(leaveEraser){if(LD[cn+'|'+dkey]){const tg=getLTD(dkey);tg.forEach(d=>{delete LD[cn+'|'+d]});sv();render();toast('Congé supprimé.','info')}return}
 if(!selLeave){toast('Sélectionnez un type.','error');return}
 
 const tg=getLTD(dkey);
-// Vérifier les conflits : le collaborateur a-t-il des affaires sur ces jours ?
 const conflicts=[];
 tg.forEach(d=>{
   Af.forEach(aff=>{
@@ -584,7 +602,6 @@ tg.forEach(d=>{
 });
 
 if(conflicts.length>0){
-  // Conflit détecté : afficher le modal de confirmation
   _pendingLeave={cn,days:tg,leaveType:selLeave,conflicts};
   let msg='<p>Le collaborateur <b>'+eH(cn)+'</b> est affecté à des affaires sur ces jours :</p><ul style="margin:10px 0;padding-left:20px">';
   const byDay={};
@@ -599,19 +616,16 @@ if(conflicts.length>0){
   return;
 }
 
-// Pas de conflit : appliquer directement
 tg.forEach(d=>{LD[cn+'|'+d]=selLeave});sv();render();toast(selLeave+' ('+tg.length+'j).','success');}
 
 function confirmLeaveConflict(){
   if(!_pendingLeave)return;
   const{cn,days,leaveType,conflicts}=_pendingLeave;
-  // Supprimer les affectations du collaborateur sur ces jours
   conflicts.forEach(c=>{
     const sl=getSl(c.aff,c.day);
     for(let i=0;i<5;i++){if(sl[i]===cn)sl[i]=null}
     Dt[c.aff+'|'+c.day]=sl;
   });
-  // Poser les congés
   days.forEach(d=>{LD[cn+'|'+d]=leaveType});
   _pendingLeave=null;
   closeM('mLeaveConfirm');
@@ -648,7 +662,6 @@ function updLD(){const d=document.getElementById('selLDisp');d.classList.remove(
 // ============================================================
 function openAddAff(){document.getElementById('nAN').value='';document.getElementById('nAT').value='etudes';updJF('add');document.getElementById('mAdd').classList.add('show');setTimeout(()=>document.getElementById('nAN').focus(),200)}
 
-// MODIF 5 : addAff utilise cJ avec le type pour gérer les offres
 function addAff(){const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;if(!n){toast('Nom requis.','error');return}if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}
 const jData=cJ('addJF',t);
 const newAff={name:n,type:t,jalons:jData.jalons||{}};
@@ -658,7 +671,6 @@ Af.push(newAff);sv();closeM('mAdd');render();toast('OK.','success')}
 function openDelAff(){document.getElementById('dAN').value='';const{etudes,travaux}=sortAf();let t='';if(etudes.length)t+='<b>Études:</b> '+etudes.map(a=>eH(a.name)).join(', ');if(etudes.length&&travaux.length)t+='<br>';if(travaux.length)t+='<b>Travaux:</b> '+travaux.map(a=>eH(a.name)).join(', ');document.getElementById('dAL').innerHTML=t||'Aucune.';document.getElementById('mDel').classList.add('show')}
 function delAff(){const n=document.getElementById('dAN').value.trim(),idx=Af.findIndex(a=>a.name===n);if(idx<0){toast('Introuvable.','error');return}Af.splice(idx,1);Object.keys(Dt).forEach(k=>{if(k.startsWith(n+'|'))delete Dt[k]});sv();closeM('mDel');render()}
 
-// MODIF 5 : openEJ et saveJ gèrent les offres
 function openEJ(idx){eIdx=idx;const a=Af[idx];document.getElementById('eJN').textContent=a.name;
 rJI('eJF',a.type,a.jalons||{},a.offres||[{label:'Offre 1',jalons:{}}]);
 document.getElementById('mEJ').classList.add('show')}
