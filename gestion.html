@@ -22,7 +22,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .access-denied{max-width:500px;margin:80px auto;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius);padding:40px;text-align:center;color:#856404;font-size:.95rem}
 .access-denied h2{margin-bottom:12px;font-size:1.2rem}
 
-/* ── LAYOUT ── */
 .team-layout{max-width:1400px;margin:0 auto;padding:24px 20px}
 .team-header-bar{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .team-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -30,6 +29,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .team-year-selector button{padding:8px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
 .team-year-selector button:hover{background:#0b2a4a}
 .team-year-selector .year-label{font-size:1.1rem;font-weight:800;min-width:60px;text-align:center}
+
+/* Indicateur temps réel */
+.realtime-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.realtime-dot{width:8px;height:8px;border-radius:50%;background:#4caf50;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
 
 .team-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
 .team-stat-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);text-align:center}
@@ -67,7 +71,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .regie-legend{display:flex;gap:20px;padding:14px 20px;border-top:1px solid var(--border);background:#fafbfc;flex-wrap:wrap}
 .regie-legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--text-light)}
 
-/* ── MODAL DÉTAIL ── */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;width:95%;max-width:600px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
@@ -92,6 +95,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .detail-readonly-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:.85rem}
 .detail-readonly-table tr:last-child td{border-bottom:none}
 
+/* Toast notification */
+.toast{position:fixed;bottom:24px;right:24px;background:#1b5e20;color:#fff;padding:12px 20px;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:2000;display:flex;align-items:center;gap:8px;transform:translateY(100px);opacity:0;transition:all .4s ease}
+.toast.show{transform:translateY(0);opacity:1}
+
 @media(max-width:700px){
   .team-header-bar{flex-direction:column;text-align:center}
   .regie-legend{justify-content:center}
@@ -104,6 +111,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div class="spinner"></div>
   <div style="font-size:.9rem;color:var(--text-light)">Chargement...</div>
 </div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <!-- MODAL DÉTAIL LECTURE SEULE -->
 <div class="modal-overlay" id="modalDetailOverlay">
@@ -137,7 +147,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <div id="teamContent" style="display:none">
   <div class="team-layout">
     <div class="team-header-bar">
-      <h2>👥 Récapitulatif équipe – Pointages</h2>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <h2>👥 Récapitulatif équipe – Pointages</h2>
+        <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
+      </div>
       <div class="team-year-selector">
         <button onclick="changeTeamYear(-1)">◀</button>
         <span class="year-label" id="teamYearLabel"></span>
@@ -172,24 +185,29 @@ const auth=firebase.auth(),db=firebase.database();
 let Co=[],Af=[],Dt={},LT=[],LD={};
 let allPointages={};
 let teamYear=new Date().getFullYear();
+let isFirstPointageLoad=true; // Pour ne pas notifier au chargement initial
+let viewReady=false;           // La vue est-elle prête à être rendue ?
+
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MN_S=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 const ROLES_ALLOWED=['admin','responsable','responsable_viewer'];
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
 
-// ── AUTH + CONTRÔLE D'ACCÈS ──
+// ============================================================
+// AUTH + CONTRÔLE D'ACCÈS + LISTENERS TEMPS RÉEL
+// ============================================================
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='index.html';return}
 
   const uid=user.uid;
+
+  // 1. Charger planning + rôle (une seule fois, ces données changent rarement)
   Promise.all([
     db.ref('planning').once('value'),
-    db.ref('users/'+uid+'/role').once('value'),
-    db.ref('pointages').once('value')
-  ]).then(([planSnap,roleSnap,ptgSnap])=>{
+    db.ref('users/'+uid+'/role').once('value')
+  ]).then(([planSnap,roleSnap])=>{
     const data=planSnap.val();
     if(data){Co=data.collaborateurs||[];Af=data.affaires||[];Dt=data.donnees||{};LT=data.typesConges||[];LD=data.conges||{}}
-    allPointages=ptgSnap.val()||{};
 
     const role=(roleSnap.val()||'viewer').toLowerCase().replace(/\s+/g,'_');
 
@@ -201,13 +219,50 @@ auth.onAuthStateChanged(user=>{
     }
 
     document.getElementById('teamContent').style.display='block';
-    renderTeamView();
+    viewReady=true;
+
+    // 2. Écouter les pointages EN TEMPS RÉEL
+    //    .on('value') au lieu de .once('value')
+    //    → Se déclenche à chaque modification par n'importe quel collaborateur
+    db.ref('pointages').on('value',snap=>{
+      const previousPointages=JSON.stringify(allPointages);
+      allPointages=snap.val()||{};
+
+      if(viewReady){
+        renderTeamView();
+
+        // Notification toast (sauf au premier chargement)
+        if(!isFirstPointageLoad&&JSON.stringify(allPointages)!==previousPointages){
+          showToast('🔄 Données mises à jour en temps réel');
+        }
+      }
+
+      isFirstPointageLoad=false;
+    });
   });
 });
 
-function logout(){auth.signOut().then(()=>{window.location.href='index.html'})}
+function logout(){
+  // Détacher le listener avant de se déconnecter
+  db.ref('pointages').off('value');
+  auth.signOut().then(()=>{window.location.href='index.html'});
+}
 
-// ── JOURS FÉRIÉS ──
+// ============================================================
+// TOAST NOTIFICATION
+// ============================================================
+let toastTimeout=null;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  if(toastTimeout)clearTimeout(toastTimeout);
+  toastTimeout=setTimeout(()=>{t.classList.remove('show')},3000);
+}
+
+// ============================================================
+// JOURS FÉRIÉS
+// ============================================================
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
 function getFeries(y){const s=new Set(),f=d=>dk(d),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};s.add(f(new Date(y,0,1)));s.add(f(new Date(y,4,1)));s.add(f(new Date(y,4,8)));s.add(f(new Date(y,6,14)));s.add(f(new Date(y,7,15)));s.add(f(new Date(y,10,1)));s.add(f(new Date(y,10,11)));s.add(f(new Date(y,11,25)));const e=getEaster(y);s.add(f(ad(e,1)));s.add(f(ad(e,39)));s.add(f(ad(e,50)));return s}
 let _fc={};
@@ -217,7 +272,9 @@ function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')
 function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let d=1;d<=dim;d++){const dt=new Date(y,m,d);if(!isWE(dt)&&!isF(dt))o.push(dk(dt))}return o}
 function getMonthKey(y,m){return y+'-'+String(m+1).padStart(2,'0')}
 
-// ── CALCULS PLANNING (pour n'importe quel collaborateur) ──
+// ============================================================
+// CALCULS PLANNING
+// ============================================================
 function computePlanningData(y,m,cName){
   const ouvres=getOuvres(y,m),nbOuvres=ouvres.length;
   const affCharge={};let totalSlots=0;
@@ -228,10 +285,14 @@ function computePlanningData(y,m,cName){
   return{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges};
 }
 
-// ── NAVIGATION ANNÉE ──
+// ============================================================
+// NAVIGATION ANNÉE
+// ============================================================
 function changeTeamYear(o){teamYear+=o;renderTeamView()}
 
-// ── RENDU RÉGIE ──
+// ============================================================
+// RENDU RÉGIE
+// ============================================================
 function renderTeamView(){
   document.getElementById('teamYearLabel').textContent=teamYear;
   const now=new Date(),curM=now.getMonth(),curY=now.getFullYear();
@@ -270,7 +331,6 @@ function renderTeamView(){
     teamData.push({name:c.name,color:c.color,safeKey:sk,months,validated,hasData,empty,future,echus});
   });
 
-  // Stats
   const totalCollabs=teamData.length;
   const totalEchus=teamData.reduce((s,c)=>s+c.echus,0);
   const totalValidated=teamData.reduce((s,c)=>s+c.validated,0);
@@ -287,7 +347,6 @@ function renderTeamView(){
     '<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+pctValidated+'%</div><div class="tl">Taux validation</div></div>'+
     '<div class="team-stat-card"><div class="tv" style="color:var(--success)">'+collabsAJour+'/'+totalCollabs+'</div><div class="tl">100% à jour</div></div>';
 
-  // Table
   let th='<thead><tr><th>Collaborateur</th>';
   for(let m=0;m<12;m++)th+='<th>'+MN_S[m]+'</th>';
   th+='<th>Progression</th></tr></thead>';
@@ -320,7 +379,9 @@ function renderTeamView(){
   document.getElementById('regieTable').innerHTML=th+tb;
 }
 
-// ── MODAL DÉTAIL LECTURE SEULE ──
+// ============================================================
+// MODAL DÉTAIL LECTURE SEULE
+// ============================================================
 function showTeamDetail(safeKey,month,year){
   const cPtg=allPointages[safeKey]||{};
   const mk=getMonthKey(year,month);
@@ -360,7 +421,9 @@ function showTeamDetail(safeKey,month,year){
 
 function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
 
-// ── UTILITAIRES ──
+// ============================================================
+// UTILITAIRES
+// ============================================================
 function getIni(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 function formatName(n){const p=n.trim().split(/\s+/);if(p.length<2)return n;return p[p.length-1]+' '+p.slice(0,-1).map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ')}
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
