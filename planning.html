@@ -118,6 +118,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .collab-list li .ca{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;margin-right:12px}
 .collab-list li .ci{flex:1;font-weight:500}
 .collab-list li .cce{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;cursor:pointer;padding:0;margin-left:8px}
+/* MODIF : bouton éditer nom dans la liste collab */
+.collab-list li .cedit{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;cursor:pointer;padding:0;margin-left:4px;background:var(--bg);font-size:.75rem;display:flex;align-items:center;justify-content:center;transition:.2s}
+.collab-list li .cedit:hover{border-color:var(--accent);background:#e8ecff}
 .param-input-row{display:flex;gap:10px;align-items:center}
 .param-input-row input[type="text"]{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-size:.9rem;outline:none}
 .param-input-row input[type="text"]:focus{border-color:var(--accent)}
@@ -202,6 +205,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <div class="modal-overlay" id="mDel"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#c82333,#dc3545)"><h2>Supprimer</h2></div><div class="modal-body"><label>Nom exact</label><input type="text" id="dAN"><div id="dAL" style="font-size:.8rem;color:var(--text-light);margin-top:-8px;margin-bottom:8px"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mDel')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="delAff()">Supprimer</button></div></div></div>
 <div class="modal-overlay" id="mEJ"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>Jalons</h2></div><div class="modal-body"><div style="font-size:.9rem;font-weight:600;margin-bottom:12px" id="eJN"></div><div class="jalons-section"><h4>🚩 Jalons</h4><div id="eJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mEJ')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="saveJ()">Enregistrer</button></div></div></div>
 <div class="modal-overlay" id="mLeaveConfirm"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>⚠️ Conflit détecté</h2></div><div class="modal-body"><div id="leaveConflictMsg" style="font-size:.9rem;line-height:1.5"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="cancelLeaveConflict()">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmLeaveConflict()">Appliquer le congé</button></div></div></div>
+<!-- MODIF : Modal renommer collaborateur -->
+<div class="modal-overlay" id="mRenameCollab"><div class="modal"><div class="modal-header"><h2>✏️ Renommer le collaborateur</h2></div><div class="modal-body"><label>Ancien nom</label><div id="renameOldName" style="font-size:.9rem;font-weight:600;margin-bottom:16px;padding:10px 14px;background:var(--bg);border-radius:8px"></div><label>Nouveau nom</label><input type="text" id="renameNewName" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')confirmRenameCollab()"></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mRenameCollab')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmRenameCollab()">Renommer</button></div></div></div>
 <div class="toast-container" id="toastC"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -245,6 +250,8 @@ const JT=['Fin prépa','Fin GO','Réception'];
 const JC={'Prébouclage':'#ff1744','Bouclage':'#d500f9','Remise offre':'#2979ff','Oral':'#00c853','Fin prépa':'#ff6d00','Fin GO':'#aa00ff','Réception':'#00bfa5'};
 
 let _pendingLeave = null;
+// MODIF : index du collaborateur en cours de renommage
+let _renameIdx = -1;
 
 function sv() {
   if (_saving) return;
@@ -414,9 +421,6 @@ function cJ(cid,type){
 function getDates(){const dates=[];let d=new Date(sDate),s=0;while(dates.length<DAYS&&s<250){if(!isWE(d))dates.push(new Date(d));d.setDate(d.getDate()+1);s++}return dates}
 function buildHead(thId,label){const dates=getDates(),thead=document.getElementById(thId);let yc='<th class="col-aff" rowspan="4">'+label+'</th>',i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}let mc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}let wc='';i=0;while(i<dates.length){const w=wn(dates[i]),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w&&dates[i+sp].getFullYear()===y)sp++;wc+='<th colspan="'+sp+'">S'+w+'</th>';i+=sp}let dc='';dates.forEach(dd=>{let cl='';if(isT(dd))cl+=' today';if(isF(dd))cl+=' ferie-day';dc+='<th class="'+cl+'">'+DI[dd.getDay()]+dd.getDate()+'</th>'});thead.innerHTML='<tr class="row-year">'+yc+'</tr><tr class="row-month">'+mc+'</tr><tr class="row-week">'+wc+'</tr><tr class="row-day">'+dc+'</tr>';return dates}
 
-// ============================================================
-// HELPERS JALONS
-// ============================================================
 function getAllJalons(aff){
   const jd={};
   if(aff.jalons){Object.entries(aff.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}})}
@@ -440,9 +444,6 @@ function getAllJalonsBadges(aff){
   return badges;
 }
 
-// ============================================================
-// RENDU VUE AFFAIRE (inchangé)
-// ============================================================
 function renderAffaire(){const dates=buildHead('pH1','Affaires');const tbody=document.getElementById('pB1');const{etudes,travaux}=sortAf();if(!etudes.length&&!travaux.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucune affaire</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
 function sec(items,type){const icon=type==='etudes'?'📐':'🔨',label=type==='etudes'?'ÉTUDES':'TRAVAUX';bh+='<tr class="section-header-row"><td class="col-aff section-cell">'+icon+' '+label+'</td>';dates.forEach(()=>{bh+='<td class="section-cell"></td>'});bh+='</tr>';if(!items.length)return;
 items.forEach(aff=>{const ai=Af.indexOf(aff);
@@ -454,9 +455,6 @@ sec(etudes,'etudes');sec(travaux,'travaux');tbody.innerHTML=bh;}
 
 function getLoad(cn,dkey){const entries=[];Af.forEach(aff=>{const sl=getSl(aff.name,dkey);let cnt=0;for(let i=0;i<5;i++){if(sl[i]===cn)cnt++}if(cnt>0)entries.push({name:aff.name,cnt,type:aff.type})});return{used:entries.reduce((s,e)=>s+e.cnt,0),entries}}
 
-// ============================================================
-// RENDU VUE COLLABORATEUR — FUSION DE CELLULES ADJACENTES
-// ============================================================
 function makeLoadSig(ld){
   if(ld.fer) return 'FER';
   if(ld.leave) return 'LV|'+ld.leave;
@@ -469,9 +467,7 @@ function renderCollab(){
   const tbody=document.getElementById('pB2');
   if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}
   let bh='';
-
   Co.forEach(col=>{
-    // 1) Calculer le load de chaque jour
     const loads=dates.map(dd=>{
       if(isF(dd)) return{fer:true,used:0,entries:[],status:'fer',pct:0,leave:null};
       const lv=hasLeave(col.name,dk(dd));
@@ -481,8 +477,6 @@ function renderCollab(){
       if(ld.used>5)st='over';else if(ld.used<5)st='free';
       return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st,pct:ld.used*20};
     });
-
-    // 2) Signatures et groupement des jours consécutifs identiques
     const sigs=loads.map(l=>makeLoadSig(l));
     const groups=[];
     let gi=0;
@@ -493,35 +487,16 @@ function renderCollab(){
       groups.push({start:gi, len:glen, load:loads[gi]});
       gi+=glen;
     }
-
-    // 3) Générer le HTML avec colspan
     bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';
-
     groups.forEach(g=>{
       const ld=g.load;
       const nj=g.len;
       const cs=nj>1?' colspan="'+nj+'"':'';
-
-      // Férié
-      if(ld.fer){
-        bh+='<td class="dc fc"'+cs+'><div class="sw"></div></td>';
-        return;
-      }
-
-      // Congé
-      if(ld.leave){
-        const txt=eH(ld.leave)+(nj>1?' - '+nj+'j':'');
-        bh+='<td class="dc"'+cs+'><div class="leave-cell-cv">'+txt+'</div></td>';
-        return;
-      }
-
-      // Jour de travail
+      if(ld.fer){bh+='<td class="dc fc"'+cs+'><div class="sw"></div></td>';return}
+      if(ld.leave){const txt=eH(ld.leave)+(nj>1?' - '+nj+'j':'');bh+='<td class="dc"'+cs+'><div class="leave-cell-cv">'+txt+'</div></td>';return}
       let cls='dc';
       if(ld.status==='over') cls+=' overload-cell';
-
       let sh='';
-
-      // Barres d'affaires
       ld.entries.forEach(e=>{
         const pct=e.cnt*20;
         const st='height:calc(var(--slot-h)*'+e.cnt+')';
@@ -529,32 +504,23 @@ function renderCollab(){
         const label=e.name+(nj>1?' - '+nj+'j':'')+' - '+pct+'%';
         sh+='<div class="cvb" style="'+st+';background:'+bg+';color:#000" title="'+eA(e.name)+' '+pct+'%">'+eH(label)+'</div>';
       });
-
-      // Surcharge : ⚠ X% dans la cellule
       if(ld.status==='over'){
         const overSlots=ld.used-5;
         sh+='<div class="overload-wm" style="height:calc(var(--slot-h)*'+Math.max(overSlots,1)+')">⚠ '+ld.pct+'%</div>';
       }
-
-      // Disponibilité restante
       if(ld.status==='free'){
         const fs=5-ld.used;
         const fp=fs*20;
         const label=nj>1?fp+'% - '+nj+'j':fp+'%';
         sh+='<div class="cv-avail avail-free" style="height:calc(var(--slot-h)*'+fs+')">'+label+'</div>';
       }
-
       bh+='<td class="'+cls+'"'+cs+'><div class="sw">'+sh+'</div></td>';
     });
-
     bh+='</tr>';
   });
   tbody.innerHTML=bh;
 }
 
-// ============================================================
-// RENDU VUE CONGÉS (inchangé)
-// ============================================================
 function renderConges(){const dates=buildHead('pH3','Collaborateurs');const tbody=document.getElementById('pB3');if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
 Co.forEach(col=>{bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';const cn=eA(col.name).replace(/'/g,"\\'");
 dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"></div></td>';return}
@@ -563,24 +529,16 @@ const lv=hasLeave(col.name,dkey);if(lv){bh+='<td class="'+cls+'" onclick="onLC(\
 
 function render(){if(curTab==='affaire'){renderToolbox();renderAffaire()}else if(curTab==='collab')renderCollab();else if(curTab==='conges'){renderLTB();renderConges()}}
 
-// ============================================================
-// ACTIONS PLANNING
-// ============================================================
 function onBl(aff,dkey,si,bs){const sl=getSl(aff,dkey);
-
 if(eraser){const nm=sl[si];if(nm){const tg=getTD(aff,dkey);tg.forEach(d=>{const s=getSl(aff,d);for(let i=0;i<5;i++){if(s[i]===nm)s[i]=null}Dt[aff+'|'+d]=s});sv();render();toast('Effacé ('+tg.length+'j).','info')}return}
-
 if(!selCol){toast('Sélectionnez un collaborateur.','error');return}
-
 const tg=getTD(aff,dkey);const need=selPct/20;let filled=0,blocked=0,full=0;
-
 tg.forEach(d=>{if(hasLeave(selCol,d)){blocked++;return}const s=getSl(aff,d);
 const freeSlots=[];for(let i=0;i<5;i++){if(s[i]===null)freeSlots.push(i)}
 if(freeSlots.length<need){full++;return}
 freeSlots.sort((a,b)=>Math.abs(a-si)-Math.abs(b-si));
 for(let n=0;n<need;n++)s[freeSlots[n]]=selCol;
 Dt[aff+'|'+d]=s;filled++});
-
 sv();render();
 if(blocked)toast(blocked+'j bloqué(s) (congé).','error');
 if(full)toast(full+'j ignoré(s) (100% atteint).','error');
@@ -589,7 +547,6 @@ if(tg.length>1&&filled)toast('Rempli '+filled+'/'+tg.length+'j.','success');}
 function onLC(cn,dkey){
 if(leaveEraser){if(LD[cn+'|'+dkey]){const tg=getLTD(dkey);tg.forEach(d=>{delete LD[cn+'|'+d]});sv();render();toast('Congé supprimé.','info')}return}
 if(!selLeave){toast('Sélectionnez un type.','error');return}
-
 const tg=getLTD(dkey);
 const conflicts=[];
 tg.forEach(d=>{
@@ -600,7 +557,6 @@ tg.forEach(d=>{
     if(cnt>0)conflicts.push({day:d,aff:aff.name,cnt});
   });
 });
-
 if(conflicts.length>0){
   _pendingLeave={cn,days:tg,leaveType:selLeave,conflicts};
   let msg='<p>Le collaborateur <b>'+eH(cn)+'</b> est affecté à des affaires sur ces jours :</p><ul style="margin:10px 0;padding-left:20px">';
@@ -615,7 +571,6 @@ if(conflicts.length>0){
   document.getElementById('mLeaveConfirm').classList.add('show');
   return;
 }
-
 tg.forEach(d=>{LD[cn+'|'+d]=selLeave});sv();render();toast(selLeave+' ('+tg.length+'j).','success');}
 
 function confirmLeaveConflict(){
@@ -639,27 +594,18 @@ function cancelLeaveConflict(){
   toast('Congé annulé.','info');
 }
 
-// ============================================================
-// TOOLBOX COLLABORATEURS
-// ============================================================
 function renderToolbox(){const box=document.getElementById('cTB');if(!Co.length){box.innerHTML='<span class="no-collab-msg">Aucun collaborateur.</span>';updD();return}let h='';Co.forEach(c=>{const sel=(selCol===c.name&&!eraser)?' selected':'';h+='<button class="collab-btn'+sel+'" style="background:'+c.color+';border-color:'+c.color+'" onclick="selCo(\''+eA(c.name).replace(/'/g,"\\'")+'\')">'+ eH(c.name)+'</button>'});h+='<div class="toolbox-separator"></div><button class="toolbox-action-btn" onclick="desel()">✕</button><button class="toolbox-action-btn'+(eraser?' eraser-active':'')+'" onclick="togE()">🧹</button>';box.innerHTML=h;updD()}
 function selCo(n){eraser=false;selCol=n;renderToolbox();toast(n+' '+selPct+'%','success')}
 function desel(){selCol=null;eraser=false;renderToolbox()}
 function togE(){eraser=!eraser;if(eraser)selCol=null;renderToolbox()}
 function updD(){const d=document.getElementById('selDisp');d.classList.remove('active-selection','eraser-active');if(eraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}else if(selCol){d.textContent='🎯 '+selCol+' '+selPct+'%';d.classList.add('active-selection')}else{d.textContent='Aucun'}}
 
-// ============================================================
-// TOOLBOX CONGÉS
-// ============================================================
 function renderLTB(){const box=document.getElementById('lTB');let h='';LT.forEach(lt=>{const sel=(selLeave===lt&&!leaveEraser)?' selected':'';h+='<button class="leave-btn'+sel+'" onclick="selLv(\''+eA(lt)+'\')">'+eH(lt)+'</button> '});h+='<div class="toolbox-separator"></div><button class="toolbox-action-btn" onclick="deselLv()">✕</button><button class="toolbox-action-btn'+(leaveEraser?' eraser-active':'')+'" onclick="togLE()">🧹</button>';box.innerHTML=h;updLD()}
 function selLv(lt){leaveEraser=false;selLeave=lt;renderLTB()}
 function deselLv(){selLeave=null;leaveEraser=false;renderLTB()}
 function togLE(){leaveEraser=!leaveEraser;if(leaveEraser)selLeave=null;renderLTB()}
 function updLD(){const d=document.getElementById('selLDisp');d.classList.remove('active-selection','eraser-active');if(leaveEraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}else if(selLeave){d.textContent='🏖️ '+selLeave;d.classList.add('active-selection')}else{d.textContent='Aucun'}}
 
-// ============================================================
-// GESTION DES AFFAIRES
-// ============================================================
 function openAddAff(){document.getElementById('nAN').value='';document.getElementById('nAT').value='etudes';updJF('add');document.getElementById('mAdd').classList.add('show');setTimeout(()=>document.getElementById('nAN').focus(),200)}
 
 function addAff(){const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;if(!n){toast('Nom requis.','error');return}if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}
@@ -686,12 +632,89 @@ function closeM(id){document.getElementById(id).classList.remove('show')}
 document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')})});
 
 // ============================================================
-// GESTION COLLABORATEURS (PARAMÉTRAGE)
+// GESTION COLLABORATEURS (PARAMÉTRAGE) — MODIFIÉ : ajout renommage
 // ============================================================
-function renderCL(){const ul=document.getElementById('cList');if(!Co.length){ul.innerHTML='<li style="color:var(--text-light);font-style:italic">Aucun.</li>';return}ul.innerHTML=Co.map((c,i)=>'<li><div style="display:flex;align-items:center"><div class="ca" style="background:'+c.color+'">'+ini(c.name)+'</div><span class="ci">'+eH(c.name)+'</span></div><input type="color" class="cce" value="'+c.color+'" onchange="chCol('+i+',this.value)"></li>').join('')}
+function renderCL(){
+  const ul=document.getElementById('cList');
+  if(!Co.length){ul.innerHTML='<li style="color:var(--text-light);font-style:italic">Aucun.</li>';return}
+  ul.innerHTML=Co.map((c,i)=>
+    '<li><div style="display:flex;align-items:center">'+
+      '<div class="ca" style="background:'+c.color+'">'+ini(c.name)+'</div>'+
+      '<span class="ci">'+eH(c.name)+'</span>'+
+    '</div>'+
+    '<button class="cedit" onclick="openRenameCollab('+i+')" title="Renommer">✏️</button>'+
+    '<input type="color" class="cce" value="'+c.color+'" onchange="chCol('+i+',this.value)">'+
+    '</li>'
+  ).join('');
+}
+
 function chCol(i,col){Co[i].color=col;sv();renderCL();render()}
+
 function addC(){const input=document.getElementById('newCN'),n=input.value.trim(),c=document.getElementById('newCC').value;if(!n)return;if(Co.some(x=>x.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}Co.push({name:n,color:c});sv();input.value='';renderCL();render();toast('OK.','success')}
+
 function delC(){const input=document.getElementById('delCN'),n=input.value.trim(),idx=Co.findIndex(c=>c.name===n);if(idx<0){toast('Introuvable.','error');return}Co.splice(idx,1);Object.keys(Dt).forEach(k=>{const sl=Dt[k];if(Array.isArray(sl))for(let i=0;i<sl.length;i++){if(sl[i]===n)sl[i]=null}});Object.keys(LD).forEach(k=>{if(k.startsWith(n+'|'))delete LD[k]});if(selCol===n)selCol=null;sv();input.value='';renderCL();render()}
+
+// MODIF : ouvrir le modal de renommage
+function openRenameCollab(idx){
+  _renameIdx = idx;
+  const oldName = Co[idx].name;
+  document.getElementById('renameOldName').textContent = oldName;
+  document.getElementById('renameNewName').value = oldName;
+  document.getElementById('mRenameCollab').classList.add('show');
+  setTimeout(()=>{
+    const inp = document.getElementById('renameNewName');
+    inp.focus();
+    inp.select();
+  },200);
+}
+
+// MODIF : confirmer le renommage — propage dans Dt, LD et selCol
+function confirmRenameCollab(){
+  if(_renameIdx < 0) return;
+  const oldName = Co[_renameIdx].name;
+  const newName = document.getElementById('renameNewName').value.trim();
+  if(!newName){toast('Nom requis.','error');return}
+  if(newName === oldName){closeM('mRenameCollab');return}
+  if(Co.some((x,i) => i !== _renameIdx && x.name.toLowerCase() === newName.toLowerCase())){toast('Ce nom existe déjà.','error');return}
+
+  // Mettre à jour le nom dans Co
+  Co[_renameIdx].name = newName;
+
+  // Mettre à jour dans les slots planning (Dt)
+  const newDt = {};
+  Object.keys(Dt).forEach(k => {
+    const sl = Dt[k];
+    if(Array.isArray(sl)){
+      for(let i=0;i<sl.length;i++){
+        if(sl[i]===oldName) sl[i]=newName;
+      }
+    }
+    newDt[k] = sl;
+  });
+  Dt = newDt;
+
+  // Mettre à jour dans les congés (LD)
+  const newLD = {};
+  Object.keys(LD).forEach(k => {
+    if(k.startsWith(oldName+'|')){
+      const newKey = newName + '|' + k.substring(oldName.length+1);
+      newLD[newKey] = LD[k];
+    } else {
+      newLD[k] = LD[k];
+    }
+  });
+  LD = newLD;
+
+  // Mettre à jour la sélection active
+  if(selCol === oldName) selCol = newName;
+
+  _renameIdx = -1;
+  closeM('mRenameCollab');
+  sv();
+  renderCL();
+  render();
+  toast('Renommé : '+oldName+' → '+newName,'success');
+}
 
 // ============================================================
 // GESTION TYPES DE CONGÉS
@@ -700,15 +723,9 @@ function renderLTList(){document.getElementById('ltList').innerHTML=LT.map(lt=>'
 function addLT(){const input=document.getElementById('newLT'),n=input.value.trim().toUpperCase();if(!n)return;if(LT.includes(n)){toast('Existe.','error');return}LT.push(n);sv();input.value='';renderLTList()}
 function remLT(lt){LT=LT.filter(x=>x!==lt);Object.keys(LD).forEach(k=>{if(LD[k]===lt)delete LD[k]});sv();renderLTList();render()}
 
-// ============================================================
-// ÉVÉNEMENTS CLAVIER
-// ============================================================
 document.getElementById('nAN').addEventListener('keydown',e=>{if(e.key==='Enter')addAff()});
 document.getElementById('dAN').addEventListener('keydown',e=>{if(e.key==='Enter')delAff()});
 
-// ============================================================
-// 🚀 INITIALISATION
-// ============================================================
 (function(){
   document.getElementById('curDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   sDate=new Date();
