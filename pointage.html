@@ -277,22 +277,57 @@ auth.onAuthStateChanged(user=>{
 
 function logout(){auth.signOut().then(()=>{window.location.href='index.html'})}
 
-// ── MATCH COLLAB ──
+// ============================================================
+// CORRESPONDANCE EMAIL → COLLABORATEUR (par prénom uniquement)
+// ============================================================
+// L'email est au format prenom.xxx@eiffage.com
+// Le collaborateur dans la BDD peut être stocké sous n'importe quel format
+// (ex: "Jean-Pierre", "DUPONT Jean-Pierre", "Jean-Pierre DUPONT", ou juste "Jean-Pierre")
+// On extrait le prénom de l'email (partie avant le premier point ou avant @)
+// et on cherche un collaborateur dont le nom CONTIENT ce prénom.
+// ============================================================
 function normalize(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
 
 function matchCollab(email){
-  const local=email.split('@')[0],parts=local.split('.');
-  if(parts.length<2){showNotFound();return}
-  const ep=normalize(parts[0]),en=normalize(parts.slice(1).join(' '));
-  let best=null;
+  const local=email.split('@')[0]; // "prenom.nom" ou "prenom"
+  // Le prénom est toujours la première partie avant le point (ou le local entier s'il n'y a pas de point)
+  const emailPrenom=normalize(local.split('.')[0]); // ex: "jean-pierre" → "jean-pierre"
+
+  let bestMatch=null;
+
   Co.forEach(c=>{
-    const cp=c.name.trim().split(/\s+/);if(cp.length<2)return;
-    const cpn=normalize(cp[cp.length-1]),cnn=normalize(cp.slice(0,-1).join(' '));
-    if(cpn===ep&&cnn===en)best=c;
-    if(cpn.replace(/-/g,' ')===ep.replace(/-/g,' ')&&cnn===en)best=c;
+    const nameParts=c.name.trim().split(/\s+/);
+
+    // Tester chaque mot du nom du collaborateur
+    for(let i=0;i<nameParts.length;i++){
+      const part=normalize(nameParts[i]);
+
+      // Comparaison directe
+      if(part===emailPrenom){
+        bestMatch=c;
+        return;
+      }
+
+      // Comparaison en remplaçant les tirets par des espaces (jean-pierre vs jean-pierre)
+      if(part.replace(/-/g,' ')===emailPrenom.replace(/-/g,' ')){
+        bestMatch=c;
+        return;
+      }
+    }
+
+    // Si le nom du collaborateur est un seul mot (juste le prénom)
+    if(nameParts.length===1){
+      const full=normalize(c.name);
+      if(full===emailPrenom||full.replace(/-/g,' ')===emailPrenom.replace(/-/g,' ')){
+        bestMatch=c;
+      }
+    }
   });
-  if(!best){showNotFound();return}
-  collabName=best.name;collabColor=best.color;
+
+  if(!bestMatch){showNotFound();return}
+
+  collabName=bestMatch.name;
+  collabColor=bestMatch.color;
   document.getElementById('avatarEl').textContent=getIni(collabName);
   document.getElementById('avatarEl').style.background=collabColor;
   document.getElementById('welcomeName').textContent=collabName;
