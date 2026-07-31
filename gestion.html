@@ -22,15 +22,22 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .access-denied{max-width:500px;margin:80px auto;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius);padding:40px;text-align:center;color:#856404;font-size:.95rem}
 .access-denied h2{margin-bottom:12px;font-size:1.2rem}
 
-.team-layout{max-width:1400px;margin:0 auto;padding:24px 20px}
-.team-header-bar{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+/* ===== ONGLETS ===== */
+.tab-bar{max-width:1400px;margin:20px auto 0;padding:0 20px;display:flex;gap:4px}
+.tab-btn{padding:10px 24px;border:none;border-radius:10px 10px 0 0;background:var(--card-bg);color:var(--text-light);font-size:.88rem;font-weight:600;cursor:pointer;transition:.2s;border:1px solid var(--border);border-bottom:none;position:relative;top:1px}
+.tab-btn:hover{background:#e8eaf6;color:var(--text)}
+.tab-btn.active{background:var(--card-bg);color:var(--accent);border-bottom:2px solid var(--card-bg);z-index:2;box-shadow:0 -2px 8px rgba(0,0,0,.05)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.team-layout{max-width:1400px;margin:0 auto;padding:0 20px 24px}
+.team-header-bar{background:var(--card-bg);border-radius:0 var(--radius) 0 0;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);border-top:none;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .team-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .team-year-selector{display:flex;align-items:center;gap:8px}
 .team-year-selector button{padding:8px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
 .team-year-selector button:hover{background:#0b2a4a}
 .team-year-selector .year-label{font-size:1.1rem;font-weight:800;min-width:60px;text-align:center}
 
-/* Indicateur temps réel */
 .realtime-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
 .realtime-dot{width:8px;height:8px;border-radius:50%;background:#4caf50;animation:pulse-dot 2s infinite}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
@@ -95,13 +102,73 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .detail-readonly-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:.85rem}
 .detail-readonly-table tr:last-child td{border-bottom:none}
 
-/* Toast notification */
 .toast{position:fixed;bottom:24px;right:24px;background:#1b5e20;color:#fff;padding:12px 20px;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:2000;display:flex;align-items:center;gap:8px;transform:translateY(100px);opacity:0;transition:all .4s ease}
 .toast.show{transform:translateY(0);opacity:1}
 
+/* ===== FACTURATION ===== */
+.fact-header-bar{background:var(--card-bg);border-radius:0 var(--radius) 0 0;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);border-top:none;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.fact-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+
+.fact-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.fact-stat-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);text-align:center}
+.fact-stat-card .tv{font-size:1.8rem;font-weight:800;margin-bottom:2px}
+.fact-stat-card .tl{font-size:.72rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+
+.fact-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
+.fact-card h3{padding:16px 20px;margin:0;font-size:.92rem;font-weight:700;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;gap:8px}
+.fact-scroll{overflow-x:auto}
+.fact-table{width:100%;border-collapse:collapse;min-width:1000px}
+.fact-table th{padding:10px 12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--text-light);background:#fafbfc;border-bottom:2px solid var(--border);text-align:center;position:sticky;top:0;z-index:2}
+.fact-table th:first-child{text-align:left;min-width:280px;position:sticky;left:0;background:#fafbfc;z-index:3}
+.fact-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;text-align:center;font-size:.82rem}
+.fact-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
+.fact-table tr:hover td{background:#f8f9ff}
+.fact-table tr:hover td:first-child{background:#f0f2ff}
+
+/* Lignes de section */
+.fact-section-row td{background:#e3f2fd!important;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);border-bottom:2px solid #90caf9}
+.fact-section-row.section-travaux td{background:#fff3e0!important;color:#e65100;border-bottom-color:#ffcc80}
+.fact-section-row.section-special td{background:#f3e5f5!important;color:#6a1b9a;border-bottom-color:#ce93d8}
+
+/* Ligne affaire parent (cliquable pour travaux) */
+.fact-affaire-row td:first-child{font-weight:700;padding-left:20px}
+.fact-affaire-row.is-travaux td:first-child{cursor:pointer;user-select:none}
+.fact-affaire-row.is-travaux td:first-child:hover{color:var(--accent)}
+
+/* Sous-détail */
+.fact-subdetail-row td{background:#fafafa!important;font-size:.78rem;color:var(--text-light)}
+.fact-subdetail-row td:first-child{padding-left:44px!important;font-weight:500;font-style:italic}
+.fact-subdetail-row:hover td{background:#f5f5f5!important}
+.fact-subdetail-row.hidden{display:none}
+
+/* Ligne total */
+.fact-total-row td{background:#e8eaf6!important;font-weight:800;border-top:2px solid var(--accent);font-size:.85rem}
+.fact-subtotal-row td{background:#f5f5f5!important;font-weight:700;border-top:1px solid var(--border);font-size:.8rem}
+
+/* Toggle chevron */
+.chevron{display:inline-block;transition:transform .2s;margin-right:6px;font-size:.7rem}
+.chevron.open{transform:rotate(90deg)}
+
+/* Cellule valeur */
+.fact-val{font-weight:600;font-variant-numeric:tabular-nums}
+.fact-val.has-value{color:var(--text)}
+.fact-val.zero{color:#e0e0e0}
+.fact-val.total{color:var(--accent);font-weight:800}
+
+/* Filtre type */
+.fact-filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fact-filter-btn{padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:#fff;color:var(--text-light);font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s}
+.fact-filter-btn:hover{background:#e8eaf6;color:var(--text)}
+.fact-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Export */
+.btn-export{padding:8px 18px;border:none;border-radius:8px;background:var(--success);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-export:hover{background:#1b8a3a}
+
 @media(max-width:700px){
-  .team-header-bar{flex-direction:column;text-align:center}
+  .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
   .regie-legend{justify-content:center}
+  .tab-bar{flex-wrap:wrap}
 }
 </style>
 </head>
@@ -112,7 +179,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div style="font-size:.9rem;color:var(--text-light)">Chargement...</div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <!-- MODAL DÉTAIL LECTURE SEULE -->
@@ -145,32 +211,76 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </div>
 
 <div id="teamContent" style="display:none">
-  <div class="team-layout">
-    <div class="team-header-bar">
-      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <h2>👥 Récapitulatif équipe – Pointages</h2>
-        <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
+
+  <!-- ONGLETS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('pointages')">📊 Pointages</button>
+    <button class="tab-btn" onclick="switchTab('facturation')">💰 Facturation</button>
+  </div>
+
+  <!-- ===== ONGLET POINTAGES ===== -->
+  <div class="tab-content active" id="tab-pointages">
+    <div class="team-layout">
+      <div class="team-header-bar">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <h2>👥 Récapitulatif équipe – Pointages</h2>
+          <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
+        </div>
+        <div class="team-year-selector">
+          <button onclick="changeTeamYear(-1)">◀</button>
+          <span class="year-label" id="teamYearLabel"></span>
+          <button onclick="changeTeamYear(1)">▶</button>
+        </div>
       </div>
-      <div class="team-year-selector">
-        <button onclick="changeTeamYear(-1)">◀</button>
-        <span class="year-label" id="teamYearLabel"></span>
-        <button onclick="changeTeamYear(1)">▶</button>
-      </div>
-    </div>
-    <div class="team-stats" id="teamStats"></div>
-    <div class="regie-card">
-      <h3>📊 Vue régie – Statut des pointages par mois</h3>
-      <div class="regie-scroll">
-        <table class="regie-table" id="regieTable"></table>
-      </div>
-      <div class="regie-legend">
-        <div class="regie-legend-item"><div class="regie-cell cell-validated" style="width:18px;height:18px;font-size:.55rem">✓</div> Validé</div>
-        <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données présentes (non validé)</div>
-        <div class="regie-legend-item"><div class="regie-cell cell-empty" style="width:18px;height:18px;font-size:.55rem">—</div> Aucun pointage</div>
-        <div class="regie-legend-item"><div class="regie-cell cell-future" style="width:18px;height:18px;font-size:.55rem">·</div> Mois futur</div>
+      <div class="team-stats" id="teamStats"></div>
+      <div class="regie-card">
+        <h3>📊 Vue régie – Statut des pointages par mois</h3>
+        <div class="regie-scroll">
+          <table class="regie-table" id="regieTable"></table>
+        </div>
+        <div class="regie-legend">
+          <div class="regie-legend-item"><div class="regie-cell cell-validated" style="width:18px;height:18px;font-size:.55rem">✓</div> Validé</div>
+          <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données présentes (non validé)</div>
+          <div class="regie-legend-item"><div class="regie-cell cell-empty" style="width:18px;height:18px;font-size:.55rem">—</div> Aucun pointage</div>
+          <div class="regie-legend-item"><div class="regie-cell cell-future" style="width:18px;height:18px;font-size:.55rem">·</div> Mois futur</div>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ===== ONGLET FACTURATION ===== -->
+  <div class="tab-content" id="tab-facturation">
+    <div class="team-layout">
+      <div class="fact-header-bar">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <h2>💰 Facturation – Jours validés par affaire</h2>
+          <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div class="fact-filter-bar" id="factFilterBar">
+            <button class="fact-filter-btn active" onclick="setFactFilter('all')">Tout</button>
+            <button class="fact-filter-btn" onclick="setFactFilter('etudes')">📐 Études</button>
+            <button class="fact-filter-btn" onclick="setFactFilter('travaux')">🏗️ Travaux</button>
+            <button class="fact-filter-btn" onclick="setFactFilter('special')">📂 Autres</button>
+          </div>
+          <div class="team-year-selector">
+            <button onclick="changeFactYear(-1)">◀</button>
+            <span class="year-label" id="factYearLabel"></span>
+            <button onclick="changeFactYear(1)">▶</button>
+          </div>
+          <button class="btn-export" onclick="exportFactCSV()">📥 Export CSV</button>
+        </div>
+      </div>
+      <div class="fact-stats" id="factStats"></div>
+      <div class="fact-card">
+        <h3>📋 Récapitulatif jours validés par affaire et par mois</h3>
+        <div class="fact-scroll">
+          <table class="fact-table" id="factTable"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -185,8 +295,11 @@ const auth=firebase.auth(),db=firebase.database();
 let Co=[],Af=[],Dt={},LT=[],LD={};
 let allPointages={};
 let teamYear=new Date().getFullYear();
-let isFirstPointageLoad=true; // Pour ne pas notifier au chargement initial
-let viewReady=false;           // La vue est-elle prête à être rendue ?
+let factYear=new Date().getFullYear();
+let factFilter='all';
+let isFirstPointageLoad=true;
+let viewReady=false;
+let expandedTravaux=new Set(); // Pour le sous-détail travaux
 
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MN_S=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
@@ -194,62 +307,61 @@ const ROLES_ALLOWED=['admin','responsable','responsable_viewer'];
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
 
 // ============================================================
+// ONGLETS
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelector('[onclick="switchTab(\''+tab+'\')"]').classList.add('active');
+  if(tab==='facturation')renderFactView();
+}
+
+// ============================================================
 // AUTH + CONTRÔLE D'ACCÈS + LISTENERS TEMPS RÉEL
 // ============================================================
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='index.html';return}
-
   const uid=user.uid;
-
-  // 1. Charger planning + rôle (une seule fois, ces données changent rarement)
   Promise.all([
     db.ref('planning').once('value'),
     db.ref('users/'+uid+'/role').once('value')
   ]).then(([planSnap,roleSnap])=>{
     const data=planSnap.val();
     if(data){Co=data.collaborateurs||[];Af=data.affaires||[];Dt=data.donnees||{};LT=data.typesConges||[];LD=data.conges||{}}
-
     const role=(roleSnap.val()||'viewer').toLowerCase().replace(/\s+/g,'_');
-
     document.getElementById('loadingOverlay').classList.remove('show');
-
     if(!ROLES_ALLOWED.includes(role)){
       document.getElementById('accessDenied').style.display='block';
       return;
     }
-
     document.getElementById('teamContent').style.display='block';
     viewReady=true;
-
-    // 2. Écouter les pointages EN TEMPS RÉEL
-    //    .on('value') au lieu de .once('value')
-    //    → Se déclenche à chaque modification par n'importe quel collaborateur
     db.ref('pointages').on('value',snap=>{
       const previousPointages=JSON.stringify(allPointages);
       allPointages=snap.val()||{};
-
       if(viewReady){
         renderTeamView();
-
-        // Notification toast (sauf au premier chargement)
+        // Si l'onglet facturation est actif, le mettre à jour aussi
+        if(document.getElementById('tab-facturation').classList.contains('active')){
+          renderFactView();
+        }
         if(!isFirstPointageLoad&&JSON.stringify(allPointages)!==previousPointages){
           showToast('🔄 Données mises à jour en temps réel');
         }
       }
-
       isFirstPointageLoad=false;
     });
   });
 });
 
 function logout(){
-  // Détacher le listener avant de se déconnecter
   db.ref('pointages').off('value');
   auth.signOut().then(()=>{window.location.href='index.html'});
 }
 
 // ============================================================
-// TOAST NOTIFICATION
+// TOAST
 // ============================================================
 let toastTimeout=null;
 function showToast(msg){
@@ -289,21 +401,20 @@ function computePlanningData(y,m,cName){
 // NAVIGATION ANNÉE
 // ============================================================
 function changeTeamYear(o){teamYear+=o;renderTeamView()}
+function changeFactYear(o){factYear+=o;renderFactView()}
 
 // ============================================================
-// RENDU RÉGIE
+// RENDU ONGLET POINTAGES (inchangé)
 // ============================================================
 function renderTeamView(){
   document.getElementById('teamYearLabel').textContent=teamYear;
   const now=new Date(),curM=now.getMonth(),curY=now.getFullYear();
-
   const teamData=[];
   Co.forEach(c=>{
     const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
     const cPtg=allPointages[sk]||{};
     const months=[];
     let validated=0,hasData=0,empty=0,future=0;
-
     for(let m=0;m<12;m++){
       const mk=getMonthKey(teamYear,m);
       const ptg=cPtg[mk];
@@ -311,23 +422,18 @@ function renderTeamView(){
       const planning=computePlanningData(teamYear,m,c.name);
       const hasPlanData=(planning.totalJoursPlanif>0||planning.totalConges>0);
       const isValidated=ptg&&ptg.lines&&ptg.validatedAt;
-
       let status='empty';
       if(isFuture)status='future';
       else if(isValidated)status='validated';
       else if(hasPlanData)status='has-data';
-
       if(status==='validated')validated++;
       else if(status==='has-data')hasData++;
       else if(status==='future')future++;
       else empty++;
-
-      months.push({month:m,status,ptg:ptg||null,hasPlanData,isFuture,nbOuvres:planning.nbOuvres});
+      months.push({month:m,status,ptg:ptg||null,hasPlanData,isFuture,nbOuvres:getOuvres(teamYear,m).length});
     }
-
     let echus=0;
     for(let m=0;m<12;m++){if(!(teamYear>curY||(teamYear===curY&&m>curM)))echus++}
-
     teamData.push({name:c.name,color:c.color,safeKey:sk,months,validated,hasData,empty,future,echus});
   });
 
@@ -353,53 +459,43 @@ function renderTeamView(){
 
   let tb='<tbody>';
   teamData.sort((a,b)=>a.validated-b.validated);
-
   teamData.forEach(c=>{
     tb+='<tr>';
     const pct=c.echus>0?Math.round((c.validated/c.echus)*100):0;
     const pctColor=pct===100?'var(--success)':pct>=50?'#ff9800':'var(--highlight)';
     tb+='<td><div class="regie-collab"><div class="regie-avatar" style="background:'+c.color+'">'+getIni(c.name)+'</div><div class="regie-collab-info"><span class="regie-collab-name">'+escH(formatName(c.name))+'</span><span class="regie-collab-score">'+c.validated+'/'+c.echus+' validés</span></div></div></td>';
-
     c.months.forEach(md=>{
       let cellCls='cell-empty',icon='—',tooltip='Aucun pointage';
       if(md.status==='validated'){cellCls='cell-validated';icon='✓';tooltip='Validé – cliquer pour voir le détail'}
       else if(md.status==='has-data'){cellCls='cell-has-data';icon='●';tooltip='Données présentes – non validé'}
       else if(md.status==='future'){cellCls='cell-future';icon='·';tooltip='Mois futur'}
-
       const clickable=md.status==='validated';
       const onclick=clickable?'onclick="showTeamDetail(\''+c.safeKey+'\','+md.month+','+teamYear+')"':'';
       tb+='<td><div class="regie-cell '+cellCls+'" title="'+tooltip+'" '+onclick+'>'+icon+'</div></td>';
     });
-
     tb+='<td><div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:.82rem;color:'+pctColor+'">'+pct+'%</span><div class="team-progress-bar"><div class="team-progress-fill" style="width:'+pct+'%;background:'+pctColor+'"></div></div></div></td>';
     tb+='</tr>';
   });
   tb+='</tbody>';
-
   document.getElementById('regieTable').innerHTML=th+tb;
 }
 
 // ============================================================
-// MODAL DÉTAIL LECTURE SEULE
+// MODAL DÉTAIL LECTURE SEULE (inchangé)
 // ============================================================
 function showTeamDetail(safeKey,month,year){
   const cPtg=allPointages[safeKey]||{};
   const mk=getMonthKey(year,month);
   const ptg=cPtg[mk];
   if(!ptg||!ptg.lines)return;
-
   let cName='';
   Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===safeKey)cName=c.name});
-
   document.getElementById('modalDetailTitle').textContent='📋 Pointage – '+escH(formatName(cName))+' – '+MN[month]+' '+year;
-
   const vd=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
   const nbO=ptg.nbOuvres||getOuvres(year,month).length;
   const totalPte=ptg.lines.reduce((s,l)=>s+l.jours,0);
-
   let h='<div style="margin-bottom:16px"><span class="pointage-badge" style="font-size:.78rem">✓ Validé le '+escH(vd)+'</span></div>';
   h+='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés</div><div class="ouvres-value">'+nbO+'</div></div><div style="text-align:right"><div class="ouvres-label">Total pointé</div><div class="ouvres-value">'+fmtNum(totalPte)+'</div></div></div>';
-
   [{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}].forEach(g=>{
     const lines=ptg.lines.filter(l=>l.category===g.cat);
     if(!lines.length)return;
@@ -414,12 +510,258 @@ function showTeamDetail(safeKey,month,year){
     h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fmtNum(sub)+'j</td></tr>';
     h+='</tbody></table></div>';
   });
-
   document.getElementById('modalDetailBody').innerHTML=h;
   document.getElementById('modalDetailOverlay').classList.add('show');
 }
 
 function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
+
+// ============================================================
+// FACTURATION – AGRÉGATION DES DONNÉES VALIDÉES
+// ============================================================
+function buildFactData(year){
+  // Structure : { affaireName: { type, months: [0..11], subdetails: { sdLabel: [0..11] } } }
+  const affaires={};
+  const specials={};
+
+  // Parcourir TOUS les collaborateurs et leurs pointages validés
+  Co.forEach(c=>{
+    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
+    const cPtg=allPointages[sk]||{};
+
+    for(let m=0;m<12;m++){
+      const mk=getMonthKey(year,m);
+      const ptg=cPtg[mk];
+      if(!ptg||!ptg.lines||!ptg.validatedAt) continue; // Uniquement validés
+
+      ptg.lines.forEach(line=>{
+        if(line.category==='conge') return; // On ignore les congés pour la facturation
+
+        if(line.category==='special'){
+          // Lignes spéciales (Formation, etc.)
+          if(!specials[line.label]){
+            specials[line.label]={months:new Array(12).fill(0)};
+          }
+          specials[line.label].months[m]+=line.jours||0;
+          return;
+        }
+
+        if(line.category==='affaire'){
+          const affName=line.label;
+          const affType=line.type||'etudes';
+
+          if(!affaires[affName]){
+            affaires[affName]={type:affType,months:new Array(12).fill(0),subdetails:{}};
+          }
+          affaires[affName].months[m]+=line.jours||0;
+
+          // Sous-détail pour travaux : ventilation par collaborateur
+          // On regarde aussi si la ligne a un champ subdetail ou on ventile par collab
+          if(affType==='travaux'){
+            // Sous-détail par collaborateur
+            const sdKey=formatName(c.name);
+            if(!affaires[affName].subdetails[sdKey]){
+              affaires[affName].subdetails[sdKey]=new Array(12).fill(0);
+            }
+            affaires[affName].subdetails[sdKey][m]+=line.jours||0;
+          }
+        }
+      });
+    }
+  });
+
+  return {affaires,specials};
+}
+
+// ============================================================
+// FACTURATION – FILTRE
+// ============================================================
+function setFactFilter(f){
+  factFilter=f;
+  document.querySelectorAll('.fact-filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[onclick="setFactFilter(\''+f+'\')"]').classList.add('active');
+  renderFactView();
+}
+
+// ============================================================
+// FACTURATION – TOGGLE SOUS-DÉTAIL
+// ============================================================
+function toggleTravaux(affKey){
+  if(expandedTravaux.has(affKey)){
+    expandedTravaux.delete(affKey);
+  } else {
+    expandedTravaux.add(affKey);
+  }
+  // Re-render juste le toggle visibility
+  document.querySelectorAll('.fact-sd-'+CSS.escape(affKey)).forEach(r=>{
+    r.classList.toggle('hidden',!expandedTravaux.has(affKey));
+  });
+  // Chevron
+  const chev=document.getElementById('chev-'+affKey);
+  if(chev) chev.classList.toggle('open',expandedTravaux.has(affKey));
+}
+
+// ============================================================
+// FACTURATION – RENDU
+// ============================================================
+function renderFactView(){
+  document.getElementById('factYearLabel').textContent=factYear;
+  const {affaires,specials}=buildFactData(factYear);
+
+  // Séparer études / travaux
+  const etudes=[],travaux=[];
+  Object.keys(affaires).sort().forEach(name=>{
+    const a=affaires[name];
+    if(a.type==='etudes') etudes.push({name,...a});
+    else travaux.push({name,...a});
+  });
+  const specialList=Object.keys(specials).sort().map(name=>({name,...specials[name]}));
+
+  // KPIs
+  let totalEtudes=0,totalTravaux=0,totalSpecial=0;
+  etudes.forEach(a=>{totalEtudes+=a.months.reduce((s,v)=>s+v,0)});
+  travaux.forEach(a=>{totalTravaux+=a.months.reduce((s,v)=>s+v,0)});
+  specialList.forEach(a=>{totalSpecial+=a.months.reduce((s,v)=>s+v,0)});
+  const totalGlobal=totalEtudes+totalTravaux+totalSpecial;
+  const nbAffaires=etudes.length+travaux.length;
+
+  document.getElementById('factStats').innerHTML=
+    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fmtNum(totalGlobal)+'j</div><div class="tl">Total jours validés</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fmtNum(totalEtudes)+'j</div><div class="tl">Études</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fmtNum(totalTravaux)+'j</div><div class="tl">Travaux</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fmtNum(totalSpecial)+'j</div><div class="tl">Autres activités</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nbAffaires+'</div><div class="tl">Affaires actives</div></div>';
+
+  // Table
+  let th='<thead><tr><th>Affaire</th>';
+  for(let m=0;m<12;m++) th+='<th>'+MN_S[m]+'</th>';
+  th+='<th>Total</th></tr></thead>';
+
+  let tb='<tbody>';
+
+  // Fonction pour rendre les cellules d'une ligne
+  function renderMonthCells(months,isTotal){
+    let h='';
+    const total=months.reduce((s,v)=>s+v,0);
+    for(let m=0;m<12;m++){
+      const v=months[m];
+      const cls=v>0?(isTotal?'fact-val total':'fact-val has-value'):'fact-val zero';
+      h+='<td><span class="'+cls+'">'+(v>0?fmtNum(v):'–')+'</span></td>';
+    }
+    const tcls=isTotal?'fact-val total':'fact-val '+(total>0?'has-value':'zero');
+    h+='<td><span class="'+tcls+'" style="font-weight:800">'+(total>0?fmtNum(total):'–')+'</span></td>';
+    return h;
+  }
+
+  // === ÉTUDES ===
+  if((factFilter==='all'||factFilter==='etudes')&&etudes.length>0){
+    tb+='<tr class="fact-section-row"><td colspan="14">📐 Études ('+etudes.length+' affaire'+(etudes.length>1?'s':'')+')</td></tr>';
+    const etudesTotals=new Array(12).fill(0);
+    etudes.forEach(a=>{
+      a.months.forEach((v,i)=>{etudesTotals[i]+=v});
+      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+    });
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+renderMonthCells(etudesTotals,true)+'</tr>';
+  }
+
+  // === TRAVAUX ===
+  if((factFilter==='all'||factFilter==='travaux')&&travaux.length>0){
+    tb+='<tr class="fact-section-row section-travaux"><td colspan="14">🏗️ Travaux ('+travaux.length+' affaire'+(travaux.length>1?'s':'')+')</td></tr>';
+    const travauxTotals=new Array(12).fill(0);
+    travaux.forEach(a=>{
+      a.months.forEach((v,i)=>{travauxTotals[i]+=v});
+      const affKey=a.name.replace(/[^a-zA-Z0-9]/g,'_');
+      const hasSD=Object.keys(a.subdetails).length>0;
+      const isOpen=expandedTravaux.has(affKey);
+      const chevron=hasSD?'<span class="chevron'+(isOpen?' open':'')+'" id="chev-'+affKey+'">▶</span>':'';
+      const click=hasSD?'onclick="toggleTravaux(\''+affKey+'\')"':'';
+      tb+='<tr class="fact-affaire-row is-travaux"><td '+click+'>'+chevron+escH(a.name)+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+
+      // Sous-détails
+      if(hasSD){
+        Object.keys(a.subdetails).sort().forEach(sd=>{
+          const hidden=isOpen?'':'hidden';
+          tb+='<tr class="fact-subdetail-row fact-sd-'+affKey+' '+hidden+'"><td>👤 '+escH(sd)+'</td>'+renderMonthCells(a.subdetails[sd],false)+'</tr>';
+        });
+      }
+    });
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+renderMonthCells(travauxTotals,true)+'</tr>';
+  }
+
+  // === AUTRES ACTIVITÉS ===
+  if((factFilter==='all'||factFilter==='special')&&specialList.length>0){
+    tb+='<tr class="fact-section-row section-special"><td colspan="14">📂 Autres activités ('+specialList.length+')</td></tr>';
+    const specialTotals=new Array(12).fill(0);
+    specialList.forEach(a=>{
+      a.months.forEach((v,i)=>{specialTotals[i]+=v});
+      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+    });
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td>'+renderMonthCells(specialTotals,true)+'</tr>';
+  }
+
+  // === TOTAL GÉNÉRAL ===
+  const grandTotal=new Array(12).fill(0);
+  if(factFilter==='all'||factFilter==='etudes') etudes.forEach(a=>a.months.forEach((v,i)=>{grandTotal[i]+=v}));
+  if(factFilter==='all'||factFilter==='travaux') travaux.forEach(a=>a.months.forEach((v,i)=>{grandTotal[i]+=v}));
+  if(factFilter==='all'||factFilter==='special') specialList.forEach(a=>a.months.forEach((v,i)=>{grandTotal[i]+=v}));
+  tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td>'+renderMonthCells(grandTotal,true)+'</tr>';
+
+  tb+='</tbody>';
+  document.getElementById('factTable').innerHTML=th+tb;
+}
+
+// ============================================================
+// EXPORT CSV FACTURATION
+// ============================================================
+function exportFactCSV(){
+  const {affaires,specials}=buildFactData(factYear);
+  const rows=[];
+  const header=['Affaire','Type'];
+  for(let m=0;m<12;m++) header.push(MN[m]);
+  header.push('Total');
+  rows.push(header);
+
+  // Affaires
+  Object.keys(affaires).sort().forEach(name=>{
+    const a=affaires[name];
+    if(factFilter!=='all'&&factFilter!==a.type&&!(factFilter==='special'&&false)) return;
+    const row=[name,a.type==='etudes'?'Études':'Travaux'];
+    let total=0;
+    a.months.forEach(v=>{row.push(v);total+=v});
+    row.push(total);
+    rows.push(row);
+
+    // Sous-détails travaux
+    if(a.type==='travaux'){
+      Object.keys(a.subdetails).sort().forEach(sd=>{
+        const srow=['  ↳ '+sd,'(sous-détail)'];
+        let st=0;
+        a.subdetails[sd].forEach(v=>{srow.push(v);st+=v});
+        srow.push(st);
+        rows.push(srow);
+      });
+    }
+  });
+
+  // Spéciales
+  if(factFilter==='all'||factFilter==='special'){
+    Object.keys(specials).sort().forEach(name=>{
+      const row=[name,'Autre'];
+      let total=0;
+      specials[name].months.forEach(v=>{row.push(v);total+=v});
+      row.push(total);
+      rows.push(row);
+    });
+  }
+
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='facturation_'+factYear+'.csv';a.click();
+  URL.revokeObjectURL(url);
+  showToast('📥 Export CSV téléchargé');
+}
 
 // ============================================================
 // UTILITAIRES
