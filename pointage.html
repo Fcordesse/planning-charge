@@ -13,10 +13,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .header-right{display:flex;align-items:center;gap:12px}
 .hdr-btn{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s;text-decoration:none}
 .hdr-btn:hover{background:rgba(255,255,255,.2)}
-
 .page-layout{display:flex;min-height:calc(100vh - 60px)}
 .main{flex:1;max-width:1100px;margin:0 auto;padding:24px 20px}
-
 .toolbox{width:var(--toolbox-width);background:var(--card-bg);border-left:1px solid var(--border);box-shadow:-2px 0 12px rgba(0,0,0,.05);position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;display:none;flex-direction:column;z-index:50}
 .toolbox.show{display:flex}
 .toolbox-header{padding:16px 14px 12px;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;text-align:center}
@@ -40,7 +38,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .toolbox-legend{padding:10px 14px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
 .toolbox-legend-item{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--text-light)}
 .toolbox-legend-dot{width:10px;height:10px;border-radius:3px;border:1px solid rgba(0,0,0,.1)}
-
 .welcome-bar{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .welcome-info{display:flex;align-items:center;gap:16px}
 .avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff}
@@ -102,7 +99,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;border-radius:16px;width:95%;max-width:680px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
+.modal{background:#fff;border-radius:16px;width:95%;max-width:720px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
 .modal-header{padding:20px 24px;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;display:flex;align-items:center;justify-content:space-between}
 .modal-header h2{font-size:1.1rem;font-weight:700}
 .modal-close{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.8;transition:.2s;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%}
@@ -149,6 +146,34 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .btn-delete-pointage:hover{background:#fce4ec}
 .validate-hint{font-size:.75rem;color:var(--text-light);margin-top:4px;font-style:italic}
 .validate-hint.hint-error{color:var(--highlight)}
+
+/* ── SOUS-DÉTAIL TRAVAUX ── */
+.sub-detail-toggle{background:none;border:none;cursor:pointer;font-size:.72rem;color:var(--travaux-border);font-weight:700;padding:2px 8px;border-radius:6px;transition:.2s;display:inline-flex;align-items:center;gap:4px}
+.sub-detail-toggle:hover{background:#fff3e0}
+.sub-detail-panel{background:#fef9f0;border:1px solid #ffe0b2;border-radius:8px;margin:4px 0 8px 20px;padding:10px 14px;display:none}
+.sub-detail-panel.open{display:block}
+.sub-detail-row{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #fff3e0}
+.sub-detail-row:last-child{border-bottom:none}
+.sub-detail-row .sd-label{flex:1;font-size:.8rem;font-weight:500;color:var(--text)}
+.sub-detail-row .sd-label.sd-autre{font-weight:700;color:var(--travaux-border)}
+.sub-detail-row .sd-input{display:flex;align-items:center;gap:4px}
+.sub-detail-row .sd-input button{width:24px;height:24px;border:1px solid #e0e0e0;border-radius:4px;background:#fff;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--text)}
+.sub-detail-row .sd-input button:hover{border-color:var(--travaux-border);background:#fff3e0}
+.sub-detail-row .sd-input button:disabled{opacity:.25;cursor:not-allowed}
+.sd-value-input{width:46px;text-align:center;font-weight:700;font-size:.82rem;border:1px solid #e0e0e0;border-radius:4px;padding:3px 2px;outline:none;background:#fff;-moz-appearance:textfield}
+.sd-value-input::-webkit-outer-spin-button,.sd-value-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sd-value-input:focus{border-color:var(--travaux-border);box-shadow:0 0 0 2px rgba(230,81,0,.1)}
+.sd-value-input.sd-autre-input{background:#fff8e1;border-color:var(--travaux-border)}
+.sub-detail-row .sd-unit{font-size:.7rem;color:var(--text-light)}
+.sd-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #ffcc80}
+.sd-header-label{font-size:.75rem;font-weight:700;color:var(--travaux-border);text-transform:uppercase;letter-spacing:.3px}
+.sd-header-total{font-size:.75rem;font-weight:700;color:var(--text-light)}
+
+/* ── COMPARATIF SOUS-DÉTAIL ── */
+.comp-sub-toggle{background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--travaux-border);font-weight:700;padding:1px 6px;border-radius:4px;margin-left:6px;transition:.2s}
+.comp-sub-toggle:hover{background:#fff3e0}
+.comp-sub-row td{background:#fef9f0!important;font-size:.82rem!important;color:var(--text-light)!important;padding:6px 14px 6px 40px!important}
+.comp-sub-row td:first-child{font-weight:500!important}
 
 @media(max-width:900px){.toolbox{width:180px}:root{--toolbox-width:180px}}
 @media(max-width:700px){
@@ -204,8 +229,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       </div>
     </div>
     <div id="notFound" class="not-found" style="display:none">
-      ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>
-      Contactez l'administrateur du planning.
+      ⚠️ Aucun collaborateur trouvé correspondant à votre adresse e-mail.<br>Contactez l'administrateur du planning.
     </div>
     <div id="content" style="display:none">
       <div id="comparatifSection" style="display:none"></div>
@@ -224,7 +248,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       </div>
     </div>
   </div>
-
   <aside class="toolbox" id="toolbox">
     <div class="toolbox-header">
       <h3>📌 Pointage</h3>
@@ -257,13 +280,14 @@ let collabName=null,collabColor='#888';
 let curMonth=new Date().getMonth(),curYear=new Date().getFullYear();
 let toolboxYear=new Date().getFullYear();
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
 let pointages={};
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
+const TRAVAUX_SUB_CATS=['PIC','Plan de terrassement','Modes constructifs','Planning','Rotation','FDR','BMO','Matériel','Modes opératoires','Autre'];
 
 let selectedPtgMonth=null,selectedPtgYear=null,ptgLines=[],ptgNbOuvres=0;
+// Track open/close state of sub-details across re-renders
+let openSubDetails=new Set();
 
-// ── AUTH ──
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='index.html';return}
   document.getElementById('welcomeEmail').textContent=user.email;
@@ -274,60 +298,23 @@ auth.onAuthStateChanged(user=>{
     document.getElementById('loadingOverlay').classList.remove('show');
   });
 });
-
 function logout(){auth.signOut().then(()=>{window.location.href='index.html'})}
 
-// ============================================================
-// CORRESPONDANCE EMAIL → COLLABORATEUR (par prénom uniquement)
-// ============================================================
-// L'email est au format prenom.xxx@eiffage.com
-// Le collaborateur dans la BDD peut être stocké sous n'importe quel format
-// (ex: "Jean-Pierre", "DUPONT Jean-Pierre", "Jean-Pierre DUPONT", ou juste "Jean-Pierre")
-// On extrait le prénom de l'email (partie avant le premier point ou avant @)
-// et on cherche un collaborateur dont le nom CONTIENT ce prénom.
-// ============================================================
 function normalize(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
-
 function matchCollab(email){
-  const local=email.split('@')[0]; // "prenom.nom" ou "prenom"
-  // Le prénom est toujours la première partie avant le point (ou le local entier s'il n'y a pas de point)
-  const emailPrenom=normalize(local.split('.')[0]); // ex: "jean-pierre" → "jean-pierre"
-
-  let bestMatch=null;
-
+  const local=email.split('@')[0];
+  const emailPrenom=normalize(local.split('.')[0]);
+  let best=null;
   Co.forEach(c=>{
-    const nameParts=c.name.trim().split(/\s+/);
-
-    // Tester chaque mot du nom du collaborateur
-    for(let i=0;i<nameParts.length;i++){
-      const part=normalize(nameParts[i]);
-
-      // Comparaison directe
-      if(part===emailPrenom){
-        bestMatch=c;
-        return;
-      }
-
-      // Comparaison en remplaçant les tirets par des espaces (jean-pierre vs jean-pierre)
-      if(part.replace(/-/g,' ')===emailPrenom.replace(/-/g,' ')){
-        bestMatch=c;
-        return;
-      }
+    const parts=c.name.trim().split(/\s+/);
+    for(let i=0;i<parts.length;i++){
+      const p=normalize(parts[i]);
+      if(p===emailPrenom||p.replace(/-/g,' ')===emailPrenom.replace(/-/g,' ')){best=c;return}
     }
-
-    // Si le nom du collaborateur est un seul mot (juste le prénom)
-    if(nameParts.length===1){
-      const full=normalize(c.name);
-      if(full===emailPrenom||full.replace(/-/g,' ')===emailPrenom.replace(/-/g,' ')){
-        bestMatch=c;
-      }
-    }
+    if(parts.length===1){const f=normalize(c.name);if(f===emailPrenom||f.replace(/-/g,' ')===emailPrenom.replace(/-/g,' '))best=c}
   });
-
-  if(!bestMatch){showNotFound();return}
-
-  collabName=bestMatch.name;
-  collabColor=bestMatch.color;
+  if(!best){showNotFound();return}
+  collabName=best.name;collabColor=best.color;
   document.getElementById('avatarEl').textContent=getIni(collabName);
   document.getElementById('avatarEl').style.background=collabColor;
   document.getElementById('welcomeName').textContent=collabName;
@@ -335,18 +322,15 @@ function matchCollab(email){
   document.getElementById('toolbox').classList.add('show');
   loadPointages().then(()=>{renderMonth();renderToolbox()});
 }
-
 function showNotFound(){document.getElementById('welcomeName').textContent='Non trouvé';document.getElementById('notFound').style.display='block'}
 function getIni(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 
-// ── POINTAGE FIREBASE ──
 function getPointageRef(){return db.ref('pointages/'+collabName.replace(/[.#$\[\]\/]/g,'_'))}
 function loadPointages(){return getPointageRef().once('value').then(snap=>{pointages=snap.val()||{}})}
 function savePointage(mk,data){pointages[mk]=data;return getPointageRef().child(mk).set(data)}
 function deletePointage(mk){delete pointages[mk];return getPointageRef().child(mk).remove()}
 function getMonthKey(y,m){return y+'-'+String(m+1).padStart(2,'0')}
 
-// ── JOURS FÉRIÉS ──
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
 function getFeries(y){const s=new Set(),f=d=>dk(d),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};s.add(f(new Date(y,0,1)));s.add(f(new Date(y,4,1)));s.add(f(new Date(y,4,8)));s.add(f(new Date(y,6,14)));s.add(f(new Date(y,7,15)));s.add(f(new Date(y,10,1)));s.add(f(new Date(y,10,11)));s.add(f(new Date(y,11,25)));const e=getEaster(y);s.add(f(ad(e,1)));s.add(f(ad(e,39)));s.add(f(ad(e,50)));return s}
 let _fc={};
@@ -355,7 +339,6 @@ function isWE(d){return d.getDay()===0||d.getDay()===6}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let d=1;d<=dim;d++){const dt=new Date(y,m,d);if(!isWE(dt)&&!isF(dt))o.push(dk(dt))}return o}
 
-// ── CALCULS ──
 function computePlanningData(y,m){
   const ouvres=getOuvres(y,m),nbOuvres=ouvres.length;
   const affCharge={};let totalSlots=0;
@@ -367,50 +350,27 @@ function computePlanningData(y,m){
 }
 function monthHasPlanningData(y,m){const{totalJoursPlanif,totalConges}=computePlanningData(y,m);return totalJoursPlanif>0||totalConges>0}
 
-// ── TOOLBOX ──
 function changeToolboxYear(o){toolboxYear+=o;renderToolbox()}
 function renderToolbox(){
   document.getElementById('toolboxYearLabel').textContent=toolboxYear;
   const c=document.getElementById('toolboxMonths');let h='';
-  for(let m=0;m<12;m++){
-    const mk=getMonthKey(toolboxYear,m),ptg=pointages[mk];
-    const isV=ptg&&ptg.lines&&ptg.validatedAt,hasD=monthHasPlanningData(toolboxYear,m);
-    let sc='empty',sh='';
-    if(isV){sc='validated';sh='<span class="month-status">✓</span>'}
-    else if(hasD){sc='has-data';sh='<span class="month-status">●</span>'}
-    h+='<button class="toolbox-month-btn '+sc+'" onclick="openPointageForMonth('+m+','+toolboxYear+')"><span class="month-name">'+MN[m]+'</span>'+sh+'</button>';
-  }
+  for(let m=0;m<12;m++){const mk=getMonthKey(toolboxYear,m),ptg=pointages[mk];const isV=ptg&&ptg.lines&&ptg.validatedAt,hasD=monthHasPlanningData(toolboxYear,m);let sc='empty',sh='';if(isV){sc='validated';sh='<span class="month-status">✓</span>'}else if(hasD){sc='has-data';sh='<span class="month-status">●</span>'}h+='<button class="toolbox-month-btn '+sc+'" onclick="openPointageForMonth('+m+','+toolboxYear+')"><span class="month-name">'+MN[m]+'</span>'+sh+'</button>'}
   c.innerHTML=h;
 }
-function openPointageForMonth(m,y){selectedPtgMonth=m;selectedPtgYear=y;renderModalStep2();document.getElementById('modalOverlay').classList.add('show')}
+function openPointageForMonth(m,y){selectedPtgMonth=m;selectedPtgYear=y;openSubDetails=new Set();renderModalStep2();document.getElementById('modalOverlay').classList.add('show')}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('show')}
-
-// ── NAVIGATION MOIS ──
 function changeMonth(o){curMonth+=o;if(curMonth>11){curMonth=0;curYear++}if(curMonth<0){curMonth=11;curYear--}renderMonth()}
 
-// ── RENDU MENSUEL ──
 function renderMonth(){
   document.getElementById('monthLabel').textContent=MN[curMonth]+' '+curYear;
   const{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges}=computePlanningData(curYear,curMonth);
   const joursDispo=nbOuvres-totalJoursPlanif-totalConges;
-
-  document.getElementById('statsGrid').innerHTML=
-    '<div class="stat-card stat-ouvres"><div class="stat-value">'+nbOuvres+'</div><div class="stat-label">Jours ouvrés</div></div>'+
-    '<div class="stat-card stat-planifie"><div class="stat-value">'+fmtNum(totalJoursPlanif)+'</div><div class="stat-label">Jours planifiés</div></div>'+
-    '<div class="stat-card stat-conge"><div class="stat-value">'+totalConges+'</div><div class="stat-label">Jours de congé</div></div>'+
-    '<div class="stat-card stat-dispo"><div class="stat-value">'+fmtNum(joursDispo)+'</div><div class="stat-label">Jours disponibles</div></div>';
-
-  const affTableEl=document.getElementById('affTable');
-  const affEntries=Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours);
-  const maxJ=affEntries.length?Math.max(...affEntries.map(e=>e[1].jours)):1;
+  document.getElementById('statsGrid').innerHTML='<div class="stat-card stat-ouvres"><div class="stat-value">'+nbOuvres+'</div><div class="stat-label">Jours ouvrés</div></div><div class="stat-card stat-planifie"><div class="stat-value">'+fmtNum(totalJoursPlanif)+'</div><div class="stat-label">Jours planifiés</div></div><div class="stat-card stat-conge"><div class="stat-value">'+totalConges+'</div><div class="stat-label">Jours de congé</div></div><div class="stat-card stat-dispo"><div class="stat-value">'+fmtNum(joursDispo)+'</div><div class="stat-label">Jours disponibles</div></div>';
+  const affTableEl=document.getElementById('affTable');const affEntries=Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours);const maxJ=affEntries.length?Math.max(...affEntries.map(e=>e[1].jours)):1;
   if(!affEntries.length){affTableEl.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px;font-style:italic">Aucune affectation ce mois</td></tr>'}
   else{let h='';affEntries.forEach(([n,d])=>{const p=nbOuvres>0?Math.round((d.jours/nbOuvres)*100):0,bW=Math.max(4,(d.jours/maxJ)*120),tc=d.type==='etudes'?'etudes':'travaux',tl=d.type==='etudes'?'Études':'Travaux';h+='<tr><td style="font-weight:600">'+escH(n)+'</td><td><span class="type-badge type-'+tc+'">'+tl+'</span></td><td><div class="days-bar"><div class="bar bar-'+tc+'" style="width:'+bW+'px"></div><span style="font-size:.75rem;color:var(--text-light)">'+p+'%</span></div></td><td><span class="days-num">'+fmtNum(d.jours)+'j</span></td></tr>'});h+='<tr class="total-row"><td>TOTAL</td><td></td><td></td><td><span class="days-num">'+fmtNum(totalJoursPlanif)+'j</span></td></tr>';affTableEl.innerHTML=h}
-
-  const congeSec=document.getElementById('congeSection'),congeTableEl=document.getElementById('congeTable');
-  const congeEntries=Object.entries(congeCount).sort((a,b)=>b[1]-a[1]);
-  if(!congeEntries.length){congeSec.style.display='none'}
-  else{congeSec.style.display='block';let h='';congeEntries.forEach(([t,j])=>{const bW=Math.max(4,(j/nbOuvres)*200);h+='<tr><td><span class="conge-tag">'+escH(t)+'</span></td><td><span class="days-num">'+j+'j</span></td><td><div class="days-bar"><div class="bar bar-conge" style="width:'+bW+'px"></div></div></td></tr>'});h+='<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">'+totalConges+'j</span></td><td></td></tr>';congeTableEl.innerHTML=h}
-
+  const congeSec=document.getElementById('congeSection'),congeTableEl=document.getElementById('congeTable');const congeEntries=Object.entries(congeCount).sort((a,b)=>b[1]-a[1]);
+  if(!congeEntries.length){congeSec.style.display='none'}else{congeSec.style.display='block';let h='';congeEntries.forEach(([t,j])=>{const bW=Math.max(4,(j/nbOuvres)*200);h+='<tr><td><span class="conge-tag">'+escH(t)+'</span></td><td><span class="days-num">'+j+'j</span></td><td><div class="days-bar"><div class="bar bar-conge" style="width:'+bW+'px"></div></div></td></tr>'});h+='<tr class="total-row"><td>TOTAL CONGÉS</td><td><span class="days-num">'+totalConges+'j</span></td><td></td></tr>';congeTableEl.innerHTML=h}
   renderComparatif(curYear,curMonth,affCharge,congeCount,nbOuvres,totalJoursPlanif,totalConges);
   renderCalendar(ouvres,affCharge,congeCount);
 }
@@ -422,12 +382,40 @@ function renderComparatif(y,m,affCharge,congeCount,nbOuvres,totalJP,totalC){
   sec.style.display='block';
   const vd=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
   const ptgMap={};ptg.lines.forEach(l=>{ptgMap[l.label]=(ptgMap[l.label]||0)+l.jours});
-  const planMap={};Object.entries(affCharge).forEach(([n,d])=>{planMap[n]={jours:d.jours,type:d.type==='etudes'?'Études':'Travaux',category:'affaire'}});Object.entries(congeCount).forEach(([t,j])=>{planMap[t]={jours:j,type:'Congé',category:'conge'}});
+  const planMap={};Object.entries(affCharge).forEach(([n,d])=>{planMap[n]={jours:d.jours,type:d.type==='etudes'?'Études':'Travaux',rawType:d.type,category:'affaire'}});Object.entries(congeCount).forEach(([t,j])=>{planMap[t]={jours:j,type:'Congé',category:'conge'}});
   const all=new Set([...Object.keys(planMap),...Object.keys(ptgMap)]);const aL=[],cL=[],sL=[];
   all.forEach(l=>{const ip=planMap[l];const ic=(ip&&ip.category==='conge')||(ptg.lines.find(x=>x.label===l&&x.category==='conge'));if(ic)cL.push(l);else if(LIGNES_SPECIALES.includes(l)||(!ip&&!ic))sL.push(l);else aL.push(l)});
+
   let h='<div class="comparatif-section"><h3>📊 Comparatif Planning vs Pointage réel<span class="pointage-badge">✓ Validé le '+escH(vd)+'</span></h3><table class="comparatif-table"><thead><tr><th>Ligne</th><th>Type</th><th>Planning</th><th>Pointage</th><th>Écart</th></tr></thead><tbody>';
   let tPAf=0,tPtAf=0,tPC=0,tPtC=0;
-  aL.forEach(l=>{const pJ=planMap[l]?planMap[l].jours:0,ptJ=ptgMap[l]||0,d=ptJ-pJ;tPAf+=pJ;tPtAf+=ptJ;h+=bCR(l,planMap[l]?planMap[l].type:'Affaire',pJ,ptJ,d)});
+
+  aL.forEach(l=>{
+    const pJ=planMap[l]?planMap[l].jours:0,ptJ=ptgMap[l]||0,d=ptJ-pJ;
+    const typeLabel=planMap[l]?planMap[l].type:'Affaire';
+    const isTravaux=(planMap[l]&&planMap[l].rawType==='travaux')||(ptg.lines.find(x=>x.label===l&&x.type==='travaux'));
+    const lineData=ptg.lines.find(x=>x.label===l);
+    const hasSub=isTravaux&&lineData&&lineData.subDetail&&Object.keys(lineData.subDetail).some(k=>lineData.subDetail[k]>0);
+    tPAf+=pJ;tPtAf+=ptJ;
+
+    // Main row with toggle if travaux with sub-detail
+    let nameCell=escH(l);
+    if(hasSub){
+      const sid='compSub_'+l.replace(/[^a-zA-Z0-9]/g,'_');
+      nameCell+=`<button class="comp-sub-toggle" onclick="document.querySelectorAll('.${sid}').forEach(r=>r.style.display=r.style.display==='none'?'table-row':'none');this.textContent=this.textContent==='▶ détail'?'▼ détail':'▶ détail'">▶ détail</button>`;
+    }
+    h+='<tr><td style="font-weight:600">'+nameCell+'</td><td><span style="font-size:.75rem;color:var(--text-light)">'+escH(typeLabel)+'</span></td><td>'+fmtNum(pJ)+'j</td><td>'+fmtNum(ptJ)+'j</td><td class="'+dCl(d)+'">'+fDl(d)+'</td></tr>';
+
+    // Sub-detail rows (hidden by default)
+    if(hasSub){
+      const sid='compSub_'+l.replace(/[^a-zA-Z0-9]/g,'_');
+      TRAVAUX_SUB_CATS.forEach(cat=>{
+        const v=lineData.subDetail[cat]||0;
+        if(v>0){
+          h+='<tr class="comp-sub-row '+sid+'" style="display:none"><td>↳ '+escH(cat)+'</td><td></td><td></td><td>'+fmtNum(v)+'j</td><td></td></tr>';
+        }
+      });
+    }
+  });
   sL.forEach(l=>{const ptJ=ptgMap[l]||0;tPtAf+=ptJ;h+=bCR(l,'Autre',0,ptJ,ptJ)});
   const dA=tPtAf-tPAf;h+='<tr class="comparatif-total"><td>TOTAL ACTIVITÉ</td><td></td><td><b>'+fmtNum(tPAf)+'j</b></td><td><b>'+fmtNum(tPtAf)+'j</b></td><td><b class="'+dCl(dA)+'">'+fDl(dA)+'</b></td></tr>';
   if(cL.length){h+='<tr><td colspan="5" style="padding:6px 14px;background:#fff8e1;font-size:.78rem;font-weight:700;color:#f57f17">🏖️ CONGÉS & ABSENCES</td></tr>';cL.forEach(l=>{const pJ=planMap[l]?planMap[l].jours:0,ptJ=ptgMap[l]||0,d=ptJ-pJ;tPC+=pJ;tPtC+=ptJ;h+=bCR(l,'Congé',pJ,ptJ,d)});const dCo=tPtC-tPC;h+='<tr class="comparatif-total"><td>TOTAL CONGÉS</td><td></td><td><b>'+fmtNum(tPC)+'j</b></td><td><b>'+fmtNum(tPtC)+'j</b></td><td><b class="'+dCl(dCo)+'">'+fDl(dCo)+'</b></td></tr>'}
@@ -443,8 +431,26 @@ function renderModalStep2(){
   ptgNbOuvres=nbOuvres;
   document.getElementById('modalTitle').textContent='📌 Pointer – '+MN[selectedPtgMonth]+' '+selectedPtgYear;
   const mk=getMonthKey(selectedPtgYear,selectedPtgMonth),ep=pointages[mk];
-  if(ep&&ep.lines){ptgLines=ep.lines.map((l,i)=>({...l,id:i,removable:l.removable!==undefined?l.removable:(['special'].includes(l.category)||!Object.keys(affCharge).includes(l.label)&&l.category!=='conge')}))}
-  else{ptgLines=[];let id=0;Object.entries(congeCount).forEach(([t,j])=>{ptgLines.push({id:id++,label:t,category:'conge',jours:j,removable:false})});Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours).forEach(([n,d])=>{ptgLines.push({id:id++,label:n,category:'affaire',jours:d.jours,removable:false,type:d.type})})}
+  if(ep&&ep.lines){
+    ptgLines=ep.lines.map((l,i)=>{
+      const line={...l,id:i,removable:l.removable!==undefined?l.removable:(['special'].includes(l.category)||!Object.keys(affCharge).includes(l.label)&&l.category!=='conge')};
+      // Restore subDetail if it exists
+      if(l.subDetail)line.subDetail={...l.subDetail};
+      return line;
+    });
+  }else{
+    ptgLines=[];let id=0;
+    Object.entries(congeCount).forEach(([t,j])=>{ptgLines.push({id:id++,label:t,category:'conge',jours:j,removable:false})});
+    Object.entries(affCharge).sort((a,b)=>b[1].jours-a[1].jours).forEach(([n,d])=>{
+      const line={id:id++,label:n,category:'affaire',jours:d.jours,removable:false,type:d.type};
+      if(d.type==='travaux'){
+        // Init sub-detail: everything in "Autre"
+        line.subDetail={};
+        TRAVAUX_SUB_CATS.forEach(cat=>{line.subDetail[cat]=cat==='Autre'?d.jours:0});
+      }
+      ptgLines.push(line);
+    });
+  }
   renderPointageForm();
 }
 
@@ -457,7 +463,37 @@ function renderPointageForm(){
   else h+='<div style="font-size:.78rem;color:var(--success);font-weight:600">✓ Complet</div>';
   h+='</div></div>';
 
-  [{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}].forEach(g=>{const lines=ptgLines.filter(l=>l.category===g.cat);if(!lines.length)return;h+='<div class="pointage-group"><div class="pointage-group-title">'+g.icon+' '+g.title+'</div>';lines.forEach(l=>{h+=buildPR(l,tS)});h+='</div>'});
+  [{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}].forEach(g=>{
+    const lines=ptgLines.filter(l=>l.category===g.cat);if(!lines.length)return;
+    h+='<div class="pointage-group"><div class="pointage-group-title">'+g.icon+' '+g.title+'</div>';
+    lines.forEach(l=>{
+      h+=buildPR(l,tS);
+      // Sub-detail panel for travaux
+      if(l.type==='travaux'&&l.subDetail){
+        const isOpen=openSubDetails.has(l.id);
+        h+='<div class="sub-detail-panel'+(isOpen?' open':'')+'" id="sdPanel_'+l.id+'">';
+        h+='<div class="sd-header"><span class="sd-header-label">🔧 Ventilation EXE</span><span class="sd-header-total">Total : '+fmtNum(l.jours)+'j</span></div>';
+        TRAVAUX_SUB_CATS.forEach(cat=>{
+          const v=l.subDetail[cat]||0;
+          const isAutre=cat==='Autre';
+          const autreVal=l.subDetail['Autre']||0;
+          const canInc=!isAutre&&autreVal>=0.5;
+          const canDec=!isAutre&&v>=0.5;
+          h+='<div class="sub-detail-row"><span class="sd-label'+(isAutre?' sd-autre':'')+'">'+escH(cat)+'</span>';
+          if(isAutre){
+            h+='<div class="sd-input"><input type="text" class="sd-value-input sd-autre-input" value="'+fmtNum(v)+'" disabled /><span class="sd-unit">j</span></div>';
+          }else{
+            h+='<div class="sd-input"><button onclick="changeSubVal('+l.id+',\''+escAttr(cat)+'\',-0.5)" '+(!canDec?'disabled':'')+'>−</button>';
+            h+='<input type="text" class="sd-value-input" id="sdInput_'+l.id+'_'+cat.replace(/\s/g,'_')+'" value="'+fmtNum(v)+'" onchange="onSubInputChange('+l.id+',\''+escAttr(cat)+'\',this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();onSubInputChange('+l.id+',\''+escAttr(cat)+'\',this);this.blur()}" />';
+            h+='<button onclick="changeSubVal('+l.id+',\''+escAttr(cat)+'\',0.5)" '+(!canInc?'disabled':'')+'>+</button><span class="sd-unit">j</span></div>';
+          }
+          h+='</div>';
+        });
+        h+='</div>';
+      }
+    });
+    h+='</div>';
+  });
 
   h+='<div class="pointage-group"><div class="pointage-group-title">➕ Ajouter une ligne</div><div class="add-line-area"><select class="add-line-select" id="addLineSelect"><option value="">-- Choisir --</option>';
   const eL=new Set(ptgLines.map(l=>l.label));
@@ -477,15 +513,83 @@ function renderPointageForm(){
 
 function buildPR(line,tS){
   const cI=(tS+.5)<=ptgNbOuvres+.01,cD=line.jours>=.5;
+  const isTravaux=line.type==='travaux'&&line.subDetail;
   let h='<div class="pointage-row"><div class="row-label">'+escH(line.label);
-  if(line.type)h+=' <span class="sub-type">('+(line.type==='etudes'?'Études':'Travaux')+')</span>';
+  if(line.type){const tl=line.type==='etudes'?'Études':'Travaux';h+=' <span class="sub-type">('+tl+')</span>'}
   if(line.category==='conge')h+=' <span class="sub-type">(congé)</span>';
+  // Toggle button for travaux sub-detail
+  if(isTravaux){
+    const isOpen=openSubDetails.has(line.id);
+    h+=' <button class="sub-detail-toggle" onclick="toggleSubDetail('+line.id+')">'+(isOpen?'▼':'▶')+' ventilation</button>';
+  }
   h+='</div><div class="row-input"><button onclick="changePtgValue('+line.id+',-0.5)" '+(!cD?'disabled':'')+'>−</button>';
   h+='<input type="text" class="ptg-value-input" id="ptgInput_'+line.id+'" value="'+fmtNum(line.jours)+'" onchange="onPtgInputChange('+line.id+',this)" onkeydown="onPtgInputKey(event,'+line.id+',this)" />';
   h+='<button onclick="changePtgValue('+line.id+',0.5)" '+(!cI?'disabled':'')+'>+</button><span class="row-unit">j</span></div>';
   if(line.removable!==false||line.category==='special')h+='<button class="row-remove" onclick="removePtgLine('+line.id+')" title="Supprimer">✕</button>';
   else h+='<div style="width:28px"></div>';
   h+='</div>';return h;
+}
+
+function toggleSubDetail(id){
+  if(openSubDetails.has(id))openSubDetails.delete(id);else openSubDetails.add(id);
+  const panel=document.getElementById('sdPanel_'+id);
+  if(panel)panel.classList.toggle('open');
+  // Update toggle button text
+  const line=ptgLines.find(l=>l.id===id);if(!line)return;
+  // Re-render only if needed for button state (simpler: just toggle panel CSS)
+}
+
+// ── Sub-detail value changes ──
+function changeSubVal(lineId,cat,delta){
+  const line=ptgLines.find(l=>l.id===lineId);
+  if(!line||!line.subDetail)return;
+  const cur=line.subDetail[cat]||0;
+  const autre=line.subDetail['Autre']||0;
+  const newVal=r2(cur+delta);
+  if(newVal<0)return;
+  if(delta>0&&autre<0.49)return;
+  line.subDetail[cat]=newVal;
+  line.subDetail['Autre']=r2(autre-delta);
+  renderPointageForm();
+}
+
+function onSubInputChange(lineId,cat,el){
+  const line=ptgLines.find(l=>l.id===lineId);
+  if(!line||!line.subDetail)return;
+  let v=parseFloat(el.value.replace(',','.').trim());
+  if(isNaN(v)||v<0){el.classList.add('input-error');setTimeout(()=>el.classList.remove('input-error'),800);el.value=fmtNum(line.subDetail[cat]||0);return}
+  v=r2(v);
+  const oldVal=line.subDetail[cat]||0;
+  const autre=line.subDetail['Autre']||0;
+  const maxForCat=r2(oldVal+autre); // max we can put in this cat
+  if(v>maxForCat)v=maxForCat;
+  const diff=r2(v-oldVal);
+  line.subDetail[cat]=v;
+  line.subDetail['Autre']=r2(autre-diff);
+  renderPointageForm();
+}
+
+// When main line value changes, adjust "Autre" in sub-detail
+function adjustSubDetailForNewTotal(line,oldJours,newJours){
+  if(!line.subDetail)return;
+  const diff=r2(newJours-oldJours);
+  const autreOld=line.subDetail['Autre']||0;
+  let autreNew=r2(autreOld+diff);
+  if(autreNew<0){
+    // Need to reduce other categories
+    let deficit=Math.abs(autreNew);
+    autreNew=0;
+    // Reduce from other cats proportionally (simple: reduce from last to first)
+    const otherCats=TRAVAUX_SUB_CATS.filter(c=>c!=='Autre');
+    for(let i=otherCats.length-1;i>=0&&deficit>0.001;i--){
+      const c=otherCats[i];
+      const cv=line.subDetail[c]||0;
+      const reduce=Math.min(cv,deficit);
+      line.subDetail[c]=r2(cv-reduce);
+      deficit=r2(deficit-reduce);
+    }
+  }
+  line.subDetail['Autre']=autreNew;
 }
 
 function onPtgInputChange(id,el){applyMI(id,el)}
@@ -496,23 +600,60 @@ function applyMI(id,el){
   if(isNaN(v)||v<0){el.classList.add('input-error');setTimeout(()=>el.classList.remove('input-error'),1000);el.value=fmtNum(line.jours);return}
   v=r2(v);const tSans=r2(ptgLines.reduce((s,l)=>s+(l.id===id?0:l.jours),0)),nT=r2(tSans+v);
   if(nT>ptgNbOuvres+.01){v=r2(ptgNbOuvres-tSans);if(v<0)v=0}
-  line.jours=v;renderPointageForm();
+  const oldJ=line.jours;
+  line.jours=v;
+  adjustSubDetailForNewTotal(line,oldJ,v);
+  renderPointageForm();
   setTimeout(()=>{const ni=document.getElementById('ptgInput_'+id);if(ni)ni.focus()},50);
 }
-function changePtgValue(id,d){const line=ptgLines.find(l=>l.id===id);if(!line)return;const nv=r2(line.jours+d);if(nv<0)return;const tS=r2(ptgLines.reduce((s,l)=>s+l.jours,0)),nT=r2(tS+d);if(nT>ptgNbOuvres+.01&&d>0)return;line.jours=nv;renderPointageForm()}
-function removePtgLine(id){ptgLines=ptgLines.filter(l=>l.id!==id);renderPointageForm()}
-function addPtgLine(){const sel=document.getElementById('addLineSelect');if(!sel.value)return;const mx=ptgLines.length?Math.max(...ptgLines.map(l=>l.id)):0;if(sel.value.startsWith('aff|')){const p=sel.value.split('|');ptgLines.push({id:mx+1,label:p[1],category:'affaire',jours:0,removable:true,type:p[2]})}else if(sel.value.startsWith('spec|')){ptgLines.push({id:mx+1,label:sel.value.split('|')[1],category:'special',jours:0,removable:true})}renderPointageForm()}
+function changePtgValue(id,d){
+  const line=ptgLines.find(l=>l.id===id);if(!line)return;
+  const nv=r2(line.jours+d);if(nv<0)return;
+  const tS=r2(ptgLines.reduce((s,l)=>s+l.jours,0)),nT=r2(tS+d);
+  if(nT>ptgNbOuvres+.01&&d>0)return;
+  const oldJ=line.jours;
+  line.jours=nv;
+  adjustSubDetailForNewTotal(line,oldJ,nv);
+  renderPointageForm();
+}
+function removePtgLine(id){ptgLines=ptgLines.filter(l=>l.id!==id);openSubDetails.delete(id);renderPointageForm()}
+function addPtgLine(){
+  const sel=document.getElementById('addLineSelect');if(!sel.value)return;
+  const mx=ptgLines.length?Math.max(...ptgLines.map(l=>l.id)):0;
+  if(sel.value.startsWith('aff|')){
+    const p=sel.value.split('|');
+    const line={id:mx+1,label:p[1],category:'affaire',jours:0,removable:true,type:p[2]};
+    if(p[2]==='travaux'){
+      line.subDetail={};
+      TRAVAUX_SUB_CATS.forEach(cat=>{line.subDetail[cat]=0});
+    }
+    ptgLines.push(line);
+  }else if(sel.value.startsWith('spec|')){
+    ptgLines.push({id:mx+1,label:sel.value.split('|')[1],category:'special',jours:0,removable:true});
+  }
+  renderPointageForm();
+}
 
 function validatePointage(){
   const tS=r2(ptgLines.reduce((s,l)=>s+l.jours,0));
   if(Math.abs(tS-ptgNbOuvres)>.01){const d=ptgNbOuvres-tS;alert(d>0?'Il reste '+fmtNum(d)+'j à répartir.':'Dépassement de '+fmtNum(Math.abs(d))+'j.');return}
-  const cl=ptgLines.filter(l=>l.jours>0).map(l=>({label:l.label,category:l.category,jours:l.jours,type:l.type||null}));
+  const cl=ptgLines.filter(l=>l.jours>0).map(l=>{
+    const obj={label:l.label,category:l.category,jours:l.jours,type:l.type||null};
+    if(l.subDetail){
+      // Only save non-zero sub-detail entries
+      obj.subDetail={};
+      TRAVAUX_SUB_CATS.forEach(cat=>{
+        const v=l.subDetail[cat]||0;
+        if(v>0)obj.subDetail[cat]=v;
+      });
+    }
+    return obj;
+  });
   const mk=getMonthKey(selectedPtgYear,selectedPtgMonth);
   savePointage(mk,{lines:cl,validatedAt:new Date().toISOString(),nbOuvres:ptgNbOuvres}).then(()=>{closeModal();renderMonth();renderToolbox()});
 }
 function deletePtgConfirm(){if(!confirm('Supprimer le pointage de '+MN[selectedPtgMonth]+' '+selectedPtgYear+' ?'))return;deletePointage(getMonthKey(selectedPtgYear,selectedPtgMonth)).then(()=>{closeModal();renderMonth();renderToolbox()})}
 
-// ── CALENDRIER ──
 function renderCalendar(ouvres,affCharge,congeCount){
   const grid=document.getElementById('calGrid'),DL=['Lun','Mar','Mer','Jeu','Ven'];
   let h=DL.map(d=>'<div class="cal-header">'+d+'</div>').join('');
@@ -522,8 +663,8 @@ function renderCalendar(ouvres,affCharge,congeCount){
   grid.innerHTML=h;
 }
 
-// ── UTILITAIRES ──
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escAttr(s){return s.replace(/'/g,"\\'")}
 function fmtNum(n){const r=Math.round(n*100)/100;return r%1===0?r.toFixed(0):parseFloat(r.toFixed(2)).toString()}
 function r2(n){return Math.round(n*100)/100}
 </script>
