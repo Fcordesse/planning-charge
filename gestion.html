@@ -125,50 +125,49 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .fact-table tr:hover td{background:#f8f9ff}
 .fact-table tr:hover td:first-child{background:#f0f2ff}
 
-/* Lignes de section */
 .fact-section-row td{background:#e3f2fd!important;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);border-bottom:2px solid #90caf9}
 .fact-section-row.section-travaux td{background:#fff3e0!important;color:#e65100;border-bottom-color:#ffcc80}
 .fact-section-row.section-special td{background:#f3e5f5!important;color:#6a1b9a;border-bottom-color:#ce93d8}
 
-/* Ligne affaire parent (cliquable pour travaux) */
 .fact-affaire-row td:first-child{font-weight:700;padding-left:20px}
 .fact-affaire-row.is-travaux td:first-child{cursor:pointer;user-select:none}
 .fact-affaire-row.is-travaux td:first-child:hover{color:var(--accent)}
 
-/* Sous-détail */
-.fact-subdetail-row td{background:#fafafa!important;font-size:.78rem;color:var(--text-light)}
+.fact-subdetail-row td{background:#fef9f0!important;font-size:.78rem;color:var(--text-light)}
 .fact-subdetail-row td:first-child{padding-left:44px!important;font-weight:500;font-style:italic}
-.fact-subdetail-row:hover td{background:#f5f5f5!important}
+.fact-subdetail-row:hover td{background:#fff8e1!important}
 .fact-subdetail-row.hidden{display:none}
 
-/* Ligne total */
 .fact-total-row td{background:#e8eaf6!important;font-weight:800;border-top:2px solid var(--accent);font-size:.85rem}
 .fact-subtotal-row td{background:#f5f5f5!important;font-weight:700;border-top:1px solid var(--border);font-size:.8rem}
 
-/* Toggle chevron */
 .chevron{display:inline-block;transition:transform .2s;margin-right:6px;font-size:.7rem}
 .chevron.open{transform:rotate(90deg)}
 
-/* Cellule valeur */
 .fact-val{font-weight:600;font-variant-numeric:tabular-nums}
 .fact-val.has-value{color:var(--text)}
 .fact-val.zero{color:#e0e0e0}
 .fact-val.total{color:var(--accent);font-weight:800}
 
-/* Filtre type */
 .fact-filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .fact-filter-btn{padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:#fff;color:var(--text-light);font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s}
 .fact-filter-btn:hover{background:#e8eaf6;color:var(--text)}
 .fact-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-/* Export */
 .btn-export{padding:8px 18px;border:none;border-radius:8px;background:var(--success);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-export:hover{background:#1b8a3a}
+
+/* Filtre collaborateur */
+.fact-collab-filter{display:flex;align-items:center;gap:8px}
+.fact-collab-filter label{font-size:.78rem;font-weight:600;color:var(--text-light);white-space:nowrap}
+.fact-collab-select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:600;background:#fff;color:var(--text);cursor:pointer;min-width:180px;outline:none;transition:.2s}
+.fact-collab-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.1)}
 
 @media(max-width:700px){
   .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
   .regie-legend{justify-content:center}
   .tab-bar{flex-wrap:wrap}
+  .fact-controls-row{flex-direction:column!important;align-items:stretch!important}
 }
 </style>
 </head>
@@ -256,7 +255,13 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
           <h2>💰 Facturation – Jours validés par affaire</h2>
           <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" class="fact-controls-row">
+          <div class="fact-collab-filter">
+            <label for="factCollabSelect">👤 Collaborateur :</label>
+            <select class="fact-collab-select" id="factCollabSelect" onchange="renderFactView()">
+              <option value="">Tous les collaborateurs</option>
+            </select>
+          </div>
           <div class="fact-filter-bar" id="factFilterBar">
             <button class="fact-filter-btn active" onclick="setFactFilter('all')">Tout</button>
             <button class="fact-filter-btn" onclick="setFactFilter('etudes')">📐 Études</button>
@@ -273,7 +278,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       </div>
       <div class="fact-stats" id="factStats"></div>
       <div class="fact-card">
-        <h3>📋 Récapitulatif jours validés par affaire et par mois</h3>
+        <h3 id="factTableTitle">📋 Récapitulatif jours validés par affaire et par mois</h3>
         <div class="fact-scroll">
           <table class="fact-table" id="factTable"></table>
         </div>
@@ -299,12 +304,13 @@ let factYear=new Date().getFullYear();
 let factFilter='all';
 let isFirstPointageLoad=true;
 let viewReady=false;
-let expandedTravaux=new Set(); // Pour le sous-détail travaux
+let expandedTravaux=new Set();
 
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MN_S=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 const ROLES_ALLOWED=['admin','responsable','responsable_viewer'];
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
+const TRAVAUX_SUB_CATS=['PIC','Plan de terrassement','Modes constructifs','Planning','Rotation','FDR','BMO','Matériel','Modes opératoires','Autre'];
 
 // ============================================================
 // ONGLETS
@@ -314,7 +320,7 @@ function switchTab(tab){
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   document.querySelector('[onclick="switchTab(\''+tab+'\')"]').classList.add('active');
-  if(tab==='facturation')renderFactView();
+  if(tab==='facturation'){populateCollabSelect();renderFactView()}
 }
 
 // ============================================================
@@ -342,7 +348,6 @@ auth.onAuthStateChanged(user=>{
       allPointages=snap.val()||{};
       if(viewReady){
         renderTeamView();
-        // Si l'onglet facturation est actif, le mettre à jour aussi
         if(document.getElementById('tab-facturation').classList.contains('active')){
           renderFactView();
         }
@@ -404,7 +409,7 @@ function changeTeamYear(o){teamYear+=o;renderTeamView()}
 function changeFactYear(o){factYear+=o;renderFactView()}
 
 // ============================================================
-// RENDU ONGLET POINTAGES (inchangé)
+// RENDU ONGLET POINTAGES
 // ============================================================
 function renderTeamView(){
   document.getElementById('teamYearLabel').textContent=teamYear;
@@ -481,7 +486,7 @@ function renderTeamView(){
 }
 
 // ============================================================
-// MODAL DÉTAIL LECTURE SEULE (inchangé)
+// MODAL DÉTAIL LECTURE SEULE
 // ============================================================
 function showTeamDetail(safeKey,month,year){
   const cPtg=allPointages[safeKey]||{};
@@ -506,6 +511,15 @@ function showTeamDetail(safeKey,month,year){
       sub+=l.jours;
       let ti='';if(l.type)ti=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';
       h+='<tr><td>'+escH(l.label)+ti+'</td><td style="text-align:right;font-weight:700">'+fmtNum(l.jours)+'j</td></tr>';
+      // Sous-détail travaux dans la modal
+      if(l.type==='travaux'&&l.subDetail){
+        Object.keys(l.subDetail).forEach(cat=>{
+          const v=l.subDetail[cat];
+          if(v>0){
+            h+='<tr><td style="padding-left:30px;font-style:italic;color:var(--text-light);font-size:.82rem">↳ '+escH(cat)+'</td><td style="text-align:right;color:var(--text-light);font-size:.82rem">'+fmtNum(v)+'j</td></tr>';
+          }
+        });
+      }
     });
     h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fmtNum(sub)+'j</td></tr>';
     h+='</tbody></table></div>';
@@ -517,28 +531,62 @@ function showTeamDetail(safeKey,month,year){
 function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
 
 // ============================================================
+// FACTURATION – POPULATE COLLAB SELECT
+// ============================================================
+function populateCollabSelect(){
+  const sel=document.getElementById('factCollabSelect');
+  const currentVal=sel.value;
+  let h='<option value="">Tous les collaborateurs</option>';
+  Co.slice().sort((a,b)=>formatName(a.name).localeCompare(formatName(b.name))).forEach(c=>{
+    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
+    h+='<option value="'+sk+'">'+escH(formatName(c.name))+'</option>';
+  });
+  sel.innerHTML=h;
+  // Restore previous selection if still valid
+  if(currentVal){sel.value=currentVal}
+}
+
+// ============================================================
 // FACTURATION – AGRÉGATION DES DONNÉES VALIDÉES
 // ============================================================
 function buildFactData(year){
-  // Structure : { affaireName: { type, months: [0..11], subdetails: { sdLabel: [0..11] } } }
+  /*
+    Structure retournée :
+    affaires = {
+      affaireName: {
+        type: 'etudes'|'travaux',
+        months: [0..11],           // jours totaux par mois
+        subdetails: {              // UNIQUEMENT pour travaux — par prestation
+          'PIC': [0..11],
+          'Rotation': [0..11],
+          'Autre': [0..11],
+          ...
+        }
+      }
+    }
+    specials = { label: { months: [0..11] } }
+  */
   const affaires={};
   const specials={};
+  const selectedCollab=document.getElementById('factCollabSelect').value; // '' = tous
 
-  // Parcourir TOUS les collaborateurs et leurs pointages validés
   Co.forEach(c=>{
     const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
+
+    // Filtre collaborateur
+    if(selectedCollab&&sk!==selectedCollab) return;
+
     const cPtg=allPointages[sk]||{};
 
     for(let m=0;m<12;m++){
       const mk=getMonthKey(year,m);
       const ptg=cPtg[mk];
-      if(!ptg||!ptg.lines||!ptg.validatedAt) continue; // Uniquement validés
+      if(!ptg||!ptg.lines||!ptg.validatedAt) continue;
 
       ptg.lines.forEach(line=>{
-        if(line.category==='conge') return; // On ignore les congés pour la facturation
+        if(line.category==='conge') return;
 
         if(line.category==='special'){
-          // Lignes spéciales (Formation, etc.)
           if(!specials[line.label]){
             specials[line.label]={months:new Array(12).fill(0)};
           }
@@ -555,15 +603,29 @@ function buildFactData(year){
           }
           affaires[affName].months[m]+=line.jours||0;
 
-          // Sous-détail pour travaux : ventilation par collaborateur
-          // On regarde aussi si la ligne a un champ subdetail ou on ventile par collab
+          // Sous-détail par prestation pour les travaux
           if(affType==='travaux'){
-            // Sous-détail par collaborateur
-            const sdKey=formatName(c.name);
-            if(!affaires[affName].subdetails[sdKey]){
-              affaires[affName].subdetails[sdKey]=new Array(12).fill(0);
+            if(line.subDetail&&typeof line.subDetail==='object'){
+              // Le collaborateur a ventilé ses jours par prestation
+              Object.keys(line.subDetail).forEach(cat=>{
+                const v=line.subDetail[cat]||0;
+                if(v>0){
+                  if(!affaires[affName].subdetails[cat]){
+                    affaires[affName].subdetails[cat]=new Array(12).fill(0);
+                  }
+                  affaires[affName].subdetails[cat][m]+=v;
+                }
+              });
+            } else {
+              // Pas de subDetail → tout va dans "Autre"
+              const jours=line.jours||0;
+              if(jours>0){
+                if(!affaires[affName].subdetails['Autre']){
+                  affaires[affName].subdetails['Autre']=new Array(12).fill(0);
+                }
+                affaires[affName].subdetails['Autre'][m]+=jours;
+              }
             }
-            affaires[affName].subdetails[sdKey][m]+=line.jours||0;
           }
         }
       });
@@ -574,7 +636,7 @@ function buildFactData(year){
 }
 
 // ============================================================
-// FACTURATION – FILTRE
+// FACTURATION – FILTRE TYPE
 // ============================================================
 function setFactFilter(f){
   factFilter=f;
@@ -584,7 +646,7 @@ function setFactFilter(f){
 }
 
 // ============================================================
-// FACTURATION – TOGGLE SOUS-DÉTAIL
+// FACTURATION – TOGGLE SOUS-DÉTAIL TRAVAUX
 // ============================================================
 function toggleTravaux(affKey){
   if(expandedTravaux.has(affKey)){
@@ -592,11 +654,9 @@ function toggleTravaux(affKey){
   } else {
     expandedTravaux.add(affKey);
   }
-  // Re-render juste le toggle visibility
-  document.querySelectorAll('.fact-sd-'+CSS.escape(affKey)).forEach(r=>{
+  document.querySelectorAll('.fact-sd-'+affKey).forEach(r=>{
     r.classList.toggle('hidden',!expandedTravaux.has(affKey));
   });
-  // Chevron
   const chev=document.getElementById('chev-'+affKey);
   if(chev) chev.classList.toggle('open',expandedTravaux.has(affKey));
 }
@@ -625,6 +685,16 @@ function renderFactView(){
   const totalGlobal=totalEtudes+totalTravaux+totalSpecial;
   const nbAffaires=etudes.length+travaux.length;
 
+  // Titre dynamique
+  const selectedCollab=document.getElementById('factCollabSelect').value;
+  let collabLabel='';
+  if(selectedCollab){
+    Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
+  }
+  document.getElementById('factTableTitle').textContent=collabLabel
+    ?'📋 Jours validés – '+collabLabel+' – '+factYear
+    :'📋 Récapitulatif jours validés par affaire et par mois';
+
   document.getElementById('factStats').innerHTML=
     '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fmtNum(totalGlobal)+'j</div><div class="tl">Total jours validés</div></div>'+
     '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fmtNum(totalEtudes)+'j</div><div class="tl">Études</div></div>'+
@@ -633,13 +703,12 @@ function renderFactView(){
     '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nbAffaires+'</div><div class="tl">Affaires actives</div></div>';
 
   // Table
-  let th='<thead><tr><th>Affaire</th>';
+  let th='<thead><tr><th>Affaire / Prestation</th>';
   for(let m=0;m<12;m++) th+='<th>'+MN_S[m]+'</th>';
   th+='<th>Total</th></tr></thead>';
 
   let tb='<tbody>';
 
-  // Fonction pour rendre les cellules d'une ligne
   function renderMonthCells(months,isTotal){
     let h='';
     const total=months.reduce((s,v)=>s+v,0);
@@ -671,17 +740,32 @@ function renderFactView(){
     travaux.forEach(a=>{
       a.months.forEach((v,i)=>{travauxTotals[i]+=v});
       const affKey=a.name.replace(/[^a-zA-Z0-9]/g,'_');
-      const hasSD=Object.keys(a.subdetails).length>0;
+      const sdKeys=Object.keys(a.subdetails).filter(k=>{
+        return a.subdetails[k].some(v=>v>0);
+      });
+      const hasSD=sdKeys.length>0;
       const isOpen=expandedTravaux.has(affKey);
       const chevron=hasSD?'<span class="chevron'+(isOpen?' open':'')+'" id="chev-'+affKey+'">▶</span>':'';
       const click=hasSD?'onclick="toggleTravaux(\''+affKey+'\')"':'';
-      tb+='<tr class="fact-affaire-row is-travaux"><td '+click+'>'+chevron+escH(a.name)+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+      const sdHint=hasSD?' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+sdKeys.length+' prestations)</span>':'';
+      tb+='<tr class="fact-affaire-row is-travaux"><td '+click+'>'+chevron+escH(a.name)+sdHint+'</td>'+renderMonthCells(a.months,false)+'</tr>';
 
-      // Sous-détails
+      // Sous-détails par prestation — dans l'ordre TRAVAUX_SUB_CATS
       if(hasSD){
-        Object.keys(a.subdetails).sort().forEach(sd=>{
+        // D'abord les catégories connues dans l'ordre, puis les éventuelles inconnues
+        const orderedKeys=[];
+        TRAVAUX_SUB_CATS.forEach(cat=>{
+          if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0)) orderedKeys.push(cat);
+        });
+        // Catégories non prévues
+        sdKeys.forEach(k=>{
+          if(!orderedKeys.includes(k)) orderedKeys.push(k);
+        });
+
+        orderedKeys.forEach(sd=>{
           const hidden=isOpen?'':'hidden';
-          tb+='<tr class="fact-subdetail-row fact-sd-'+affKey+' '+hidden+'"><td>👤 '+escH(sd)+'</td>'+renderMonthCells(a.subdetails[sd],false)+'</tr>';
+          const icon=sd==='Autre'?'📦':'🔧';
+          tb+='<tr class="fact-subdetail-row fact-sd-'+affKey+' '+hidden+'"><td>'+icon+' '+escH(sd)+'</td>'+renderMonthCells(a.subdetails[sd],false)+'</tr>';
         });
       }
     });
@@ -716,16 +800,24 @@ function renderFactView(){
 function exportFactCSV(){
   const {affaires,specials}=buildFactData(factYear);
   const rows=[];
-  const header=['Affaire','Type'];
+  const header=['Affaire','Type','Prestation'];
   for(let m=0;m<12;m++) header.push(MN[m]);
   header.push('Total');
   rows.push(header);
 
-  // Affaires
+  const selectedCollab=document.getElementById('factCollabSelect').value;
+  let collabLabel='Tous';
+  if(selectedCollab){
+    Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
+  }
+
   Object.keys(affaires).sort().forEach(name=>{
     const a=affaires[name];
-    if(factFilter!=='all'&&factFilter!==a.type&&!(factFilter==='special'&&false)) return;
-    const row=[name,a.type==='etudes'?'Études':'Travaux'];
+    const typeLabel=a.type==='etudes'?'Études':'Travaux';
+    if(factFilter!=='all'&&factFilter!==a.type) return;
+
+    // Ligne principale affaire
+    const row=[name,typeLabel,''];
     let total=0;
     a.months.forEach(v=>{row.push(v);total+=v});
     row.push(total);
@@ -733,8 +825,16 @@ function exportFactCSV(){
 
     // Sous-détails travaux
     if(a.type==='travaux'){
-      Object.keys(a.subdetails).sort().forEach(sd=>{
-        const srow=['  ↳ '+sd,'(sous-détail)'];
+      const orderedKeys=[];
+      TRAVAUX_SUB_CATS.forEach(cat=>{
+        if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0)) orderedKeys.push(cat);
+      });
+      Object.keys(a.subdetails).forEach(k=>{
+        if(!orderedKeys.includes(k)&&a.subdetails[k].some(v=>v>0)) orderedKeys.push(k);
+      });
+
+      orderedKeys.forEach(sd=>{
+        const srow=['  ↳ '+name,typeLabel,sd];
         let st=0;
         a.subdetails[sd].forEach(v=>{srow.push(v);st+=v});
         srow.push(st);
@@ -746,7 +846,7 @@ function exportFactCSV(){
   // Spéciales
   if(factFilter==='all'||factFilter==='special'){
     Object.keys(specials).sort().forEach(name=>{
-      const row=[name,'Autre'];
+      const row=[name,'Autre',''];
       let total=0;
       specials[name].months.forEach(v=>{row.push(v);total+=v});
       row.push(total);
@@ -754,11 +854,18 @@ function exportFactCSV(){
     });
   }
 
+  // Ligne info filtre
+  rows.push([]);
+  rows.push(['Export: '+factYear,'Collaborateur: '+collabLabel,'Filtre: '+factFilter]);
+
   const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download='facturation_'+factYear+'.csv';a.click();
+  a.href=url;
+  const suffix=selectedCollab?'_'+collabLabel.replace(/\s/g,'_'):'';
+  a.download='facturation_'+factYear+suffix+'.csv';
+  a.click();
   URL.revokeObjectURL(url);
   showToast('📥 Export CSV téléchargé');
 }
