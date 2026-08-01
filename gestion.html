@@ -142,11 +142,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .prevu-input{width:72px;text-align:center;font-weight:700;font-size:.82rem;border:1.5px solid #c5cae9;border-radius:6px;padding:4px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
 .prevu-input::-webkit-outer-spin-button,.prevu-input::-webkit-inner-spin-button{-webkit-appearance:none}
 .prevu-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.12)}
+.prevu-input-sd{width:60px;text-align:center;font-weight:600;font-size:.76rem;border:1.5px solid #ffe0b2;border-radius:5px;padding:3px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
+.prevu-input-sd::-webkit-outer-spin-button,.prevu-input-sd::-webkit-inner-spin-button{-webkit-appearance:none}
+.prevu-input-sd:focus{border-color:var(--travaux-border);box-shadow:0 0 0 3px rgba(230,81,0,.1)}
 .ecart-badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:.68rem;font-weight:700;margin-left:2px}
 .ecart-ok{background:#e8f5e9;color:#2e7d32}
 .ecart-danger{background:#fce4ec;color:#c62828}
-
-/* Taux journalier */
 .taux-bar{background:linear-gradient(135deg,#1b5e20,#388e3c);border-radius:var(--radius);padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:var(--shadow)}
 .taux-bar label{color:#fff;font-size:.92rem;font-weight:700;white-space:nowrap}
 .taux-input{width:100px;padding:8px 12px;border:2px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:1.1rem;font-weight:800;text-align:center;outline:none;transition:.2s;-moz-appearance:textfield}
@@ -157,7 +158,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .btn-apply-taux:hover{background:rgba(255,255,255,.3)}
 .taux-active{color:#a5d6a7;font-size:.82rem;font-weight:700;white-space:nowrap}
 .taux-hint{color:rgba(255,255,255,.65);font-size:.75rem;flex:1}
-
+/* Sous-détail total prévu */
+.sd-total-row td{background:#fff3e0!important;font-weight:700!important;border-top:1.5px solid #ffcc80!important;color:var(--travaux-border)!important;font-style:normal!important}
 @media(max-width:700px){
   .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
   .regie-legend{justify-content:center}
@@ -169,18 +171,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </head>
 <body>
 
-<div class="loading-overlay show" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div style="font-size:.9rem;color:var(--text-light)">Chargement...</div>
-</div>
+<div class="loading-overlay show" id="loadingOverlay"><div class="spinner"></div><div style="font-size:.9rem;color:var(--text-light)">Chargement...</div></div>
 <div class="toast" id="toast"></div>
 
 <div class="modal-overlay" id="modalDetailOverlay">
   <div class="modal">
-    <div class="modal-header">
-      <h2 id="modalDetailTitle">📋 Détail</h2>
-      <button class="modal-close" onclick="closeDetailModal()">&times;</button>
-    </div>
+    <div class="modal-header"><h2 id="modalDetailTitle">📋 Détail</h2><button class="modal-close" onclick="closeDetailModal()">&times;</button></div>
     <div class="modal-body" id="modalDetailBody"></div>
     <div class="modal-footer"><button class="btn-cancel" onclick="closeDetailModal()">Fermer</button></div>
   </div>
@@ -188,17 +184,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <header class="app-header">
   <h1>👥 Récapitulatif <span>Équipe</span></h1>
-  <div class="header-right">
-    <a href="hub.html" class="hdr-btn">🏠 Accueil</a>
-    <button class="hdr-btn" onclick="logout()">🚪 Déconnexion</button>
-  </div>
+  <div class="header-right"><a href="hub.html" class="hdr-btn">🏠 Accueil</a><button class="hdr-btn" onclick="logout()">🚪 Déconnexion</button></div>
 </header>
 
-<div id="accessDenied" class="access-denied" style="display:none">
-  <h2>🔒 Accès restreint</h2>
-  <p>Page réservée aux administrateurs et responsables.</p>
-  <br><a href="hub.html" style="color:#856404;font-weight:700">← Retour</a>
-</div>
+<div id="accessDenied" class="access-denied" style="display:none"><h2>🔒 Accès restreint</h2><p>Page réservée aux administrateurs et responsables.</p><br><a href="hub.html" style="color:#856404;font-weight:700">← Retour</a></div>
 
 <div id="teamContent" style="display:none">
   <div class="tab-bar">
@@ -207,19 +196,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     <button class="tab-btn" onclick="switchTab('facturation')">💰 Facturation</button>
   </div>
 
-  <!-- POINTAGES -->
   <div class="tab-content active" id="tab-pointages">
     <div class="team-layout">
       <div class="team-header-bar">
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <h2>👥 Récapitulatif équipe – Pointages</h2>
-          <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
-        </div>
-        <div class="team-year-selector">
-          <button onclick="changeTeamYear(-1)">◀</button>
-          <span class="year-label" id="teamYearLabel"></span>
-          <button onclick="changeTeamYear(1)">▶</button>
-        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><h2>👥 Récapitulatif équipe – Pointages</h2><span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span></div>
+        <div class="team-year-selector"><button onclick="changeTeamYear(-1)">◀</button><span class="year-label" id="teamYearLabel"></span><button onclick="changeTeamYear(1)">▶</button></div>
       </div>
       <div class="team-stats" id="teamStats"></div>
       <div class="regie-card">
@@ -227,7 +208,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
         <div class="regie-scroll"><table class="regie-table" id="regieTable"></table></div>
         <div class="regie-legend">
           <div class="regie-legend-item"><div class="regie-cell cell-validated" style="width:18px;height:18px;font-size:.55rem">✓</div> Validé</div>
-          <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données présentes</div>
+          <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données</div>
           <div class="regie-legend-item"><div class="regie-cell cell-empty" style="width:18px;height:18px;font-size:.55rem">—</div> Aucun</div>
           <div class="regie-legend-item"><div class="regie-cell cell-future" style="width:18px;height:18px;font-size:.55rem">·</div> Futur</div>
         </div>
@@ -235,14 +216,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     </div>
   </div>
 
-  <!-- TEMPS PASSÉS -->
   <div class="tab-content" id="tab-temps">
     <div class="team-layout">
       <div class="fact-header-bar">
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <h2>⏱️ Temps passés – Jours validés</h2>
-          <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><h2>⏱️ Temps passés – Jours validés</h2><span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span></div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" class="fact-controls-row">
           <div class="fact-collab-filter"><label>👤</label><select class="fact-collab-select" id="tempsCollabSelect" onchange="renderTempsView()"><option value="">Tous</option></select></div>
           <div class="fact-filter-bar">
@@ -256,28 +233,20 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
         </div>
       </div>
       <div class="fact-stats" id="tempsStats"></div>
-      <div class="fact-card"><h3 id="tempsTableTitle">📋 Jours validés par affaire</h3><div class="fact-scroll"><table class="fact-table" id="tempsTable"></table></div></div>
+      <div class="fact-card"><h3 id="tempsTableTitle">📋 Jours validés</h3><div class="fact-scroll"><table class="fact-table" id="tempsTable"></table></div></div>
     </div>
   </div>
 
-  <!-- FACTURATION -->
   <div class="tab-content" id="tab-facturation">
     <div class="team-layout">
       <div class="taux-bar">
         <label>💶 Taux journalier :</label>
-        <div style="display:flex;align-items:center;gap:8px">
-          <input type="text" class="taux-input" id="tauxInput" value="500" />
-          <span style="color:#fff;font-weight:700;font-size:1rem">€/j</span>
-          <button class="btn-apply-taux" onclick="applyTaux()">✓ Appliquer</button>
-        </div>
+        <div style="display:flex;align-items:center;gap:8px"><input type="text" class="taux-input" id="tauxInput" value="500" /><span style="color:#fff;font-weight:700;font-size:1rem">€/j</span><button class="btn-apply-taux" onclick="applyTaux()">✓ Appliquer</button></div>
         <span class="taux-active" id="tauxActive">Taux actif : 500€/j</span>
         <span class="taux-hint">Modifiez le taux et cliquez Appliquer pour recalculer.</span>
       </div>
       <div class="fact-header-bar" style="border-top:1px solid var(--border);border-radius:var(--radius)">
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <h2>💰 Facturation – Budget par affaire</h2>
-          <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><h2>💰 Facturation – Budget par affaire</h2><span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span></div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" class="fact-controls-row">
           <div class="fact-collab-filter"><label>👤</label><select class="fact-collab-select" id="factCollabSelect" onchange="renderFactView()"><option value="">Tous</option></select></div>
           <div class="fact-filter-bar">
@@ -300,13 +269,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-const FC={apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"};
-firebase.initializeApp(FC);
+firebase.initializeApp({apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"});
 const auth=firebase.auth(),db=firebase.database();
 
-let Co=[],Af=[],Dt={},LT=[],LD={},allPtg={},prevJ={},prevE={};
-let activeTaux=500; // TAUX PAR DÉFAUT
-let teamYear=new Date().getFullYear();
+let Co=[],Af=[],Dt={},LT=[],LD={},allPtg={};
+let prevJ={},prevE={},prevSDJ={},prevSDE={};
+let activeTaux=500,teamYear=new Date().getFullYear();
 let TY={temps:new Date().getFullYear(),fact:new Date().getFullYear()};
 let TF={temps:'all',fact:'all'};
 let firstLoad=true,ready=false;
@@ -315,147 +283,86 @@ let EXP={temps:new Set(),fact:new Set()};
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MS=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 const ROLES=['admin','responsable','responsable_viewer'];
-const SPEC=['Formation','Événements entreprise','Développement','Autres chantiers'];
 const TSC=['PIC','Plan de terrassement','Modes constructifs','Planning','Rotation','FDR','BMO','Matériel','Modes opératoires','Autre'];
 
-// ===== TABS =====
-function switchTab(t){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
-  document.querySelector('[onclick="switchTab(\''+t+'\')"]').classList.add('active');
-  if(t==='temps'){popSel('tempsCollabSelect');renderTempsView()}
-  if(t==='facturation'){popSel('factCollabSelect');renderFactView()}
-}
+function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelector('[onclick="switchTab(\''+t+'\')"]').classList.add('active');if(t==='temps'){popSel('tempsCollabSelect');renderTempsView()}if(t==='facturation'){popSel('factCollabSelect');renderFactView()}}
 
-// ===== AUTH =====
 auth.onAuthStateChanged(u=>{
   if(!u){window.location.href='index.html';return}
-  const uid=u.uid;
-  // Charger uniquement planning + rôle (toujours existants)
-  Promise.all([
-    db.ref('planning').once('value'),
-    db.ref('users/'+uid+'/role').once('value')
-  ]).then(([ps,rs])=>{
-    const d=ps.val();
-    if(d){Co=d.collaborateurs||[];Af=d.affaires||[];Dt=d.donnees||{};LT=d.typesConges||[];LD=d.conges||{}}
+  Promise.all([db.ref('planning').once('value'),db.ref('users/'+u.uid+'/role').once('value')]).then(([ps,rs])=>{
+    const d=ps.val();if(d){Co=d.collaborateurs||[];Af=d.affaires||[];Dt=d.donnees||{};LT=d.typesConges||[];LD=d.conges||{}}
     const role=(rs.val()||'viewer').toLowerCase().replace(/\s+/g,'_');
     document.getElementById('loadingOverlay').classList.remove('show');
     if(!ROLES.includes(role)){document.getElementById('accessDenied').style.display='block';return}
-    document.getElementById('teamContent').style.display='block';
-    ready=true;
-
-    // Charger prévus séparément (sans bloquer) 
+    document.getElementById('teamContent').style.display='block';ready=true;
+    // Charger prévus en arrière-plan
     db.ref('facturation_prevus').once('value').then(s=>{prevJ=s.val()||{}}).catch(()=>{});
     db.ref('facturation_prevus_eur').once('value').then(s=>{prevE=s.val()||{}}).catch(()=>{});
-
-    // Pointages temps réel
+    db.ref('facturation_prevus_sd').once('value').then(s=>{prevSDJ=s.val()||{}}).catch(()=>{});
+    db.ref('facturation_prevus_sd_eur').once('value').then(s=>{prevSDE=s.val()||{}}).catch(()=>{});
     db.ref('pointages').on('value',snap=>{
-      const prev=JSON.stringify(allPtg);
-      allPtg=snap.val()||{};
-      if(ready){
-        renderTeamView();
-        const at=activeTabId();
-        if(at==='temps')renderTempsView();
-        if(at==='facturation')renderFactView();
-        if(!firstLoad&&JSON.stringify(allPtg)!==prev)showToast('🔄 Mise à jour en temps réel');
-      }
+      const prev=JSON.stringify(allPtg);allPtg=snap.val()||{};
+      if(ready){renderTeamView();const at=aTab();if(at==='temps')renderTempsView();if(at==='facturation')renderFactView();if(!firstLoad&&JSON.stringify(allPtg)!==prev)showToast('🔄 Mise à jour en temps réel')}
       firstLoad=false;
     });
-  }).catch(err=>{
-    console.error('Erreur chargement:',err);
-    document.getElementById('loadingOverlay').classList.remove('show');
-  });
+  }).catch(e=>{console.error(e);document.getElementById('loadingOverlay').classList.remove('show')});
 });
-
-function activeTabId(){
-  if(document.getElementById('tab-temps').classList.contains('active'))return'temps';
-  if(document.getElementById('tab-facturation').classList.contains('active'))return'facturation';
-  return'pointages';
-}
+function aTab(){if(document.getElementById('tab-temps').classList.contains('active'))return'temps';if(document.getElementById('tab-facturation').classList.contains('active'))return'facturation';return'pointages'}
 function logout(){db.ref('pointages').off();auth.signOut().then(()=>{window.location.href='index.html'})}
 
-// ===== TAUX =====
-function applyTaux(){
-  const el=document.getElementById('tauxInput');
-  let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,''));
-  if(isNaN(v)||v<=0)v=500;
-  activeTaux=v;el.value=v;
-  document.getElementById('tauxActive').textContent='Taux actif : '+v+'€/j';
-  renderFactView();
-  showToast('💶 Taux appliqué : '+v+'€/j');
-}
+function applyTaux(){const el=document.getElementById('tauxInput');let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,''));if(isNaN(v)||v<=0)v=500;activeTaux=v;el.value=v;document.getElementById('tauxActive').textContent='Taux actif : '+v+'€/j';renderFactView();showToast('💶 Taux : '+v+'€/j')}
 
-// ===== PREVUS =====
+// === PREVUS ===
 let _pt={};
-function savePrev(tab,year,aff,val){
-  const s=aff.replace(/[.#$\[\]\/]/g,'_');
-  const isE=tab==='fact';
-  const path=(isE?'facturation_prevus_eur':'facturation_prevus')+'/'+year+'/'+s;
-  const k=tab+year+s;
-  if(_pt[k])clearTimeout(_pt[k]);
-  _pt[k]=setTimeout(()=>{
-    if(!val||val<=0){db.ref(path).remove().catch(()=>{})}
-    else{db.ref(path).set(val).catch(()=>{})}
-    if(isE){if(!prevE[year])prevE[year]={};if(val>0)prevE[year][s]=val;else delete prevE[year][s]}
-    else{if(!prevJ[year])prevJ[year]={};if(val>0)prevJ[year][s]=val;else delete prevJ[year][s]}
-    showToast('💾 Sauvegardé');
-  },600);
-}
+function sP(path,val){const k=path;if(_pt[k])clearTimeout(_pt[k]);_pt[k]=setTimeout(()=>{if(!val||val<=0)db.ref(path).remove().catch(()=>{});else db.ref(path).set(val).catch(()=>{});showToast('💾 Sauvegardé')},600)}
+
 function gPJ(y,a){const s=a.replace(/[.#$\[\]\/]/g,'_');return(prevJ[y]&&prevJ[y][s])||0}
 function gPE(y,a){const s=a.replace(/[.#$\[\]\/]/g,'_');return(prevE[y]&&prevE[y][s])||0}
+function gPSDJ(y,a,cat){const sa=a.replace(/[.#$\[\]\/]/g,'_'),sc=cat.replace(/[.#$\[\]\/]/g,'_');return(prevSDJ[y]&&prevSDJ[y][sa]&&prevSDJ[y][sa][sc])||0}
+function gPSDE(y,a,cat){const sa=a.replace(/[.#$\[\]\/]/g,'_'),sc=cat.replace(/[.#$\[\]\/]/g,'_');return(prevSDE[y]&&prevSDE[y][sa]&&prevSDE[y][sa][sc])||0}
+
 function onPrevIn(aff,el,tab){
-  let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,''));
-  if(isNaN(v))v=0;
-  savePrev(tab,TY[tab],aff,v);
+  let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,''));if(isNaN(v))v=0;
+  const y=TY[tab],s=aff.replace(/[.#$\[\]\/]/g,'_');
+  if(tab==='fact'){if(!prevE[y])prevE[y]={};prevE[y][s]=v;sP('facturation_prevus_eur/'+y+'/'+s,v)}
+  else{if(!prevJ[y])prevJ[y]={};prevJ[y][s]=v;sP('facturation_prevus/'+y+'/'+s,v)}
+}
+function onPrevSD(aff,cat,el,tab){
+  let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,''));if(isNaN(v))v=0;
+  const y=TY[tab],sa=aff.replace(/[.#$\[\]\/]/g,'_'),sc=cat.replace(/[.#$\[\]\/]/g,'_');
+  if(tab==='fact'){if(!prevSDE[y])prevSDE[y]={};if(!prevSDE[y][sa])prevSDE[y][sa]={};prevSDE[y][sa][sc]=v;sP('facturation_prevus_sd_eur/'+y+'/'+sa+'/'+sc,v)}
+  else{if(!prevSDJ[y])prevSDJ[y]={};if(!prevSDJ[y][sa])prevSDJ[y][sa]={};prevSDJ[y][sa][sc]=v;sP('facturation_prevus_sd/'+y+'/'+sa+'/'+sc,v)}
 }
 
-// ===== TOAST =====
 let _tt=null;
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');if(_tt)clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),3000)}
 
-// ===== FERIES =====
+// === FERIES ===
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
 function getFeries(y){const s=new Set(),f=d=>dk(d),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};[new Date(y,0,1),new Date(y,4,1),new Date(y,4,8),new Date(y,6,14),new Date(y,7,15),new Date(y,10,1),new Date(y,10,11),new Date(y,11,25)].forEach(d=>s.add(f(d)));const e=getEaster(y);[1,39,50].forEach(n=>s.add(f(ad(e,n))));return s}
-let _fc={};
-function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
+let _fc={};function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
 function isWE(d){return d.getDay()===0||d.getDay()===6}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let d=1;d<=dim;d++){const dt=new Date(y,m,d);if(!isWE(dt)&&!isF(dt))o.push(dk(dt))}return o}
-function mk(y,m){return y+'-'+String(m+1).padStart(2,'0')}
+function mmk(y,m){return y+'-'+String(m+1).padStart(2,'0')}
 
-// ===== PLANNING =====
-function compPlan(y,m,cN){
-  const ouv=getOuvres(y,m),nb=ouv.length;const ac={};let ts=0;
-  Af.forEach(a=>{let sl=0;ouv.forEach(dk=>{const k=a.name+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]===cN)sl++}}});if(sl>0){ac[a.name]={slots:sl,jours:sl/5,type:a.type};ts+=sl}});
-  const tj=ts/5;const cc={};let tc=0;
-  ouv.forEach(dk=>{const lv=LD[cN+'|'+dk];if(lv){cc[lv]=(cc[lv]||0)+1;tc++}});
-  return{ouv,nb,ac,tj,cc,tc};
-}
-function planYr(y,aff,fsk){
-  let ts=0;const cls=fsk?Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===fsk):Co;
-  for(let m=0;m<12;m++){getOuvres(y,m).forEach(dk=>{const k=aff+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]&&cls.some(c=>c.name===s[i]))ts++}}})}
-  return Math.round((ts/5)*100)/100;
-}
+function compPlan(y,m,cN){const ouv=getOuvres(y,m),nb=ouv.length;const ac={};let ts=0;Af.forEach(a=>{let sl=0;ouv.forEach(dk=>{const k=a.name+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]===cN)sl++}}});if(sl>0){ac[a.name]={slots:sl,jours:sl/5,type:a.type};ts+=sl}});const tj=ts/5;const cc={};let tc=0;ouv.forEach(dk=>{const lv=LD[cN+'|'+dk];if(lv){cc[lv]=(cc[lv]||0)+1;tc++}});return{nb,ac,tj,cc,tc}}
+function planYr(y,aff,fsk){let ts=0;const cls=fsk?Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===fsk):Co;for(let m=0;m<12;m++){getOuvres(y,m).forEach(dk=>{const k=aff+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]&&cls.some(c=>c.name===s[i]))ts++}}})}return Math.round((ts/5)*100)/100}
 
-// ===== NAV =====
 function changeTeamYear(o){teamYear+=o;renderTeamView()}
 function chgY(t,o){TY[t]+=o;if(t==='temps')renderTempsView();else renderFactView()}
 function setFilter(t,f){TF[t]=f;document.querySelectorAll('.fact-filter-btn[data-tab="'+t+'"]').forEach(b=>b.classList.toggle('active',b.dataset.f===f));if(t==='temps')renderTempsView();else renderFactView()}
-function popSel(id){const s=document.getElementById(id);const v=s.value;let h='<option value="">Tous les collaborateurs</option>';Co.slice().sort((a,b)=>fmtN(a.name).localeCompare(fmtN(b.name))).forEach(c=>{const sk=c.name.replace(/[.#$\[\]\/]/g,'_');h+='<option value="'+sk+'">'+eH(fmtN(c.name))+'</option>'});s.innerHTML=h;if(v)s.value=v}
+function popSel(id){const s=document.getElementById(id),v=s.value;let h='<option value="">Tous les collaborateurs</option>';Co.slice().sort((a,b)=>fmtN(a.name).localeCompare(fmtN(b.name))).forEach(c=>{const sk=c.name.replace(/[.#$\[\]\/]/g,'_');h+='<option value="'+sk+'">'+eH(fmtN(c.name))+'</option>'});s.innerHTML=h;if(v)s.value=v}
 
-// ===== POINTAGES TAB =====
+// === POINTAGES TAB ===
 function renderTeamView(){
   document.getElementById('teamYearLabel').textContent=teamYear;
   const now=new Date(),cm=now.getMonth(),cy=now.getFullYear();const td=[];
-  Co.forEach(c=>{
-    const sk=c.name.replace(/[.#$\[\]\/]/g,'_'),cp=allPtg[sk]||{};const ms=[];
-    let v=0,hd=0,em=0,fu=0;
-    for(let m=0;m<12;m++){const k=mk(teamYear,m),p=cp[k];const iF=teamYear>cy||(teamYear===cy&&m>cm);const pl=compPlan(teamYear,m,c.name);const hP=pl.tj>0||pl.tc>0;const iV=p&&p.lines&&p.validatedAt;let s='empty';if(iF)s='future';else if(iV)s='validated';else if(hP)s='has-data';if(s==='validated')v++;else if(s==='has-data')hd++;else if(s==='future')fu++;else em++;ms.push({month:m,status:s})}
+  Co.forEach(c=>{const sk=c.name.replace(/[.#$\[\]\/]/g,'_'),cp=allPtg[sk]||{};const ms=[];let v=0,hd=0,em=0;
+    for(let m=0;m<12;m++){const k=mmk(teamYear,m),p=cp[k];const iF=teamYear>cy||(teamYear===cy&&m>cm);const pl=compPlan(teamYear,m,c.name);const hP=pl.tj>0||pl.tc>0;const iV=p&&p.lines&&p.validatedAt;let s='empty';if(iF)s='future';else if(iV){s='validated';v++}else if(hP){s='has-data';hd++}else em++;ms.push({month:m,status:s})}
     let ec=0;for(let m=0;m<12;m++){if(!(teamYear>cy||(teamYear===cy&&m>cm)))ec++}
-    td.push({name:c.name,color:c.color,sk,ms,v,hd,em,fu,ec});
-  });
-  const tC=td.length,tE=td.reduce((s,c)=>s+c.ec,0),tV=td.reduce((s,c)=>s+c.v,0),tH=td.reduce((s,c)=>s+c.hd,0),tEm=td.reduce((s,c)=>s+c.em,0),pV=tE>0?Math.round(tV/tE*100):0,cAJ=td.filter(c=>c.v===c.ec&&c.ec>0).length;
+    td.push({name:c.name,color:c.color,sk,ms,v,hd,em,ec})});
+  const tC=td.length,tV=td.reduce((s,c)=>s+c.v,0),tH=td.reduce((s,c)=>s+c.hd,0),tEm=td.reduce((s,c)=>s+c.em,0),tE=td.reduce((s,c)=>s+c.ec,0),pV=tE>0?Math.round(tV/tE*100):0,cAJ=td.filter(c=>c.v===c.ec&&c.ec>0).length;
   document.getElementById('teamStats').innerHTML='<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+tC+'</div><div class="tl">Collaborateurs</div></div><div class="team-stat-card"><div class="tv" style="color:var(--success)">'+tV+'</div><div class="tl">Mois validés</div></div><div class="team-stat-card"><div class="tv" style="color:#ff9800">'+tH+'</div><div class="tl">En attente</div></div><div class="team-stat-card"><div class="tv" style="color:var(--highlight)">'+tEm+'</div><div class="tl">Non pointés</div></div><div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+pV+'%</div><div class="tl">Taux validation</div></div><div class="team-stat-card"><div class="tv" style="color:var(--success)">'+cAJ+'/'+tC+'</div><div class="tl">100% à jour</div></div>';
   let th='<thead><tr><th>Collaborateur</th>';for(let m=0;m<12;m++)th+='<th>'+MS[m]+'</th>';th+='<th>Progression</th></tr></thead>';
   let tb='<tbody>';td.sort((a,b)=>a.v-b.v);
@@ -463,88 +370,66 @@ function renderTeamView(){
   document.getElementById('regieTable').innerHTML=th+tb;
 }
 
-// ===== MODAL =====
-function showDet(sk,mo,yr){
-  const cp=allPtg[sk]||{},k=mk(yr,mo),p=cp[k];if(!p||!p.lines)return;
-  let cN='';Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===sk)cN=c.name});
-  document.getElementById('modalDetailTitle').textContent='📋 '+eH(fmtN(cN))+' – '+MN[mo]+' '+yr;
-  const vd=p.validatedAt?new Date(p.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
-  const nO=p.nbOuvres||getOuvres(yr,mo).length,tP=p.lines.reduce((s,l)=>s+l.jours,0);
-  let h='<div style="margin-bottom:16px"><span class="pointage-badge">✓ '+eH(vd)+'</span></div><div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés</div><div class="ouvres-value">'+nO+'</div></div><div style="text-align:right"><div class="ouvres-label">Total pointé</div><div class="ouvres-value">'+fN(tP)+'</div></div></div>';
-  [{cat:'conge',i:'🏖️',t:'Congés'},{cat:'affaire',i:'📋',t:'Affaires'},{cat:'special',i:'📂',t:'Autres'}].forEach(g=>{
-    const ls=p.lines.filter(l=>l.category===g.cat);if(!ls.length)return;
-    h+='<div class="detail-readonly-section"><div class="detail-readonly-title">'+g.i+' '+g.t+'</div><table class="detail-readonly-table"><thead><tr><th>Ligne</th><th style="text-align:right">Jours</th></tr></thead><tbody>';
-    let sub=0;ls.forEach(l=>{sub+=l.jours;let ti='';if(l.type)ti=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';h+='<tr><td>'+eH(l.label)+ti+'</td><td style="text-align:right;font-weight:700">'+fN(l.jours)+'j</td></tr>';if(l.type==='travaux'&&l.subDetail){Object.keys(l.subDetail).forEach(c=>{const v=l.subDetail[c];if(v>0)h+='<tr><td style="padding-left:30px;font-style:italic;color:var(--text-light);font-size:.82rem">↳ '+eH(c)+'</td><td style="text-align:right;color:var(--text-light);font-size:.82rem">'+fN(v)+'j</td></tr>'})}});
-    h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fN(sub)+'j</td></tr></tbody></table></div>';
-  });
-  document.getElementById('modalDetailBody').innerHTML=h;document.getElementById('modalDetailOverlay').classList.add('show');
-}
+// === MODAL ===
+function showDet(sk,mo,yr){const cp=allPtg[sk]||{},k=mmk(yr,mo),p=cp[k];if(!p||!p.lines)return;let cN='';Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===sk)cN=c.name});document.getElementById('modalDetailTitle').textContent='📋 '+eH(fmtN(cN))+' – '+MN[mo]+' '+yr;const vd=p.validatedAt?new Date(p.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';const nO=p.nbOuvres||getOuvres(yr,mo).length,tP=p.lines.reduce((s,l)=>s+l.jours,0);let h='<div style="margin-bottom:16px"><span class="pointage-badge">✓ '+eH(vd)+'</span></div><div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés</div><div class="ouvres-value">'+nO+'</div></div><div style="text-align:right"><div class="ouvres-label">Total pointé</div><div class="ouvres-value">'+fN(tP)+'</div></div></div>';[{cat:'conge',i:'🏖️',t:'Congés'},{cat:'affaire',i:'📋',t:'Affaires'},{cat:'special',i:'📂',t:'Autres'}].forEach(g=>{const ls=p.lines.filter(l=>l.category===g.cat);if(!ls.length)return;h+='<div class="detail-readonly-section"><div class="detail-readonly-title">'+g.i+' '+g.t+'</div><table class="detail-readonly-table"><thead><tr><th>Ligne</th><th style="text-align:right">Jours</th></tr></thead><tbody>';let sub=0;ls.forEach(l=>{sub+=l.jours;let ti='';if(l.type)ti=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';h+='<tr><td>'+eH(l.label)+ti+'</td><td style="text-align:right;font-weight:700">'+fN(l.jours)+'j</td></tr>';if(l.type==='travaux'&&l.subDetail){Object.keys(l.subDetail).forEach(c=>{const v=l.subDetail[c];if(v>0)h+='<tr><td style="padding-left:30px;font-style:italic;color:var(--text-light);font-size:.82rem">↳ '+eH(c)+'</td><td style="text-align:right;color:var(--text-light);font-size:.82rem">'+fN(v)+'j</td></tr>'})}});h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fN(sub)+'j</td></tr></tbody></table></div>'});document.getElementById('modalDetailBody').innerHTML=h;document.getElementById('modalDetailOverlay').classList.add('show')}
 function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
 
-// ===== AGREG =====
+// === AGREG ===
 function buildD(yr,selId){
-  const af={},sp={};const sel=document.getElementById(selId),sc=sel?sel.value:'';
-  Co.forEach(c=>{
-    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');if(sc&&sk!==sc)return;
-    const cp=allPtg[sk]||{};
-    for(let m=0;m<12;m++){const k=mk(yr,m),p=cp[k];if(!p||!p.lines||!p.validatedAt)continue;
-      p.lines.forEach(l=>{
-        if(l.category==='conge')return;
+  const af={},sp={};const sc=document.getElementById(selId)?.value||'';
+  Co.forEach(c=>{const sk=c.name.replace(/[.#$\[\]\/]/g,'_');if(sc&&sk!==sc)return;const cp=allPtg[sk]||{};
+    for(let m=0;m<12;m++){const k=mmk(yr,m),p=cp[k];if(!p||!p.lines||!p.validatedAt)continue;
+      p.lines.forEach(l=>{if(l.category==='conge')return;
         if(l.category==='special'){if(!sp[l.label])sp[l.label]={mo:new Array(12).fill(0)};sp[l.label].mo[m]+=l.jours||0;return}
         if(l.category==='affaire'){const n=l.label,t=l.type||'etudes';if(!af[n])af[n]={type:t,mo:new Array(12).fill(0),sd:{}};af[n].mo[m]+=l.jours||0;
-          if(t==='travaux'){if(l.subDetail&&typeof l.subDetail==='object'){Object.keys(l.subDetail).forEach(c=>{const v=l.subDetail[c]||0;if(v>0){if(!af[n].sd[c])af[n].sd[c]=new Array(12).fill(0);af[n].sd[c][m]+=v}})}else{const j=l.jours||0;if(j>0){if(!af[n].sd['Autre'])af[n].sd['Autre']=new Array(12).fill(0);af[n].sd['Autre'][m]+=j}}}}
-      });
-    }
-  });
+          if(t==='travaux'){if(l.subDetail&&typeof l.subDetail==='object'){Object.keys(l.subDetail).forEach(c=>{const v=l.subDetail[c]||0;if(v>0){if(!af[n].sd[c])af[n].sd[c]=new Array(12).fill(0);af[n].sd[c][m]+=v}})}else{const j=l.jours||0;if(j>0){if(!af[n].sd['Autre'])af[n].sd['Autre']=new Array(12).fill(0);af[n].sd['Autre'][m]+=j}}}
+        }});}});
   return{af,sp};
 }
 
-// ===== RENDU GENERIQUE =====
+// === RENDU GENERIQUE ===
 function renderG(cfg){
   const yr=TY[cfg.k],fl=TF[cfg.k],isE=cfg.isE,rate=isE?activeTaux:0;
   const fV=v=>isE?Math.round(v*rate).toLocaleString('fr-FR')+'€':fN(v)+'j';
   const fVS=v=>{if(isE){const x=Math.round(v*rate);return x>=1e6?(x/1e6).toFixed(1)+'M€':x>=1e3?Math.round(x/1e3)+'k€':x+'€'}return fN(v)+'j'};
-
   document.getElementById(cfg.ylId).textContent=yr;
-  const{af,sp}=buildD(yr,cfg.csId);
-  const sc=document.getElementById(cfg.csId).value;
-  const et=[],tr=[];
-  Object.keys(af).sort().forEach(n=>{if(af[n].type==='etudes')et.push({n,...af[n]});else tr.push({n,...af[n]})});
+  const{af,sp}=buildD(yr,cfg.csId);const sc=document.getElementById(cfg.csId)?.value||'';
+  const et=[],tr=[];Object.keys(af).sort().forEach(n=>{if(af[n].type==='etudes')et.push({n,...af[n]});else tr.push({n,...af[n]})});
   const sl=Object.keys(sp).sort().map(n=>({n,...sp[n]}));
-  let tE=0,tT=0,tS=0;
-  et.forEach(a=>tE+=a.mo.reduce((s,v)=>s+v,0));tr.forEach(a=>tT+=a.mo.reduce((s,v)=>s+v,0));sl.forEach(a=>tS+=a.mo.reduce((s,v)=>s+v,0));
-  const tG=tE+tT+tS,nA=et.length+tr.length;
+  let tE=0,tT=0,tS=0;et.forEach(a=>tE+=a.mo.reduce((s,v)=>s+v,0));tr.forEach(a=>tT+=a.mo.reduce((s,v)=>s+v,0));sl.forEach(a=>tS+=a.mo.reduce((s,v)=>s+v,0));
+  const tG=tE+tT+tS;
   let cl='';if(sc)Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===sc)cl=fmtN(c.name)});
-  document.getElementById(cfg.ttId).textContent=cl?(isE?'📋 Budget – ':'📋 Jours – ')+cl+' – '+yr:(isE?'📋 Budget par affaire et par mois':'📋 Jours validés par affaire et par mois');
+  document.getElementById(cfg.ttId).textContent=cl?(isE?'📋 Budget – ':'📋 Jours – ')+cl+' – '+yr:(isE?'📋 Budget par affaire':'📋 Jours validés par affaire');
+  document.getElementById(cfg.sId).innerHTML='<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fVS(tG)+'</div><div class="tl">Total validé</div></div><div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fVS(tE)+'</div><div class="tl">Études</div></div><div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fVS(tT)+'</div><div class="tl">Travaux</div></div><div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fVS(tS)+'</div><div class="tl">Autres</div></div><div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+(et.length+tr.length)+'</div><div class="tl">Affaires</div></div>';
 
-  document.getElementById(cfg.sId).innerHTML=
-    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fVS(tG)+'</div><div class="tl">Total validé</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fVS(tE)+'</div><div class="tl">Études</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fVS(tT)+'</div><div class="tl">Travaux</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fVS(tS)+'</div><div class="tl">Autres</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nA+'</div><div class="tl">Affaires</div></div>';
-
-  const CS=17;
+  const CS=17;const exp=EXP[cfg.k];
   let th='<thead><tr><th>Affaire / Prestation</th><th class="th-prevu">🎯 Prévu'+(isE?' (€)':' (j)')+'</th><th class="th-plancharge">📊 Plan charge'+(isE?' (€)':' (j)')+'</th><th class="th-realise">✅ Réalisé'+(isE?' (€)':' (j)')+'</th>';
-  for(let m=0;m<12;m++)th+='<th>'+MS[m]+'</th>';
-  th+='<th>Total</th></tr></thead>';
+  for(let m=0;m<12;m++)th+='<th>'+MS[m]+'</th>';th+='<th>Total</th></tr></thead>';
   let tb='<tbody>';
-  const exp=EXP[cfg.k];
 
   function mC(mo,isT){let h='';const tot=mo.reduce((s,v)=>s+v,0);for(let m=0;m<12;m++){const v=mo[m];h+='<td><span class="fact-val '+(v>0?(isT?'total':'has-value'):'zero')+'">'+(v>0?fV(v):'–')+'</span></td>'}h+='<td><span class="fact-val '+(tot>0?(isT?'total':'has-value'):'zero')+'" style="font-weight:800">'+(tot>0?fV(tot):'–')+'</span></td>';return h}
 
-  function sC(an,mo,isSub){
-    if(isSub)return'<td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"></td>';
-    const tR=mo.reduce((s,v)=>s+v,0);
-    const pJ=planYr(yr,an,sc||null);
-    let pv=isE?gPE(yr,an):gPJ(yr,an);
-    const pvD=pv>0?(isE?Math.round(pv):fN(pv)):'';
+  function sCAff(an,mo){
+    const tR=mo.reduce((s,v)=>s+v,0);const pJ=planYr(yr,an,sc||null);
+    let pv=isE?gPE(yr,an):gPJ(yr,an);const pvD=pv>0?(isE?Math.round(pv):fN(pv)):'';
     let h='<td class="td-prevu"><input type="text" class="prevu-input" value="'+pvD+'" placeholder="–" onchange="onPrevIn(\''+eA(an)+'\',this,\''+cfg.k+'\')" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}" /></td>';
     const plV=isE?Math.round(pJ*rate):pJ;
     h+='<td class="td-plancharge"><span class="fact-val '+(plV>0?'has-value':'zero')+'">'+(plV>0?fV(pJ):'–')+'</span></td>';
     const rlV=isE?Math.round(tR*rate):tR;
     let ec='';if(pv>0){const rc=isE?rlV:tR;const pc=Math.round(rc/pv*100);ec=pc<=100?'<span class="ecart-badge ecart-ok">'+pc+'%</span>':'<span class="ecart-badge ecart-danger">'+pc+'%</span>'}
     h+='<td class="td-realise"><span class="fact-val '+(rlV>0?'has-value':'zero')+'" style="font-weight:800">'+(rlV>0?fV(tR):'–')+'</span>'+ec+'</td>';
+    return h;
+  }
+
+  function sCsd(an,cat,mo){
+    const tR=mo.reduce((s,v)=>s+v,0);
+    let pv=isE?gPSDE(yr,an,cat):gPSDJ(yr,an,cat);
+    const pvD=pv>0?(isE?Math.round(pv):fN(pv)):'';
+    let h='<td class="td-prevu"><input type="text" class="prevu-input-sd" value="'+pvD+'" placeholder="–" onchange="onPrevSD(\''+eA(an)+'\',\''+eA(cat)+'\',this,\''+cfg.k+'\')" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}" /></td>';
+    h+='<td class="td-plancharge"></td>';
+    const rlV=isE?Math.round(tR*rate):tR;
+    let ec='';if(pv>0){const rc=isE?rlV:tR;const pc=Math.round(rc/pv*100);ec=pc<=100?'<span class="ecart-badge ecart-ok">'+pc+'%</span>':'<span class="ecart-badge ecart-danger">'+pc+'%</span>'}
+    h+='<td class="td-realise"><span class="fact-val '+(rlV>0?'has-value':'zero')+'">'+(rlV>0?fV(tR):'–')+'</span>'+ec+'</td>';
     return h;
   }
 
@@ -556,43 +441,62 @@ function renderG(cfg){
 
   function tK(n){return n.replace(/[^a-zA-Z0-9]/g,'_')}
 
+  // ÉTUDES
   if((fl==='all'||fl==='etudes')&&et.length>0){
     tb+='<tr class="fact-section-row"><td colspan="'+CS+'">📐 Études ('+et.length+')</td></tr>';
     const tots=new Array(12).fill(0);
-    et.forEach(a=>{a.mo.forEach((v,i)=>tots[i]+=v);tb+='<tr class="fact-affaire-row"><td>'+eH(a.n)+'</td>'+sC(a.n,a.mo,false)+mC(a.mo,false)+'</tr>'});
+    et.forEach(a=>{a.mo.forEach((v,i)=>tots[i]+=v);tb+='<tr class="fact-affaire-row"><td>'+eH(a.n)+'</td>'+sCAff(a.n,a.mo)+mC(a.mo,false)+'</tr>'});
     tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+sT(et)+mC(tots,true)+'</tr>';
   }
 
+  // TRAVAUX
   if((fl==='all'||fl==='travaux')&&tr.length>0){
     tb+='<tr class="fact-section-row section-travaux"><td colspan="'+CS+'">🏗️ Travaux ('+tr.length+')</td></tr>';
     const tots=new Array(12).fill(0);
     tr.forEach(a=>{
-      a.mo.forEach((v,i)=>tots[i]+=v);const ak=tK(a.n);
-      const sdK=Object.keys(a.sd).filter(k=>a.sd[k].some(v=>v>0));const hS=sdK.length>0,iO=exp.has(ak);
-      const ch=hS?'<span class="chevron'+(iO?' open':'')+'" id="ch_'+cfg.k+'_'+ak+'">▶</span>':'';
-      const cl=hS?'onclick="tgSD(\''+cfg.k+'\',\''+ak+'\')"':'';
-      const hi=hS?' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+sdK.length+' prest.)</span>':'';
-      tb+='<tr class="fact-affaire-row is-travaux"><td '+cl+'>'+ch+eH(a.n)+hi+'</td>'+sC(a.n,a.mo,false)+mC(a.mo,false)+'</tr>';
-      if(hS){const ord=[];TSC.forEach(c=>{if(a.sd[c]&&a.sd[c].some(v=>v>0))ord.push(c)});sdK.forEach(k=>{if(!ord.includes(k))ord.push(k)});
-        ord.forEach(sd=>{const hd=iO?'':'hidden';tb+='<tr class="fact-subdetail-row fsd-'+cfg.k+'-'+ak+' '+hd+'"><td>'+(sd==='Autre'?'📦':'🔧')+' '+eH(sd)+'</td>'+sC(a.n,a.sd[sd],true)+mC(a.sd[sd],false)+'</tr>'})}
+      a.mo.forEach((v,i)=>tots[i]+=v);const ak=tK(a.n);const iO=exp.has(ak);
+      const ch='<span class="chevron'+(iO?' open':'')+'" id="ch_'+cfg.k+'_'+ak+'">▶</span>';
+      tb+='<tr class="fact-affaire-row is-travaux"><td onclick="tgSD(\''+cfg.k+'\',\''+ak+'\')">'+ch+eH(a.n)+' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+TSC.length+' prest.)</span></td>'+sCAff(a.n,a.mo)+mC(a.mo,false)+'</tr>';
+
+      // TOUJOURS afficher les 10 sous-détails
+      let sdPrevTotal=0,sdRealTotal=0;
+      TSC.forEach(cat=>{
+        const hd=iO?'':'hidden';
+        const moData=a.sd[cat]||new Array(12).fill(0);
+        const realSD=moData.reduce((s,v)=>s+v,0);
+        const prevSD=isE?gPSDE(yr,a.n,cat):gPSDJ(yr,a.n,cat);
+        sdPrevTotal+=prevSD;sdRealTotal+=realSD;
+        const ic=cat==='Autre'?'📦':'🔧';
+        tb+='<tr class="fact-subdetail-row fsd-'+cfg.k+'-'+ak+' '+hd+'"><td>'+ic+' '+eH(cat)+'</td>'+sCsd(a.n,cat,moData)+mC(moData,false)+'</tr>';
+      });
+      // Ligne total sous-détail
+      const hdT=iO?'':'hidden';
+      const fsdPrev=sdPrevTotal>0?(isE?Math.round(sdPrevTotal).toLocaleString('fr-FR')+'€':fN(sdPrevTotal)+'j'):'–';
+      const fsdReal=sdRealTotal>0?(isE?Math.round(sdRealTotal*(isE?1:1)).toLocaleString('fr-FR')+(isE?'€':'j'):fN(sdRealTotal)+'j'):'–';
+      // Recalc real formatted
+      const fsdRealF=sdRealTotal>0?fV(sdRealTotal):'–';
+      const sdTotMo=new Array(12).fill(0);TSC.forEach(cat=>{const md=a.sd[cat]||new Array(12).fill(0);md.forEach((v,i)=>sdTotMo[i]+=v)});
+      tb+='<tr class="fact-subdetail-row sd-total-row fsd-'+cfg.k+'-'+ak+' '+hdT+'"><td style="padding-left:44px!important">📊 Total sous-détail</td><td class="td-prevu"><span class="fact-val total">'+fsdPrev+'</span></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val total">'+fsdRealF+'</span></td>'+mC(sdTotMo,true)+'</tr>';
     });
     tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+sT(tr)+mC(tots,true)+'</tr>';
   }
 
+  // AUTRES
   if((fl==='all'||fl==='special')&&sl.length>0){
     tb+='<tr class="fact-section-row section-special"><td colspan="'+CS+'">📂 Autres ('+sl.length+')</td></tr>';
     const tots=new Array(12).fill(0);
     sl.forEach(a=>{a.mo.forEach((v,i)=>tots[i]+=v);const rv=a.mo.reduce((s,v)=>s+v,0);tb+='<tr class="fact-affaire-row"><td>'+eH(a.n)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(rv>0?'has-value':'zero')+'" style="font-weight:700">'+(rv>0?fV(rv):'–')+'</span></td>'+mC(a.mo,false)+'</tr>'});
     const stS=sl.reduce((s,a)=>s+a.mo.reduce((ss,v)=>ss+v,0),0);
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stS>0?fV(stS):'–')+'</span></td>'+mC(new Array(12).fill(0).map((_,i)=>sl.reduce((s,a)=>s+a.mo[i],0)),true)+'</tr>';
+    const stMo=new Array(12).fill(0);sl.forEach(a=>a.mo.forEach((v,i)=>stMo[i]+=v));
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stS>0?fV(stS):'–')+'</span></td>'+mC(stMo,true)+'</tr>';
   }
 
+  // TOTAL GÉNÉRAL
   const gT=new Array(12).fill(0);const aA=[];
   if(fl==='all'||fl==='etudes')et.forEach(a=>{a.mo.forEach((v,i)=>gT[i]+=v);aA.push(a)});
   if(fl==='all'||fl==='travaux')tr.forEach(a=>{a.mo.forEach((v,i)=>gT[i]+=v);aA.push(a)});
   if(fl==='all'||fl==='special')sl.forEach(a=>a.mo.forEach((v,i)=>gT[i]+=v));
-  let gP=0,gPC=0,gR=0;
-  aA.forEach(a=>{gP+=isE?gPE(yr,a.n):gPJ(yr,a.n);gPC+=planYr(yr,a.n,sc||null);gR+=a.mo.reduce((s,v)=>s+v,0)});
+  let gP=0,gPC=0,gR=0;aA.forEach(a=>{gP+=isE?gPE(yr,a.n):gPJ(yr,a.n);gPC+=planYr(yr,a.n,sc||null);gR+=a.mo.reduce((s,v)=>s+v,0)});
   if(fl==='all'||fl==='special')sl.forEach(a=>gR+=a.mo.reduce((s,v)=>s+v,0));
   const fGP=gP>0?(isE?Math.round(gP).toLocaleString('fr-FR')+'€':fN(gP)+'j'):'–';
   tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td><td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+fGP+'</span></td><td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gPC>0?fV(gPC):'–')+'</span></td><td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gR>0?fV(gR):'–')+'</span></td>'+mC(gT,true)+'</tr></tbody>';
@@ -600,32 +504,24 @@ function renderG(cfg){
 }
 
 function tgSD(tk,ak){const e=EXP[tk];if(e.has(ak))e.delete(ak);else e.add(ak);document.querySelectorAll('.fsd-'+tk+'-'+ak).forEach(r=>r.classList.toggle('hidden',!e.has(ak)));const c=document.getElementById('ch_'+tk+'_'+ak);if(c)c.classList.toggle('open',e.has(ak))}
-
 function renderTempsView(){renderG({k:'temps',isE:false,ylId:'tempsYearLabel',csId:'tempsCollabSelect',sId:'tempsStats',tId:'tempsTable',ttId:'tempsTableTitle'})}
 function renderFactView(){renderG({k:'fact',isE:true,ylId:'factYearLabel',csId:'factCollabSelect',sId:'factStats',tId:'factTable',ttId:'factTableTitle'})}
 
-// ===== EXPORT =====
+// === EXPORT ===
 function exportCSV(tk){
-  const isE=tk==='fact',yr=TY[tk],rate=isE?activeTaux:0,fl=TF[tk];
-  const sId=tk==='fact'?'factCollabSelect':'tempsCollabSelect';const sc=document.getElementById(sId).value;
-  const{af,sp}=buildD(yr,sId);const cv=v=>isE?Math.round(v*rate):v;const u=isE?'€':'j';
-  const rows=[];const hdr=['Affaire','Type','Prestation','Prévu ('+u+')','Plan charge ('+u+')','Réalisé ('+u+')'];
-  for(let m=0;m<12;m++)hdr.push(MN[m]);hdr.push('Total');rows.push(hdr);
+  const isE=tk==='fact',yr=TY[tk],rate=isE?activeTaux:0,fl=TF[tk];const sId=tk==='fact'?'factCollabSelect':'tempsCollabSelect';const sc=document.getElementById(sId)?.value||'';const{af,sp}=buildD(yr,sId);const cv=v=>isE?Math.round(v*rate):v;const u=isE?'€':'j';
+  const rows=[];const hdr=['Affaire','Type','Prestation','Prévu ('+u+')','Plan charge ('+u+')','Réalisé ('+u+')'];for(let m=0;m<12;m++)hdr.push(MN[m]);hdr.push('Total');rows.push(hdr);
   let cl='Tous';if(sc)Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===sc)cl=fmtN(c.name)});
   Object.keys(af).sort().forEach(n=>{const a=af[n];const tl=a.type==='etudes'?'Études':'Travaux';if(fl!=='all'&&fl!==a.type)return;
     const tR=a.mo.reduce((s,v)=>s+v,0);const pv=isE?gPE(yr,n):gPJ(yr,n);const pc=planYr(yr,n,sc||null);
     const r=[n,tl,'',pv||'',cv(pc)||'',cv(tR)];a.mo.forEach(v=>r.push(cv(v)));r.push(cv(tR));rows.push(r);
-    if(a.type==='travaux'){const ord=[];TSC.forEach(c=>{if(a.sd[c]&&a.sd[c].some(v=>v>0))ord.push(c)});Object.keys(a.sd).forEach(k=>{if(!ord.includes(k)&&a.sd[k].some(v=>v>0))ord.push(k)});
-      ord.forEach(sd=>{const sr=['  ↳ '+n,tl,sd,'','',cv(a.sd[sd].reduce((s,v)=>s+v,0))];a.sd[sd].forEach(v=>sr.push(cv(v)));sr.push(cv(a.sd[sd].reduce((s,v)=>s+v,0)));rows.push(sr)})}
+    if(a.type==='travaux'){TSC.forEach(cat=>{const md=a.sd[cat]||new Array(12).fill(0);const sr=md.reduce((s,v)=>s+v,0);const pvSD=isE?gPSDE(yr,n,cat):gPSDJ(yr,n,cat);const row=['  ↳ '+n,tl,cat,pvSD||'','',cv(sr)];md.forEach(v=>row.push(cv(v)));row.push(cv(sr));rows.push(row)})}
   });
   if(fl==='all'||fl==='special'){Object.keys(sp).sort().forEach(n=>{const r=[n,'Autre','','','',cv(sp[n].mo.reduce((s,v)=>s+v,0))];sp[n].mo.forEach(v=>r.push(cv(v)));r.push(cv(sp[n].mo.reduce((s,v)=>s+v,0)));rows.push(r)})}
   rows.push([]);rows.push(['Export: '+yr,'Collab: '+cl,'Filtre: '+fl,isE?'Taux: '+rate+'€/j':'']);
-  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=(isE?'facturation_':'temps_')+yr+(sc?'_'+cl.replace(/\s/g,'_'):'')+'.csv';a.click();URL.revokeObjectURL(url);showToast('📥 CSV exporté');
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(isE?'facturation_':'temps_')+yr+(sc?'_'+cl.replace(/\s/g,'_'):'')+'.csv';a.click();URL.revokeObjectURL(url);showToast('📥 CSV exporté');
 }
 
-// ===== UTILS =====
 function gI(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 function fmtN(n){const p=n.trim().split(/\s+/);if(p.length<2)return n;return p[p.length-1]+' '+p.slice(0,-1).map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ')}
 function eH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
