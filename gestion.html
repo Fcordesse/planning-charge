@@ -19,15 +19,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 @keyframes spin{to{transform:rotate(360deg)}}
 .access-denied{max-width:500px;margin:80px auto;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius);padding:40px;text-align:center;color:#856404;font-size:.95rem}
 .access-denied h2{margin-bottom:12px;font-size:1.2rem}
-
-/* ONGLETS */
 .tab-bar{max-width:1400px;margin:20px auto 0;padding:0 20px;display:flex;gap:4px}
 .tab-btn{padding:10px 24px;border:none;border-radius:10px 10px 0 0;background:var(--card-bg);color:var(--text-light);font-size:.88rem;font-weight:600;cursor:pointer;transition:.2s;border:1px solid var(--border);border-bottom:none;position:relative;top:1px}
 .tab-btn:hover{background:#e8eaf6;color:var(--text)}
 .tab-btn.active{background:var(--card-bg);color:var(--accent);border-bottom:2px solid var(--card-bg);z-index:2;box-shadow:0 -2px 8px rgba(0,0,0,.05)}
-.tab-content{display:none}
-.tab-content.active{display:block}
-
+.tab-content{display:none}.tab-content.active{display:block}
 .team-layout{max-width:1400px;margin:0 auto;padding:0 20px 24px}
 .team-header-bar{background:var(--card-bg);border-radius:0 var(--radius) 0 0;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);border-top:none;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .team-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
@@ -67,8 +63,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .team-progress-fill{height:100%;border-radius:3px;transition:width .3s}
 .regie-legend{display:flex;gap:20px;padding:14px 20px;border-top:1px solid var(--border);background:#fafbfc;flex-wrap:wrap}
 .regie-legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--text-light)}
-
-/* MODAL */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;width:95%;max-width:600px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
@@ -93,7 +87,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .toast{position:fixed;bottom:24px;right:24px;background:#1b5e20;color:#fff;padding:12px 20px;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:2000;display:flex;align-items:center;gap:8px;transform:translateY(100px);opacity:0;transition:all .4s ease}
 .toast.show{transform:translateY(0);opacity:1}
 
-/* FACT / TEMPS PASSÉS COMMUN */
 .fact-header-bar{background:var(--card-bg);border-radius:0 var(--radius) 0 0;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);border-top:none;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .fact-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .fact-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
@@ -138,8 +131,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .fact-collab-filter label{font-size:.78rem;font-weight:600;color:var(--text-light);white-space:nowrap}
 .fact-collab-select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:600;background:#fff;color:var(--text);cursor:pointer;min-width:180px;outline:none;transition:.2s}
 .fact-collab-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.1)}
-
-/* Colonnes synthèse */
 .col-synth{min-width:80px}
 .th-prevu{background:#e8eaf6!important;color:var(--accent)!important;border-left:2px solid #90caf9}
 .th-plancharge{background:#e3f2fd!important;color:#1565c0!important}
@@ -160,14 +151,17 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .ecart-danger{background:#fce4ec;color:#c62828}
 
 /* Taux horaire */
-.taux-bar{background:linear-gradient(135deg,#1b5e20,#388e3c);border-radius:var(--radius);padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:var(--shadow)}
-.taux-bar label{color:#fff;font-size:.9rem;font-weight:700;white-space:nowrap}
+.taux-bar{background:linear-gradient(135deg,#1b5e20,#388e3c);border-radius:var(--radius);padding:18px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.taux-bar label{color:#fff;font-size:.92rem;font-weight:700;white-space:nowrap}
 .taux-input{width:110px;padding:8px 12px;border:2px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:1.1rem;font-weight:800;text-align:center;outline:none;transition:.2s;-moz-appearance:textfield}
 .taux-input::-webkit-outer-spin-button,.taux-input::-webkit-inner-spin-button{-webkit-appearance:none}
 .taux-input:focus{border-color:#fff;background:rgba(255,255,255,.25);box-shadow:0 0 0 3px rgba(255,255,255,.2)}
 .taux-input::placeholder{color:rgba(255,255,255,.5)}
-.taux-hint{color:rgba(255,255,255,.7);font-size:.78rem}
-.taux-saved{color:#a5d6a7;font-size:.78rem;font-weight:600;display:none}
+.taux-hint{color:rgba(255,255,255,.7);font-size:.78rem;flex:1}
+.btn-apply-taux{padding:8px 22px;border:2px solid #fff;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-apply-taux:hover{background:rgba(255,255,255,.3)}
+.btn-apply-taux.applied{background:rgba(255,255,255,.3);border-color:#a5d6a7}
+.taux-current{color:#a5d6a7;font-size:.82rem;font-weight:700;white-space:nowrap}
 
 @media(max-width:700px){
   .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
@@ -186,7 +180,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modalDetailOverlay">
   <div class="modal">
     <div class="modal-header">
@@ -194,9 +187,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       <button class="modal-close" onclick="closeDetailModal()">&times;</button>
     </div>
     <div class="modal-body" id="modalDetailBody"></div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeDetailModal()">Fermer</button>
-    </div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeDetailModal()">Fermer</button></div>
   </div>
 </div>
 
@@ -210,7 +201,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div id="accessDenied" class="access-denied" style="display:none">
   <h2>🔒 Accès restreint</h2>
-  <p>Cette page est réservée aux administrateurs et responsables.<br>Contactez votre responsable si vous pensez devoir y avoir accès.</p>
+  <p>Cette page est réservée aux administrateurs et responsables.</p>
   <br><a href="hub.html" style="color:#856404;font-weight:700">← Retour à l'accueil</a>
 </div>
 
@@ -289,12 +280,13 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     <div class="team-layout">
       <div class="taux-bar">
         <label for="tauxInput">💶 Taux journalier :</label>
-        <div style="display:flex;align-items:center;gap:6px">
-          <input type="text" class="taux-input" id="tauxInput" placeholder="500" onchange="onTauxChange(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}" />
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="text" class="taux-input" id="tauxInput" placeholder="ex: 500" />
           <span style="color:#fff;font-weight:700;font-size:1.1rem">€/j</span>
+          <button class="btn-apply-taux" id="btnApplyTaux" onclick="applyTaux()">✓ Appliquer</button>
         </div>
-        <span class="taux-hint">Saisissez le prix de vente d'une journée. Tous les montants seront calculés automatiquement.</span>
-        <span class="taux-saved" id="tauxSaved">✓ Sauvegardé</span>
+        <span class="taux-current" id="tauxCurrent"></span>
+        <span class="taux-hint">Saisissez le prix de vente d'une journée puis cliquez sur Appliquer.</span>
       </div>
       <div class="fact-header-bar" style="border-top:1px solid var(--border);border-radius:var(--radius)">
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
@@ -338,7 +330,8 @@ firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth(),db=firebase.database();
 
 let Co=[],Af=[],Dt={},LT=[],LD={};
-let allPointages={},prevusData={},tauxData={};
+let allPointages={},prevusData={},prevusEurData={};
+let activeTaux=0; // Le taux ACTIF appliqué (en mémoire locale)
 let teamYear=new Date().getFullYear();
 let tabYears={temps:new Date().getFullYear(),fact:new Date().getFullYear()};
 let tabFilters={temps:'all',fact:'all'};
@@ -358,7 +351,7 @@ function switchTab(tab){
   document.getElementById('tab-'+tab).classList.add('active');
   document.querySelector('[onclick="switchTab(\''+tab+'\')"]').classList.add('active');
   if(tab==='temps'){populateSelect('tempsCollabSelect');renderTempsView()}
-  if(tab==='facturation'){populateSelect('factCollabSelect');renderFactView()}
+  if(tab==='facturation'){populateSelect('factCollabSelect');loadTauxForYear();renderFactView()}
 }
 
 // ============ AUTH ============
@@ -367,30 +360,45 @@ auth.onAuthStateChanged(user=>{
   const uid=user.uid;
   Promise.all([
     db.ref('planning').once('value'),
-    db.ref('users/'+uid+'/role').once('value')
-  ]).then(([planSnap,roleSnap])=>{
+    db.ref('users/'+uid+'/role').once('value'),
+    db.ref('facturation_prevus').once('value'),
+    db.ref('facturation_prevus_eur').once('value'),
+    db.ref('facturation_taux').once('value')
+  ]).then(([planSnap,roleSnap,prevSnap,prevEurSnap,tauxSnap])=>{
     const data=planSnap.val();
     if(data){Co=data.collaborateurs||[];Af=data.affaires||[];Dt=data.donnees||{};LT=data.typesConges||[];LD=data.conges||{}}
+    prevusData=prevSnap.val()||{};
+    prevusEurData=prevEurSnap.val()||{};
+    const tauxAll=tauxSnap.val()||{};
+    // Charger le taux de l'année en cours
+    const cy=new Date().getFullYear();
+    activeTaux=tauxAll[cy]||0;
+
     const role=(roleSnap.val()||'viewer').toLowerCase().replace(/\s+/g,'_');
     document.getElementById('loadingOverlay').classList.remove('show');
     if(!ROLES_ALLOWED.includes(role)){document.getElementById('accessDenied').style.display='block';return}
     document.getElementById('teamContent').style.display='block';
     viewReady=true;
+
+    // Listeners temps réel
     db.ref('facturation_prevus').on('value',s=>{prevusData=s.val()||{};refreshActiveTab()});
+    db.ref('facturation_prevus_eur').on('value',s=>{prevusEurData=s.val()||{};refreshActiveTab()});
     db.ref('facturation_taux').on('value',s=>{
-      tauxData=s.val()||{};
-      const ti=document.getElementById('tauxInput');
-      if(ti&&!ti.matches(':focus')){
-        const v=getTaux();ti.value=v>0?v:'';
+      const td=s.val()||{};
+      // Mettre à jour activeTaux si l'année fact correspond
+      const storedTaux=td[tabYears.fact]||0;
+      if(storedTaux>0&&activeTaux===0){
+        activeTaux=storedTaux;
+        document.getElementById('tauxInput').value=storedTaux;
+        updateTauxDisplay();
+        renderFactView();
       }
-      refreshActiveTab();
     });
     db.ref('pointages').on('value',snap=>{
       const prev=JSON.stringify(allPointages);
       allPointages=snap.val()||{};
       if(viewReady){
-        renderTeamView();
-        refreshActiveTab();
+        renderTeamView();refreshActiveTab();
         if(!isFirstPointageLoad&&JSON.stringify(allPointages)!==prev) showToast('🔄 Données mises à jour en temps réel');
       }
       isFirstPointageLoad=false;
@@ -404,65 +412,84 @@ function refreshActiveTab(){
 }
 
 function logout(){
-  db.ref('pointages').off();db.ref('facturation_prevus').off();db.ref('facturation_taux').off();
+  db.ref('pointages').off();db.ref('facturation_prevus').off();db.ref('facturation_prevus_eur').off();db.ref('facturation_taux').off();
   auth.signOut().then(()=>{window.location.href='index.html'});
 }
 
-// ============ TAUX ============
-function getTaux(){
-  const y=tabYears.fact;
-  return (tauxData[y])||0;
+// ============ TAUX JOURNALIER ============
+function loadTauxForYear(){
+  // Charger le taux depuis Firebase pour l'année fact en cours
+  db.ref('facturation_taux/'+tabYears.fact).once('value').then(s=>{
+    const v=s.val()||0;
+    if(v>0){
+      activeTaux=v;
+      document.getElementById('tauxInput').value=v;
+    }else{
+      // Garder ce qui est dans l'input ou 0
+      if(activeTaux>0) document.getElementById('tauxInput').value=activeTaux;
+      else document.getElementById('tauxInput').value='';
+    }
+    updateTauxDisplay();
+  });
 }
-function onTauxChange(el){
+
+function applyTaux(){
+  const el=document.getElementById('tauxInput');
   let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,'').trim());
-  if(isNaN(v)||v<0)v=0;
-  el.value=v>0?v:'';
+  if(isNaN(v)||v<=0){
+    v=0;activeTaux=0;el.value='';
+  }else{
+    activeTaux=v;el.value=v;
+  }
+  // Sauvegarder dans Firebase
   const y=tabYears.fact;
   if(v>0){db.ref('facturation_taux/'+y).set(v)}else{db.ref('facturation_taux/'+y).remove()}
-  const sav=document.getElementById('tauxSaved');
-  sav.style.display='inline';setTimeout(()=>{sav.style.display='none'},2000);
+  updateTauxDisplay();
   renderFactView();
+  // Feedback visuel
+  const btn=document.getElementById('btnApplyTaux');
+  btn.classList.add('applied');btn.textContent='✓ Appliqué !';
+  setTimeout(()=>{btn.classList.remove('applied');btn.textContent='✓ Appliquer'},2000);
+  showToast('💶 Taux journalier appliqué : '+v+'€/j');
+}
+
+function updateTauxDisplay(){
+  const el=document.getElementById('tauxCurrent');
+  if(activeTaux>0){el.textContent='Taux actif : '+activeTaux+'€/j';el.style.display='inline'}
+  else{el.textContent='';el.style.display='none'}
 }
 
 // ============ PREVUS ============
 let prevuSaveTimeout={};
-function savePrevuValue(year,affName,value,tab){
-  const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
-  const prefix=tab==='fact'?'facturation_prevus_eur':'facturation_prevus';
-  const path=prefix+'/'+year+'/'+safeAff;
-  const key=tab+'|'+year+'|'+safeAff;
+function savePrevuJours(year,affName,value){
+  const safe=affName.replace(/[.#$\[\]\/]/g,'_');
+  const path='facturation_prevus/'+year+'/'+safe;
+  const key='j|'+year+'|'+safe;
   if(prevuSaveTimeout[key])clearTimeout(prevuSaveTimeout[key]);
   prevuSaveTimeout[key]=setTimeout(()=>{
-    if(value===0||value===''||isNaN(value)){db.ref(path).remove()}else{db.ref(path).set(value)}
+    if(!value||value<=0){db.ref(path).remove()}else{db.ref(path).set(value)}
     showToast('💾 Prévision sauvegardée');
   },800);
 }
-function getPrevuValue(year,affName){
-  const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
-  const yData=prevusData[year];
-  return yData?yData[safeAff]||0:0;
+function savePrevuEur(year,affName,value){
+  const safe=affName.replace(/[.#$\[\]\/]/g,'_');
+  const path='facturation_prevus_eur/'+year+'/'+safe;
+  const key='e|'+year+'|'+safe;
+  if(prevuSaveTimeout[key])clearTimeout(prevuSaveTimeout[key]);
+  prevuSaveTimeout[key]=setTimeout(()=>{
+    if(!value||value<=0){db.ref(path).remove()}else{db.ref(path).set(value)}
+    showToast('💾 Budget prévu sauvegardé');
+  },800);
 }
-function getPrevuEurValue(year,affName){
-  const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
-  const yData=(prevusData.__eur||{})[year];
-  return yData?yData[safeAff]||0:0;
-}
-function onPrevuInput(affName,el,tab){
+function getPrevuJours(year,affName){const s=affName.replace(/[.#$\[\]\/]/g,'_');const d=prevusData[year];return d?d[s]||0:0}
+function getPrevuEur(year,affName){const s=affName.replace(/[.#$\[\]\/]/g,'_');const d=prevusEurData[year];return d?d[s]||0:0}
+
+function onPrevuInput(affName,el,tabKey){
   let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,'').trim());
   if(isNaN(v)||v<0)v=0;
-  const year=tabYears[tab==='fact'?'fact':'temps'];
-  if(tab==='fact'){
-    const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
-    const path='facturation_prevus/__eur/'+year+'/'+safeAff;
-    const key='eur|'+year+'|'+safeAff;
-    if(prevuSaveTimeout[key])clearTimeout(prevuSaveTimeout[key]);
-    prevuSaveTimeout[key]=setTimeout(()=>{
-      if(v===0){db.ref(path).remove()}else{db.ref(path).set(v)}
-      showToast('💾 Prévision € sauvegardée');
-    },800);
-  }else{
-    savePrevuValue(year,affName,v,tab);
-  }
+  const year=tabYears[tabKey];
+  if(tabKey==='fact'){savePrevuEur(year,affName,v)}
+  else{savePrevuJours(year,affName,v)}
 }
 
 // ============ TOAST ============
@@ -488,8 +515,7 @@ function computePlanningData(y,m,cName){
   return{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges};
 }
 function computePlanChargeYear(year,affName,filterSk){
-  let totalSlots=0;
-  const collabs=filterSk?Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===filterSk):Co;
+  let totalSlots=0;const collabs=filterSk?Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===filterSk):Co;
   for(let m=0;m<12;m++){const ouvres=getOuvres(year,m);ouvres.forEach(dkey=>{const k=affName+'|'+dkey,sl=Dt[k];if(sl&&Array.isArray(sl)){for(let i=0;i<5;i++){if(sl[i]&&collabs.some(c=>c.name===sl[i]))totalSlots++}}})}
   return Math.round((totalSlots/5)*100)/100;
 }
@@ -497,19 +523,14 @@ function computePlanChargeYear(year,affName,filterSk){
 // ============ NAVIGATION ============
 function changeTeamYear(o){teamYear+=o;renderTeamView()}
 function changeTabYear(tab,o){
-  const k=tab==='fact'?'fact':'temps';
-  tabYears[k]+=o;
-  if(k==='temps')renderTempsView();else{
-    const ti=document.getElementById('tauxInput');
-    const v=getTaux();ti.value=v>0?v:'';
-    renderFactView();
-  }
+  tabYears[tab]+=o;
+  if(tab==='temps')renderTempsView();
+  else{loadTauxForYear();renderFactView()}
 }
 function setFilter(tab,f){
-  const k=tab==='fact'?'fact':'temps';
-  tabFilters[k]=f;
+  tabFilters[tab]=f;
   document.querySelectorAll('.fact-filter-btn[data-tab="'+tab+'"]').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));
-  if(k==='temps')renderTempsView();else renderFactView();
+  if(tab==='temps')renderTempsView();else renderFactView();
 }
 function populateSelect(id){
   const sel=document.getElementById(id);const cv=sel.value;
@@ -540,7 +561,7 @@ function renderTeamView(){
   tb+='</tbody>';document.getElementById('regieTable').innerHTML=th+tb;
 }
 
-// ============ MODAL DÉTAIL ============
+// ============ MODAL ============
 function showTeamDetail(sk,month,year){
   const cPtg=allPointages[sk]||{},mk=getMonthKey(year,month),ptg=cPtg[mk];if(!ptg||!ptg.lines)return;
   let cN='';Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===sk)cN=c.name});
@@ -559,29 +580,19 @@ function showTeamDetail(sk,month,year){
 }
 function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
 
-// ============ AGRÉGATION DONNÉES ============
+// ============ AGRÉGATION ============
 function buildData(year,collabSelectId){
   const affaires={},specials={};
-  const sel=document.getElementById(collabSelectId);
-  const selCollab=sel?sel.value:'';
+  const sel=document.getElementById(collabSelectId);const selC=sel?sel.value:'';
   Co.forEach(c=>{
-    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
-    if(selCollab&&sk!==selCollab)return;
+    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');if(selC&&sk!==selC)return;
     const cPtg=allPointages[sk]||{};
-    for(let m=0;m<12;m++){
-      const mk=getMonthKey(year,m),ptg=cPtg[mk];
-      if(!ptg||!ptg.lines||!ptg.validatedAt)continue;
+    for(let m=0;m<12;m++){const mk=getMonthKey(year,m),ptg=cPtg[mk];if(!ptg||!ptg.lines||!ptg.validatedAt)continue;
       ptg.lines.forEach(line=>{
         if(line.category==='conge')return;
         if(line.category==='special'){if(!specials[line.label])specials[line.label]={months:new Array(12).fill(0)};specials[line.label].months[m]+=line.jours||0;return}
-        if(line.category==='affaire'){
-          const n=line.label,t=line.type||'etudes';
-          if(!affaires[n])affaires[n]={type:t,months:new Array(12).fill(0),subdetails:{}};
-          affaires[n].months[m]+=line.jours||0;
-          if(t==='travaux'){
-            if(line.subDetail&&typeof line.subDetail==='object'){Object.keys(line.subDetail).forEach(cat=>{const v=line.subDetail[cat]||0;if(v>0){if(!affaires[n].subdetails[cat])affaires[n].subdetails[cat]=new Array(12).fill(0);affaires[n].subdetails[cat][m]+=v}})}
-            else{const j=line.jours||0;if(j>0){if(!affaires[n].subdetails['Autre'])affaires[n].subdetails['Autre']=new Array(12).fill(0);affaires[n].subdetails['Autre'][m]+=j}}
-          }
+        if(line.category==='affaire'){const n=line.label,t=line.type||'etudes';if(!affaires[n])affaires[n]={type:t,months:new Array(12).fill(0),subdetails:{}};affaires[n].months[m]+=line.jours||0;
+          if(t==='travaux'){if(line.subDetail&&typeof line.subDetail==='object'){Object.keys(line.subDetail).forEach(cat=>{const v=line.subDetail[cat]||0;if(v>0){if(!affaires[n].subdetails[cat])affaires[n].subdetails[cat]=new Array(12).fill(0);affaires[n].subdetails[cat][m]+=v}})}else{const j=line.jours||0;if(j>0){if(!affaires[n].subdetails['Autre'])affaires[n].subdetails['Autre']=new Array(12).fill(0);affaires[n].subdetails['Autre'][m]+=j}}}
         }
       });
     }
@@ -589,15 +600,14 @@ function buildData(year,collabSelectId){
   return{affaires,specials};
 }
 
-// ============ RENDU GÉNÉRIQUE (jours ou €) ============
+// ============ RENDU GÉNÉRIQUE ============
 function renderGenericView(cfg){
   const year=tabYears[cfg.key];
   const filter=tabFilters[cfg.key];
-  const rate=cfg.isEuro?getTaux():0;
-  const unit=cfg.isEuro?'€':'j';
-  const convert=v=>cfg.isEuro?Math.round(v*rate*100)/100:v;
-  const fmtV=v=>{if(cfg.isEuro){const x=Math.round(v);return x.toLocaleString('fr-FR')+'€'}return fmtNum(v)+'j'};
-  const fmtVShort=v=>{if(cfg.isEuro){const x=Math.round(v);if(x>=1000000)return(x/1000000).toFixed(1)+'M€';if(x>=1000)return Math.round(x/1000)+'k€';return x+'€'}return fmtNum(v)+'j'};
+  const isEuro=cfg.isEuro;
+  const rate=isEuro?activeTaux:0;
+  const fmtV=v=>{if(isEuro){const x=Math.round(v*rate);return x.toLocaleString('fr-FR')+'€'}return fmtNum(v)+'j'};
+  const fmtVShort=v=>{if(isEuro){const x=Math.round(v*rate);if(x>=1000000)return(x/1000000).toFixed(1)+'M€';if(x>=1000)return Math.round(x/1000)+'k€';return x+'€'}return fmtNum(v)+'j'};
 
   document.getElementById(cfg.yearLabelId).textContent=year;
   const {affaires,specials}=buildData(year,cfg.collabSelectId);
@@ -614,26 +624,28 @@ function renderGenericView(cfg){
   const tG=tE+tT+tS,nAff=etudes.length+travaux.length;
 
   let collabLabel='';if(selCollab)Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selCollab)collabLabel=formatName(c.name)});
-  document.getElementById(cfg.tableTitleId).textContent=collabLabel?(cfg.isEuro?'📋 Budget – ':'📋 Jours – ')+collabLabel+' – '+year:(cfg.isEuro?'📋 Récapitulatif budget par affaire et par mois':'📋 Récapitulatif jours validés par affaire et par mois');
 
-  if(cfg.isEuro&&rate<=0){
-    document.getElementById(cfg.statsId).innerHTML='<div class="fact-stat-card" style="grid-column:1/-1;border-color:#ff9800"><div class="tv" style="color:#ff9800">⚠️</div><div class="tl">Veuillez saisir un taux journalier ci-dessus pour voir les montants</div></div>';
+  if(isEuro&&rate<=0){
+    document.getElementById(cfg.statsId).innerHTML='<div class="fact-stat-card" style="grid-column:1/-1;border-color:#ff9800"><div class="tv" style="color:#ff9800;font-size:1.2rem">⚠️ Aucun taux journalier défini</div><div class="tl" style="font-size:.82rem;margin-top:8px">Saisissez un montant dans le champ "Taux journalier" ci-dessus puis cliquez sur <b>✓ Appliquer</b></div></div>';
     document.getElementById(cfg.tableId).innerHTML='';
+    document.getElementById(cfg.tableTitleId).textContent='📋 En attente du taux journalier...';
     return;
   }
 
+  document.getElementById(cfg.tableTitleId).textContent=collabLabel?(isEuro?'📋 Budget – ':'📋 Jours – ')+collabLabel+' – '+year:(isEuro?'📋 Récapitulatif budget par affaire et par mois':'📋 Récapitulatif jours validés par affaire et par mois');
+
   document.getElementById(cfg.statsId).innerHTML=
-    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fmtVShort(convert(tG))+'</div><div class="tl">Total validé</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fmtVShort(convert(tE))+'</div><div class="tl">Études</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fmtVShort(convert(tT))+'</div><div class="tl">Travaux</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fmtVShort(convert(tS))+'</div><div class="tl">Autres</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fmtVShort(tG)+'</div><div class="tl">Total validé</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fmtVShort(tE)+'</div><div class="tl">Études</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fmtVShort(tT)+'</div><div class="tl">Travaux</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fmtVShort(tS)+'</div><div class="tl">Autres</div></div>'+
     '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nAff+'</div><div class="tl">Affaires actives</div></div>';
 
-  const csAll=12+1+3+1;
+  const csAll=17;
   let th='<thead><tr><th>Affaire / Prestation</th>';
-  th+='<th class="col-synth th-prevu">🎯 Prévu'+(cfg.isEuro?' (€)':' (j)')+'</th>';
-  th+='<th class="col-synth th-plancharge">📊 Plan charge'+(cfg.isEuro?' (€)':' (j)')+'</th>';
-  th+='<th class="col-synth th-realise">✅ Réalisé'+(cfg.isEuro?' (€)':' (j)')+'</th>';
+  th+='<th class="col-synth th-prevu">🎯 Prévu'+(isEuro?' (€)':' (j)')+'</th>';
+  th+='<th class="col-synth th-plancharge">📊 Plan charge'+(isEuro?' (€)':' (j)')+'</th>';
+  th+='<th class="col-synth th-realise">✅ Réalisé'+(isEuro?' (€)':' (j)')+'</th>';
   for(let m=0;m<12;m++)th+='<th>'+MN_S[m]+'</th>';
   th+='<th>Total</th></tr></thead>';
 
@@ -642,56 +654,47 @@ function renderGenericView(cfg){
 
   function monthCells(months,isT){
     let h='';const tot=months.reduce((s,v)=>s+v,0);
-    for(let m=0;m<12;m++){const v=convert(months[m]);const cls=v>0?(isT?'fact-val total':'fact-val has-value'):'fact-val zero';h+='<td><span class="'+cls+'">'+(v>0?fmtV(months[m]):'–')+'</span></td>'}
-    const tv=convert(tot);const tc=isT?'fact-val total':'fact-val '+(tv>0?'has-value':'zero');
-    h+='<td><span class="'+tc+'" style="font-weight:800">'+(tv>0?fmtV(tot):'–')+'</span></td>';return h;
+    for(let m=0;m<12;m++){const v=months[m];const cls=v>0?(isT?'fact-val total':'fact-val has-value'):'fact-val zero';h+='<td><span class="'+cls+'">'+(v>0?fmtV(v):'–')+'</span></td>'}
+    const tc=isT?'fact-val total':'fact-val '+(tot>0?'has-value':'zero');
+    h+='<td><span class="'+tc+'" style="font-weight:800">'+(tot>0?fmtV(tot):'–')+'</span></td>';return h;
   }
 
   function synthCells(affName,months,isSub){
     if(isSub)return'<td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"></td>';
     const totalR=months.reduce((s,v)=>s+v,0);
     const planJ=computePlanChargeYear(year,affName,selCollab||null);
-    const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
 
-    let prevu;
-    if(cfg.isEuro){prevu=getPrevuEurValue(year,affName)}else{prevu=getPrevuValue(year,affName)}
-    const prevuDisplay=prevu>0?(cfg.isEuro?Math.round(prevu):fmtNum(prevu)):'';
+    let prevu=isEuro?getPrevuEur(year,affName):getPrevuJours(year,affName);
+    const prevuDisplay=prevu>0?(isEuro?Math.round(prevu):fmtNum(prevu)):'';
 
     let h='<td class="td-prevu"><input type="text" class="prevu-input" value="'+prevuDisplay+'" placeholder="–" onchange="onPrevuInput(\''+escAttr(affName)+'\',this,\''+cfg.key+'\')" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}" /></td>';
 
-    const planV=convert(planJ);
-    h+='<td class="td-plancharge"><span class="fact-val '+(planV>0?'has-value':'zero')+'">'+(planV>0?fmtV(planJ):'–')+'</span></td>';
+    const planDisplay=isEuro?Math.round(planJ*rate):planJ;
+    h+='<td class="td-plancharge"><span class="fact-val '+(planDisplay>0?'has-value':'zero')+'">'+(planDisplay>0?fmtV(planJ):'–')+'</span></td>';
 
-    const realV=convert(totalR);
+    const realDisplay=isEuro?Math.round(totalR*rate):totalR;
     let ecart='';
     if(prevu>0){
-      const realComp=cfg.isEuro?realV:totalR;
+      const realComp=isEuro?realDisplay:totalR;
       const pct=Math.round((realComp/prevu)*100);
-      if(Math.abs(realComp-prevu)<0.01)ecart='<span class="ecart-badge ecart-ok">= 100%</span>';
-      else if(realComp<prevu)ecart='<span class="ecart-badge ecart-ok">'+pct+'%</span>';
+      if(pct===100)ecart='<span class="ecart-badge ecart-ok">= 100%</span>';
+      else if(pct<100)ecart='<span class="ecart-badge ecart-ok">'+pct+'%</span>';
       else ecart='<span class="ecart-badge ecart-danger">'+pct+'%</span>';
-    }else if(prevu<=0&&realV>0){ecart=''}
-    h+='<td class="td-realise"><span class="fact-val '+(realV>0?'has-value':'zero')+'" style="font-weight:800">'+(realV>0?fmtV(totalR):'–')+'</span>'+ecart+'</td>';
+    }
+    h+='<td class="td-realise"><span class="fact-val '+(realDisplay>0?'has-value':'zero')+'" style="font-weight:800">'+(realDisplay>0?fmtV(totalR):'–')+'</span>'+ecart+'</td>';
     return h;
   }
 
   function synthTotals(list){
     let tP=0,tPC=0,tR=0;
-    list.forEach(a=>{
-      tP+=cfg.isEuro?getPrevuEurValue(year,a.name):getPrevuValue(year,a.name);
-      tPC+=computePlanChargeYear(year,a.name,selCollab||null);
-      tR+=a.months.reduce((s,v)=>s+v,0);
-    });
-    const pv=convert(tPC),rv=convert(tR);
-    let h='<td class="td-prevu" style="font-weight:700"><span class="fact-val total">'+(tP>0?(cfg.isEuro?Math.round(tP).toLocaleString('fr-FR')+'€':fmtNum(tP)+'j'):'–')+'</span></td>';
-    h+='<td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+(pv>0?fmtV(tPC):'–')+'</span></td>';
-    h+='<td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(rv>0?fmtV(tR):'–')+'</span></td>';
-    return h;
+    list.forEach(a=>{tP+=isEuro?getPrevuEur(year,a.name):getPrevuJours(year,a.name);tPC+=computePlanChargeYear(year,a.name,selCollab||null);tR+=a.months.reduce((s,v)=>s+v,0)});
+    const fP=isEuro?(tP>0?Math.round(tP).toLocaleString('fr-FR')+'€':'–'):(tP>0?fmtNum(tP)+'j':'–');
+    const fPC=tPC>0?fmtV(tPC):'–';const fR=tR>0?fmtV(tR):'–';
+    return'<td class="td-prevu" style="font-weight:700"><span class="fact-val total">'+fP+'</span></td><td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+fPC+'</span></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+fR+'</span></td>';
   }
 
-  function toggleKey(affName){return affName.replace(/[^a-zA-Z0-9]/g,'_')}
+  function tk(n){return n.replace(/[^a-zA-Z0-9]/g,'_')}
 
-  // ÉTUDES
   if((filter==='all'||filter==='etudes')&&etudes.length>0){
     tb+='<tr class="fact-section-row"><td colspan="'+csAll+'">📐 Études ('+etudes.length+')</td></tr>';
     const tots=new Array(12).fill(0);
@@ -699,34 +702,28 @@ function renderGenericView(cfg){
     tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+synthTotals(etudes)+monthCells(tots,true)+'</tr>';
   }
 
-  // TRAVAUX
   if((filter==='all'||filter==='travaux')&&travaux.length>0){
     tb+='<tr class="fact-section-row section-travaux"><td colspan="'+csAll+'">🏗️ Travaux ('+travaux.length+')</td></tr>';
     const tots=new Array(12).fill(0);
     travaux.forEach(a=>{
-      a.months.forEach((v,i)=>{tots[i]+=v});
-      const ak=toggleKey(a.name);
-      const sdK=Object.keys(a.subdetails).filter(k=>a.subdetails[k].some(v=>v>0));
-      const hasSD=sdK.length>0,isOpen=expanded.has(ak);
+      a.months.forEach((v,i)=>{tots[i]+=v});const ak=tk(a.name);
+      const sdK=Object.keys(a.subdetails).filter(k=>a.subdetails[k].some(v=>v>0));const hasSD=sdK.length>0,isOpen=expanded.has(ak);
       const chev=hasSD?'<span class="chevron'+(isOpen?' open':'')+'" id="chev_'+cfg.key+'_'+ak+'">▶</span>':'';
       const cl=hasSD?'onclick="toggleSD(\''+cfg.key+'\',\''+ak+'\')"':'';
       const hint=hasSD?' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+sdK.length+' prest.)</span>':'';
       tb+='<tr class="fact-affaire-row is-travaux"><td '+cl+'>'+chev+escH(a.name)+hint+'</td>'+synthCells(a.name,a.months,false)+monthCells(a.months,false)+'</tr>';
-      if(hasSD){
-        const ordered=[];TRAVAUX_SUB_CATS.forEach(c=>{if(a.subdetails[c]&&a.subdetails[c].some(v=>v>0))ordered.push(c)});sdK.forEach(k=>{if(!ordered.includes(k))ordered.push(k)});
-        ordered.forEach(sd=>{const hid=isOpen?'':'hidden';const ic=sd==='Autre'?'📦':'🔧';tb+='<tr class="fact-subdetail-row fact-sd-'+cfg.key+'-'+ak+' '+hid+'"><td>'+ic+' '+escH(sd)+'</td>'+synthCells(a.name,a.subdetails[sd],true)+monthCells(a.subdetails[sd],false)+'</tr>'});
-      }
+      if(hasSD){const ordered=[];TRAVAUX_SUB_CATS.forEach(c=>{if(a.subdetails[c]&&a.subdetails[c].some(v=>v>0))ordered.push(c)});sdK.forEach(k=>{if(!ordered.includes(k))ordered.push(k)});
+        ordered.forEach(sd=>{const hid=isOpen?'':'hidden';const ic=sd==='Autre'?'📦':'🔧';tb+='<tr class="fact-subdetail-row fact-sd-'+cfg.key+'-'+ak+' '+hid+'"><td>'+ic+' '+escH(sd)+'</td>'+synthCells(a.name,a.subdetails[sd],true)+monthCells(a.subdetails[sd],false)+'</tr>'})}
     });
     tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+synthTotals(travaux)+monthCells(tots,true)+'</tr>';
   }
 
-  // AUTRES
   if((filter==='all'||filter==='special')&&specialList.length>0){
     tb+='<tr class="fact-section-row section-special"><td colspan="'+csAll+'">📂 Autres ('+specialList.length+')</td></tr>';
     const tots=new Array(12).fill(0);
-    specialList.forEach(a=>{a.months.forEach((v,i)=>{tots[i]+=v});const rv=convert(a.months.reduce((s,v)=>s+v,0));tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(rv>0?'has-value':'zero')+'" style="font-weight:700">'+(rv>0?fmtV(a.months.reduce((s,v)=>s+v,0)):'–')+'</span></td>'+monthCells(a.months,false)+'</tr>'});
-    const stS=specialList.reduce((s,a)=>s+a.months.reduce((ss,v)=>ss+v,0),0);const svS=convert(stS);
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(svS>0?fmtV(stS):'–')+'</span></td>'+monthCells(tots,true)+'</tr>';
+    specialList.forEach(a=>{a.months.forEach((v,i)=>{tots[i]+=v});const rv=a.months.reduce((s,v)=>s+v,0);tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(rv>0?'has-value':'zero')+'" style="font-weight:700">'+(rv>0?fmtV(rv):'–')+'</span></td>'+monthCells(a.months,false)+'</tr>'});
+    const stS=specialList.reduce((s,a)=>s+a.months.reduce((ss,v)=>ss+v,0),0);
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stS>0?fmtV(stS):'–')+'</span></td>'+monthCells(tots,true)+'</tr>';
   }
 
   // TOTAL GÉNÉRAL
@@ -735,72 +732,48 @@ function renderGenericView(cfg){
   if(filter==='all'||filter==='travaux'){travaux.forEach(a=>{a.months.forEach((v,i)=>{gT[i]+=v});allAff.push(a)})}
   if(filter==='all'||filter==='special'){specialList.forEach(a=>{a.months.forEach((v,i)=>{gT[i]+=v})})}
   let gtP=0,gtPC=0,gtR=0;
-  allAff.forEach(a=>{gtP+=cfg.isEuro?getPrevuEurValue(year,a.name):getPrevuValue(year,a.name);gtPC+=computePlanChargeYear(year,a.name,selCollab||null);gtR+=a.months.reduce((s,v)=>s+v,0)});
+  allAff.forEach(a=>{gtP+=isEuro?getPrevuEur(year,a.name):getPrevuJours(year,a.name);gtPC+=computePlanChargeYear(year,a.name,selCollab||null);gtR+=a.months.reduce((s,v)=>s+v,0)});
   if(filter==='all'||filter==='special')specialList.forEach(a=>{gtR+=a.months.reduce((s,v)=>s+v,0)});
-  const gPV=convert(gtPC),gRV=convert(gtR);
 
+  const fGP=isEuro?(gtP>0?Math.round(gtP).toLocaleString('fr-FR')+'€':'–'):(gtP>0?fmtNum(gtP)+'j':'–');
   tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td>';
-  tb+='<td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+(gtP>0?(cfg.isEuro?Math.round(gtP).toLocaleString('fr-FR')+'€':fmtNum(gtP)+'j'):'–')+'</span></td>';
-  tb+='<td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gPV>0?fmtV(gtPC):'–')+'</span></td>';
-  tb+='<td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gRV>0?fmtV(gtR):'–')+'</span></td>';
+  tb+='<td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+fGP+'</span></td>';
+  tb+='<td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gtPC>0?fmtV(gtPC):'–')+'</span></td>';
+  tb+='<td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gtR>0?fmtV(gtR):'–')+'</span></td>';
   tb+=monthCells(gT,true)+'</tr></tbody>';
 
   document.getElementById(cfg.tableId).innerHTML=th+tb;
 }
 
 function toggleSD(tabKey,affKey){
-  const exp=expandedTravaux[tabKey];
-  if(exp.has(affKey))exp.delete(affKey);else exp.add(affKey);
+  const exp=expandedTravaux[tabKey];if(exp.has(affKey))exp.delete(affKey);else exp.add(affKey);
   document.querySelectorAll('.fact-sd-'+tabKey+'-'+affKey).forEach(r=>r.classList.toggle('hidden',!exp.has(affKey)));
   const ch=document.getElementById('chev_'+tabKey+'_'+affKey);if(ch)ch.classList.toggle('open',exp.has(affKey));
 }
 
-function renderTempsView(){
-  renderGenericView({key:'temps',isEuro:false,yearLabelId:'tempsYearLabel',collabSelectId:'tempsCollabSelect',statsId:'tempsStats',tableId:'tempsTable',tableTitleId:'tempsTableTitle'});
-}
-function renderFactView(){
-  renderGenericView({key:'fact',isEuro:true,yearLabelId:'factYearLabel',collabSelectId:'factCollabSelect',statsId:'factStats',tableId:'factTable',tableTitleId:'factTableTitle'});
-}
+function renderTempsView(){renderGenericView({key:'temps',isEuro:false,yearLabelId:'tempsYearLabel',collabSelectId:'tempsCollabSelect',statsId:'tempsStats',tableId:'tempsTable',tableTitleId:'tempsTableTitle'})}
+function renderFactView(){renderGenericView({key:'fact',isEuro:true,yearLabelId:'factYearLabel',collabSelectId:'factCollabSelect',statsId:'factStats',tableId:'factTable',tableTitleId:'factTableTitle'})}
 
 // ============ EXPORT CSV ============
 function exportCSV(tabKey){
-  const isEuro=tabKey==='fact';
-  const year=tabYears[tabKey];
-  const rate=isEuro?getTaux():0;
-  const selId=tabKey==='fact'?'factCollabSelect':'tempsCollabSelect';
-  const selCollab=document.getElementById(selId).value;
-  const filter=tabFilters[tabKey];
+  const isEuro=tabKey==='fact';const year=tabYears[tabKey];const rate=isEuro?activeTaux:0;
+  const selId=tabKey==='fact'?'factCollabSelect':'tempsCollabSelect';const selCollab=document.getElementById(selId).value;const filter=tabFilters[tabKey];
   const {affaires,specials}=buildData(year,selId);
-  const convert=v=>isEuro?Math.round(v*rate):v;
-  const unit=isEuro?'€':'j';
-
-  const rows=[];
-  const header=['Affaire','Type','Prestation','Prévu ('+unit+')','Plan charge ('+unit+')','Réalisé ('+unit+')'];
-  for(let m=0;m<12;m++)header.push(MN[m]);header.push('Total');
-  rows.push(header);
-
+  const unit=isEuro?'€':'j';const convert=v=>isEuro?Math.round(v*rate):v;
+  const rows=[];const header=['Affaire','Type','Prestation','Prévu ('+unit+')','Plan charge ('+unit+')','Réalisé ('+unit+')'];
+  for(let m=0;m<12;m++)header.push(MN[m]);header.push('Total');rows.push(header);
   let collabLabel='Tous';if(selCollab)Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selCollab)collabLabel=formatName(c.name)});
-
-  Object.keys(affaires).sort().forEach(name=>{
-    const a=affaires[name];const tl=a.type==='etudes'?'Études':'Travaux';
-    if(filter!=='all'&&filter!==a.type)return;
-    const totalR=a.months.reduce((s,v)=>s+v,0);
-    const prevu=isEuro?getPrevuEurValue(year,name):getPrevuValue(year,name);
-    const pc=computePlanChargeYear(year,name,selCollab||null);
-    const row=[name,tl,'',prevu||'',convert(pc)||'',convert(totalR)];
-    a.months.forEach(v=>row.push(convert(v)));row.push(convert(totalR));rows.push(row);
-    if(a.type==='travaux'){
-      const ordered=[];TRAVAUX_SUB_CATS.forEach(c=>{if(a.subdetails[c]&&a.subdetails[c].some(v=>v>0))ordered.push(c)});Object.keys(a.subdetails).forEach(k=>{if(!ordered.includes(k)&&a.subdetails[k].some(v=>v>0))ordered.push(k)});
-      ordered.forEach(sd=>{const sr=['  ↳ '+name,tl,sd,'','',convert(a.subdetails[sd].reduce((s,v)=>s+v,0))];a.subdetails[sd].forEach(v=>sr.push(convert(v)));sr.push(convert(a.subdetails[sd].reduce((s,v)=>s+v,0)));rows.push(sr)});
-    }
+  Object.keys(affaires).sort().forEach(name=>{const a=affaires[name];const tl=a.type==='etudes'?'Études':'Travaux';if(filter!=='all'&&filter!==a.type)return;
+    const totalR=a.months.reduce((s,v)=>s+v,0);const prevu=isEuro?getPrevuEur(year,name):getPrevuJours(year,name);const pc=computePlanChargeYear(year,name,selCollab||null);
+    const row=[name,tl,'',prevu||'',convert(pc)||'',convert(totalR)];a.months.forEach(v=>row.push(convert(v)));row.push(convert(totalR));rows.push(row);
+    if(a.type==='travaux'){const ordered=[];TRAVAUX_SUB_CATS.forEach(c=>{if(a.subdetails[c]&&a.subdetails[c].some(v=>v>0))ordered.push(c)});Object.keys(a.subdetails).forEach(k=>{if(!ordered.includes(k)&&a.subdetails[k].some(v=>v>0))ordered.push(k)});
+      ordered.forEach(sd=>{const sr=['  ↳ '+name,tl,sd,'','',convert(a.subdetails[sd].reduce((s,v)=>s+v,0))];a.subdetails[sd].forEach(v=>sr.push(convert(v)));sr.push(convert(a.subdetails[sd].reduce((s,v)=>s+v,0)));rows.push(sr)})}
   });
   if(filter==='all'||filter==='special'){Object.keys(specials).sort().forEach(name=>{const row=[name,'Autre','','','',convert(specials[name].months.reduce((s,v)=>s+v,0))];specials[name].months.forEach(v=>row.push(convert(v)));row.push(convert(specials[name].months.reduce((s,v)=>s+v,0)));rows.push(row)})}
   rows.push([]);rows.push(['Export: '+year,'Collaborateur: '+collabLabel,'Filtre: '+filter,isEuro?'Taux: '+rate+'€/j':'']);
-
   const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;
-  const suffix=selCollab?'_'+collabLabel.replace(/\s/g,'_'):'';
+  const a=document.createElement('a');a.href=url;const suffix=selCollab?'_'+collabLabel.replace(/\s/g,'_'):'';
   a.download=(isEuro?'facturation_':'temps_passes_')+year+suffix+'.csv';a.click();URL.revokeObjectURL(url);showToast('📥 Export CSV téléchargé');
 }
 
