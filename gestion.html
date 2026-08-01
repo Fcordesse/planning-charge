@@ -13,16 +13,14 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .header-right{display:flex;align-items:center;gap:12px}
 .hdr-btn{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s;text-decoration:none}
 .hdr-btn:hover{background:rgba(255,255,255,.2)}
-
 .loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.9);z-index:9999;justify-content:center;align-items:center;flex-direction:column;gap:16px}
 .loading-overlay.show{display:flex}
 .loading-overlay .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--highlight);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .access-denied{max-width:500px;margin:80px auto;background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius);padding:40px;text-align:center;color:#856404;font-size:.95rem}
 .access-denied h2{margin-bottom:12px;font-size:1.2rem}
 
-/* ===== ONGLETS ===== */
+/* ONGLETS */
 .tab-bar{max-width:1400px;margin:20px auto 0;padding:0 20px;display:flex;gap:4px}
 .tab-btn{padding:10px 24px;border:none;border-radius:10px 10px 0 0;background:var(--card-bg);color:var(--text-light);font-size:.88rem;font-weight:600;cursor:pointer;transition:.2s;border:1px solid var(--border);border-bottom:none;position:relative;top:1px}
 .tab-btn:hover{background:#e8eaf6;color:var(--text)}
@@ -37,16 +35,13 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .team-year-selector button{padding:8px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
 .team-year-selector button:hover{background:#0b2a4a}
 .team-year-selector .year-label{font-size:1.1rem;font-weight:800;min-width:60px;text-align:center}
-
 .realtime-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
 .realtime-dot{width:8px;height:8px;border-radius:50%;background:#4caf50;animation:pulse-dot 2s infinite}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
-
 .team-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
 .team-stat-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);text-align:center}
 .team-stat-card .tv{font-size:1.8rem;font-weight:800;margin-bottom:2px}
 .team-stat-card .tl{font-size:.72rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-
 .regie-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
 .regie-card h3{padding:16px 20px;margin:0;font-size:.92rem;font-weight:700;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;gap:8px}
 .regie-scroll{overflow-x:auto}
@@ -57,27 +52,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .regie-table td:first-child{text-align:left;font-weight:600;position:sticky;left:0;background:#fff;z-index:1}
 .regie-table tr:hover td{background:#f8f9ff}
 .regie-table tr:hover td:first-child{background:#f0f2ff}
-
-.regie-cell{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;font-size:.7rem;font-weight:700;cursor:default;transition:.2s;position:relative}
+.regie-cell{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;font-size:.7rem;font-weight:700;cursor:default;transition:.2s}
 .regie-cell.cell-validated{background:#e8f5e9;color:#2e7d32;border:2px solid #a5d6a7;cursor:pointer}
 .regie-cell.cell-validated:hover{background:#c8e6c9;transform:scale(1.1)}
 .regie-cell.cell-has-data{background:#fff8e1;color:#e65100;border:2px solid #ffcc80}
-.regie-cell.cell-has-data:hover{background:#ffecb3;transform:scale(1.1)}
 .regie-cell.cell-empty{background:#f5f5f5;color:#bdbdbd;border:2px solid #e0e0e0}
 .regie-cell.cell-future{background:#f5f5f5;color:#e0e0e0;border:2px dashed #e0e0e0}
-
 .regie-collab{display:flex;align-items:center;gap:10px}
 .regie-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
 .regie-collab-info{display:flex;flex-direction:column}
 .regie-collab-name{font-size:.85rem;font-weight:700}
 .regie-collab-score{font-size:.68rem;color:var(--text-light)}
-
 .team-progress-bar{height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:3px;width:100px}
 .team-progress-fill{height:100%;border-radius:3px;transition:width .3s}
-
 .regie-legend{display:flex;gap:20px;padding:14px 20px;border-top:1px solid var(--border);background:#fafbfc;flex-wrap:wrap}
 .regie-legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--text-light)}
 
+/* MODAL */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;width:95%;max-width:600px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column}
@@ -89,31 +80,26 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;background:#fafafa}
 .btn-cancel{padding:10px 28px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
 .btn-cancel:hover{background:var(--bg)}
-
 .pointage-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:700;background:#e8f5e9;color:#2e7d32;margin-left:8px}
 .pointage-header-info{background:#f3e5f5;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
 .pointage-header-info .ouvres-label{font-size:.88rem;font-weight:600;color:#6a1b9a}
 .pointage-header-info .ouvres-value{font-size:1.6rem;font-weight:800;color:#6a1b9a}
-
 .detail-readonly-section{margin-bottom:16px}
 .detail-readonly-title{font-size:.82rem;font-weight:700;color:#6a1b9a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
 .detail-readonly-table{width:100%;border-collapse:collapse}
 .detail-readonly-table th{text-align:left;padding:8px 12px;background:#f3e5f5;font-size:.72rem;font-weight:600;color:#6a1b9a;border-bottom:1px solid #ce93d8}
 .detail-readonly-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:.85rem}
 .detail-readonly-table tr:last-child td{border-bottom:none}
-
 .toast{position:fixed;bottom:24px;right:24px;background:#1b5e20;color:#fff;padding:12px 20px;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:2000;display:flex;align-items:center;gap:8px;transform:translateY(100px);opacity:0;transition:all .4s ease}
 .toast.show{transform:translateY(0);opacity:1}
 
-/* ===== FACTURATION ===== */
+/* FACT / TEMPS PASSÉS COMMUN */
 .fact-header-bar{background:var(--card-bg);border-radius:0 var(--radius) 0 0;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:24px;border:1px solid var(--border);border-top:none;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .fact-header-bar h2{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
-
 .fact-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
 .fact-stat-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);text-align:center}
 .fact-stat-card .tv{font-size:1.8rem;font-weight:800;margin-bottom:2px}
 .fact-stat-card .tl{font-size:.72rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-
 .fact-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
 .fact-card h3{padding:16px 20px;margin:0;font-size:.92rem;font-weight:700;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;gap:8px}
 .fact-scroll{overflow-x:auto}
@@ -124,74 +110,71 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .fact-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
 .fact-table tr:hover td{background:#f8f9ff}
 .fact-table tr:hover td:first-child{background:#f0f2ff}
-
 .fact-section-row td{background:#e3f2fd!important;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);border-bottom:2px solid #90caf9}
 .fact-section-row.section-travaux td{background:#fff3e0!important;color:#e65100;border-bottom-color:#ffcc80}
 .fact-section-row.section-special td{background:#f3e5f5!important;color:#6a1b9a;border-bottom-color:#ce93d8}
-
 .fact-affaire-row td:first-child{font-weight:700;padding-left:20px}
 .fact-affaire-row.is-travaux td:first-child{cursor:pointer;user-select:none}
 .fact-affaire-row.is-travaux td:first-child:hover{color:var(--accent)}
-
 .fact-subdetail-row td{background:#fef9f0!important;font-size:.78rem;color:var(--text-light)}
 .fact-subdetail-row td:first-child{padding-left:44px!important;font-weight:500;font-style:italic}
 .fact-subdetail-row:hover td{background:#fff8e1!important}
 .fact-subdetail-row.hidden{display:none}
-
 .fact-total-row td{background:#e8eaf6!important;font-weight:800;border-top:2px solid var(--accent);font-size:.85rem}
 .fact-subtotal-row td{background:#f5f5f5!important;font-weight:700;border-top:1px solid var(--border);font-size:.8rem}
-
 .chevron{display:inline-block;transition:transform .2s;margin-right:6px;font-size:.7rem}
 .chevron.open{transform:rotate(90deg)}
-
 .fact-val{font-weight:600;font-variant-numeric:tabular-nums}
 .fact-val.has-value{color:var(--text)}
 .fact-val.zero{color:#e0e0e0}
 .fact-val.total{color:var(--accent);font-weight:800}
-
 .fact-filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .fact-filter-btn{padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:#fff;color:var(--text-light);font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s}
 .fact-filter-btn:hover{background:#e8eaf6;color:var(--text)}
 .fact-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-
 .btn-export{padding:8px 18px;border:none;border-radius:8px;background:var(--success);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-export:hover{background:#1b8a3a}
-
 .fact-collab-filter{display:flex;align-items:center;gap:8px}
 .fact-collab-filter label{font-size:.78rem;font-weight:600;color:var(--text-light);white-space:nowrap}
 .fact-collab-select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:600;background:#fff;color:var(--text);cursor:pointer;min-width:180px;outline:none;transition:.2s}
 .fact-collab-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.1)}
 
-/* Colonnes synthèse (Prévu, Plan charge, Réalisé) */
+/* Colonnes synthèse */
 .col-synth{min-width:80px}
 .th-prevu{background:#e8eaf6!important;color:var(--accent)!important;border-left:2px solid #90caf9}
 .th-plancharge{background:#e3f2fd!important;color:#1565c0!important}
 .th-realise{background:#e8f5e9!important;color:#2e7d32!important;border-right:2px solid #a5d6a7}
-
 .td-prevu{border-left:2px solid #e8eaf6!important;background:#fafafe!important}
 .td-plancharge{background:#f5faff!important}
 .td-realise{border-right:2px solid #e8f5e9!important;background:#f5faf5!important}
-
 .fact-table tr:hover .td-prevu{background:#f0f0ff!important}
 .fact-table tr:hover .td-plancharge{background:#eef5ff!important}
 .fact-table tr:hover .td-realise{background:#eef8ee!important}
-
-.prevu-input{width:58px;text-align:center;font-weight:700;font-size:.82rem;border:1.5px solid #c5cae9;border-radius:6px;padding:4px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
+.prevu-input{width:70px;text-align:center;font-weight:700;font-size:.82rem;border:1.5px solid #c5cae9;border-radius:6px;padding:4px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
 .prevu-input::-webkit-outer-spin-button,.prevu-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .prevu-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.12)}
 .prevu-input.saved{border-color:var(--success);background:#f0fff0}
-
-/* Badge écart */
 .ecart-badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:.68rem;font-weight:700;margin-left:2px}
 .ecart-ok{background:#e8f5e9;color:#2e7d32}
 .ecart-warn{background:#fff3e0;color:#e65100}
 .ecart-danger{background:#fce4ec;color:#c62828}
+
+/* Taux horaire */
+.taux-bar{background:linear-gradient(135deg,#1b5e20,#388e3c);border-radius:var(--radius);padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.taux-bar label{color:#fff;font-size:.9rem;font-weight:700;white-space:nowrap}
+.taux-input{width:110px;padding:8px 12px;border:2px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:1.1rem;font-weight:800;text-align:center;outline:none;transition:.2s;-moz-appearance:textfield}
+.taux-input::-webkit-outer-spin-button,.taux-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.taux-input:focus{border-color:#fff;background:rgba(255,255,255,.25);box-shadow:0 0 0 3px rgba(255,255,255,.2)}
+.taux-input::placeholder{color:rgba(255,255,255,.5)}
+.taux-hint{color:rgba(255,255,255,.7);font-size:.78rem}
+.taux-saved{color:#a5d6a7;font-size:.78rem;font-weight:600;display:none}
 
 @media(max-width:700px){
   .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
   .regie-legend{justify-content:center}
   .tab-bar{flex-wrap:wrap}
   .fact-controls-row{flex-direction:column!important;align-items:stretch!important}
+  .taux-bar{flex-direction:column;text-align:center}
 }
 </style>
 </head>
@@ -201,10 +184,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div class="spinner"></div>
   <div style="font-size:.9rem;color:var(--text-light)">Chargement...</div>
 </div>
-
 <div class="toast" id="toast"></div>
 
-<!-- MODAL DÉTAIL LECTURE SEULE -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalDetailOverlay">
   <div class="modal">
     <div class="modal-header">
@@ -229,17 +211,17 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <div id="accessDenied" class="access-denied" style="display:none">
   <h2>🔒 Accès restreint</h2>
   <p>Cette page est réservée aux administrateurs et responsables.<br>Contactez votre responsable si vous pensez devoir y avoir accès.</p>
-  <br>
-  <a href="hub.html" style="color:#856404;font-weight:700">← Retour à l'accueil</a>
+  <br><a href="hub.html" style="color:#856404;font-weight:700">← Retour à l'accueil</a>
 </div>
 
 <div id="teamContent" style="display:none">
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('pointages')">📊 Pointages</button>
+    <button class="tab-btn" onclick="switchTab('temps')">⏱️ Temps passés</button>
     <button class="tab-btn" onclick="switchTab('facturation')">💰 Facturation</button>
   </div>
 
-  <!-- ===== ONGLET POINTAGES ===== -->
+  <!-- ONGLET POINTAGES -->
   <div class="tab-content active" id="tab-pointages">
     <div class="team-layout">
       <div class="team-header-bar">
@@ -256,12 +238,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       <div class="team-stats" id="teamStats"></div>
       <div class="regie-card">
         <h3>📊 Vue régie – Statut des pointages par mois</h3>
-        <div class="regie-scroll">
-          <table class="regie-table" id="regieTable"></table>
-        </div>
+        <div class="regie-scroll"><table class="regie-table" id="regieTable"></table></div>
         <div class="regie-legend">
           <div class="regie-legend-item"><div class="regie-cell cell-validated" style="width:18px;height:18px;font-size:.55rem">✓</div> Validé</div>
-          <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données présentes (non validé)</div>
+          <div class="regie-legend-item"><div class="regie-cell cell-has-data" style="width:18px;height:18px;font-size:.55rem">●</div> Données présentes</div>
           <div class="regie-legend-item"><div class="regie-cell cell-empty" style="width:18px;height:18px;font-size:.55rem">—</div> Aucun pointage</div>
           <div class="regie-legend-item"><div class="regie-cell cell-future" style="width:18px;height:18px;font-size:.55rem">·</div> Mois futur</div>
         </div>
@@ -269,41 +249,81 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     </div>
   </div>
 
-  <!-- ===== ONGLET FACTURATION ===== -->
-  <div class="tab-content" id="tab-facturation">
+  <!-- ONGLET TEMPS PASSÉS -->
+  <div class="tab-content" id="tab-temps">
     <div class="team-layout">
       <div class="fact-header-bar">
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <h2>💰 Facturation – Jours validés par affaire</h2>
+          <h2>⏱️ Temps passés – Jours validés par affaire</h2>
           <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" class="fact-controls-row">
           <div class="fact-collab-filter">
-            <label for="factCollabSelect">👤 Collaborateur :</label>
-            <select class="fact-collab-select" id="factCollabSelect" onchange="renderFactView()">
-              <option value="">Tous les collaborateurs</option>
-            </select>
+            <label>👤 Collaborateur :</label>
+            <select class="fact-collab-select" id="tempsCollabSelect" onchange="renderTempsView()"><option value="">Tous</option></select>
           </div>
-          <div class="fact-filter-bar" id="factFilterBar">
-            <button class="fact-filter-btn active" onclick="setFactFilter('all')">Tout</button>
-            <button class="fact-filter-btn" onclick="setFactFilter('etudes')">📐 Études</button>
-            <button class="fact-filter-btn" onclick="setFactFilter('travaux')">🏗️ Travaux</button>
-            <button class="fact-filter-btn" onclick="setFactFilter('special')">📂 Autres</button>
+          <div class="fact-filter-bar">
+            <button class="fact-filter-btn active" data-tab="temps" data-filter="all" onclick="setFilter('temps','all')">Tout</button>
+            <button class="fact-filter-btn" data-tab="temps" data-filter="etudes" onclick="setFilter('temps','etudes')">📐 Études</button>
+            <button class="fact-filter-btn" data-tab="temps" data-filter="travaux" onclick="setFilter('temps','travaux')">🏗️ Travaux</button>
+            <button class="fact-filter-btn" data-tab="temps" data-filter="special" onclick="setFilter('temps','special')">📂 Autres</button>
           </div>
           <div class="team-year-selector">
-            <button onclick="changeFactYear(-1)">◀</button>
-            <span class="year-label" id="factYearLabel"></span>
-            <button onclick="changeFactYear(1)">▶</button>
+            <button onclick="changeTabYear('temps',-1)">◀</button>
+            <span class="year-label" id="tempsYearLabel"></span>
+            <button onclick="changeTabYear('temps',1)">▶</button>
           </div>
-          <button class="btn-export" onclick="exportFactCSV()">📥 Export CSV</button>
+          <button class="btn-export" onclick="exportCSV('temps')">📥 CSV</button>
+        </div>
+      </div>
+      <div class="fact-stats" id="tempsStats"></div>
+      <div class="fact-card">
+        <h3 id="tempsTableTitle">📋 Récapitulatif jours validés par affaire et par mois</h3>
+        <div class="fact-scroll"><table class="fact-table" id="tempsTable"></table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONGLET FACTURATION -->
+  <div class="tab-content" id="tab-facturation">
+    <div class="team-layout">
+      <div class="taux-bar">
+        <label for="tauxInput">💶 Taux journalier :</label>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input type="text" class="taux-input" id="tauxInput" placeholder="500" onchange="onTauxChange(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}" />
+          <span style="color:#fff;font-weight:700;font-size:1.1rem">€/j</span>
+        </div>
+        <span class="taux-hint">Saisissez le prix de vente d'une journée. Tous les montants seront calculés automatiquement.</span>
+        <span class="taux-saved" id="tauxSaved">✓ Sauvegardé</span>
+      </div>
+      <div class="fact-header-bar" style="border-top:1px solid var(--border);border-radius:var(--radius)">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <h2>💰 Facturation – Budget par affaire</h2>
+          <span class="realtime-badge"><span class="realtime-dot"></span>Temps réel</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" class="fact-controls-row">
+          <div class="fact-collab-filter">
+            <label>👤 Collaborateur :</label>
+            <select class="fact-collab-select" id="factCollabSelect" onchange="renderFactView()"><option value="">Tous</option></select>
+          </div>
+          <div class="fact-filter-bar">
+            <button class="fact-filter-btn active" data-tab="fact" data-filter="all" onclick="setFilter('fact','all')">Tout</button>
+            <button class="fact-filter-btn" data-tab="fact" data-filter="etudes" onclick="setFilter('fact','etudes')">📐 Études</button>
+            <button class="fact-filter-btn" data-tab="fact" data-filter="travaux" onclick="setFilter('fact','travaux')">🏗️ Travaux</button>
+            <button class="fact-filter-btn" data-tab="fact" data-filter="special" onclick="setFilter('fact','special')">📂 Autres</button>
+          </div>
+          <div class="team-year-selector">
+            <button onclick="changeTabYear('fact',-1)">◀</button>
+            <span class="year-label" id="factYearLabel"></span>
+            <button onclick="changeTabYear('fact',1)">▶</button>
+          </div>
+          <button class="btn-export" onclick="exportCSV('fact')">📥 CSV</button>
         </div>
       </div>
       <div class="fact-stats" id="factStats"></div>
       <div class="fact-card">
-        <h3 id="factTableTitle">📋 Récapitulatif jours validés par affaire et par mois</h3>
-        <div class="fact-scroll">
-          <table class="fact-table" id="factTable"></table>
-        </div>
+        <h3 id="factTableTitle">📋 Récapitulatif budget par affaire et par mois</h3>
+        <div class="fact-scroll"><table class="fact-table" id="factTable"></table></div>
       </div>
     </div>
   </div>
@@ -312,43 +332,36 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <script>
 const firebaseConfig={apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"};
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth(),db=firebase.database();
 
 let Co=[],Af=[],Dt={},LT=[],LD={};
-let allPointages={};
-let prevusData={}; // {year: {affaireName: value}}
+let allPointages={},prevusData={},tauxData={};
 let teamYear=new Date().getFullYear();
-let factYear=new Date().getFullYear();
-let factFilter='all';
-let isFirstPointageLoad=true;
-let viewReady=false;
-let expandedTravaux=new Set();
+let tabYears={temps:new Date().getFullYear(),fact:new Date().getFullYear()};
+let tabFilters={temps:'all',fact:'all'};
+let isFirstPointageLoad=true,viewReady=false;
+let expandedTravaux={temps:new Set(),fact:new Set()};
 
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MN_S=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 const ROLES_ALLOWED=['admin','responsable','responsable_viewer'];
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
 const TRAVAUX_SUB_CATS=['PIC','Plan de terrassement','Modes constructifs','Planning','Rotation','FDR','BMO','Matériel','Modes opératoires','Autre'];
-const NB_COLS=12+1+3; // 12 mois + Total + 3 synthèse
 
-// ============================================================
-// ONGLETS
-// ============================================================
+// ============ ONGLETS ============
 function switchTab(tab){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   document.querySelector('[onclick="switchTab(\''+tab+'\')"]').classList.add('active');
-  if(tab==='facturation'){populateCollabSelect();renderFactView()}
+  if(tab==='temps'){populateSelect('tempsCollabSelect');renderTempsView()}
+  if(tab==='facturation'){populateSelect('factCollabSelect');renderFactView()}
 }
 
-// ============================================================
-// AUTH + CONTRÔLE D'ACCÈS + LISTENERS
-// ============================================================
+// ============ AUTH ============
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='index.html';return}
   const uid=user.uid;
@@ -360,131 +373,103 @@ auth.onAuthStateChanged(user=>{
     if(data){Co=data.collaborateurs||[];Af=data.affaires||[];Dt=data.donnees||{};LT=data.typesConges||[];LD=data.conges||{}}
     const role=(roleSnap.val()||'viewer').toLowerCase().replace(/\s+/g,'_');
     document.getElementById('loadingOverlay').classList.remove('show');
-    if(!ROLES_ALLOWED.includes(role)){
-      document.getElementById('accessDenied').style.display='block';
-      return;
-    }
+    if(!ROLES_ALLOWED.includes(role)){document.getElementById('accessDenied').style.display='block';return}
     document.getElementById('teamContent').style.display='block';
     viewReady=true;
-
-    // Écouter les prévus
-    db.ref('facturation_prevus').on('value',snap=>{
-      prevusData=snap.val()||{};
-      if(viewReady&&document.getElementById('tab-facturation').classList.contains('active')){
-        renderFactView();
+    db.ref('facturation_prevus').on('value',s=>{prevusData=s.val()||{};refreshActiveTab()});
+    db.ref('facturation_taux').on('value',s=>{
+      tauxData=s.val()||{};
+      const ti=document.getElementById('tauxInput');
+      if(ti&&!ti.matches(':focus')){
+        const v=getTaux();ti.value=v>0?v:'';
       }
+      refreshActiveTab();
     });
-
-    // Écouter les pointages
     db.ref('pointages').on('value',snap=>{
-      const previousPointages=JSON.stringify(allPointages);
+      const prev=JSON.stringify(allPointages);
       allPointages=snap.val()||{};
       if(viewReady){
         renderTeamView();
-        if(document.getElementById('tab-facturation').classList.contains('active')){
-          renderFactView();
-        }
-        if(!isFirstPointageLoad&&JSON.stringify(allPointages)!==previousPointages){
-          showToast('🔄 Données mises à jour en temps réel');
-        }
+        refreshActiveTab();
+        if(!isFirstPointageLoad&&JSON.stringify(allPointages)!==prev) showToast('🔄 Données mises à jour en temps réel');
       }
       isFirstPointageLoad=false;
     });
   });
 });
 
+function refreshActiveTab(){
+  if(document.getElementById('tab-temps').classList.contains('active'))renderTempsView();
+  if(document.getElementById('tab-facturation').classList.contains('active'))renderFactView();
+}
+
 function logout(){
-  db.ref('pointages').off('value');
-  db.ref('facturation_prevus').off('value');
+  db.ref('pointages').off();db.ref('facturation_prevus').off();db.ref('facturation_taux').off();
   auth.signOut().then(()=>{window.location.href='index.html'});
 }
 
-// ============================================================
-// PRÉVUS – SAUVEGARDE FIREBASE
-// ============================================================
+// ============ TAUX ============
+function getTaux(){
+  const y=tabYears.fact;
+  return (tauxData[y])||0;
+}
+function onTauxChange(el){
+  let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,'').trim());
+  if(isNaN(v)||v<0)v=0;
+  el.value=v>0?v:'';
+  const y=tabYears.fact;
+  if(v>0){db.ref('facturation_taux/'+y).set(v)}else{db.ref('facturation_taux/'+y).remove()}
+  const sav=document.getElementById('tauxSaved');
+  sav.style.display='inline';setTimeout(()=>{sav.style.display='none'},2000);
+  renderFactView();
+}
+
+// ============ PREVUS ============
 let prevuSaveTimeout={};
-function savePrevuValue(year,affName,value){
+function savePrevuValue(year,affName,value,tab){
   const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
-  const path='facturation_prevus/'+year+'/'+safeAff;
-  // Debounce 800ms
-  const key=year+'|'+safeAff;
+  const prefix=tab==='fact'?'facturation_prevus_eur':'facturation_prevus';
+  const path=prefix+'/'+year+'/'+safeAff;
+  const key=tab+'|'+year+'|'+safeAff;
   if(prevuSaveTimeout[key])clearTimeout(prevuSaveTimeout[key]);
   prevuSaveTimeout[key]=setTimeout(()=>{
-    if(value===0||value===''||isNaN(value)){
-      db.ref(path).remove();
-    }else{
-      db.ref(path).set(value);
-    }
-    // Visual feedback
-    const input=document.getElementById('prevu_'+safeAff);
-    if(input){
-      input.classList.add('saved');
-      setTimeout(()=>{if(input)input.classList.remove('saved')},1200);
-    }
+    if(value===0||value===''||isNaN(value)){db.ref(path).remove()}else{db.ref(path).set(value)}
     showToast('💾 Prévision sauvegardée');
   },800);
 }
-
 function getPrevuValue(year,affName){
   const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
   const yData=prevusData[year];
-  if(!yData)return 0;
-  return yData[safeAff]||0;
+  return yData?yData[safeAff]||0:0;
 }
-
-function onPrevuInput(affName,el){
-  let v=parseFloat(el.value.replace(',','.').trim());
+function getPrevuEurValue(year,affName){
+  const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
+  const yData=(prevusData.__eur||{})[year];
+  return yData?yData[safeAff]||0:0;
+}
+function onPrevuInput(affName,el,tab){
+  let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,'').trim());
   if(isNaN(v)||v<0)v=0;
-  savePrevuValue(factYear,affName,v);
-}
-
-// ============================================================
-// PLAN DE CHARGE – CALCUL PRÉVISION PLANNING
-// ============================================================
-function computePlanChargeYear(year,affName,filterCollabSafeKey){
-  /*
-    Calcule le total de jours planifiés pour une affaire sur toute l'année
-    en additionnant les slots de chaque collaborateur dans le planning.
-    Si filterCollabSafeKey est défini, ne compter que ce collaborateur.
-  */
-  let totalSlots=0;
-  const collabsToCheck=filterCollabSafeKey
-    ? Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===filterCollabSafeKey)
-    : Co;
-
-  for(let m=0;m<12;m++){
-    const ouvres=getOuvres(year,m);
-    ouvres.forEach(dkey=>{
-      const k=affName+'|'+dkey;
-      const sl=Dt[k];
-      if(sl&&Array.isArray(sl)){
-        for(let i=0;i<5;i++){
-          if(sl[i]){
-            const match=collabsToCheck.some(c=>c.name===sl[i]);
-            if(match)totalSlots++;
-          }
-        }
-      }
-    });
+  const year=tabYears[tab==='fact'?'fact':'temps'];
+  if(tab==='fact'){
+    const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
+    const path='facturation_prevus/__eur/'+year+'/'+safeAff;
+    const key='eur|'+year+'|'+safeAff;
+    if(prevuSaveTimeout[key])clearTimeout(prevuSaveTimeout[key]);
+    prevuSaveTimeout[key]=setTimeout(()=>{
+      if(v===0){db.ref(path).remove()}else{db.ref(path).set(v)}
+      showToast('💾 Prévision € sauvegardée');
+    },800);
+  }else{
+    savePrevuValue(year,affName,v,tab);
   }
-  return Math.round((totalSlots/5)*100)/100;
 }
 
-// ============================================================
-// TOAST
-// ============================================================
+// ============ TOAST ============
 let toastTimeout=null;
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  if(toastTimeout)clearTimeout(toastTimeout);
-  toastTimeout=setTimeout(()=>{t.classList.remove('show')},3000);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastTimeout)clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>{t.classList.remove('show')},3000)}
 
-// ============================================================
-// JOURS FÉRIÉS
-// ============================================================
+// ============ JOURS FÉRIÉS ============
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
 function getFeries(y){const s=new Set(),f=d=>dk(d),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};s.add(f(new Date(y,0,1)));s.add(f(new Date(y,4,1)));s.add(f(new Date(y,4,8)));s.add(f(new Date(y,6,14)));s.add(f(new Date(y,7,15)));s.add(f(new Date(y,10,1)));s.add(f(new Date(y,10,11)));s.add(f(new Date(y,11,25)));const e=getEaster(y);s.add(f(ad(e,1)));s.add(f(ad(e,39)));s.add(f(ad(e,50)));return s}
 let _fc={};
@@ -494,500 +479,332 @@ function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')
 function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let d=1;d<=dim;d++){const dt=new Date(y,m,d);if(!isWE(dt)&&!isF(dt))o.push(dk(dt))}return o}
 function getMonthKey(y,m){return y+'-'+String(m+1).padStart(2,'0')}
 
-// ============================================================
-// CALCULS PLANNING (pour onglet Pointages)
-// ============================================================
+// ============ PLANNING ============
 function computePlanningData(y,m,cName){
-  const ouvres=getOuvres(y,m),nbOuvres=ouvres.length;
-  const affCharge={};let totalSlots=0;
+  const ouvres=getOuvres(y,m),nbOuvres=ouvres.length;const affCharge={};let totalSlots=0;
   Af.forEach(aff=>{let slots=0;ouvres.forEach(dkey=>{const k=aff.name+'|'+dkey,sl=Dt[k];if(sl&&Array.isArray(sl)){for(let i=0;i<5;i++){if(sl[i]===cName)slots++}}});if(slots>0){affCharge[aff.name]={slots,jours:slots/5,type:aff.type};totalSlots+=slots}});
-  const totalJoursPlanif=totalSlots/5;
-  const congeCount={};let totalConges=0;
+  const totalJoursPlanif=totalSlots/5;const congeCount={};let totalConges=0;
   ouvres.forEach(dkey=>{const lv=LD[cName+'|'+dkey];if(lv){congeCount[lv]=(congeCount[lv]||0)+1;totalConges++}});
   return{ouvres,nbOuvres,affCharge,totalJoursPlanif,congeCount,totalConges};
 }
+function computePlanChargeYear(year,affName,filterSk){
+  let totalSlots=0;
+  const collabs=filterSk?Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===filterSk):Co;
+  for(let m=0;m<12;m++){const ouvres=getOuvres(year,m);ouvres.forEach(dkey=>{const k=affName+'|'+dkey,sl=Dt[k];if(sl&&Array.isArray(sl)){for(let i=0;i<5;i++){if(sl[i]&&collabs.some(c=>c.name===sl[i]))totalSlots++}}})}
+  return Math.round((totalSlots/5)*100)/100;
+}
 
-// ============================================================
-// NAVIGATION ANNÉE
-// ============================================================
+// ============ NAVIGATION ============
 function changeTeamYear(o){teamYear+=o;renderTeamView()}
-function changeFactYear(o){factYear+=o;renderFactView()}
-
-// ============================================================
-// RENDU ONGLET POINTAGES
-// ============================================================
-function renderTeamView(){
-  document.getElementById('teamYearLabel').textContent=teamYear;
-  const now=new Date(),curM=now.getMonth(),curY=now.getFullYear();
-  const teamData=[];
-  Co.forEach(c=>{
-    const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
-    const cPtg=allPointages[sk]||{};
-    const months=[];
-    let validated=0,hasData=0,empty=0,future=0;
-    for(let m=0;m<12;m++){
-      const mk=getMonthKey(teamYear,m);
-      const ptg=cPtg[mk];
-      const isFuture=(teamYear>curY||(teamYear===curY&&m>curM));
-      const planning=computePlanningData(teamYear,m,c.name);
-      const hasPlanData=(planning.totalJoursPlanif>0||planning.totalConges>0);
-      const isValidated=ptg&&ptg.lines&&ptg.validatedAt;
-      let status='empty';
-      if(isFuture)status='future';
-      else if(isValidated)status='validated';
-      else if(hasPlanData)status='has-data';
-      if(status==='validated')validated++;
-      else if(status==='has-data')hasData++;
-      else if(status==='future')future++;
-      else empty++;
-      months.push({month:m,status,ptg:ptg||null,hasPlanData,isFuture,nbOuvres:getOuvres(teamYear,m).length});
-    }
-    let echus=0;
-    for(let m=0;m<12;m++){if(!(teamYear>curY||(teamYear===curY&&m>curM)))echus++}
-    teamData.push({name:c.name,color:c.color,safeKey:sk,months,validated,hasData,empty,future,echus});
-  });
-
-  const totalCollabs=teamData.length;
-  const totalEchus=teamData.reduce((s,c)=>s+c.echus,0);
-  const totalValidated=teamData.reduce((s,c)=>s+c.validated,0);
-  const totalHasData=teamData.reduce((s,c)=>s+c.hasData,0);
-  const totalEmpty=teamData.reduce((s,c)=>s+c.empty,0);
-  const pctValidated=totalEchus>0?Math.round((totalValidated/totalEchus)*100):0;
-  const collabsAJour=teamData.filter(c=>c.validated===c.echus&&c.echus>0).length;
-
-  document.getElementById('teamStats').innerHTML=
-    '<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+totalCollabs+'</div><div class="tl">Collaborateurs</div></div>'+
-    '<div class="team-stat-card"><div class="tv" style="color:var(--success)">'+totalValidated+'</div><div class="tl">Mois validés</div></div>'+
-    '<div class="team-stat-card"><div class="tv" style="color:#ff9800">'+totalHasData+'</div><div class="tl">En attente</div></div>'+
-    '<div class="team-stat-card"><div class="tv" style="color:var(--highlight)">'+totalEmpty+'</div><div class="tl">Non pointés</div></div>'+
-    '<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+pctValidated+'%</div><div class="tl">Taux validation</div></div>'+
-    '<div class="team-stat-card"><div class="tv" style="color:var(--success)">'+collabsAJour+'/'+totalCollabs+'</div><div class="tl">100% à jour</div></div>';
-
-  let th='<thead><tr><th>Collaborateur</th>';
-  for(let m=0;m<12;m++)th+='<th>'+MN_S[m]+'</th>';
-  th+='<th>Progression</th></tr></thead>';
-
-  let tb='<tbody>';
-  teamData.sort((a,b)=>a.validated-b.validated);
-  teamData.forEach(c=>{
-    tb+='<tr>';
-    const pct=c.echus>0?Math.round((c.validated/c.echus)*100):0;
-    const pctColor=pct===100?'var(--success)':pct>=50?'#ff9800':'var(--highlight)';
-    tb+='<td><div class="regie-collab"><div class="regie-avatar" style="background:'+c.color+'">'+getIni(c.name)+'</div><div class="regie-collab-info"><span class="regie-collab-name">'+escH(formatName(c.name))+'</span><span class="regie-collab-score">'+c.validated+'/'+c.echus+' validés</span></div></div></td>';
-    c.months.forEach(md=>{
-      let cellCls='cell-empty',icon='—',tooltip='Aucun pointage';
-      if(md.status==='validated'){cellCls='cell-validated';icon='✓';tooltip='Validé – cliquer pour voir le détail'}
-      else if(md.status==='has-data'){cellCls='cell-has-data';icon='●';tooltip='Données présentes – non validé'}
-      else if(md.status==='future'){cellCls='cell-future';icon='·';tooltip='Mois futur'}
-      const clickable=md.status==='validated';
-      const onclick=clickable?'onclick="showTeamDetail(\''+c.safeKey+'\','+md.month+','+teamYear+')"':'';
-      tb+='<td><div class="regie-cell '+cellCls+'" title="'+tooltip+'" '+onclick+'>'+icon+'</div></td>';
-    });
-    tb+='<td><div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:.82rem;color:'+pctColor+'">'+pct+'%</span><div class="team-progress-bar"><div class="team-progress-fill" style="width:'+pct+'%;background:'+pctColor+'"></div></div></div></td>';
-    tb+='</tr>';
-  });
-  tb+='</tbody>';
-  document.getElementById('regieTable').innerHTML=th+tb;
+function changeTabYear(tab,o){
+  const k=tab==='fact'?'fact':'temps';
+  tabYears[k]+=o;
+  if(k==='temps')renderTempsView();else{
+    const ti=document.getElementById('tauxInput');
+    const v=getTaux();ti.value=v>0?v:'';
+    renderFactView();
+  }
 }
-
-// ============================================================
-// MODAL DÉTAIL LECTURE SEULE
-// ============================================================
-function showTeamDetail(safeKey,month,year){
-  const cPtg=allPointages[safeKey]||{};
-  const mk=getMonthKey(year,month);
-  const ptg=cPtg[mk];
-  if(!ptg||!ptg.lines)return;
-  let cName='';
-  Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===safeKey)cName=c.name});
-  document.getElementById('modalDetailTitle').textContent='📋 Pointage – '+escH(formatName(cName))+' – '+MN[month]+' '+year;
-  const vd=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
-  const nbO=ptg.nbOuvres||getOuvres(year,month).length;
-  const totalPte=ptg.lines.reduce((s,l)=>s+l.jours,0);
-  let h='<div style="margin-bottom:16px"><span class="pointage-badge" style="font-size:.78rem">✓ Validé le '+escH(vd)+'</span></div>';
-  h+='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés</div><div class="ouvres-value">'+nbO+'</div></div><div style="text-align:right"><div class="ouvres-label">Total pointé</div><div class="ouvres-value">'+fmtNum(totalPte)+'</div></div></div>';
-  [{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}].forEach(g=>{
-    const lines=ptg.lines.filter(l=>l.category===g.cat);
-    if(!lines.length)return;
-    h+='<div class="detail-readonly-section"><div class="detail-readonly-title">'+g.icon+' '+g.title+'</div>';
-    h+='<table class="detail-readonly-table"><thead><tr><th>Ligne</th><th style="text-align:right">Jours</th></tr></thead><tbody>';
-    let sub=0;
-    lines.forEach(l=>{
-      sub+=l.jours;
-      let ti='';if(l.type)ti=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';
-      h+='<tr><td>'+escH(l.label)+ti+'</td><td style="text-align:right;font-weight:700">'+fmtNum(l.jours)+'j</td></tr>';
-      if(l.type==='travaux'&&l.subDetail){
-        Object.keys(l.subDetail).forEach(cat=>{
-          const v=l.subDetail[cat];
-          if(v>0){
-            h+='<tr><td style="padding-left:30px;font-style:italic;color:var(--text-light);font-size:.82rem">↳ '+escH(cat)+'</td><td style="text-align:right;color:var(--text-light);font-size:.82rem">'+fmtNum(v)+'j</td></tr>';
-          }
-        });
-      }
-    });
-    h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fmtNum(sub)+'j</td></tr>';
-    h+='</tbody></table></div>';
-  });
-  document.getElementById('modalDetailBody').innerHTML=h;
-  document.getElementById('modalDetailOverlay').classList.add('show');
+function setFilter(tab,f){
+  const k=tab==='fact'?'fact':'temps';
+  tabFilters[k]=f;
+  document.querySelectorAll('.fact-filter-btn[data-tab="'+tab+'"]').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));
+  if(k==='temps')renderTempsView();else renderFactView();
 }
-function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
-
-// ============================================================
-// FACTURATION – POPULATE COLLAB SELECT
-// ============================================================
-function populateCollabSelect(){
-  const sel=document.getElementById('factCollabSelect');
-  const currentVal=sel.value;
+function populateSelect(id){
+  const sel=document.getElementById(id);const cv=sel.value;
   let h='<option value="">Tous les collaborateurs</option>';
   Co.slice().sort((a,b)=>formatName(a.name).localeCompare(formatName(b.name))).forEach(c=>{
     const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
     h+='<option value="'+sk+'">'+escH(formatName(c.name))+'</option>';
   });
-  sel.innerHTML=h;
-  if(currentVal)sel.value=currentVal;
+  sel.innerHTML=h;if(cv)sel.value=cv;
 }
 
-// ============================================================
-// FACTURATION – AGRÉGATION
-// ============================================================
-function buildFactData(year){
-  const affaires={};
-  const specials={};
-  const selectedCollab=document.getElementById('factCollabSelect').value;
+// ============ POINTAGES (onglet 1) ============
+function renderTeamView(){
+  document.getElementById('teamYearLabel').textContent=teamYear;
+  const now=new Date(),curM=now.getMonth(),curY=now.getFullYear();const teamData=[];
+  Co.forEach(c=>{
+    const sk=c.name.replace(/[.#$\[\]\/]/g,'_'),cPtg=allPointages[sk]||{};const months=[];
+    let validated=0,hasData=0,empty=0,future=0;
+    for(let m=0;m<12;m++){const mk=getMonthKey(teamYear,m),ptg=cPtg[mk];const isFuture=(teamYear>curY||(teamYear===curY&&m>curM));const p=computePlanningData(teamYear,m,c.name);const hasPD=(p.totalJoursPlanif>0||p.totalConges>0);const isV=ptg&&ptg.lines&&ptg.validatedAt;let s='empty';if(isFuture)s='future';else if(isV)s='validated';else if(hasPD)s='has-data';if(s==='validated')validated++;else if(s==='has-data')hasData++;else if(s==='future')future++;else empty++;months.push({month:m,status:s})}
+    let echus=0;for(let m=0;m<12;m++){if(!(teamYear>curY||(teamYear===curY&&m>curM)))echus++}
+    teamData.push({name:c.name,color:c.color,safeKey:sk,months,validated,hasData,empty,future,echus});
+  });
+  const tC=teamData.length,tE=teamData.reduce((s,c)=>s+c.echus,0),tV=teamData.reduce((s,c)=>s+c.validated,0),tH=teamData.reduce((s,c)=>s+c.hasData,0),tEm=teamData.reduce((s,c)=>s+c.empty,0),pV=tE>0?Math.round((tV/tE)*100):0,cAJ=teamData.filter(c=>c.validated===c.echus&&c.echus>0).length;
+  document.getElementById('teamStats').innerHTML='<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+tC+'</div><div class="tl">Collaborateurs</div></div><div class="team-stat-card"><div class="tv" style="color:var(--success)">'+tV+'</div><div class="tl">Mois validés</div></div><div class="team-stat-card"><div class="tv" style="color:#ff9800">'+tH+'</div><div class="tl">En attente</div></div><div class="team-stat-card"><div class="tv" style="color:var(--highlight)">'+tEm+'</div><div class="tl">Non pointés</div></div><div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+pV+'%</div><div class="tl">Taux validation</div></div><div class="team-stat-card"><div class="tv" style="color:var(--success)">'+cAJ+'/'+tC+'</div><div class="tl">100% à jour</div></div>';
+  let th='<thead><tr><th>Collaborateur</th>';for(let m=0;m<12;m++)th+='<th>'+MN_S[m]+'</th>';th+='<th>Progression</th></tr></thead>';
+  let tb='<tbody>';teamData.sort((a,b)=>a.validated-b.validated);
+  teamData.forEach(c=>{tb+='<tr>';const pct=c.echus>0?Math.round((c.validated/c.echus)*100):0;const pc=pct===100?'var(--success)':pct>=50?'#ff9800':'var(--highlight)';tb+='<td><div class="regie-collab"><div class="regie-avatar" style="background:'+c.color+'">'+getIni(c.name)+'</div><div class="regie-collab-info"><span class="regie-collab-name">'+escH(formatName(c.name))+'</span><span class="regie-collab-score">'+c.validated+'/'+c.echus+' validés</span></div></div></td>';c.months.forEach(md=>{let cl='cell-empty',ic='—',tt='Aucun pointage';if(md.status==='validated'){cl='cell-validated';ic='✓';tt='Validé'}else if(md.status==='has-data'){cl='cell-has-data';ic='●';tt='Données présentes'}else if(md.status==='future'){cl='cell-future';ic='·';tt='Mois futur'}const oc=md.status==='validated'?'onclick="showTeamDetail(\''+c.safeKey+'\','+md.month+','+teamYear+')"':'';tb+='<td><div class="regie-cell '+cl+'" title="'+tt+'" '+oc+'>'+ic+'</div></td>'});tb+='<td><div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700;font-size:.82rem;color:'+pc+'">'+pct+'%</span><div class="team-progress-bar"><div class="team-progress-fill" style="width:'+pct+'%;background:'+pc+'"></div></div></div></td></tr>'});
+  tb+='</tbody>';document.getElementById('regieTable').innerHTML=th+tb;
+}
 
+// ============ MODAL DÉTAIL ============
+function showTeamDetail(sk,month,year){
+  const cPtg=allPointages[sk]||{},mk=getMonthKey(year,month),ptg=cPtg[mk];if(!ptg||!ptg.lines)return;
+  let cN='';Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===sk)cN=c.name});
+  document.getElementById('modalDetailTitle').textContent='📋 '+escH(formatName(cN))+' – '+MN[month]+' '+year;
+  const vd=ptg.validatedAt?new Date(ptg.validatedAt).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+  const nbO=ptg.nbOuvres||getOuvres(year,month).length,totalP=ptg.lines.reduce((s,l)=>s+l.jours,0);
+  let h='<div style="margin-bottom:16px"><span class="pointage-badge">✓ Validé le '+escH(vd)+'</span></div>';
+  h+='<div class="pointage-header-info"><div><div class="ouvres-label">Jours ouvrés</div><div class="ouvres-value">'+nbO+'</div></div><div style="text-align:right"><div class="ouvres-label">Total pointé</div><div class="ouvres-value">'+fmtNum(totalP)+'</div></div></div>';
+  [{cat:'conge',icon:'🏖️',title:'Congés & Absences'},{cat:'affaire',icon:'📋',title:'Affaires'},{cat:'special',icon:'📂',title:'Autres activités'}].forEach(g=>{
+    const lines=ptg.lines.filter(l=>l.category===g.cat);if(!lines.length)return;
+    h+='<div class="detail-readonly-section"><div class="detail-readonly-title">'+g.icon+' '+g.title+'</div><table class="detail-readonly-table"><thead><tr><th>Ligne</th><th style="text-align:right">Jours</th></tr></thead><tbody>';
+    let sub=0;lines.forEach(l=>{sub+=l.jours;let ti='';if(l.type)ti=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';h+='<tr><td>'+escH(l.label)+ti+'</td><td style="text-align:right;font-weight:700">'+fmtNum(l.jours)+'j</td></tr>';if(l.type==='travaux'&&l.subDetail){Object.keys(l.subDetail).forEach(cat=>{const v=l.subDetail[cat];if(v>0)h+='<tr><td style="padding-left:30px;font-style:italic;color:var(--text-light);font-size:.82rem">↳ '+escH(cat)+'</td><td style="text-align:right;color:var(--text-light);font-size:.82rem">'+fmtNum(v)+'j</td></tr>'})}});
+    h+='<tr style="border-top:2px solid #ce93d8;background:#f3e5f5"><td style="font-weight:700">Sous-total</td><td style="text-align:right;font-weight:700">'+fmtNum(sub)+'j</td></tr></tbody></table></div>';
+  });
+  document.getElementById('modalDetailBody').innerHTML=h;document.getElementById('modalDetailOverlay').classList.add('show');
+}
+function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
+
+// ============ AGRÉGATION DONNÉES ============
+function buildData(year,collabSelectId){
+  const affaires={},specials={};
+  const sel=document.getElementById(collabSelectId);
+  const selCollab=sel?sel.value:'';
   Co.forEach(c=>{
     const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
-    if(selectedCollab&&sk!==selectedCollab) return;
+    if(selCollab&&sk!==selCollab)return;
     const cPtg=allPointages[sk]||{};
-
     for(let m=0;m<12;m++){
-      const mk=getMonthKey(year,m);
-      const ptg=cPtg[mk];
-      if(!ptg||!ptg.lines||!ptg.validatedAt) continue;
-
+      const mk=getMonthKey(year,m),ptg=cPtg[mk];
+      if(!ptg||!ptg.lines||!ptg.validatedAt)continue;
       ptg.lines.forEach(line=>{
-        if(line.category==='conge') return;
-
-        if(line.category==='special'){
-          if(!specials[line.label]) specials[line.label]={months:new Array(12).fill(0)};
-          specials[line.label].months[m]+=line.jours||0;
-          return;
-        }
-
+        if(line.category==='conge')return;
+        if(line.category==='special'){if(!specials[line.label])specials[line.label]={months:new Array(12).fill(0)};specials[line.label].months[m]+=line.jours||0;return}
         if(line.category==='affaire'){
-          const affName=line.label;
-          const affType=line.type||'etudes';
-          if(!affaires[affName]) affaires[affName]={type:affType,months:new Array(12).fill(0),subdetails:{}};
-          affaires[affName].months[m]+=line.jours||0;
-
-          if(affType==='travaux'){
-            if(line.subDetail&&typeof line.subDetail==='object'){
-              Object.keys(line.subDetail).forEach(cat=>{
-                const v=line.subDetail[cat]||0;
-                if(v>0){
-                  if(!affaires[affName].subdetails[cat]) affaires[affName].subdetails[cat]=new Array(12).fill(0);
-                  affaires[affName].subdetails[cat][m]+=v;
-                }
-              });
-            } else {
-              const jours=line.jours||0;
-              if(jours>0){
-                if(!affaires[affName].subdetails['Autre']) affaires[affName].subdetails['Autre']=new Array(12).fill(0);
-                affaires[affName].subdetails['Autre'][m]+=jours;
-              }
-            }
+          const n=line.label,t=line.type||'etudes';
+          if(!affaires[n])affaires[n]={type:t,months:new Array(12).fill(0),subdetails:{}};
+          affaires[n].months[m]+=line.jours||0;
+          if(t==='travaux'){
+            if(line.subDetail&&typeof line.subDetail==='object'){Object.keys(line.subDetail).forEach(cat=>{const v=line.subDetail[cat]||0;if(v>0){if(!affaires[n].subdetails[cat])affaires[n].subdetails[cat]=new Array(12).fill(0);affaires[n].subdetails[cat][m]+=v}})}
+            else{const j=line.jours||0;if(j>0){if(!affaires[n].subdetails['Autre'])affaires[n].subdetails['Autre']=new Array(12).fill(0);affaires[n].subdetails['Autre'][m]+=j}}
           }
         }
       });
     }
   });
-
-  return {affaires,specials};
+  return{affaires,specials};
 }
 
-// ============================================================
-// FACTURATION – FILTRE TYPE
-// ============================================================
-function setFactFilter(f){
-  factFilter=f;
-  document.querySelectorAll('.fact-filter-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelector('[onclick="setFactFilter(\''+f+'\')"]').classList.add('active');
-  renderFactView();
-}
+// ============ RENDU GÉNÉRIQUE (jours ou €) ============
+function renderGenericView(cfg){
+  const year=tabYears[cfg.key];
+  const filter=tabFilters[cfg.key];
+  const rate=cfg.isEuro?getTaux():0;
+  const unit=cfg.isEuro?'€':'j';
+  const convert=v=>cfg.isEuro?Math.round(v*rate*100)/100:v;
+  const fmtV=v=>{if(cfg.isEuro){const x=Math.round(v);return x.toLocaleString('fr-FR')+'€'}return fmtNum(v)+'j'};
+  const fmtVShort=v=>{if(cfg.isEuro){const x=Math.round(v);if(x>=1000000)return(x/1000000).toFixed(1)+'M€';if(x>=1000)return Math.round(x/1000)+'k€';return x+'€'}return fmtNum(v)+'j'};
 
-// ============================================================
-// FACTURATION – TOGGLE SOUS-DÉTAIL
-// ============================================================
-function toggleTravaux(affKey){
-  if(expandedTravaux.has(affKey)) expandedTravaux.delete(affKey);
-  else expandedTravaux.add(affKey);
-  document.querySelectorAll('.fact-sd-'+affKey).forEach(r=>{
-    r.classList.toggle('hidden',!expandedTravaux.has(affKey));
-  });
-  const chev=document.getElementById('chev-'+affKey);
-  if(chev) chev.classList.toggle('open',expandedTravaux.has(affKey));
-}
-
-// ============================================================
-// FACTURATION – RENDU
-// ============================================================
-function renderFactView(){
-  document.getElementById('factYearLabel').textContent=factYear;
-  const {affaires,specials}=buildFactData(factYear);
-  const selectedCollab=document.getElementById('factCollabSelect').value;
+  document.getElementById(cfg.yearLabelId).textContent=year;
+  const {affaires,specials}=buildData(year,cfg.collabSelectId);
+  const selCollab=document.getElementById(cfg.collabSelectId).value;
 
   const etudes=[],travaux=[];
-  Object.keys(affaires).sort().forEach(name=>{
-    const a=affaires[name];
-    if(a.type==='etudes') etudes.push({name,...a});
-    else travaux.push({name,...a});
-  });
-  const specialList=Object.keys(specials).sort().map(name=>({name,...specials[name]}));
+  Object.keys(affaires).sort().forEach(n=>{const a=affaires[n];if(a.type==='etudes')etudes.push({name:n,...a});else travaux.push({name:n,...a})});
+  const specialList=Object.keys(specials).sort().map(n=>({name:n,...specials[n]}));
 
-  // KPIs
-  let totalEtudes=0,totalTravaux=0,totalSpecial=0;
-  etudes.forEach(a=>{totalEtudes+=a.months.reduce((s,v)=>s+v,0)});
-  travaux.forEach(a=>{totalTravaux+=a.months.reduce((s,v)=>s+v,0)});
-  specialList.forEach(a=>{totalSpecial+=a.months.reduce((s,v)=>s+v,0)});
-  const totalGlobal=totalEtudes+totalTravaux+totalSpecial;
-  const nbAffaires=etudes.length+travaux.length;
+  let tE=0,tT=0,tS=0;
+  etudes.forEach(a=>{tE+=a.months.reduce((s,v)=>s+v,0)});
+  travaux.forEach(a=>{tT+=a.months.reduce((s,v)=>s+v,0)});
+  specialList.forEach(a=>{tS+=a.months.reduce((s,v)=>s+v,0)});
+  const tG=tE+tT+tS,nAff=etudes.length+travaux.length;
 
-  let collabLabel='';
-  if(selectedCollab) Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
-  document.getElementById('factTableTitle').textContent=collabLabel
-    ?'📋 Jours validés – '+collabLabel+' – '+factYear
-    :'📋 Récapitulatif jours validés par affaire et par mois';
+  let collabLabel='';if(selCollab)Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selCollab)collabLabel=formatName(c.name)});
+  document.getElementById(cfg.tableTitleId).textContent=collabLabel?(cfg.isEuro?'📋 Budget – ':'📋 Jours – ')+collabLabel+' – '+year:(cfg.isEuro?'📋 Récapitulatif budget par affaire et par mois':'📋 Récapitulatif jours validés par affaire et par mois');
 
-  document.getElementById('factStats').innerHTML=
-    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fmtNum(totalGlobal)+'j</div><div class="tl">Total jours validés</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fmtNum(totalEtudes)+'j</div><div class="tl">Études</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fmtNum(totalTravaux)+'j</div><div class="tl">Travaux</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fmtNum(totalSpecial)+'j</div><div class="tl">Autres activités</div></div>'+
-    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nbAffaires+'</div><div class="tl">Affaires actives</div></div>';
+  if(cfg.isEuro&&rate<=0){
+    document.getElementById(cfg.statsId).innerHTML='<div class="fact-stat-card" style="grid-column:1/-1;border-color:#ff9800"><div class="tv" style="color:#ff9800">⚠️</div><div class="tl">Veuillez saisir un taux journalier ci-dessus pour voir les montants</div></div>';
+    document.getElementById(cfg.tableId).innerHTML='';
+    return;
+  }
 
-  // === TABLE ===
-  const colSpanAll=12+1+3+1; // mois + total + 3 synth + affaire col
+  document.getElementById(cfg.statsId).innerHTML=
+    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fmtVShort(convert(tG))+'</div><div class="tl">Total validé</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fmtVShort(convert(tE))+'</div><div class="tl">Études</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fmtVShort(convert(tT))+'</div><div class="tl">Travaux</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fmtVShort(convert(tS))+'</div><div class="tl">Autres</div></div>'+
+    '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nAff+'</div><div class="tl">Affaires actives</div></div>';
+
+  const csAll=12+1+3+1;
   let th='<thead><tr><th>Affaire / Prestation</th>';
-  th+='<th class="col-synth th-prevu" title="Jours prévus (saisie manuelle)">🎯 Prévu</th>';
-  th+='<th class="col-synth th-plancharge" title="Prévision plan de charge (auto)">📊 Plan charge</th>';
-  th+='<th class="col-synth th-realise" title="Total jours validés (pointages)">✅ Réalisé</th>';
-  for(let m=0;m<12;m++) th+='<th>'+MN_S[m]+'</th>';
+  th+='<th class="col-synth th-prevu">🎯 Prévu'+(cfg.isEuro?' (€)':' (j)')+'</th>';
+  th+='<th class="col-synth th-plancharge">📊 Plan charge'+(cfg.isEuro?' (€)':' (j)')+'</th>';
+  th+='<th class="col-synth th-realise">✅ Réalisé'+(cfg.isEuro?' (€)':' (j)')+'</th>';
+  for(let m=0;m<12;m++)th+='<th>'+MN_S[m]+'</th>';
   th+='<th>Total</th></tr></thead>';
 
   let tb='<tbody>';
+  const expanded=expandedTravaux[cfg.key];
 
-  function renderMonthCells(months,isTotal){
-    let h='';
-    const total=months.reduce((s,v)=>s+v,0);
-    for(let m=0;m<12;m++){
-      const v=months[m];
-      const cls=v>0?(isTotal?'fact-val total':'fact-val has-value'):'fact-val zero';
-      h+='<td><span class="'+cls+'">'+(v>0?fmtNum(v):'–')+'</span></td>';
-    }
-    const tcls=isTotal?'fact-val total':'fact-val '+(total>0?'has-value':'zero');
-    h+='<td><span class="'+tcls+'" style="font-weight:800">'+(total>0?fmtNum(total):'–')+'</span></td>';
-    return h;
+  function monthCells(months,isT){
+    let h='';const tot=months.reduce((s,v)=>s+v,0);
+    for(let m=0;m<12;m++){const v=convert(months[m]);const cls=v>0?(isT?'fact-val total':'fact-val has-value'):'fact-val zero';h+='<td><span class="'+cls+'">'+(v>0?fmtV(months[m]):'–')+'</span></td>'}
+    const tv=convert(tot);const tc=isT?'fact-val total':'fact-val '+(tv>0?'has-value':'zero');
+    h+='<td><span class="'+tc+'" style="font-weight:800">'+(tv>0?fmtV(tot):'–')+'</span></td>';return h;
   }
 
-  function renderSynthCells(affName,affType,months,isSubdetail){
-    if(isSubdetail){
-      // Sous-détails : cellules vides alignées
-      return '<td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"></td>';
-    }
-    const totalRealise=months.reduce((s,v)=>s+v,0);
-    const prevu=getPrevuValue(factYear,affName);
-    const planCharge=computePlanChargeYear(factYear,affName,selectedCollab||null);
+  function synthCells(affName,months,isSub){
+    if(isSub)return'<td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"></td>';
+    const totalR=months.reduce((s,v)=>s+v,0);
+    const planJ=computePlanChargeYear(year,affName,selCollab||null);
     const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
 
-    // Input prévu
-    let h='<td class="td-prevu"><input type="text" class="prevu-input" id="prevu_'+safeAff+'" value="'+(prevu>0?fmtNum(prevu):'')+'" placeholder="–" onchange="onPrevuInput(\''+escAttr(affName)+'\',this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}" title="Saisir les jours prévus" /></td>';
+    let prevu;
+    if(cfg.isEuro){prevu=getPrevuEurValue(year,affName)}else{prevu=getPrevuValue(year,affName)}
+    const prevuDisplay=prevu>0?(cfg.isEuro?Math.round(prevu):fmtNum(prevu)):'';
 
-    // Plan de charge (auto)
-    h+='<td class="td-plancharge"><span class="fact-val '+(planCharge>0?'has-value':'zero')+'">'+(planCharge>0?fmtNum(planCharge):'–')+'</span></td>';
+    let h='<td class="td-prevu"><input type="text" class="prevu-input" value="'+prevuDisplay+'" placeholder="–" onchange="onPrevuInput(\''+escAttr(affName)+'\',this,\''+cfg.key+'\')" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}" /></td>';
 
-    // Réalisé + badge écart
-    let ecartHtml='';
-    if(prevu>0&&totalRealise>0){
-      const ecart=totalRealise-prevu;
-      const pct=Math.round((totalRealise/prevu)*100);
-      if(Math.abs(ecart)<0.01){
-        ecartHtml='<span class="ecart-badge ecart-ok">= 100%</span>';
-      }else if(ecart<0){
-        ecartHtml='<span class="ecart-badge ecart-ok">'+pct+'%</span>';
-      }else{
-        ecartHtml='<span class="ecart-badge ecart-danger">'+pct+'%</span>';
-      }
-    }else if(prevu>0&&totalRealise===0){
-      ecartHtml='<span class="ecart-badge ecart-warn">0%</span>';
-    }
-    h+='<td class="td-realise"><span class="fact-val '+(totalRealise>0?'has-value':'zero')+'" style="font-weight:800">'+(totalRealise>0?fmtNum(totalRealise):'–')+'</span>'+ecartHtml+'</td>';
+    const planV=convert(planJ);
+    h+='<td class="td-plancharge"><span class="fact-val '+(planV>0?'has-value':'zero')+'">'+(planV>0?fmtV(planJ):'–')+'</span></td>';
 
+    const realV=convert(totalR);
+    let ecart='';
+    if(prevu>0){
+      const realComp=cfg.isEuro?realV:totalR;
+      const pct=Math.round((realComp/prevu)*100);
+      if(Math.abs(realComp-prevu)<0.01)ecart='<span class="ecart-badge ecart-ok">= 100%</span>';
+      else if(realComp<prevu)ecart='<span class="ecart-badge ecart-ok">'+pct+'%</span>';
+      else ecart='<span class="ecart-badge ecart-danger">'+pct+'%</span>';
+    }else if(prevu<=0&&realV>0){ecart=''}
+    h+='<td class="td-realise"><span class="fact-val '+(realV>0?'has-value':'zero')+'" style="font-weight:800">'+(realV>0?fmtV(totalR):'–')+'</span>'+ecart+'</td>';
     return h;
   }
 
-  function renderSynthTotals(affList,label){
-    let totalPrevu=0,totalPlanCharge=0,totalRealise=0;
-    affList.forEach(a=>{
-      totalPrevu+=getPrevuValue(factYear,a.name);
-      totalPlanCharge+=computePlanChargeYear(factYear,a.name,selectedCollab||null);
-      totalRealise+=a.months.reduce((s,v)=>s+v,0);
+  function synthTotals(list){
+    let tP=0,tPC=0,tR=0;
+    list.forEach(a=>{
+      tP+=cfg.isEuro?getPrevuEurValue(year,a.name):getPrevuValue(year,a.name);
+      tPC+=computePlanChargeYear(year,a.name,selCollab||null);
+      tR+=a.months.reduce((s,v)=>s+v,0);
     });
-    let h='<td class="td-prevu" style="font-weight:700"><span class="fact-val total">'+(totalPrevu>0?fmtNum(totalPrevu):'–')+'</span></td>';
-    h+='<td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+(totalPlanCharge>0?fmtNum(totalPlanCharge):'–')+'</span></td>';
-    h+='<td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(totalRealise>0?fmtNum(totalRealise):'–')+'</span></td>';
+    const pv=convert(tPC),rv=convert(tR);
+    let h='<td class="td-prevu" style="font-weight:700"><span class="fact-val total">'+(tP>0?(cfg.isEuro?Math.round(tP).toLocaleString('fr-FR')+'€':fmtNum(tP)+'j'):'–')+'</span></td>';
+    h+='<td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+(pv>0?fmtV(tPC):'–')+'</span></td>';
+    h+='<td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(rv>0?fmtV(tR):'–')+'</span></td>';
     return h;
   }
 
-  // === ÉTUDES ===
-  if((factFilter==='all'||factFilter==='etudes')&&etudes.length>0){
-    tb+='<tr class="fact-section-row"><td colspan="'+colSpanAll+'">📐 Études ('+etudes.length+' affaire'+(etudes.length>1?'s':'')+')</td></tr>';
-    const etudesTotals=new Array(12).fill(0);
-    etudes.forEach(a=>{
-      a.months.forEach((v,i)=>{etudesTotals[i]+=v});
-      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+renderSynthCells(a.name,a.type,a.months,false)+renderMonthCells(a.months,false)+'</tr>';
-    });
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+renderSynthTotals(etudes,'Études')+renderMonthCells(etudesTotals,true)+'</tr>';
+  function toggleKey(affName){return affName.replace(/[^a-zA-Z0-9]/g,'_')}
+
+  // ÉTUDES
+  if((filter==='all'||filter==='etudes')&&etudes.length>0){
+    tb+='<tr class="fact-section-row"><td colspan="'+csAll+'">📐 Études ('+etudes.length+')</td></tr>';
+    const tots=new Array(12).fill(0);
+    etudes.forEach(a=>{a.months.forEach((v,i)=>{tots[i]+=v});tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+synthCells(a.name,a.months,false)+monthCells(a.months,false)+'</tr>'});
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+synthTotals(etudes)+monthCells(tots,true)+'</tr>';
   }
 
-  // === TRAVAUX ===
-  if((factFilter==='all'||factFilter==='travaux')&&travaux.length>0){
-    tb+='<tr class="fact-section-row section-travaux"><td colspan="'+colSpanAll+'">🏗️ Travaux ('+travaux.length+' affaire'+(travaux.length>1?'s':'')+')</td></tr>';
-    const travauxTotals=new Array(12).fill(0);
+  // TRAVAUX
+  if((filter==='all'||filter==='travaux')&&travaux.length>0){
+    tb+='<tr class="fact-section-row section-travaux"><td colspan="'+csAll+'">🏗️ Travaux ('+travaux.length+')</td></tr>';
+    const tots=new Array(12).fill(0);
     travaux.forEach(a=>{
-      a.months.forEach((v,i)=>{travauxTotals[i]+=v});
-      const affKey=a.name.replace(/[^a-zA-Z0-9]/g,'_');
-      const sdKeys=Object.keys(a.subdetails).filter(k=>a.subdetails[k].some(v=>v>0));
-      const hasSD=sdKeys.length>0;
-      const isOpen=expandedTravaux.has(affKey);
-      const chevron=hasSD?'<span class="chevron'+(isOpen?' open':'')+'" id="chev-'+affKey+'">▶</span>':'';
-      const click=hasSD?'onclick="toggleTravaux(\''+affKey+'\')"':'';
-      const sdHint=hasSD?' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+sdKeys.length+' prestations)</span>':'';
-      tb+='<tr class="fact-affaire-row is-travaux"><td '+click+'>'+chevron+escH(a.name)+sdHint+'</td>'+renderSynthCells(a.name,a.type,a.months,false)+renderMonthCells(a.months,false)+'</tr>';
-
+      a.months.forEach((v,i)=>{tots[i]+=v});
+      const ak=toggleKey(a.name);
+      const sdK=Object.keys(a.subdetails).filter(k=>a.subdetails[k].some(v=>v>0));
+      const hasSD=sdK.length>0,isOpen=expanded.has(ak);
+      const chev=hasSD?'<span class="chevron'+(isOpen?' open':'')+'" id="chev_'+cfg.key+'_'+ak+'">▶</span>':'';
+      const cl=hasSD?'onclick="toggleSD(\''+cfg.key+'\',\''+ak+'\')"':'';
+      const hint=hasSD?' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+sdK.length+' prest.)</span>':'';
+      tb+='<tr class="fact-affaire-row is-travaux"><td '+cl+'>'+chev+escH(a.name)+hint+'</td>'+synthCells(a.name,a.months,false)+monthCells(a.months,false)+'</tr>';
       if(hasSD){
-        const orderedKeys=[];
-        TRAVAUX_SUB_CATS.forEach(cat=>{if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0))orderedKeys.push(cat)});
-        sdKeys.forEach(k=>{if(!orderedKeys.includes(k))orderedKeys.push(k)});
-        orderedKeys.forEach(sd=>{
-          const hidden=isOpen?'':'hidden';
-          const icon=sd==='Autre'?'📦':'🔧';
-          tb+='<tr class="fact-subdetail-row fact-sd-'+affKey+' '+hidden+'"><td>'+icon+' '+escH(sd)+'</td>'+renderSynthCells(a.name,a.type,a.subdetails[sd],true)+renderMonthCells(a.subdetails[sd],false)+'</tr>';
-        });
+        const ordered=[];TRAVAUX_SUB_CATS.forEach(c=>{if(a.subdetails[c]&&a.subdetails[c].some(v=>v>0))ordered.push(c)});sdK.forEach(k=>{if(!ordered.includes(k))ordered.push(k)});
+        ordered.forEach(sd=>{const hid=isOpen?'':'hidden';const ic=sd==='Autre'?'📦':'🔧';tb+='<tr class="fact-subdetail-row fact-sd-'+cfg.key+'-'+ak+' '+hid+'"><td>'+ic+' '+escH(sd)+'</td>'+synthCells(a.name,a.subdetails[sd],true)+monthCells(a.subdetails[sd],false)+'</tr>'});
       }
     });
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+renderSynthTotals(travaux,'Travaux')+renderMonthCells(travauxTotals,true)+'</tr>';
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+synthTotals(travaux)+monthCells(tots,true)+'</tr>';
   }
 
-  // === AUTRES ACTIVITÉS ===
-  if((factFilter==='all'||factFilter==='special')&&specialList.length>0){
-    tb+='<tr class="fact-section-row section-special"><td colspan="'+colSpanAll+'">📂 Autres activités ('+specialList.length+')</td></tr>';
-    const specialTotals=new Array(12).fill(0);
-    specialList.forEach(a=>{
-      a.months.forEach((v,i)=>{specialTotals[i]+=v});
-      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(a.months.reduce((s,v)=>s+v,0)>0?'has-value':'zero')+'" style="font-weight:700">'+(a.months.reduce((s,v)=>s+v,0)>0?fmtNum(a.months.reduce((s,v)=>s+v,0)):'–')+'</span></td>'+renderMonthCells(a.months,false)+'</tr>';
-    });
-    const stSpec=specialList.reduce((s,a)=>s+a.months.reduce((ss,v)=>ss+v,0),0);
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stSpec>0?fmtNum(stSpec):'–')+'</span></td>'+renderMonthCells(specialTotals,true)+'</tr>';
+  // AUTRES
+  if((filter==='all'||filter==='special')&&specialList.length>0){
+    tb+='<tr class="fact-section-row section-special"><td colspan="'+csAll+'">📂 Autres ('+specialList.length+')</td></tr>';
+    const tots=new Array(12).fill(0);
+    specialList.forEach(a=>{a.months.forEach((v,i)=>{tots[i]+=v});const rv=convert(a.months.reduce((s,v)=>s+v,0));tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(rv>0?'has-value':'zero')+'" style="font-weight:700">'+(rv>0?fmtV(a.months.reduce((s,v)=>s+v,0)):'–')+'</span></td>'+monthCells(a.months,false)+'</tr>'});
+    const stS=specialList.reduce((s,a)=>s+a.months.reduce((ss,v)=>ss+v,0),0);const svS=convert(stS);
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(svS>0?fmtV(stS):'–')+'</span></td>'+monthCells(tots,true)+'</tr>';
   }
 
-  // === TOTAL GÉNÉRAL ===
-  const grandTotal=new Array(12).fill(0);
-  const allAffList=[];
-  if(factFilter==='all'||factFilter==='etudes'){etudes.forEach(a=>{a.months.forEach((v,i)=>{grandTotal[i]+=v});allAffList.push(a)})}
-  if(factFilter==='all'||factFilter==='travaux'){travaux.forEach(a=>{a.months.forEach((v,i)=>{grandTotal[i]+=v});allAffList.push(a)})}
-  if(factFilter==='all'||factFilter==='special'){specialList.forEach(a=>{a.months.forEach((v,i)=>{grandTotal[i]+=v})})}
-
-  let gtPrevu=0,gtPlan=0,gtReal=0;
-  allAffList.forEach(a=>{
-    gtPrevu+=getPrevuValue(factYear,a.name);
-    gtPlan+=computePlanChargeYear(factYear,a.name,selectedCollab||null);
-    gtReal+=a.months.reduce((s,v)=>s+v,0);
-  });
-  if(factFilter==='all'||factFilter==='special'){
-    specialList.forEach(a=>{gtReal+=a.months.reduce((s,v)=>s+v,0)});
-  }
+  // TOTAL GÉNÉRAL
+  const gT=new Array(12).fill(0);const allAff=[];
+  if(filter==='all'||filter==='etudes'){etudes.forEach(a=>{a.months.forEach((v,i)=>{gT[i]+=v});allAff.push(a)})}
+  if(filter==='all'||filter==='travaux'){travaux.forEach(a=>{a.months.forEach((v,i)=>{gT[i]+=v});allAff.push(a)})}
+  if(filter==='all'||filter==='special'){specialList.forEach(a=>{a.months.forEach((v,i)=>{gT[i]+=v})})}
+  let gtP=0,gtPC=0,gtR=0;
+  allAff.forEach(a=>{gtP+=cfg.isEuro?getPrevuEurValue(year,a.name):getPrevuValue(year,a.name);gtPC+=computePlanChargeYear(year,a.name,selCollab||null);gtR+=a.months.reduce((s,v)=>s+v,0)});
+  if(filter==='all'||filter==='special')specialList.forEach(a=>{gtR+=a.months.reduce((s,v)=>s+v,0)});
+  const gPV=convert(gtPC),gRV=convert(gtR);
 
   tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td>';
-  tb+='<td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+(gtPrevu>0?fmtNum(gtPrevu):'–')+'</span></td>';
-  tb+='<td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gtPlan>0?fmtNum(gtPlan):'–')+'</span></td>';
-  tb+='<td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gtReal>0?fmtNum(gtReal):'–')+'</span></td>';
-  tb+=renderMonthCells(grandTotal,true)+'</tr>';
+  tb+='<td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+(gtP>0?(cfg.isEuro?Math.round(gtP).toLocaleString('fr-FR')+'€':fmtNum(gtP)+'j'):'–')+'</span></td>';
+  tb+='<td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gPV>0?fmtV(gtPC):'–')+'</span></td>';
+  tb+='<td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gRV>0?fmtV(gtR):'–')+'</span></td>';
+  tb+=monthCells(gT,true)+'</tr></tbody>';
 
-  tb+='</tbody>';
-  document.getElementById('factTable').innerHTML=th+tb;
+  document.getElementById(cfg.tableId).innerHTML=th+tb;
 }
 
-// ============================================================
-// EXPORT CSV
-// ============================================================
-function exportFactCSV(){
-  const {affaires,specials}=buildFactData(factYear);
-  const selectedCollab=document.getElementById('factCollabSelect').value;
+function toggleSD(tabKey,affKey){
+  const exp=expandedTravaux[tabKey];
+  if(exp.has(affKey))exp.delete(affKey);else exp.add(affKey);
+  document.querySelectorAll('.fact-sd-'+tabKey+'-'+affKey).forEach(r=>r.classList.toggle('hidden',!exp.has(affKey)));
+  const ch=document.getElementById('chev_'+tabKey+'_'+affKey);if(ch)ch.classList.toggle('open',exp.has(affKey));
+}
+
+function renderTempsView(){
+  renderGenericView({key:'temps',isEuro:false,yearLabelId:'tempsYearLabel',collabSelectId:'tempsCollabSelect',statsId:'tempsStats',tableId:'tempsTable',tableTitleId:'tempsTableTitle'});
+}
+function renderFactView(){
+  renderGenericView({key:'fact',isEuro:true,yearLabelId:'factYearLabel',collabSelectId:'factCollabSelect',statsId:'factStats',tableId:'factTable',tableTitleId:'factTableTitle'});
+}
+
+// ============ EXPORT CSV ============
+function exportCSV(tabKey){
+  const isEuro=tabKey==='fact';
+  const year=tabYears[tabKey];
+  const rate=isEuro?getTaux():0;
+  const selId=tabKey==='fact'?'factCollabSelect':'tempsCollabSelect';
+  const selCollab=document.getElementById(selId).value;
+  const filter=tabFilters[tabKey];
+  const {affaires,specials}=buildData(year,selId);
+  const convert=v=>isEuro?Math.round(v*rate):v;
+  const unit=isEuro?'€':'j';
+
   const rows=[];
-  const header=['Affaire','Type','Prestation','Prévu (manuel)','Plan de charge','Réalisé'];
-  for(let m=0;m<12;m++) header.push(MN[m]);
-  header.push('Total');
+  const header=['Affaire','Type','Prestation','Prévu ('+unit+')','Plan charge ('+unit+')','Réalisé ('+unit+')'];
+  for(let m=0;m<12;m++)header.push(MN[m]);header.push('Total');
   rows.push(header);
 
-  let collabLabel='Tous';
-  if(selectedCollab) Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
+  let collabLabel='Tous';if(selCollab)Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selCollab)collabLabel=formatName(c.name)});
 
   Object.keys(affaires).sort().forEach(name=>{
-    const a=affaires[name];
-    const typeLabel=a.type==='etudes'?'Études':'Travaux';
-    if(factFilter!=='all'&&factFilter!==a.type) return;
-
-    const totalRealise=a.months.reduce((s,v)=>s+v,0);
-    const prevu=getPrevuValue(factYear,name);
-    const planCharge=computePlanChargeYear(factYear,name,selectedCollab||null);
-
-    const row=[name,typeLabel,'',prevu||'',planCharge||'',totalRealise];
-    let total=0;
-    a.months.forEach(v=>{row.push(v);total+=v});
-    row.push(total);
-    rows.push(row);
-
+    const a=affaires[name];const tl=a.type==='etudes'?'Études':'Travaux';
+    if(filter!=='all'&&filter!==a.type)return;
+    const totalR=a.months.reduce((s,v)=>s+v,0);
+    const prevu=isEuro?getPrevuEurValue(year,name):getPrevuValue(year,name);
+    const pc=computePlanChargeYear(year,name,selCollab||null);
+    const row=[name,tl,'',prevu||'',convert(pc)||'',convert(totalR)];
+    a.months.forEach(v=>row.push(convert(v)));row.push(convert(totalR));rows.push(row);
     if(a.type==='travaux'){
-      const orderedKeys=[];
-      TRAVAUX_SUB_CATS.forEach(cat=>{if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0))orderedKeys.push(cat)});
-      Object.keys(a.subdetails).forEach(k=>{if(!orderedKeys.includes(k)&&a.subdetails[k].some(v=>v>0))orderedKeys.push(k)});
-      orderedKeys.forEach(sd=>{
-        const srow=['  ↳ '+name,typeLabel,sd,'','',a.subdetails[sd].reduce((s,v)=>s+v,0)];
-        a.subdetails[sd].forEach(v=>{srow.push(v)});
-        srow.push(a.subdetails[sd].reduce((s,v)=>s+v,0));
-        rows.push(srow);
-      });
+      const ordered=[];TRAVAUX_SUB_CATS.forEach(c=>{if(a.subdetails[c]&&a.subdetails[c].some(v=>v>0))ordered.push(c)});Object.keys(a.subdetails).forEach(k=>{if(!ordered.includes(k)&&a.subdetails[k].some(v=>v>0))ordered.push(k)});
+      ordered.forEach(sd=>{const sr=['  ↳ '+name,tl,sd,'','',convert(a.subdetails[sd].reduce((s,v)=>s+v,0))];a.subdetails[sd].forEach(v=>sr.push(convert(v)));sr.push(convert(a.subdetails[sd].reduce((s,v)=>s+v,0)));rows.push(sr)});
     }
   });
-
-  if(factFilter==='all'||factFilter==='special'){
-    Object.keys(specials).sort().forEach(name=>{
-      const row=[name,'Autre','','','',specials[name].months.reduce((s,v)=>s+v,0)];
-      specials[name].months.forEach(v=>{row.push(v)});
-      row.push(specials[name].months.reduce((s,v)=>s+v,0));
-      rows.push(row);
-    });
-  }
-
-  rows.push([]);
-  rows.push(['Export: '+factYear,'Collaborateur: '+collabLabel,'Filtre: '+factFilter]);
+  if(filter==='all'||filter==='special'){Object.keys(specials).sort().forEach(name=>{const row=[name,'Autre','','','',convert(specials[name].months.reduce((s,v)=>s+v,0))];specials[name].months.forEach(v=>row.push(convert(v)));row.push(convert(specials[name].months.reduce((s,v)=>s+v,0)));rows.push(row)})}
+  rows.push([]);rows.push(['Export: '+year,'Collaborateur: '+collabLabel,'Filtre: '+filter,isEuro?'Taux: '+rate+'€/j':'']);
 
   const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  const suffix=selectedCollab?'_'+collabLabel.replace(/\s/g,'_'):'';
-  a.download='facturation_'+factYear+suffix+'.csv';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('📥 Export CSV téléchargé');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;
+  const suffix=selCollab?'_'+collabLabel.replace(/\s/g,'_'):'';
+  a.download=(isEuro?'facturation_':'temps_passes_')+year+suffix+'.csv';a.click();URL.revokeObjectURL(url);showToast('📥 Export CSV téléchargé');
 }
 
-// ============================================================
-// UTILITAIRES
-// ============================================================
+// ============ UTILITAIRES ============
 function getIni(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 function formatName(n){const p=n.trim().split(/\s+/);if(p.length<2)return n;return p[p.length-1]+' '+p.slice(0,-1).map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ')}
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
