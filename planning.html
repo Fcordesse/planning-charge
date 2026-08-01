@@ -8,44 +8,60 @@
 :root{--primary:#1a1a2e;--primary-light:#16213e;--accent:#0f3460;--highlight:#e94560;--bg:#f0f2f5;--card-bg:#fff;--text:#1a1a2e;--text-light:#6c757d;--border:#dee2e6;--success:#28a745;--danger:#dc3545;--info:#17a2b8;--shadow:0 2px 12px rgba(0,0,0,.08);--radius:10px;--etudes-bg:#f0f6ff;--etudes-border:#1565c0;--travaux-bg:#fff8f0;--travaux-border:#e65100;--slot-h:16px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.app-header{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 30px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 15px rgba(0,0,0,.15);position:sticky;top:0;z-index:1000}
-.app-header h1{font-size:1.3rem;font-weight:600}.app-header h1 span{color:var(--highlight)}
-.tabs-container{display:flex;background:var(--primary-light);padding:0 20px;gap:4px;box-shadow:0 2px 8px rgba(0,0,0,.1);flex-wrap:wrap}
-.tab-btn{padding:12px 20px;border:none;background:0 0;color:rgba(255,255,255,.6);font-size:.82rem;font-weight:500;cursor:pointer;border-bottom:3px solid transparent;transition:.3s;white-space:nowrap}
+
+/* ===== LIGNE 1 : Header + Onglets fusionnés ===== */
+.top-bar{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:0 20px;height:44px;display:flex;align-items:center;gap:0;box-shadow:0 3px 12px rgba(0,0,0,.15);position:sticky;top:0;z-index:1000}
+.top-bar .logo{font-size:1.1rem;font-weight:600;white-space:nowrap;margin-right:20px}
+.top-bar .logo span{color:var(--highlight)}
+.top-bar .tabs{display:flex;gap:2px;margin-right:auto}
+.tab-btn{padding:8px 16px;border:none;background:0 0;color:rgba(255,255,255,.6);font-size:.78rem;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
 .tab-btn:hover{color:rgba(255,255,255,.9)}.tab-btn.active{color:#fff;border-bottom-color:var(--highlight);background:rgba(255,255,255,.08)}
-.tab-content{display:none;padding:24px 30px;animation:fadeIn .3s ease}.tab-content.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.toolbox-wrapper{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 20px;margin-bottom:20px;border:1px solid var(--border)}
-.toolbox-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.toolbox-header h3{font-size:.85rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);display:flex;align-items:center;gap:8px}
-.selected-collab-display{font-size:.8rem;padding:5px 14px;border-radius:20px;background:var(--bg);color:var(--text-light);font-weight:500;transition:.3s}
-.selected-collab-display.active-selection{background:var(--highlight);color:#fff}
-.selected-collab-display.eraser-active{background:#ff9800;color:#fff}
-.toolbox-collabs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.collab-btn{padding:7px 16px;border:2px solid transparent;border-radius:25px;color:#000;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;user-select:none}
-.collab-btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.top-bar .right-info{display:flex;align-items:center;gap:10px;font-size:.75rem;opacity:.8}
+.top-bar .hbtn{padding:4px 12px;border:1px solid rgba(255,255,255,.3);border-radius:16px;background:rgba(255,255,255,.08);color:#fff;font-size:.72rem;cursor:pointer;transition:.2s;white-space:nowrap}
+.top-bar .hbtn:hover{background:rgba(255,255,255,.2)}
+
+/* ===== LIGNE 2 : Toolbox collaborateurs compacte ===== */
+.compact-toolbox{display:flex;align-items:center;gap:10px;padding:6px 20px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.compact-toolbox .tb-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.compact-toolbox .tb-collabs{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.collab-btn{padding:5px 14px;border:2px solid transparent;border-radius:20px;color:#000;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s;user-select:none}
+.collab-btn:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .collab-btn.selected{outline:3px solid var(--text);outline-offset:2px;transform:scale(1.05)}
-.toolbox-action-btn{padding:7px 16px;border:2px dashed var(--text-light);border-radius:25px;background:0 0;color:var(--text-light);font-size:.82rem;font-weight:500;cursor:pointer;transition:.2s}
+.toolbox-action-btn{width:28px;height:28px;border:2px dashed var(--text-light);border-radius:50%;background:0 0;color:var(--text-light);font-size:.75rem;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;padding:0}
 .toolbox-action-btn:hover{border-color:var(--text);color:var(--text)}
 .toolbox-action-btn.eraser-active{background:#ff9800;color:#fff;border-color:#ff9800;border-style:solid}
-.no-collab-msg{color:var(--text-light);font-size:.85rem;font-style:italic}
-.toolbox-separator{width:1px;height:28px;background:var(--border);margin:0 4px}
-.pct-selector,.fill-mode-row{display:flex;gap:4px;align-items:center;margin-top:10px;flex-wrap:wrap}
-.pct-selector span,.fill-mode-row span{font-size:.78rem;color:var(--text-light);font-weight:500;margin-right:4px}
-.pct-btn,.fill-btn{padding:4px 10px;border:2px solid var(--border);border-radius:6px;background:#fff;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s;color:var(--text)}
+.tb-sep{width:1px;height:22px;background:var(--border)}
+
+/* ===== LIGNE 3-4 : Ventilation + Remplissage + Navigation ===== */
+.controls-row{display:flex;align-items:center;gap:8px;padding:4px 20px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.controls-row .ctrl-group{display:flex;align-items:center;gap:4px}
+.controls-row .ctrl-label{font-size:.72rem;color:var(--text-light);font-weight:500;margin-right:2px;white-space:nowrap}
+.pct-btn,.fill-btn{padding:3px 9px;border:1.5px solid var(--border);border-radius:5px;background:#fff;font-size:.72rem;font-weight:600;cursor:pointer;transition:.2s;color:var(--text)}
 .pct-btn:hover,.fill-btn:hover{border-color:var(--accent);background:#f0f4ff}
 .pct-btn.pct-active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .fill-btn.fill-active{background:#7c4dff;color:#fff;border-color:#7c4dff}
-.leave-btn{padding:7px 16px;border:2px solid #333;border-radius:25px;background:#222;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;transition:.2s;user-select:none}
+.ctrl-spacer{flex:1}
+.nav-group{display:flex;gap:6px;align-items:center}
+.btn-nav{padding:5px 14px;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s;background:var(--accent);color:#fff}
+.btn-nav:hover{background:#0b2a4a}
+
+/* ===== Sélection active affichée ===== */
+.selected-collab-display{font-size:.72rem;padding:3px 10px;border-radius:14px;background:var(--bg);color:var(--text-light);font-weight:500;transition:.3s;white-space:nowrap}
+.selected-collab-display.active-selection{background:var(--highlight);color:#fff}
+.selected-collab-display.eraser-active{background:#ff9800;color:#fff}
+
+/* ===== Congés toolbox ===== */
+.leave-btn{padding:5px 14px;border:2px solid #333;border-radius:20px;background:#222;color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;transition:.2s;user-select:none}
 .leave-btn:hover{background:#444;transform:translateY(-1px)}
 .leave-btn.selected{outline:3px solid var(--highlight);outline-offset:2px;transform:scale(1.05)}
-.actions-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
-.btn{padding:9px 22px;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
-.btn-add{background:var(--success);color:#fff}.btn-add:hover{background:#218838}
-.btn-delete{background:var(--danger);color:#fff}.btn-delete:hover{background:#c82333}
-.btn-nav{background:var(--accent);color:#fff}.btn-nav:hover{background:#0b2a4a}
-.planning-container{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}
-.table-scroll{overflow:auto;max-height:70vh}
+
+/* ===== Tab content ===== */
+.tab-content{display:none;animation:fadeIn .2s ease}.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ===== Planning ===== */
+.planning-container{background:var(--card-bg);border-radius:0;box-shadow:none;overflow:hidden;border:1px solid var(--border);border-top:none}
+.table-scroll{overflow:auto;max-height:calc(100vh - 140px)}
 .planning-table{border-collapse:separate;border-spacing:0;min-width:100%;table-layout:fixed}
 .planning-table th,.planning-table td{border:1px solid #e0e0e0;text-align:center;font-size:.75rem;white-space:nowrap}
 .planning-table thead th{position:sticky;z-index:15;top:0}
@@ -53,15 +69,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .planning-table thead tr:nth-child(2) th{top:29px}
 .planning-table thead tr:nth-child(3) th{top:55px}
 .planning-table thead tr:nth-child(4) th{top:78px}
-.planning-table .col-aff{position:sticky;left:0;z-index:12;background:#fff;min-width:210px;max-width:210px;width:210px;text-align:left;padding:6px 10px;font-weight:600;font-size:.8rem;border-right:2px solid var(--accent);vertical-align:top}
+.planning-table .col-aff{position:sticky;left:0;z-index:12;background:#fff;min-width:180px;max-width:180px;width:180px;text-align:left;padding:6px 10px;font-weight:600;font-size:.8rem;border-right:2px solid var(--accent);vertical-align:top}
 .planning-table thead th.col-aff{z-index:25;background:var(--primary);color:#fff}
-.row-year th{background:var(--primary);color:#fff;padding:6px 4px;font-weight:700;font-size:.8rem}
-.row-month th{background:var(--accent);color:#fff;padding:5px 4px;font-weight:600;font-size:.75rem}
-.row-week th{background:#3a6ea5;color:#fff;padding:4px 3px;font-weight:500;font-size:.7rem}
-.row-day th{background:#5a8fc5;color:#fff;padding:4px 3px;font-weight:500;font-size:.7rem;min-width:40px;width:40px}
+/* Cellule Affaires header : contient les boutons */
+.aff-header-cell{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.aff-header-cell .aff-title{font-size:.8rem;font-weight:700;margin-bottom:2px}
+.aff-header-cell .aff-btns{display:flex;gap:4px;flex-wrap:wrap}
+.aff-header-cell .abtn{padding:3px 10px;border:none;border-radius:5px;font-size:.7rem;font-weight:600;cursor:pointer;transition:.2s}
+.aff-header-cell .abtn-add{background:var(--success);color:#fff}.aff-header-cell .abtn-add:hover{background:#218838}
+.aff-header-cell .abtn-del{background:var(--danger);color:#fff}.aff-header-cell .abtn-del:hover{background:#c82333}
+
+.row-year th{background:var(--primary);color:#fff;padding:5px 4px;font-weight:700;font-size:.78rem}
+.row-month th{background:var(--accent);color:#fff;padding:4px 4px;font-weight:600;font-size:.73rem}
+.row-week th{background:#3a6ea5;color:#fff;padding:3px 3px;font-weight:500;font-size:.68rem}
+.row-day th{background:#5a8fc5;color:#fff;padding:3px 3px;font-weight:500;font-size:.68rem;min-width:40px;width:40px}
 .row-day th.today{background:var(--highlight);font-weight:800}
 .row-day th.ferie-day{background:#9e9e9e}
-.section-header-row td{background:var(--primary)!important;color:#fff!important;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;padding:8px 0!important;text-align:left!important;border:none!important;cursor:default!important;pointer-events:none}
+.section-header-row td{background:var(--primary)!important;color:#fff!important;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;padding:6px 0!important;text-align:left!important;border:none!important;cursor:default!important;pointer-events:none}
 .section-header-row td.col-aff{padding-left:12px!important;border-right:2px solid var(--accent)!important}
 .planning-table tbody tr.row-etudes .col-aff{border-left:4px solid var(--etudes-border);background:var(--etudes-bg)}
 .planning-table tbody tr.row-travaux .col-aff{border-left:4px solid var(--travaux-border);background:var(--travaux-bg)}
@@ -96,6 +120,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .planning-table tbody tr.row-collab:hover .col-aff{background:#e8ecff}
 .planning-table tbody tr.row-collab td.dc{background:#fafaff;position:relative;overflow:visible}
 .cra{display:inline-block;width:20px;height:20px;border-radius:50%;text-align:center;line-height:20px;font-size:.6rem;font-weight:700;color:#fff;margin-right:6px;vertical-align:middle}
+.no-collab-msg{color:var(--text-light);font-size:.8rem;font-style:italic}
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:2000;justify-content:center;align-items:center}.modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;width:500px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;animation:slideUp .3s ease;max-height:90vh;overflow-y:auto}
 @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -118,7 +143,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .collab-list li .ca{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;margin-right:12px}
 .collab-list li .ci{flex:1;font-weight:500}
 .collab-list li .cce{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;cursor:pointer;padding:0;margin-left:8px}
-/* MODIF : bouton éditer nom dans la liste collab */
 .collab-list li .cedit{width:28px;height:28px;border:2px solid var(--border);border-radius:50%;cursor:pointer;padding:0;margin-left:4px;background:var(--bg);font-size:.75rem;display:flex;align-items:center;justify-content:center;transition:.2s}
 .collab-list li .cedit:hover{border-color:var(--accent);background:#e8ecff}
 .param-input-row{display:flex;gap:10px;align-items:center}
@@ -128,8 +152,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .leave-type-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .leave-type-tag{padding:5px 14px;background:#222;color:#fff;border-radius:20px;font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:6px}
 .leave-type-tag .ltx{cursor:pointer;font-size:.7rem;opacity:.6}.leave-type-tag .ltx:hover{opacity:1}
-.toast-container{position:fixed;top:80px;right:20px;z-index:3000;display:flex;flex-direction:column;gap:8px}
-.toast{padding:12px 20px;border-radius:8px;color:#fff;font-size:.85rem;font-weight:500;box-shadow:0 4px 15px rgba(0,0,0,.15);max-width:350px;animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards}
+.toast-container{position:fixed;top:50px;right:20px;z-index:3000;display:flex;flex-direction:column;gap:8px}
+.toast{padding:10px 18px;border-radius:8px;color:#fff;font-size:.82rem;font-weight:500;box-shadow:0 4px 15px rgba(0,0,0,.15);max-width:320px;animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards}
 .toast.success{background:var(--success)}.toast.error{background:var(--danger)}.toast.info{background:var(--info)}
 @keyframes toastIn{from{transform:translateX(100px);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(50px)}}
@@ -144,6 +168,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .offre-add-btn:hover{background:#e8eaf6;border-color:#3949ab}
 .offre-remove-btn{padding:2px 8px;border:none;border-radius:4px;background:#ef5350;color:#fff;font-size:.7rem;font-weight:600;cursor:pointer;margin-left:8px}
 .offre-remove-btn:hover{background:#c62828}
+.param-page{padding:24px 30px}
 </style>
 </head>
 <body>
@@ -153,59 +178,114 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div style="font-size:.9rem;color:var(--text-light)">Chargement des données...</div>
 </div>
 
-<header class="app-header">
-  <h1>📊 Planning <span>de Charge</span></h1>
-  <div style="display:flex;align-items:center;gap:12px">
-    <div style="font-size:.8rem;opacity:.7" id="curDate"></div>
-    <button onclick="window.location.href='hub.html'" style="padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">🏠 Accueil</button>
-    <button onclick="logout()" style="padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">🚪 Déconnexion</button>
+<!-- ===== LIGNE 1 : Header + Onglets + Actions ===== -->
+<div class="top-bar">
+  <div class="logo">📊 Planning <span>de Charge</span></div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button>
+    <button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button>
+    <button class="tab-btn" onclick="swT('conges',this)">🏖️ Congés</button>
+    <button class="tab-btn" onclick="swT('parametrage',this)">⚙️ Paramétrage</button>
   </div>
-</header>
-<nav class="tabs-container">
-  <button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button>
-  <button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button>
-  <button class="tab-btn" onclick="swT('conges',this)">🏖️ Congés</button>
-  <button class="tab-btn" onclick="swT('parametrage',this)">⚙️ Paramétrage</button>
-</nav>
+  <div class="right-info">
+    <span id="curDate"></span>
+    <button class="hbtn" onclick="window.location.href='hub.html'">🏠 Accueil</button>
+    <button class="hbtn" onclick="logout()">🚪 Déconnexion</button>
+  </div>
+</div>
+
+<!-- ===== ONGLET AFFAIRE ===== -->
 <div id="tab-affaire" class="tab-content active">
-  <div class="toolbox-wrapper">
-    <div class="toolbox-header"><h3>👥 Collaborateurs</h3><span class="selected-collab-display" id="selDisp">Aucun</span></div>
-    <div class="toolbox-collabs" id="cTB"></div>
-    <div class="pct-selector"><span>Ventilation :</span><button class="pct-btn" data-pct="20" onclick="setPct(20)">20%</button><button class="pct-btn" data-pct="40" onclick="setPct(40)">40%</button><button class="pct-btn" data-pct="60" onclick="setPct(60)">60%</button><button class="pct-btn" data-pct="80" onclick="setPct(80)">80%</button><button class="pct-btn pct-active" data-pct="100" onclick="setPct(100)">100%</button></div>
-    <div class="fill-mode-row"><span>Remplissage :</span><button class="fill-btn" id="fillNone" onclick="setFill('none')">📍 Jour</button><button class="fill-btn" id="fillWeek" onclick="setFill('week')">📅 Semaine</button><button class="fill-btn" id="fillMonth" onclick="setFill('month')">🗓 Mois</button><button class="fill-btn" id="fillJalon" onclick="setFill('jalon')">🚩 Jalon</button></div>
+  <!-- Toolbox compacte -->
+  <div class="compact-toolbox">
+    <span class="tb-label">👥 COLLABORATEURS</span>
+    <div class="tb-collabs" id="cTB"></div>
+    <span class="selected-collab-display" id="selDisp">Aucun</span>
   </div>
-  <div class="actions-bar"><button class="btn btn-add" onclick="openAddAff()">＋ Ajouter</button><button class="btn btn-delete" onclick="openDelAff()">✕ Supprimer</button><span style="flex:1"></span><button class="btn btn-nav" onclick="navD(-30)">◀</button><button class="btn btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn btn-nav" onclick="navD(30)">▶</button></div>
+  <div class="controls-row">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Ventilation :</span>
+      <button class="pct-btn" data-pct="20" onclick="setPct(20)">20%</button>
+      <button class="pct-btn" data-pct="40" onclick="setPct(40)">40%</button>
+      <button class="pct-btn" data-pct="60" onclick="setPct(60)">60%</button>
+      <button class="pct-btn" data-pct="80" onclick="setPct(80)">80%</button>
+      <button class="pct-btn pct-active" data-pct="100" onclick="setPct(100)">100%</button>
+    </div>
+    <div class="tb-sep"></div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Remplissage :</span>
+      <button class="fill-btn" id="fillNone" onclick="setFill('none')">📍 Jour</button>
+      <button class="fill-btn" id="fillWeek" onclick="setFill('week')">📅 Semaine</button>
+      <button class="fill-btn" id="fillMonth" onclick="setFill('month')">🗓 Mois</button>
+      <button class="fill-btn" id="fillJalon" onclick="setFill('jalon')">🚩 Jalon</button>
+    </div>
+    <div class="ctrl-spacer"></div>
+    <div class="nav-group">
+      <button class="btn-nav" onclick="navD(-30)">◀</button>
+      <button class="btn-nav" onclick="navToday()">Aujourd'hui</button>
+      <button class="btn-nav" onclick="navD(30)">▶</button>
+    </div>
+  </div>
   <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH1"></thead><tbody id="pB1"></tbody></table></div></div>
 </div>
+
+<!-- ===== ONGLET COLLABORATEUR ===== -->
 <div id="tab-collab" class="tab-content">
-  <div class="actions-bar"><span style="flex:1"></span><button class="btn btn-nav" onclick="navD(-30)">◀</button><button class="btn btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn btn-nav" onclick="navD(30)">▶</button></div>
+  <div class="controls-row">
+    <div class="ctrl-spacer"></div>
+    <div class="nav-group">
+      <button class="btn-nav" onclick="navD(-30)">◀</button>
+      <button class="btn-nav" onclick="navToday()">Aujourd'hui</button>
+      <button class="btn-nav" onclick="navD(30)">▶</button>
+    </div>
+  </div>
   <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH2"></thead><tbody id="pB2"></tbody></table></div></div>
 </div>
+
+<!-- ===== ONGLET CONGÉS ===== -->
 <div id="tab-conges" class="tab-content">
-  <div class="toolbox-wrapper">
-    <div class="toolbox-header"><h3>🏖️ Type de congé</h3><span class="selected-collab-display" id="selLDisp">Aucun</span></div>
-    <div class="toolbox-collabs" id="lTB"></div>
-    <div class="fill-mode-row" style="margin-top:10px"><span>Remplissage :</span><button class="fill-btn" id="lfillNone" onclick="setLFill('none')">📍 Jour</button><button class="fill-btn" id="lfillWeek" onclick="setLFill('week')">📅 Semaine</button><button class="fill-btn" id="lfillMonth" onclick="setLFill('month')">🗓 Mois</button></div>
+  <div class="compact-toolbox">
+    <span class="tb-label">🏖️ TYPE DE CONGÉ</span>
+    <div class="tb-collabs" id="lTB"></div>
+    <span class="selected-collab-display" id="selLDisp">Aucun</span>
   </div>
-  <div class="actions-bar"><span style="flex:1"></span><button class="btn btn-nav" onclick="navD(-30)">◀</button><button class="btn btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn btn-nav" onclick="navD(30)">▶</button></div>
+  <div class="controls-row">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Remplissage :</span>
+      <button class="fill-btn" id="lfillNone" onclick="setLFill('none')">📍 Jour</button>
+      <button class="fill-btn" id="lfillWeek" onclick="setLFill('week')">📅 Semaine</button>
+      <button class="fill-btn" id="lfillMonth" onclick="setLFill('month')">🗓 Mois</button>
+    </div>
+    <div class="ctrl-spacer"></div>
+    <div class="nav-group">
+      <button class="btn-nav" onclick="navD(-30)">◀</button>
+      <button class="btn-nav" onclick="navToday()">Aujourd'hui</button>
+      <button class="btn-nav" onclick="navD(30)">▶</button>
+    </div>
+  </div>
   <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH3"></thead><tbody id="pB3"></tbody></table></div></div>
 </div>
+
+<!-- ===== ONGLET PARAMÉTRAGE ===== -->
 <div id="tab-parametrage" class="tab-content">
-  <div class="param-card"><h3>👤 Collaborateurs</h3>
-    <ul class="collab-list" id="cList"></ul>
-    <div class="param-input-row"><input type="text" id="newCN" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')addC()"><input type="color" id="newCC" value="#e94560"><button class="btn btn-add" onclick="addC()">＋</button></div>
-    <div style="margin-top:12px"><div class="param-input-row"><input type="text" id="delCN" placeholder="Supprimer: NOM Prénom exact" onkeydown="if(event.key==='Enter')delC()"><button class="btn btn-delete" onclick="delC()">✕</button></div></div>
-  </div>
-  <div class="param-card"><h3>🏖️ Types de congés</h3>
-    <div class="leave-type-list" id="ltList"></div>
-    <div class="param-input-row"><input type="text" id="newLT" placeholder="Nouveau type (ex: Formation)" onkeydown="if(event.key==='Enter')addLT()"><button class="btn btn-add" onclick="addLT()">＋</button></div>
+  <div class="param-page">
+    <div class="param-card"><h3>👤 Collaborateurs</h3>
+      <ul class="collab-list" id="cList"></ul>
+      <div class="param-input-row"><input type="text" id="newCN" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')addC()"><input type="color" id="newCC" value="#e94560"><button class="btn-nav" style="background:var(--success)" onclick="addC()">＋</button></div>
+      <div style="margin-top:12px"><div class="param-input-row"><input type="text" id="delCN" placeholder="Supprimer: NOM Prénom exact" onkeydown="if(event.key==='Enter')delC()"><button class="btn-nav" style="background:var(--danger)" onclick="delC()">✕</button></div></div>
+    </div>
+    <div class="param-card"><h3>🏖️ Types de congés</h3>
+      <div class="leave-type-list" id="ltList"></div>
+      <div class="param-input-row"><input type="text" id="newLT" placeholder="Nouveau type (ex: Formation)" onkeydown="if(event.key==='Enter')addLT()"><button class="btn-nav" style="background:var(--success)" onclick="addLT()">＋</button></div>
+    </div>
   </div>
 </div>
+
+<!-- MODALS (inchangés) -->
 <div class="modal-overlay" id="mAdd"><div class="modal"><div class="modal-header"><h2>Ajouter une affaire</h2></div><div class="modal-body"><label>Nom</label><input type="text" id="nAN" placeholder="Projet Alpha"><label>Type</label><select id="nAT" onchange="updJF('add')"><option value="etudes">📐 Études</option><option value="travaux">🔨 Travaux</option></select><div class="jalons-section"><h4>🚩 Jalons (optionnels)</h4><div id="addJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mAdd')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="addAff()">Valider</button></div></div></div>
 <div class="modal-overlay" id="mDel"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#c82333,#dc3545)"><h2>Supprimer</h2></div><div class="modal-body"><label>Nom exact</label><input type="text" id="dAN"><div id="dAL" style="font-size:.8rem;color:var(--text-light);margin-top:-8px;margin-bottom:8px"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mDel')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="delAff()">Supprimer</button></div></div></div>
 <div class="modal-overlay" id="mEJ"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>Jalons</h2></div><div class="modal-body"><div style="font-size:.9rem;font-weight:600;margin-bottom:12px" id="eJN"></div><div class="jalons-section"><h4>🚩 Jalons</h4><div id="eJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mEJ')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="saveJ()">Enregistrer</button></div></div></div>
 <div class="modal-overlay" id="mLeaveConfirm"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>⚠️ Conflit détecté</h2></div><div class="modal-body"><div id="leaveConflictMsg" style="font-size:.9rem;line-height:1.5"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="cancelLeaveConflict()">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmLeaveConflict()">Appliquer le congé</button></div></div></div>
-<!-- MODIF : Modal renommer collaborateur -->
 <div class="modal-overlay" id="mRenameCollab"><div class="modal"><div class="modal-header"><h2>✏️ Renommer le collaborateur</h2></div><div class="modal-body"><label>Ancien nom</label><div id="renameOldName" style="font-size:.9rem;font-weight:600;margin-bottom:16px;padding:10px 14px;background:var(--bg);border-radius:8px"></div><label>Nouveau nom</label><input type="text" id="renameNewName" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')confirmRenameCollab()"></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mRenameCollab')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmRenameCollab()">Renommer</button></div></div></div>
 <div class="toast-container" id="toastC"></div>
 
@@ -214,85 +294,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",
-  authDomain: "planning-charge-18dea.firebaseapp.com",
-  databaseURL: "https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "planning-charge-18dea",
-  storageBucket: "planning-charge-18dea.firebasestorage.app",
-  messagingSenderId: "876833423306",
-  appId: "1:876833423306:web:f0e352b6648269f526d933"
-};
+const firebaseConfig={apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"};
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
+const auth=firebase.auth(),db=firebase.database();
+auth.onAuthStateChanged(u=>{if(!u)window.location.href='hub.html'});
+function logout(){auth.signOut().then(()=>{window.location.href='hub.html'})}
 
-auth.onAuthStateChanged(user => {
-  if (!user) { window.location.href = 'hub.html'; }
-});
-
-function logout() {
-  auth.signOut().then(() => { window.location.href = 'hub.html'; });
-}
-
-let Co = [];
-let Af = [];
-let Dt = {};
-let LT = ["CP","RTT","CM","AM"];
-let LD = {};
-
-let selCol=null, eraser=false, sDate=new Date(), eIdx=-1, selPct=100, fillMode='none', curTab='affaire';
-let selLeave=null, leaveEraser=false, lFillMode='none';
-let _saving = false;
+let Co=[],Af=[],Dt={},LT=["CP","RTT","CM","AM"],LD={};
+let selCol=null,eraser=false,sDate=new Date(),eIdx=-1,selPct=100,fillMode='none',curTab='affaire';
+let selLeave=null,leaveEraser=false,lFillMode='none';
+let _saving=false,_pendingLeave=null,_renameIdx=-1;
 const DAYS=90;
 const JE=['Prébouclage','Bouclage','Remise offre','Oral'];
 const JT=['Fin prépa','Fin GO','Réception'];
 const JC={'Prébouclage':'#ff1744','Bouclage':'#d500f9','Remise offre':'#2979ff','Oral':'#00c853','Fin prépa':'#ff6d00','Fin GO':'#aa00ff','Réception':'#00bfa5'};
 
-let _pendingLeave = null;
-// MODIF : index du collaborateur en cours de renommage
-let _renameIdx = -1;
-
-function sv() {
-  if (_saving) return;
-  _saving = true;
-  setTimeout(() => { _saving = false; }, 300);
-  db.ref('planning').set({
-    collaborateurs: Co, affaires: Af, donnees: Dt, typesConges: LT, conges: LD
-  }).then(() => {
-    toast('Sauvegardé ✓','success');
-  }).catch(err => {
-    console.error('Erreur sauvegarde Firebase:', err);
-    toast('Erreur de sauvegarde !', 'error');
-  });
-}
-
-function loadFromFirebase() {
-  return db.ref('planning').once('value').then(snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      Co = data.collaborateurs || [];
-      Af = data.affaires || [];
-      Dt = data.donnees || {};
-      LT = data.typesConges || ["CP","RTT","CM","AM"];
-      LD = data.conges || {};
-      Af.forEach(a => {
-        if (a.type === 'etudes' && a.jalons && !a.offres) {
-          const hasEtudeJalons = JE.some(j => a.jalons[j] !== undefined);
-          if (hasEtudeJalons) {
-            a.offres = [{ label: 'Offre 1', jalons: {} }];
-            JE.forEach(j => {
-              if (a.jalons[j]) { a.offres[0].jalons[j] = a.jalons[j]; delete a.jalons[j]; }
-            });
-          }
-        }
-      });
-    }
-  }).catch(err => {
-    console.error('Erreur chargement Firebase:', err);
-    toast('Erreur de chargement !', 'error');
-  });
-}
+function sv(){if(_saving)return;_saving=true;setTimeout(()=>{_saving=false},300);db.ref('planning').set({collaborateurs:Co,affaires:Af,donnees:Dt,typesConges:LT,conges:LD}).then(()=>{toast('Sauvegardé ✓','success')}).catch(err=>{console.error(err);toast('Erreur de sauvegarde !','error')})}
+function loadFromFirebase(){return db.ref('planning').once('value').then(snap=>{const d=snap.val();if(d){Co=d.collaborateurs||[];Af=d.affaires||[];Dt=d.donnees||{};LT=d.typesConges||["CP","RTT","CM","AM"];LD=d.conges||{};Af.forEach(a=>{if(a.type==='etudes'&&a.jalons&&!a.offres){const h=JE.some(j=>a.jalons[j]!==undefined);if(h){a.offres=[{label:'Offre 1',jalons:{}}];JE.forEach(j=>{if(a.jalons[j]){a.offres[0].jalons[j]=a.jalons[j];delete a.jalons[j]}})}}})}}).catch(err=>{console.error(err);toast('Erreur de chargement !','error')})}
 
 function toast(m,t='info'){const c=document.getElementById('toastC'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),3000)}
 function swT(t,b){curTab=t;document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');b.classList.add('active');render()}
@@ -319,406 +337,78 @@ function setPct(p){selPct=p;document.querySelectorAll('.pct-btn').forEach(b=>{b.
 function setFill(m){fillMode=m;document.querySelectorAll('#tab-affaire .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('fill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
 function setLFill(m){lFillMode=m;document.querySelectorAll('#tab-conges .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('lfill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
 function getBD(f,t){const d=[];const x=new Date(f);while(x<=t){if(!isWE(x)&&!isF(x))d.push(dk(x));x.setDate(x.getDate()+1)}return d}
-function getTD(an,ck){const cd=pdk(ck);if(fillMode==='none')return[ck];if(fillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(fillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));if(fillMode==='jalon'){const af=Af.find(a=>a.name===an);if(!af){toast('Aucun jalon.','error');return[ck]}
-const allJalonDates=[];
-if(af.jalons)Object.values(af.jalons).forEach(v=>{if(v)allJalonDates.push(v)});
-if(af.offres)af.offres.forEach(o=>{if(o.jalons)Object.values(o.jalons).forEach(v=>{if(v)allJalonDates.push(v)})});
-if(!allJalonDates.length){toast('Aucun jalon.','error');return[ck]}
-const jd=allJalonDates.filter(v=>v).sort();let tg=null;for(const j of jd){if(j>ck){tg=j;break}}if(!tg){toast('Aucun jalon futur.','error');return[ck]}const db2=pdk(tg);db2.setDate(db2.getDate()-1);if(db2<cd)return[ck];return getBD(cd,db2)}return[ck]}
+function getTD(an,ck){const cd=pdk(ck);if(fillMode==='none')return[ck];if(fillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(fillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));if(fillMode==='jalon'){const af=Af.find(a=>a.name===an);if(!af){toast('Aucun jalon.','error');return[ck]}const allJalonDates=[];if(af.jalons)Object.values(af.jalons).forEach(v=>{if(v)allJalonDates.push(v)});if(af.offres)af.offres.forEach(o=>{if(o.jalons)Object.values(o.jalons).forEach(v=>{if(v)allJalonDates.push(v)})});if(!allJalonDates.length){toast('Aucun jalon.','error');return[ck]}const jd=allJalonDates.filter(v=>v).sort();let tg=null;for(const j of jd){if(j>ck){tg=j;break}}if(!tg){toast('Aucun jalon futur.','error');return[ck]}const db2=pdk(tg);db2.setDate(db2.getDate()-1);if(db2<cd)return[ck];return getBD(cd,db2)}return[ck]}
 function getLTD(ck){const cd=pdk(ck);if(lFillMode==='none')return[ck];if(lFillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(lFillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));return[ck]}
 function jK(t){return t==='etudes'?JE:JT}
-
-function rJI(cid,t,v,offres){
-  const container=document.getElementById(cid);
-  if(t==='etudes'){
-    let ofs=offres&&offres.length?offres:[{label:'Offre 1',jalons:{}}];
-    let h='';
-    ofs.forEach((o,oi)=>{
-      h+='<div class="offre-section" data-offre-idx="'+oi+'">';
-      h+='<h5>📋 '+eH(o.label);
-      if(oi>0)h+=' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+oi+')">✕ Supprimer</button>';
-      h+='</h5>';
-      JE.forEach(k=>{
-        const val=(o.jalons&&o.jalons[k])||'';
-        const col=JC[k]||'#f44';
-        h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+oi+'" data-jalon="'+k+'" value="'+val+'"></div>';
-      });
-      h+='</div>';
-    });
-    h+='<button class="offre-add-btn" onclick="addOffreField(\''+cid+'\')">＋ Ajouter une offre</button>';
-    container.innerHTML=h;
-  } else {
-    container.innerHTML=JT.map(k=>{
-      const val=v&&v[k]||'';
-      const col=JC[k]||'#f44';
-      return '<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-jalon="'+k+'" value="'+val+'"></div>';
-    }).join('');
-  }
-}
-
-function addOffreField(cid){
-  const container=document.getElementById(cid);
-  const existing=container.querySelectorAll('.offre-section');
-  const newIdx=existing.length;
-  const label='Offre '+(newIdx+1);
-  const div=document.createElement('div');
-  div.className='offre-section';
-  div.dataset.offreIdx=newIdx;
-  let h='<h5>📋 '+eH(label)+' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+newIdx+')">✕ Supprimer</button></h5>';
-  JE.forEach(k=>{
-    const col=JC[k]||'#f44';
-    h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+newIdx+'" data-jalon="'+k+'" value=""></div>';
-  });
-  div.innerHTML=h;
-  const addBtn=container.querySelector('.offre-add-btn');
-  container.insertBefore(div,addBtn);
-}
-
-function removeOffreField(cid,idx){
-  const container=document.getElementById(cid);
-  const sections=container.querySelectorAll('.offre-section');
-  if(idx<sections.length)sections[idx].remove();
-  const remaining=container.querySelectorAll('.offre-section');
-  remaining.forEach((sec,i)=>{
-    sec.dataset.offreIdx=i;
-    const h5=sec.querySelector('h5');
-    const label='Offre '+(i+1);
-    if(i===0){h5.innerHTML='📋 '+label}
-    else{h5.innerHTML='📋 '+label+' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+i+')">✕ Supprimer</button>'}
-    sec.querySelectorAll('input[data-offre]').forEach(inp=>{inp.dataset.offre=i});
-  });
-}
-
-function updJF(m){
-  if(m==='add'){
-    const t=document.getElementById('nAT').value;
-    rJI('addJF',t,{},[{label:'Offre 1',jalons:{}}]);
-  }
-}
-
-function cJ(cid,type){
-  if(type==='etudes'){
-    const container=document.getElementById(cid);
-    const sections=container.querySelectorAll('.offre-section');
-    const offres=[];
-    sections.forEach((sec,i)=>{
-      const o={label:'Offre '+(i+1),jalons:{}};
-      sec.querySelectorAll('input[data-jalon]').forEach(inp=>{
-        if(inp.value)o.jalons[inp.dataset.jalon]=inp.value;
-      });
-      offres.push(o);
-    });
-    return{jalons:{},offres:offres};
-  } else {
-    const j={};
-    document.getElementById(cid).querySelectorAll('input[data-jalon]').forEach(i=>{
-      if(i.value)j[i.dataset.jalon]=i.value;
-    });
-    return{jalons:j};
-  }
-}
+function rJI(cid,t,v,offres){const container=document.getElementById(cid);if(t==='etudes'){let ofs=offres&&offres.length?offres:[{label:'Offre 1',jalons:{}}];let h='';ofs.forEach((o,oi)=>{h+='<div class="offre-section" data-offre-idx="'+oi+'"><h5>📋 '+eH(o.label);if(oi>0)h+=' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+oi+')">✕ Supprimer</button>';h+='</h5>';JE.forEach(k=>{const val=(o.jalons&&o.jalons[k])||'';const col=JC[k]||'#f44';h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+oi+'" data-jalon="'+k+'" value="'+val+'"></div>'});h+='</div>'});h+='<button class="offre-add-btn" onclick="addOffreField(\''+cid+'\')">＋ Ajouter une offre</button>';container.innerHTML=h}else{container.innerHTML=JT.map(k=>{const val=v&&v[k]||'';const col=JC[k]||'#f44';return '<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-jalon="'+k+'" value="'+val+'"></div>'}).join('')}}
+function addOffreField(cid){const container=document.getElementById(cid);const existing=container.querySelectorAll('.offre-section');const newIdx=existing.length;const label='Offre '+(newIdx+1);const div=document.createElement('div');div.className='offre-section';div.dataset.offreIdx=newIdx;let h='<h5>📋 '+eH(label)+' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+newIdx+')">✕ Supprimer</button></h5>';JE.forEach(k=>{const col=JC[k]||'#f44';h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+newIdx+'" data-jalon="'+k+'" value=""></div>'});div.innerHTML=h;const addBtn=container.querySelector('.offre-add-btn');container.insertBefore(div,addBtn)}
+function removeOffreField(cid,idx){const container=document.getElementById(cid);const sections=container.querySelectorAll('.offre-section');if(idx<sections.length)sections[idx].remove();const remaining=container.querySelectorAll('.offre-section');remaining.forEach((sec,i)=>{sec.dataset.offreIdx=i;const h5=sec.querySelector('h5');const label='Offre '+(i+1);if(i===0)h5.innerHTML='📋 '+label;else h5.innerHTML='📋 '+label+' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+i+')">✕ Supprimer</button>';sec.querySelectorAll('input[data-offre]').forEach(inp=>{inp.dataset.offre=i})})}
+function updJF(m){if(m==='add'){const t=document.getElementById('nAT').value;rJI('addJF',t,{},[{label:'Offre 1',jalons:{}}])}}
+function cJ(cid,type){if(type==='etudes'){const container=document.getElementById(cid);const sections=container.querySelectorAll('.offre-section');const offres=[];sections.forEach((sec,i)=>{const o={label:'Offre '+(i+1),jalons:{}};sec.querySelectorAll('input[data-jalon]').forEach(inp=>{if(inp.value)o.jalons[inp.dataset.jalon]=inp.value});offres.push(o)});return{jalons:{},offres}}else{const j={};document.getElementById(cid).querySelectorAll('input[data-jalon]').forEach(i=>{if(i.value)j[i.dataset.jalon]=i.value});return{jalons:j}}}
 
 function getDates(){const dates=[];let d=new Date(sDate),s=0;while(dates.length<DAYS&&s<250){if(!isWE(d))dates.push(new Date(d));d.setDate(d.getDate()+1);s++}return dates}
-function buildHead(thId,label){const dates=getDates(),thead=document.getElementById(thId);let yc='<th class="col-aff" rowspan="4">'+label+'</th>',i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}let mc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}let wc='';i=0;while(i<dates.length){const w=wn(dates[i]),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w&&dates[i+sp].getFullYear()===y)sp++;wc+='<th colspan="'+sp+'">S'+w+'</th>';i+=sp}let dc='';dates.forEach(dd=>{let cl='';if(isT(dd))cl+=' today';if(isF(dd))cl+=' ferie-day';dc+='<th class="'+cl+'">'+DI[dd.getDay()]+dd.getDate()+'</th>'});thead.innerHTML='<tr class="row-year">'+yc+'</tr><tr class="row-month">'+mc+'</tr><tr class="row-week">'+wc+'</tr><tr class="row-day">'+dc+'</tr>';return dates}
 
-function getAllJalons(aff){
-  const jd={};
-  if(aff.jalons){Object.entries(aff.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}})}
-  if(aff.offres){aff.offres.forEach(o=>{if(o.jalons){Object.entries(o.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}})}})}
-  return jd;
-}
-
-function getAllJalonsBadges(aff){
-  let badges='';const entries=[];
-  if(aff.jalons){Object.entries(aff.jalons).forEach(([k,v])=>{if(v)entries.push([k,v])})}
-  if(aff.offres){aff.offres.forEach((o)=>{if(o.jalons){Object.entries(o.jalons).forEach(([k,v])=>{if(v)entries.push([k,v,o.label])})}})}
-  if(entries.length){
-    badges='<div class="jb">';
-    entries.forEach(([k,v,lbl])=>{
-      const col=JC[k]||'#f44';const dt=new Date(v);
-      const suffix=lbl?' ('+lbl+')':'';
-      badges+='<span class="jbd" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+k+' '+dt.getDate()+'/'+(dt.getMonth()+1)+suffix+'</span>';
-    });
-    badges+='</div>';
+// MODIF : buildHead pour affaire inclut les boutons dans la cellule header
+function buildHead(thId,label,includeButtons){
+  const dates=getDates(),thead=document.getElementById(thId);
+  let headerCell;
+  if(includeButtons){
+    headerCell='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><button class="abtn abtn-add" onclick="openAddAff()">＋ Ajouter</button><button class="abtn abtn-del" onclick="openDelAff()">✕ Supprimer</button></div></div></th>';
+  }else{
+    headerCell='<th class="col-aff" rowspan="4">'+label+'</th>';
   }
-  return badges;
-}
+  let yc=headerCell,i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}let mc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}let wc='';i=0;while(i<dates.length){const w=wn(dates[i]),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w&&dates[i+sp].getFullYear()===y)sp++;wc+='<th colspan="'+sp+'">S'+w+'</th>';i+=sp}let dc='';dates.forEach(dd=>{let cl='';if(isT(dd))cl+=' today';if(isF(dd))cl+=' ferie-day';dc+='<th class="'+cl+'">'+DI[dd.getDay()]+dd.getDate()+'</th>'});thead.innerHTML='<tr class="row-year">'+yc+'</tr><tr class="row-month">'+mc+'</tr><tr class="row-week">'+wc+'</tr><tr class="row-day">'+dc+'</tr>';return dates}
 
-function renderAffaire(){const dates=buildHead('pH1','Affaires');const tbody=document.getElementById('pB1');const{etudes,travaux}=sortAf();if(!etudes.length&&!travaux.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucune affaire</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
-function sec(items,type){const icon=type==='etudes'?'📐':'🔨',label=type==='etudes'?'ÉTUDES':'TRAVAUX';bh+='<tr class="section-header-row"><td class="col-aff section-cell">'+icon+' '+label+'</td>';dates.forEach(()=>{bh+='<td class="section-cell"></td>'});bh+='</tr>';if(!items.length)return;
-items.forEach(aff=>{const ai=Af.indexOf(aff);
-const jd=getAllJalons(aff);
-const badges=getAllJalonsBadges(aff);
-bh+='<tr class="row-'+type+'"><td class="col-aff"><span class="affn">'+eH(aff.name)+'</span><button class="edb" onclick="openEJ('+ai+')">✏️</button>'+badges+'</td>';const an=eA(aff.name).replace(/'/g,"\\'");
-dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>';return}const sl=getSl(aff.name,dkey);const blocks=mg(sl);let sh='';blocks.forEach(bl=>{const st='height:calc(var(--slot-h)*'+bl.cnt+')';if(bl.name){sh+='<div class="sb" style="'+st+';background:'+gCol(bl.name)+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+bl.cnt+')" title="'+eA(bl.name)+' '+bl.cnt*20+'%">'+ini(bl.name)+'</div>'}else{sh+='<div class="sb eb" style="'+st+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+bl.cnt+')"></div>'}});let jh='';if(jd[dkey]){const ns=jd[dkey],jc=JC[ns[0]]||'#f44',ab=ns.map(x=>x.substring(0,3)).join('/');jh='<div class="jalon-vline" style="background:'+jc+'"></div><div class="jalon-overlay"><div class="jalon-tri" style="border-top-color:'+jc+'"></div><div class="jalon-lbl" style="color:'+jc+'">'+ab+'</div></div>'}bh+='<td class="'+cls+'"><div class="sw">'+sh+'</div>'+jh+'</td>';});bh+='</tr>';});}
-sec(etudes,'etudes');sec(travaux,'travaux');tbody.innerHTML=bh;}
+function getAllJalons(aff){const jd={};if(aff.jalons)Object.entries(aff.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}});if(aff.offres)aff.offres.forEach(o=>{if(o.jalons)Object.entries(o.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}})});return jd}
+function getAllJalonsBadges(aff){let badges='';const entries=[];if(aff.jalons)Object.entries(aff.jalons).forEach(([k,v])=>{if(v)entries.push([k,v])});if(aff.offres)aff.offres.forEach(o=>{if(o.jalons)Object.entries(o.jalons).forEach(([k,v])=>{if(v)entries.push([k,v,o.label])})});if(entries.length){badges='<div class="jb">';entries.forEach(([k,v,lbl])=>{const col=JC[k]||'#f44';const dt=new Date(v);const suffix=lbl?' ('+lbl+')':'';badges+='<span class="jbd" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+k+' '+dt.getDate()+'/'+(dt.getMonth()+1)+suffix+'</span>'});badges+='</div>'}return badges}
+
+function renderAffaire(){const dates=buildHead('pH1','Affaires',true);const tbody=document.getElementById('pB1');const{etudes,travaux}=sortAf();if(!etudes.length&&!travaux.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucune affaire</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
+function sec(items,type){const icon=type==='etudes'?'📐':'🔨',label=type==='etudes'?'ÉTUDES':'TRAVAUX';bh+='<tr class="section-header-row"><td class="col-aff section-cell">'+icon+' '+label+'</td>';dates.forEach(()=>{bh+='<td class="section-cell"></td>'});bh+='</tr>';if(!items.length)return;items.forEach(aff=>{const ai=Af.indexOf(aff);const jd=getAllJalons(aff);const badges=getAllJalonsBadges(aff);bh+='<tr class="row-'+type+'"><td class="col-aff"><span class="affn">'+eH(aff.name)+'</span><button class="edb" onclick="openEJ('+ai+')">✏️</button>'+badges+'</td>';const an=eA(aff.name).replace(/'/g,"\\'");dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>';return}const sl=getSl(aff.name,dkey);const blocks=mg(sl);let sh='';blocks.forEach(bl=>{const st='height:calc(var(--slot-h)*'+bl.cnt+')';if(bl.name){sh+='<div class="sb" style="'+st+';background:'+gCol(bl.name)+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+bl.cnt+')" title="'+eA(bl.name)+' '+bl.cnt*20+'%">'+ini(bl.name)+'</div>'}else{sh+='<div class="sb eb" style="'+st+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+bl.cnt+')"></div>'}});let jh='';if(jd[dkey]){const ns=jd[dkey],jc=JC[ns[0]]||'#f44',ab=ns.map(x=>x.substring(0,3)).join('/');jh='<div class="jalon-vline" style="background:'+jc+'"></div><div class="jalon-overlay"><div class="jalon-tri" style="border-top-color:'+jc+'"></div><div class="jalon-lbl" style="color:'+jc+'">'+ab+'</div></div>'}bh+='<td class="'+cls+'"><div class="sw">'+sh+'</div>'+jh+'</td>'});bh+='</tr>'})}
+sec(etudes,'etudes');sec(travaux,'travaux');tbody.innerHTML=bh}
 
 function getLoad(cn,dkey){const entries=[];Af.forEach(aff=>{const sl=getSl(aff.name,dkey);let cnt=0;for(let i=0;i<5;i++){if(sl[i]===cn)cnt++}if(cnt>0)entries.push({name:aff.name,cnt,type:aff.type})});return{used:entries.reduce((s,e)=>s+e.cnt,0),entries}}
+function makeLoadSig(ld){if(ld.fer)return'FER';if(ld.leave)return'LV|'+ld.leave;const parts=ld.entries.map(e=>e.name+':'+e.cnt).sort();return'W|'+ld.used+'|'+parts.join(',')}
 
-function makeLoadSig(ld){
-  if(ld.fer) return 'FER';
-  if(ld.leave) return 'LV|'+ld.leave;
-  const parts=ld.entries.map(e=>e.name+':'+e.cnt).sort();
-  return 'W|'+ld.used+'|'+parts.join(',');
-}
+function renderCollab(){const dates=buildHead('pH2','Collaborateurs',false);const tbody=document.getElementById('pB2');if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';Co.forEach(col=>{const loads=dates.map(dd=>{if(isF(dd))return{fer:true,used:0,entries:[],status:'fer',pct:0,leave:null};const lv=hasLeave(col.name,dk(dd));if(lv)return{fer:false,leave:lv,used:5,entries:[],status:'leave',pct:100};const ld=getLoad(col.name,dk(dd));let st='full';if(ld.used>5)st='over';else if(ld.used<5)st='free';return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st,pct:ld.used*20}});const sigs=loads.map(l=>makeLoadSig(l));const groups=[];let gi=0;while(gi<dates.length){const sig=sigs[gi];let glen=1;while(gi+glen<dates.length&&sigs[gi+glen]===sig)glen++;groups.push({start:gi,len:glen,load:loads[gi]});gi+=glen}bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';groups.forEach(g=>{const ld=g.load;const nj=g.len;const cs=nj>1?' colspan="'+nj+'"':'';if(ld.fer){bh+='<td class="dc fc"'+cs+'><div class="sw"></div></td>';return}if(ld.leave){const txt=eH(ld.leave)+(nj>1?' - '+nj+'j':'');bh+='<td class="dc"'+cs+'><div class="leave-cell-cv">'+txt+'</div></td>';return}let cls='dc';if(ld.status==='over')cls+=' overload-cell';let sh='';ld.entries.forEach(e=>{const pct=e.cnt*20;const st='height:calc(var(--slot-h)*'+e.cnt+')';const bg=e.type==='etudes'?'#ffe0b2':'#bbdefb';const label=e.name+(nj>1?' - '+nj+'j':'')+' - '+pct+'%';sh+='<div class="cvb" style="'+st+';background:'+bg+';color:#000" title="'+eA(e.name)+' '+pct+'%">'+eH(label)+'</div>'});if(ld.status==='over'){const overSlots=ld.used-5;sh+='<div class="overload-wm" style="height:calc(var(--slot-h)*'+Math.max(overSlots,1)+')">⚠ '+ld.pct+'%</div>'}if(ld.status==='free'){const fs=5-ld.used;const fp=fs*20;const label=nj>1?fp+'% - '+nj+'j':fp+'%';sh+='<div class="cv-avail avail-free" style="height:calc(var(--slot-h)*'+fs+')">'+label+'</div>'}bh+='<td class="'+cls+'"'+cs+'><div class="sw">'+sh+'</div></td>'});bh+='</tr>'});tbody.innerHTML=bh}
 
-function renderCollab(){
-  const dates=buildHead('pH2','Collaborateurs');
-  const tbody=document.getElementById('pB2');
-  if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}
-  let bh='';
-  Co.forEach(col=>{
-    const loads=dates.map(dd=>{
-      if(isF(dd)) return{fer:true,used:0,entries:[],status:'fer',pct:0,leave:null};
-      const lv=hasLeave(col.name,dk(dd));
-      if(lv) return{fer:false,leave:lv,used:5,entries:[],status:'leave',pct:100};
-      const ld=getLoad(col.name,dk(dd));
-      let st='full';
-      if(ld.used>5)st='over';else if(ld.used<5)st='free';
-      return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st,pct:ld.used*20};
-    });
-    const sigs=loads.map(l=>makeLoadSig(l));
-    const groups=[];
-    let gi=0;
-    while(gi<dates.length){
-      const sig=sigs[gi];
-      let glen=1;
-      while(gi+glen<dates.length && sigs[gi+glen]===sig) glen++;
-      groups.push({start:gi, len:glen, load:loads[gi]});
-      gi+=glen;
-    }
-    bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';
-    groups.forEach(g=>{
-      const ld=g.load;
-      const nj=g.len;
-      const cs=nj>1?' colspan="'+nj+'"':'';
-      if(ld.fer){bh+='<td class="dc fc"'+cs+'><div class="sw"></div></td>';return}
-      if(ld.leave){const txt=eH(ld.leave)+(nj>1?' - '+nj+'j':'');bh+='<td class="dc"'+cs+'><div class="leave-cell-cv">'+txt+'</div></td>';return}
-      let cls='dc';
-      if(ld.status==='over') cls+=' overload-cell';
-      let sh='';
-      ld.entries.forEach(e=>{
-        const pct=e.cnt*20;
-        const st='height:calc(var(--slot-h)*'+e.cnt+')';
-        const bg=e.type==='etudes'?'#ffe0b2':'#bbdefb';
-        const label=e.name+(nj>1?' - '+nj+'j':'')+' - '+pct+'%';
-        sh+='<div class="cvb" style="'+st+';background:'+bg+';color:#000" title="'+eA(e.name)+' '+pct+'%">'+eH(label)+'</div>';
-      });
-      if(ld.status==='over'){
-        const overSlots=ld.used-5;
-        sh+='<div class="overload-wm" style="height:calc(var(--slot-h)*'+Math.max(overSlots,1)+')">⚠ '+ld.pct+'%</div>';
-      }
-      if(ld.status==='free'){
-        const fs=5-ld.used;
-        const fp=fs*20;
-        const label=nj>1?fp+'% - '+nj+'j':fp+'%';
-        sh+='<div class="cv-avail avail-free" style="height:calc(var(--slot-h)*'+fs+')">'+label+'</div>';
-      }
-      bh+='<td class="'+cls+'"'+cs+'><div class="sw">'+sh+'</div></td>';
-    });
-    bh+='</tr>';
-  });
-  tbody.innerHTML=bh;
-}
-
-function renderConges(){const dates=buildHead('pH3','Collaborateurs');const tbody=document.getElementById('pB3');if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
-Co.forEach(col=>{bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';const cn=eA(col.name).replace(/'/g,"\\'");
-dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"></div></td>';return}
-const lv=hasLeave(col.name,dkey);if(lv){bh+='<td class="'+cls+'" onclick="onLC(\''+cn+'\',\''+dkey+'\')"><div class="leave-cell">'+eH(lv)+'</div></td>'}else{bh+='<td class="'+cls+'" style="cursor:pointer" onclick="onLC(\''+cn+'\',\''+dkey+'\')"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>'}
-});bh+='</tr>';});tbody.innerHTML=bh;}
+function renderConges(){const dates=buildHead('pH3','Collaborateurs',false);const tbody=document.getElementById('pB3');if(!Co.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucun</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';Co.forEach(col=>{bh+='<tr class="row-collab"><td class="col-aff"><span class="cra" style="background:'+col.color+'">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';const cn=eA(col.name).replace(/'/g,"\\'");dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"></div></td>';return}const lv=hasLeave(col.name,dkey);if(lv){bh+='<td class="'+cls+'" onclick="onLC(\''+cn+'\',\''+dkey+'\')"><div class="leave-cell">'+eH(lv)+'</div></td>'}else{bh+='<td class="'+cls+'" style="cursor:pointer" onclick="onLC(\''+cn+'\',\''+dkey+'\')"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>'}});bh+='</tr>'});tbody.innerHTML=bh}
 
 function render(){if(curTab==='affaire'){renderToolbox();renderAffaire()}else if(curTab==='collab')renderCollab();else if(curTab==='conges'){renderLTB();renderConges()}}
 
-function onBl(aff,dkey,si,bs){const sl=getSl(aff,dkey);
-if(eraser){const nm=sl[si];if(nm){const tg=getTD(aff,dkey);tg.forEach(d=>{const s=getSl(aff,d);for(let i=0;i<5;i++){if(s[i]===nm)s[i]=null}Dt[aff+'|'+d]=s});sv();render();toast('Effacé ('+tg.length+'j).','info')}return}
-if(!selCol){toast('Sélectionnez un collaborateur.','error');return}
-const tg=getTD(aff,dkey);const need=selPct/20;let filled=0,blocked=0,full=0;
-tg.forEach(d=>{if(hasLeave(selCol,d)){blocked++;return}const s=getSl(aff,d);
-const freeSlots=[];for(let i=0;i<5;i++){if(s[i]===null)freeSlots.push(i)}
-if(freeSlots.length<need){full++;return}
-freeSlots.sort((a,b)=>Math.abs(a-si)-Math.abs(b-si));
-for(let n=0;n<need;n++)s[freeSlots[n]]=selCol;
-Dt[aff+'|'+d]=s;filled++});
-sv();render();
-if(blocked)toast(blocked+'j bloqué(s) (congé).','error');
-if(full)toast(full+'j ignoré(s) (100% atteint).','error');
-if(tg.length>1&&filled)toast('Rempli '+filled+'/'+tg.length+'j.','success');}
+function onBl(aff,dkey,si,bs){const sl=getSl(aff,dkey);if(eraser){const nm=sl[si];if(nm){const tg=getTD(aff,dkey);tg.forEach(d=>{const s=getSl(aff,d);for(let i=0;i<5;i++){if(s[i]===nm)s[i]=null}Dt[aff+'|'+d]=s});sv();render();toast('Effacé ('+tg.length+'j).','info')}return}if(!selCol){toast('Sélectionnez un collaborateur.','error');return}const tg=getTD(aff,dkey);const need=selPct/20;let filled=0,blocked=0,full=0;tg.forEach(d=>{if(hasLeave(selCol,d)){blocked++;return}const s=getSl(aff,d);const freeSlots=[];for(let i=0;i<5;i++){if(s[i]===null)freeSlots.push(i)}if(freeSlots.length<need){full++;return}freeSlots.sort((a,b)=>Math.abs(a-si)-Math.abs(b-si));for(let n=0;n<need;n++)s[freeSlots[n]]=selCol;Dt[aff+'|'+d]=s;filled++});sv();render();if(blocked)toast(blocked+'j bloqué(s) (congé).','error');if(full)toast(full+'j ignoré(s) (100% atteint).','error');if(tg.length>1&&filled)toast('Rempli '+filled+'/'+tg.length+'j.','success')}
 
-function onLC(cn,dkey){
-if(leaveEraser){if(LD[cn+'|'+dkey]){const tg=getLTD(dkey);tg.forEach(d=>{delete LD[cn+'|'+d]});sv();render();toast('Congé supprimé.','info')}return}
-if(!selLeave){toast('Sélectionnez un type.','error');return}
-const tg=getLTD(dkey);
-const conflicts=[];
-tg.forEach(d=>{
-  Af.forEach(aff=>{
-    const sl=getSl(aff.name,d);
-    let cnt=0;
-    for(let i=0;i<5;i++){if(sl[i]===cn)cnt++}
-    if(cnt>0)conflicts.push({day:d,aff:aff.name,cnt});
-  });
-});
-if(conflicts.length>0){
-  _pendingLeave={cn,days:tg,leaveType:selLeave,conflicts};
-  let msg='<p>Le collaborateur <b>'+eH(cn)+'</b> est affecté à des affaires sur ces jours :</p><ul style="margin:10px 0;padding-left:20px">';
-  const byDay={};
-  conflicts.forEach(c=>{if(!byDay[c.day])byDay[c.day]=[];byDay[c.day].push(c.aff+' ('+(c.cnt*20)+'%)')});
-  Object.entries(byDay).forEach(([day,affs])=>{
-    const dd=pdk(day);
-    msg+='<li><b>'+dd.getDate()+'/'+(dd.getMonth()+1)+'/'+dd.getFullYear()+'</b> : '+affs.join(', ')+'</li>';
-  });
-  msg+='</ul><p>Si vous validez, le congé sera posé et les affectations supprimées sur ces jours.</p>';
-  document.getElementById('leaveConflictMsg').innerHTML=msg;
-  document.getElementById('mLeaveConfirm').classList.add('show');
-  return;
-}
-tg.forEach(d=>{LD[cn+'|'+d]=selLeave});sv();render();toast(selLeave+' ('+tg.length+'j).','success');}
+function onLC(cn,dkey){if(leaveEraser){if(LD[cn+'|'+dkey]){const tg=getLTD(dkey);tg.forEach(d=>{delete LD[cn+'|'+d]});sv();render();toast('Congé supprimé.','info')}return}if(!selLeave){toast('Sélectionnez un type.','error');return}const tg=getLTD(dkey);const conflicts=[];tg.forEach(d=>{Af.forEach(aff=>{const sl=getSl(aff.name,d);let cnt=0;for(let i=0;i<5;i++){if(sl[i]===cn)cnt++}if(cnt>0)conflicts.push({day:d,aff:aff.name,cnt})})});if(conflicts.length>0){_pendingLeave={cn,days:tg,leaveType:selLeave,conflicts};let msg='<p>Le collaborateur <b>'+eH(cn)+'</b> est affecté à des affaires sur ces jours :</p><ul style="margin:10px 0;padding-left:20px">';const byDay={};conflicts.forEach(c=>{if(!byDay[c.day])byDay[c.day]=[];byDay[c.day].push(c.aff+' ('+(c.cnt*20)+'%)')});Object.entries(byDay).forEach(([day,affs])=>{const dd=pdk(day);msg+='<li><b>'+dd.getDate()+'/'+(dd.getMonth()+1)+'/'+dd.getFullYear()+'</b> : '+affs.join(', ')+'</li>'});msg+='</ul><p>Si vous validez, le congé sera posé et les affectations supprimées.</p>';document.getElementById('leaveConflictMsg').innerHTML=msg;document.getElementById('mLeaveConfirm').classList.add('show');return}tg.forEach(d=>{LD[cn+'|'+d]=selLeave});sv();render();toast(selLeave+' ('+tg.length+'j).','success')}
+function confirmLeaveConflict(){if(!_pendingLeave)return;const{cn,days,leaveType,conflicts}=_pendingLeave;conflicts.forEach(c=>{const sl=getSl(c.aff,c.day);for(let i=0;i<5;i++){if(sl[i]===cn)sl[i]=null}Dt[c.aff+'|'+c.day]=sl});days.forEach(d=>{LD[cn+'|'+d]=leaveType});_pendingLeave=null;closeM('mLeaveConfirm');sv();render();toast(leaveType+' ('+days.length+'j) — affectations supprimées.','success')}
+function cancelLeaveConflict(){_pendingLeave=null;closeM('mLeaveConfirm');toast('Congé annulé.','info')}
 
-function confirmLeaveConflict(){
-  if(!_pendingLeave)return;
-  const{cn,days,leaveType,conflicts}=_pendingLeave;
-  conflicts.forEach(c=>{
-    const sl=getSl(c.aff,c.day);
-    for(let i=0;i<5;i++){if(sl[i]===cn)sl[i]=null}
-    Dt[c.aff+'|'+c.day]=sl;
-  });
-  days.forEach(d=>{LD[cn+'|'+d]=leaveType});
-  _pendingLeave=null;
-  closeM('mLeaveConfirm');
-  sv();render();
-  toast(leaveType+' ('+days.length+'j) — affectations supprimées.','success');
-}
-
-function cancelLeaveConflict(){
-  _pendingLeave=null;
-  closeM('mLeaveConfirm');
-  toast('Congé annulé.','info');
-}
-
-function renderToolbox(){const box=document.getElementById('cTB');if(!Co.length){box.innerHTML='<span class="no-collab-msg">Aucun collaborateur.</span>';updD();return}let h='';Co.forEach(c=>{const sel=(selCol===c.name&&!eraser)?' selected':'';h+='<button class="collab-btn'+sel+'" style="background:'+c.color+';border-color:'+c.color+'" onclick="selCo(\''+eA(c.name).replace(/'/g,"\\'")+'\')">'+ eH(c.name)+'</button>'});h+='<div class="toolbox-separator"></div><button class="toolbox-action-btn" onclick="desel()">✕</button><button class="toolbox-action-btn'+(eraser?' eraser-active':'')+'" onclick="togE()">🧹</button>';box.innerHTML=h;updD()}
+function renderToolbox(){const box=document.getElementById('cTB');if(!Co.length){box.innerHTML='<span class="no-collab-msg">Aucun collaborateur.</span>';updD();return}let h='';Co.forEach(c=>{const sel=(selCol===c.name&&!eraser)?' selected':'';h+='<button class="collab-btn'+sel+'" style="background:'+c.color+';border-color:'+c.color+'" onclick="selCo(\''+eA(c.name).replace(/'/g,"\\'")+'\')">'+ eH(c.name)+'</button>'});h+='<div class="tb-sep"></div><button class="toolbox-action-btn" onclick="desel()">✕</button><button class="toolbox-action-btn'+(eraser?' eraser-active':'')+'" onclick="togE()">🧹</button>';box.innerHTML=h;updD()}
 function selCo(n){eraser=false;selCol=n;renderToolbox();toast(n+' '+selPct+'%','success')}
 function desel(){selCol=null;eraser=false;renderToolbox()}
 function togE(){eraser=!eraser;if(eraser)selCol=null;renderToolbox()}
 function updD(){const d=document.getElementById('selDisp');d.classList.remove('active-selection','eraser-active');if(eraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}else if(selCol){d.textContent='🎯 '+selCol+' '+selPct+'%';d.classList.add('active-selection')}else{d.textContent='Aucun'}}
 
-function renderLTB(){const box=document.getElementById('lTB');let h='';LT.forEach(lt=>{const sel=(selLeave===lt&&!leaveEraser)?' selected':'';h+='<button class="leave-btn'+sel+'" onclick="selLv(\''+eA(lt)+'\')">'+eH(lt)+'</button> '});h+='<div class="toolbox-separator"></div><button class="toolbox-action-btn" onclick="deselLv()">✕</button><button class="toolbox-action-btn'+(leaveEraser?' eraser-active':'')+'" onclick="togLE()">🧹</button>';box.innerHTML=h;updLD()}
+function renderLTB(){const box=document.getElementById('lTB');let h='';LT.forEach(lt=>{const sel=(selLeave===lt&&!leaveEraser)?' selected':'';h+='<button class="leave-btn'+sel+'" onclick="selLv(\''+eA(lt)+'\')">'+eH(lt)+'</button> '});h+='<div class="tb-sep"></div><button class="toolbox-action-btn" onclick="deselLv()">✕</button><button class="toolbox-action-btn'+(leaveEraser?' eraser-active':'')+'" onclick="togLE()">🧹</button>';box.innerHTML=h;updLD()}
 function selLv(lt){leaveEraser=false;selLeave=lt;renderLTB()}
 function deselLv(){selLeave=null;leaveEraser=false;renderLTB()}
 function togLE(){leaveEraser=!leaveEraser;if(leaveEraser)selLeave=null;renderLTB()}
 function updLD(){const d=document.getElementById('selLDisp');d.classList.remove('active-selection','eraser-active');if(leaveEraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}else if(selLeave){d.textContent='🏖️ '+selLeave;d.classList.add('active-selection')}else{d.textContent='Aucun'}}
 
 function openAddAff(){document.getElementById('nAN').value='';document.getElementById('nAT').value='etudes';updJF('add');document.getElementById('mAdd').classList.add('show');setTimeout(()=>document.getElementById('nAN').focus(),200)}
-
-function addAff(){const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;if(!n){toast('Nom requis.','error');return}if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}
-const jData=cJ('addJF',t);
-const newAff={name:n,type:t,jalons:jData.jalons||{}};
-if(t==='etudes'&&jData.offres)newAff.offres=jData.offres;
-Af.push(newAff);sv();closeM('mAdd');render();toast('OK.','success')}
-
+function addAff(){const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;if(!n){toast('Nom requis.','error');return}if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}const jData=cJ('addJF',t);const newAff={name:n,type:t,jalons:jData.jalons||{}};if(t==='etudes'&&jData.offres)newAff.offres=jData.offres;Af.push(newAff);sv();closeM('mAdd');render();toast('OK.','success')}
 function openDelAff(){document.getElementById('dAN').value='';const{etudes,travaux}=sortAf();let t='';if(etudes.length)t+='<b>Études:</b> '+etudes.map(a=>eH(a.name)).join(', ');if(etudes.length&&travaux.length)t+='<br>';if(travaux.length)t+='<b>Travaux:</b> '+travaux.map(a=>eH(a.name)).join(', ');document.getElementById('dAL').innerHTML=t||'Aucune.';document.getElementById('mDel').classList.add('show')}
 function delAff(){const n=document.getElementById('dAN').value.trim(),idx=Af.findIndex(a=>a.name===n);if(idx<0){toast('Introuvable.','error');return}Af.splice(idx,1);Object.keys(Dt).forEach(k=>{if(k.startsWith(n+'|'))delete Dt[k]});sv();closeM('mDel');render()}
-
-function openEJ(idx){eIdx=idx;const a=Af[idx];document.getElementById('eJN').textContent=a.name;
-rJI('eJF',a.type,a.jalons||{},a.offres||[{label:'Offre 1',jalons:{}}]);
-document.getElementById('mEJ').classList.add('show')}
-
-function saveJ(){if(eIdx<0)return;
-const a=Af[eIdx];
-const jData=cJ('eJF',a.type);
-a.jalons=jData.jalons||{};
-if(a.type==='etudes'&&jData.offres)a.offres=jData.offres;
-sv();closeM('mEJ');render()}
-
+function openEJ(idx){eIdx=idx;const a=Af[idx];document.getElementById('eJN').textContent=a.name;rJI('eJF',a.type,a.jalons||{},a.offres||[{label:'Offre 1',jalons:{}}]);document.getElementById('mEJ').classList.add('show')}
+function saveJ(){if(eIdx<0)return;const a=Af[eIdx];const jData=cJ('eJF',a.type);a.jalons=jData.jalons||{};if(a.type==='etudes'&&jData.offres)a.offres=jData.offres;sv();closeM('mEJ');render()}
 function closeM(id){document.getElementById(id).classList.remove('show')}
 document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')})});
 
-// ============================================================
-// GESTION COLLABORATEURS (PARAMÉTRAGE) — MODIFIÉ : ajout renommage
-// ============================================================
-function renderCL(){
-  const ul=document.getElementById('cList');
-  if(!Co.length){ul.innerHTML='<li style="color:var(--text-light);font-style:italic">Aucun.</li>';return}
-  ul.innerHTML=Co.map((c,i)=>
-    '<li><div style="display:flex;align-items:center">'+
-      '<div class="ca" style="background:'+c.color+'">'+ini(c.name)+'</div>'+
-      '<span class="ci">'+eH(c.name)+'</span>'+
-    '</div>'+
-    '<button class="cedit" onclick="openRenameCollab('+i+')" title="Renommer">✏️</button>'+
-    '<input type="color" class="cce" value="'+c.color+'" onchange="chCol('+i+',this.value)">'+
-    '</li>'
-  ).join('');
-}
-
+function renderCL(){const ul=document.getElementById('cList');if(!Co.length){ul.innerHTML='<li style="color:var(--text-light);font-style:italic">Aucun.</li>';return}ul.innerHTML=Co.map((c,i)=>'<li><div style="display:flex;align-items:center"><div class="ca" style="background:'+c.color+'">'+ini(c.name)+'</div><span class="ci">'+eH(c.name)+'</span></div><button class="cedit" onclick="openRenameCollab('+i+')" title="Renommer">✏️</button><input type="color" class="cce" value="'+c.color+'" onchange="chCol('+i+',this.value)"></li>').join('')}
 function chCol(i,col){Co[i].color=col;sv();renderCL();render()}
-
 function addC(){const input=document.getElementById('newCN'),n=input.value.trim(),c=document.getElementById('newCC').value;if(!n)return;if(Co.some(x=>x.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}Co.push({name:n,color:c});sv();input.value='';renderCL();render();toast('OK.','success')}
-
 function delC(){const input=document.getElementById('delCN'),n=input.value.trim(),idx=Co.findIndex(c=>c.name===n);if(idx<0){toast('Introuvable.','error');return}Co.splice(idx,1);Object.keys(Dt).forEach(k=>{const sl=Dt[k];if(Array.isArray(sl))for(let i=0;i<sl.length;i++){if(sl[i]===n)sl[i]=null}});Object.keys(LD).forEach(k=>{if(k.startsWith(n+'|'))delete LD[k]});if(selCol===n)selCol=null;sv();input.value='';renderCL();render()}
+function openRenameCollab(idx){_renameIdx=idx;document.getElementById('renameOldName').textContent=Co[idx].name;document.getElementById('renameNewName').value=Co[idx].name;document.getElementById('mRenameCollab').classList.add('show');setTimeout(()=>{const inp=document.getElementById('renameNewName');inp.focus();inp.select()},200)}
+function confirmRenameCollab(){if(_renameIdx<0)return;const oldName=Co[_renameIdx].name;const newName=document.getElementById('renameNewName').value.trim();if(!newName){toast('Nom requis.','error');return}if(newName===oldName){closeM('mRenameCollab');return}if(Co.some((x,i)=>i!==_renameIdx&&x.name.toLowerCase()===newName.toLowerCase())){toast('Ce nom existe déjà.','error');return}Co[_renameIdx].name=newName;Object.keys(Dt).forEach(k=>{const sl=Dt[k];if(Array.isArray(sl))for(let i=0;i<sl.length;i++){if(sl[i]===oldName)sl[i]=newName}});const newLD={};Object.keys(LD).forEach(k=>{if(k.startsWith(oldName+'|')){newLD[newName+'|'+k.substring(oldName.length+1)]=LD[k]}else{newLD[k]=LD[k]}});LD=newLD;if(selCol===oldName)selCol=newName;_renameIdx=-1;closeM('mRenameCollab');sv();renderCL();render();toast('Renommé : '+oldName+' → '+newName,'success')}
 
-// MODIF : ouvrir le modal de renommage
-function openRenameCollab(idx){
-  _renameIdx = idx;
-  const oldName = Co[idx].name;
-  document.getElementById('renameOldName').textContent = oldName;
-  document.getElementById('renameNewName').value = oldName;
-  document.getElementById('mRenameCollab').classList.add('show');
-  setTimeout(()=>{
-    const inp = document.getElementById('renameNewName');
-    inp.focus();
-    inp.select();
-  },200);
-}
-
-// MODIF : confirmer le renommage — propage dans Dt, LD et selCol
-function confirmRenameCollab(){
-  if(_renameIdx < 0) return;
-  const oldName = Co[_renameIdx].name;
-  const newName = document.getElementById('renameNewName').value.trim();
-  if(!newName){toast('Nom requis.','error');return}
-  if(newName === oldName){closeM('mRenameCollab');return}
-  if(Co.some((x,i) => i !== _renameIdx && x.name.toLowerCase() === newName.toLowerCase())){toast('Ce nom existe déjà.','error');return}
-
-  // Mettre à jour le nom dans Co
-  Co[_renameIdx].name = newName;
-
-  // Mettre à jour dans les slots planning (Dt)
-  const newDt = {};
-  Object.keys(Dt).forEach(k => {
-    const sl = Dt[k];
-    if(Array.isArray(sl)){
-      for(let i=0;i<sl.length;i++){
-        if(sl[i]===oldName) sl[i]=newName;
-      }
-    }
-    newDt[k] = sl;
-  });
-  Dt = newDt;
-
-  // Mettre à jour dans les congés (LD)
-  const newLD = {};
-  Object.keys(LD).forEach(k => {
-    if(k.startsWith(oldName+'|')){
-      const newKey = newName + '|' + k.substring(oldName.length+1);
-      newLD[newKey] = LD[k];
-    } else {
-      newLD[k] = LD[k];
-    }
-  });
-  LD = newLD;
-
-  // Mettre à jour la sélection active
-  if(selCol === oldName) selCol = newName;
-
-  _renameIdx = -1;
-  closeM('mRenameCollab');
-  sv();
-  renderCL();
-  render();
-  toast('Renommé : '+oldName+' → '+newName,'success');
-}
-
-// ============================================================
-// GESTION TYPES DE CONGÉS
-// ============================================================
 function renderLTList(){document.getElementById('ltList').innerHTML=LT.map(lt=>'<span class="leave-type-tag">'+eH(lt)+' <span class="ltx" onclick="remLT(\''+eA(lt)+'\')">✕</span></span>').join('')}
 function addLT(){const input=document.getElementById('newLT'),n=input.value.trim().toUpperCase();if(!n)return;if(LT.includes(n)){toast('Existe.','error');return}LT.push(n);sv();input.value='';renderLTList()}
 function remLT(lt){LT=LT.filter(x=>x!==lt);Object.keys(LD).forEach(k=>{if(LD[k]===lt)delete LD[k]});sv();renderLTList();render()}
@@ -727,27 +417,9 @@ document.getElementById('nAN').addEventListener('keydown',e=>{if(e.key==='Enter'
 document.getElementById('dAN').addEventListener('keydown',e=>{if(e.key==='Enter')delAff()});
 
 (function(){
-  document.getElementById('curDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  sDate=new Date();
-  sDate.setDate(sDate.getDate()-3);
-
-  loadFromFirebase().then(() => {
-    document.getElementById('loadingOverlay').classList.remove('show');
-    renderCL();
-    renderLTList();
-    setFill('none');
-    setLFill('none');
-    render();
-    setTimeout(()=>navToday(),300);
-  }).catch(() => {
-    document.getElementById('loadingOverlay').classList.remove('show');
-    toast('Erreur de connexion à Firebase.','error');
-    renderCL();
-    renderLTList();
-    setFill('none');
-    setLFill('none');
-    render();
-  });
+  document.getElementById('curDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'short',year:'numeric',month:'long',day:'numeric'});
+  sDate=new Date();sDate.setDate(sDate.getDate()-3);
+  loadFromFirebase().then(()=>{document.getElementById('loadingOverlay').classList.remove('show');renderCL();renderLTList();setFill('none');setLFill('none');render();setTimeout(()=>navToday(),300)}).catch(()=>{document.getElementById('loadingOverlay').classList.remove('show');toast('Erreur de connexion à Firebase.','error');renderCL();renderLTList();setFill('none');setLFill('none');render()});
 })();
 </script>
 </body>
