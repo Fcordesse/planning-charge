@@ -117,9 +117,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .fact-card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
 .fact-card h3{padding:16px 20px;margin:0;font-size:.92rem;font-weight:700;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;gap:8px}
 .fact-scroll{overflow-x:auto}
-.fact-table{width:100%;border-collapse:collapse;min-width:1000px}
+.fact-table{width:100%;border-collapse:collapse;min-width:1200px}
 .fact-table th{padding:10px 12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--text-light);background:#fafbfc;border-bottom:2px solid var(--border);text-align:center;position:sticky;top:0;z-index:2}
-.fact-table th:first-child{text-align:left;min-width:280px;position:sticky;left:0;background:#fafbfc;z-index:3}
+.fact-table th:first-child{text-align:left;min-width:250px;position:sticky;left:0;background:#fafbfc;z-index:3}
 .fact-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;text-align:center;font-size:.82rem}
 .fact-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
 .fact-table tr:hover td{background:#f8f9ff}
@@ -157,11 +157,35 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .btn-export{padding:8px 18px;border:none;border-radius:8px;background:var(--success);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-export:hover{background:#1b8a3a}
 
-/* Filtre collaborateur */
 .fact-collab-filter{display:flex;align-items:center;gap:8px}
 .fact-collab-filter label{font-size:.78rem;font-weight:600;color:var(--text-light);white-space:nowrap}
 .fact-collab-select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:600;background:#fff;color:var(--text);cursor:pointer;min-width:180px;outline:none;transition:.2s}
 .fact-collab-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.1)}
+
+/* Colonnes synthèse (Prévu, Plan charge, Réalisé) */
+.col-synth{min-width:80px}
+.th-prevu{background:#e8eaf6!important;color:var(--accent)!important;border-left:2px solid #90caf9}
+.th-plancharge{background:#e3f2fd!important;color:#1565c0!important}
+.th-realise{background:#e8f5e9!important;color:#2e7d32!important;border-right:2px solid #a5d6a7}
+
+.td-prevu{border-left:2px solid #e8eaf6!important;background:#fafafe!important}
+.td-plancharge{background:#f5faff!important}
+.td-realise{border-right:2px solid #e8f5e9!important;background:#f5faf5!important}
+
+.fact-table tr:hover .td-prevu{background:#f0f0ff!important}
+.fact-table tr:hover .td-plancharge{background:#eef5ff!important}
+.fact-table tr:hover .td-realise{background:#eef8ee!important}
+
+.prevu-input{width:58px;text-align:center;font-weight:700;font-size:.82rem;border:1.5px solid #c5cae9;border-radius:6px;padding:4px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
+.prevu-input::-webkit-outer-spin-button,.prevu-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.prevu-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.12)}
+.prevu-input.saved{border-color:var(--success);background:#f0fff0}
+
+/* Badge écart */
+.ecart-badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:.68rem;font-weight:700;margin-left:2px}
+.ecart-ok{background:#e8f5e9;color:#2e7d32}
+.ecart-warn{background:#fff3e0;color:#e65100}
+.ecart-danger{background:#fce4ec;color:#c62828}
 
 @media(max-width:700px){
   .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
@@ -210,8 +234,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </div>
 
 <div id="teamContent" style="display:none">
-
-  <!-- ONGLETS -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('pointages')">📊 Pointages</button>
     <button class="tab-btn" onclick="switchTab('facturation')">💰 Facturation</button>
@@ -285,7 +307,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       </div>
     </div>
   </div>
-
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -299,6 +320,7 @@ const auth=firebase.auth(),db=firebase.database();
 
 let Co=[],Af=[],Dt={},LT=[],LD={};
 let allPointages={};
+let prevusData={}; // {year: {affaireName: value}}
 let teamYear=new Date().getFullYear();
 let factYear=new Date().getFullYear();
 let factFilter='all';
@@ -311,6 +333,7 @@ const MN_S=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov',
 const ROLES_ALLOWED=['admin','responsable','responsable_viewer'];
 const LIGNES_SPECIALES=['Formation','Événements entreprise','Développement','Autres chantiers'];
 const TRAVAUX_SUB_CATS=['PIC','Plan de terrassement','Modes constructifs','Planning','Rotation','FDR','BMO','Matériel','Modes opératoires','Autre'];
+const NB_COLS=12+1+3; // 12 mois + Total + 3 synthèse
 
 // ============================================================
 // ONGLETS
@@ -324,7 +347,7 @@ function switchTab(tab){
 }
 
 // ============================================================
-// AUTH + CONTRÔLE D'ACCÈS + LISTENERS TEMPS RÉEL
+// AUTH + CONTRÔLE D'ACCÈS + LISTENERS
 // ============================================================
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='index.html';return}
@@ -343,6 +366,16 @@ auth.onAuthStateChanged(user=>{
     }
     document.getElementById('teamContent').style.display='block';
     viewReady=true;
+
+    // Écouter les prévus
+    db.ref('facturation_prevus').on('value',snap=>{
+      prevusData=snap.val()||{};
+      if(viewReady&&document.getElementById('tab-facturation').classList.contains('active')){
+        renderFactView();
+      }
+    });
+
+    // Écouter les pointages
     db.ref('pointages').on('value',snap=>{
       const previousPointages=JSON.stringify(allPointages);
       allPointages=snap.val()||{};
@@ -362,7 +395,79 @@ auth.onAuthStateChanged(user=>{
 
 function logout(){
   db.ref('pointages').off('value');
+  db.ref('facturation_prevus').off('value');
   auth.signOut().then(()=>{window.location.href='index.html'});
+}
+
+// ============================================================
+// PRÉVUS – SAUVEGARDE FIREBASE
+// ============================================================
+let prevuSaveTimeout={};
+function savePrevuValue(year,affName,value){
+  const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
+  const path='facturation_prevus/'+year+'/'+safeAff;
+  // Debounce 800ms
+  const key=year+'|'+safeAff;
+  if(prevuSaveTimeout[key])clearTimeout(prevuSaveTimeout[key]);
+  prevuSaveTimeout[key]=setTimeout(()=>{
+    if(value===0||value===''||isNaN(value)){
+      db.ref(path).remove();
+    }else{
+      db.ref(path).set(value);
+    }
+    // Visual feedback
+    const input=document.getElementById('prevu_'+safeAff);
+    if(input){
+      input.classList.add('saved');
+      setTimeout(()=>{if(input)input.classList.remove('saved')},1200);
+    }
+    showToast('💾 Prévision sauvegardée');
+  },800);
+}
+
+function getPrevuValue(year,affName){
+  const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
+  const yData=prevusData[year];
+  if(!yData)return 0;
+  return yData[safeAff]||0;
+}
+
+function onPrevuInput(affName,el){
+  let v=parseFloat(el.value.replace(',','.').trim());
+  if(isNaN(v)||v<0)v=0;
+  savePrevuValue(factYear,affName,v);
+}
+
+// ============================================================
+// PLAN DE CHARGE – CALCUL PRÉVISION PLANNING
+// ============================================================
+function computePlanChargeYear(year,affName,filterCollabSafeKey){
+  /*
+    Calcule le total de jours planifiés pour une affaire sur toute l'année
+    en additionnant les slots de chaque collaborateur dans le planning.
+    Si filterCollabSafeKey est défini, ne compter que ce collaborateur.
+  */
+  let totalSlots=0;
+  const collabsToCheck=filterCollabSafeKey
+    ? Co.filter(c=>c.name.replace(/[.#$\[\]\/]/g,'_')===filterCollabSafeKey)
+    : Co;
+
+  for(let m=0;m<12;m++){
+    const ouvres=getOuvres(year,m);
+    ouvres.forEach(dkey=>{
+      const k=affName+'|'+dkey;
+      const sl=Dt[k];
+      if(sl&&Array.isArray(sl)){
+        for(let i=0;i<5;i++){
+          if(sl[i]){
+            const match=collabsToCheck.some(c=>c.name===sl[i]);
+            if(match)totalSlots++;
+          }
+        }
+      }
+    });
+  }
+  return Math.round((totalSlots/5)*100)/100;
 }
 
 // ============================================================
@@ -390,7 +495,7 @@ function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let
 function getMonthKey(y,m){return y+'-'+String(m+1).padStart(2,'0')}
 
 // ============================================================
-// CALCULS PLANNING
+// CALCULS PLANNING (pour onglet Pointages)
 // ============================================================
 function computePlanningData(y,m,cName){
   const ouvres=getOuvres(y,m),nbOuvres=ouvres.length;
@@ -511,7 +616,6 @@ function showTeamDetail(safeKey,month,year){
       sub+=l.jours;
       let ti='';if(l.type)ti=' <span style="font-size:.7rem;color:var(--text-light)">('+(l.type==='etudes'?'Études':'Travaux')+')</span>';
       h+='<tr><td>'+escH(l.label)+ti+'</td><td style="text-align:right;font-weight:700">'+fmtNum(l.jours)+'j</td></tr>';
-      // Sous-détail travaux dans la modal
       if(l.type==='travaux'&&l.subDetail){
         Object.keys(l.subDetail).forEach(cat=>{
           const v=l.subDetail[cat];
@@ -527,7 +631,6 @@ function showTeamDetail(safeKey,month,year){
   document.getElementById('modalDetailBody').innerHTML=h;
   document.getElementById('modalDetailOverlay').classList.add('show');
 }
-
 function closeDetailModal(){document.getElementById('modalDetailOverlay').classList.remove('show')}
 
 // ============================================================
@@ -542,40 +645,20 @@ function populateCollabSelect(){
     h+='<option value="'+sk+'">'+escH(formatName(c.name))+'</option>';
   });
   sel.innerHTML=h;
-  // Restore previous selection if still valid
-  if(currentVal){sel.value=currentVal}
+  if(currentVal)sel.value=currentVal;
 }
 
 // ============================================================
-// FACTURATION – AGRÉGATION DES DONNÉES VALIDÉES
+// FACTURATION – AGRÉGATION
 // ============================================================
 function buildFactData(year){
-  /*
-    Structure retournée :
-    affaires = {
-      affaireName: {
-        type: 'etudes'|'travaux',
-        months: [0..11],           // jours totaux par mois
-        subdetails: {              // UNIQUEMENT pour travaux — par prestation
-          'PIC': [0..11],
-          'Rotation': [0..11],
-          'Autre': [0..11],
-          ...
-        }
-      }
-    }
-    specials = { label: { months: [0..11] } }
-  */
   const affaires={};
   const specials={};
-  const selectedCollab=document.getElementById('factCollabSelect').value; // '' = tous
+  const selectedCollab=document.getElementById('factCollabSelect').value;
 
   Co.forEach(c=>{
     const sk=c.name.replace(/[.#$\[\]\/]/g,'_');
-
-    // Filtre collaborateur
     if(selectedCollab&&sk!==selectedCollab) return;
-
     const cPtg=allPointages[sk]||{};
 
     for(let m=0;m<12;m++){
@@ -587,9 +670,7 @@ function buildFactData(year){
         if(line.category==='conge') return;
 
         if(line.category==='special'){
-          if(!specials[line.label]){
-            specials[line.label]={months:new Array(12).fill(0)};
-          }
+          if(!specials[line.label]) specials[line.label]={months:new Array(12).fill(0)};
           specials[line.label].months[m]+=line.jours||0;
           return;
         }
@@ -597,32 +678,22 @@ function buildFactData(year){
         if(line.category==='affaire'){
           const affName=line.label;
           const affType=line.type||'etudes';
-
-          if(!affaires[affName]){
-            affaires[affName]={type:affType,months:new Array(12).fill(0),subdetails:{}};
-          }
+          if(!affaires[affName]) affaires[affName]={type:affType,months:new Array(12).fill(0),subdetails:{}};
           affaires[affName].months[m]+=line.jours||0;
 
-          // Sous-détail par prestation pour les travaux
           if(affType==='travaux'){
             if(line.subDetail&&typeof line.subDetail==='object'){
-              // Le collaborateur a ventilé ses jours par prestation
               Object.keys(line.subDetail).forEach(cat=>{
                 const v=line.subDetail[cat]||0;
                 if(v>0){
-                  if(!affaires[affName].subdetails[cat]){
-                    affaires[affName].subdetails[cat]=new Array(12).fill(0);
-                  }
+                  if(!affaires[affName].subdetails[cat]) affaires[affName].subdetails[cat]=new Array(12).fill(0);
                   affaires[affName].subdetails[cat][m]+=v;
                 }
               });
             } else {
-              // Pas de subDetail → tout va dans "Autre"
               const jours=line.jours||0;
               if(jours>0){
-                if(!affaires[affName].subdetails['Autre']){
-                  affaires[affName].subdetails['Autre']=new Array(12).fill(0);
-                }
+                if(!affaires[affName].subdetails['Autre']) affaires[affName].subdetails['Autre']=new Array(12).fill(0);
                 affaires[affName].subdetails['Autre'][m]+=jours;
               }
             }
@@ -646,14 +717,11 @@ function setFactFilter(f){
 }
 
 // ============================================================
-// FACTURATION – TOGGLE SOUS-DÉTAIL TRAVAUX
+// FACTURATION – TOGGLE SOUS-DÉTAIL
 // ============================================================
 function toggleTravaux(affKey){
-  if(expandedTravaux.has(affKey)){
-    expandedTravaux.delete(affKey);
-  } else {
-    expandedTravaux.add(affKey);
-  }
+  if(expandedTravaux.has(affKey)) expandedTravaux.delete(affKey);
+  else expandedTravaux.add(affKey);
   document.querySelectorAll('.fact-sd-'+affKey).forEach(r=>{
     r.classList.toggle('hidden',!expandedTravaux.has(affKey));
   });
@@ -667,8 +735,8 @@ function toggleTravaux(affKey){
 function renderFactView(){
   document.getElementById('factYearLabel').textContent=factYear;
   const {affaires,specials}=buildFactData(factYear);
+  const selectedCollab=document.getElementById('factCollabSelect').value;
 
-  // Séparer études / travaux
   const etudes=[],travaux=[];
   Object.keys(affaires).sort().forEach(name=>{
     const a=affaires[name];
@@ -685,12 +753,8 @@ function renderFactView(){
   const totalGlobal=totalEtudes+totalTravaux+totalSpecial;
   const nbAffaires=etudes.length+travaux.length;
 
-  // Titre dynamique
-  const selectedCollab=document.getElementById('factCollabSelect').value;
   let collabLabel='';
-  if(selectedCollab){
-    Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
-  }
+  if(selectedCollab) Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
   document.getElementById('factTableTitle').textContent=collabLabel
     ?'📋 Jours validés – '+collabLabel+' – '+factYear
     :'📋 Récapitulatif jours validés par affaire et par mois';
@@ -702,8 +766,12 @@ function renderFactView(){
     '<div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fmtNum(totalSpecial)+'j</div><div class="tl">Autres activités</div></div>'+
     '<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+nbAffaires+'</div><div class="tl">Affaires actives</div></div>';
 
-  // Table
+  // === TABLE ===
+  const colSpanAll=12+1+3+1; // mois + total + 3 synth + affaire col
   let th='<thead><tr><th>Affaire / Prestation</th>';
+  th+='<th class="col-synth th-prevu" title="Jours prévus (saisie manuelle)">🎯 Prévu</th>';
+  th+='<th class="col-synth th-plancharge" title="Prévision plan de charge (auto)">📊 Plan charge</th>';
+  th+='<th class="col-synth th-realise" title="Total jours validés (pointages)">✅ Réalisé</th>';
   for(let m=0;m<12;m++) th+='<th>'+MN_S[m]+'</th>';
   th+='<th>Total</th></tr></thead>';
 
@@ -722,139 +790,186 @@ function renderFactView(){
     return h;
   }
 
+  function renderSynthCells(affName,affType,months,isSubdetail){
+    if(isSubdetail){
+      // Sous-détails : cellules vides alignées
+      return '<td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"></td>';
+    }
+    const totalRealise=months.reduce((s,v)=>s+v,0);
+    const prevu=getPrevuValue(factYear,affName);
+    const planCharge=computePlanChargeYear(factYear,affName,selectedCollab||null);
+    const safeAff=affName.replace(/[.#$\[\]\/]/g,'_');
+
+    // Input prévu
+    let h='<td class="td-prevu"><input type="text" class="prevu-input" id="prevu_'+safeAff+'" value="'+(prevu>0?fmtNum(prevu):'')+'" placeholder="–" onchange="onPrevuInput(\''+escAttr(affName)+'\',this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}" title="Saisir les jours prévus" /></td>';
+
+    // Plan de charge (auto)
+    h+='<td class="td-plancharge"><span class="fact-val '+(planCharge>0?'has-value':'zero')+'">'+(planCharge>0?fmtNum(planCharge):'–')+'</span></td>';
+
+    // Réalisé + badge écart
+    let ecartHtml='';
+    if(prevu>0&&totalRealise>0){
+      const ecart=totalRealise-prevu;
+      const pct=Math.round((totalRealise/prevu)*100);
+      if(Math.abs(ecart)<0.01){
+        ecartHtml='<span class="ecart-badge ecart-ok">= 100%</span>';
+      }else if(ecart<0){
+        ecartHtml='<span class="ecart-badge ecart-ok">'+pct+'%</span>';
+      }else{
+        ecartHtml='<span class="ecart-badge ecart-danger">'+pct+'%</span>';
+      }
+    }else if(prevu>0&&totalRealise===0){
+      ecartHtml='<span class="ecart-badge ecart-warn">0%</span>';
+    }
+    h+='<td class="td-realise"><span class="fact-val '+(totalRealise>0?'has-value':'zero')+'" style="font-weight:800">'+(totalRealise>0?fmtNum(totalRealise):'–')+'</span>'+ecartHtml+'</td>';
+
+    return h;
+  }
+
+  function renderSynthTotals(affList,label){
+    let totalPrevu=0,totalPlanCharge=0,totalRealise=0;
+    affList.forEach(a=>{
+      totalPrevu+=getPrevuValue(factYear,a.name);
+      totalPlanCharge+=computePlanChargeYear(factYear,a.name,selectedCollab||null);
+      totalRealise+=a.months.reduce((s,v)=>s+v,0);
+    });
+    let h='<td class="td-prevu" style="font-weight:700"><span class="fact-val total">'+(totalPrevu>0?fmtNum(totalPrevu):'–')+'</span></td>';
+    h+='<td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+(totalPlanCharge>0?fmtNum(totalPlanCharge):'–')+'</span></td>';
+    h+='<td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(totalRealise>0?fmtNum(totalRealise):'–')+'</span></td>';
+    return h;
+  }
+
   // === ÉTUDES ===
   if((factFilter==='all'||factFilter==='etudes')&&etudes.length>0){
-    tb+='<tr class="fact-section-row"><td colspan="14">📐 Études ('+etudes.length+' affaire'+(etudes.length>1?'s':'')+')</td></tr>';
+    tb+='<tr class="fact-section-row"><td colspan="'+colSpanAll+'">📐 Études ('+etudes.length+' affaire'+(etudes.length>1?'s':'')+')</td></tr>';
     const etudesTotals=new Array(12).fill(0);
     etudes.forEach(a=>{
       a.months.forEach((v,i)=>{etudesTotals[i]+=v});
-      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+renderSynthCells(a.name,a.type,a.months,false)+renderMonthCells(a.months,false)+'</tr>';
     });
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+renderMonthCells(etudesTotals,true)+'</tr>';
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+renderSynthTotals(etudes,'Études')+renderMonthCells(etudesTotals,true)+'</tr>';
   }
 
   // === TRAVAUX ===
   if((factFilter==='all'||factFilter==='travaux')&&travaux.length>0){
-    tb+='<tr class="fact-section-row section-travaux"><td colspan="14">🏗️ Travaux ('+travaux.length+' affaire'+(travaux.length>1?'s':'')+')</td></tr>';
+    tb+='<tr class="fact-section-row section-travaux"><td colspan="'+colSpanAll+'">🏗️ Travaux ('+travaux.length+' affaire'+(travaux.length>1?'s':'')+')</td></tr>';
     const travauxTotals=new Array(12).fill(0);
     travaux.forEach(a=>{
       a.months.forEach((v,i)=>{travauxTotals[i]+=v});
       const affKey=a.name.replace(/[^a-zA-Z0-9]/g,'_');
-      const sdKeys=Object.keys(a.subdetails).filter(k=>{
-        return a.subdetails[k].some(v=>v>0);
-      });
+      const sdKeys=Object.keys(a.subdetails).filter(k=>a.subdetails[k].some(v=>v>0));
       const hasSD=sdKeys.length>0;
       const isOpen=expandedTravaux.has(affKey);
       const chevron=hasSD?'<span class="chevron'+(isOpen?' open':'')+'" id="chev-'+affKey+'">▶</span>':'';
       const click=hasSD?'onclick="toggleTravaux(\''+affKey+'\')"':'';
       const sdHint=hasSD?' <span style="font-size:.68rem;color:var(--text-light);font-weight:400;margin-left:4px">('+sdKeys.length+' prestations)</span>':'';
-      tb+='<tr class="fact-affaire-row is-travaux"><td '+click+'>'+chevron+escH(a.name)+sdHint+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+      tb+='<tr class="fact-affaire-row is-travaux"><td '+click+'>'+chevron+escH(a.name)+sdHint+'</td>'+renderSynthCells(a.name,a.type,a.months,false)+renderMonthCells(a.months,false)+'</tr>';
 
-      // Sous-détails par prestation — dans l'ordre TRAVAUX_SUB_CATS
       if(hasSD){
-        // D'abord les catégories connues dans l'ordre, puis les éventuelles inconnues
         const orderedKeys=[];
-        TRAVAUX_SUB_CATS.forEach(cat=>{
-          if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0)) orderedKeys.push(cat);
-        });
-        // Catégories non prévues
-        sdKeys.forEach(k=>{
-          if(!orderedKeys.includes(k)) orderedKeys.push(k);
-        });
-
+        TRAVAUX_SUB_CATS.forEach(cat=>{if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0))orderedKeys.push(cat)});
+        sdKeys.forEach(k=>{if(!orderedKeys.includes(k))orderedKeys.push(k)});
         orderedKeys.forEach(sd=>{
           const hidden=isOpen?'':'hidden';
           const icon=sd==='Autre'?'📦':'🔧';
-          tb+='<tr class="fact-subdetail-row fact-sd-'+affKey+' '+hidden+'"><td>'+icon+' '+escH(sd)+'</td>'+renderMonthCells(a.subdetails[sd],false)+'</tr>';
+          tb+='<tr class="fact-subdetail-row fact-sd-'+affKey+' '+hidden+'"><td>'+icon+' '+escH(sd)+'</td>'+renderSynthCells(a.name,a.type,a.subdetails[sd],true)+renderMonthCells(a.subdetails[sd],false)+'</tr>';
         });
       }
     });
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+renderMonthCells(travauxTotals,true)+'</tr>';
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+renderSynthTotals(travaux,'Travaux')+renderMonthCells(travauxTotals,true)+'</tr>';
   }
 
   // === AUTRES ACTIVITÉS ===
   if((factFilter==='all'||factFilter==='special')&&specialList.length>0){
-    tb+='<tr class="fact-section-row section-special"><td colspan="14">📂 Autres activités ('+specialList.length+')</td></tr>';
+    tb+='<tr class="fact-section-row section-special"><td colspan="'+colSpanAll+'">📂 Autres activités ('+specialList.length+')</td></tr>';
     const specialTotals=new Array(12).fill(0);
     specialList.forEach(a=>{
       a.months.forEach((v,i)=>{specialTotals[i]+=v});
-      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td>'+renderMonthCells(a.months,false)+'</tr>';
+      tb+='<tr class="fact-affaire-row"><td>'+escH(a.name)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(a.months.reduce((s,v)=>s+v,0)>0?'has-value':'zero')+'" style="font-weight:700">'+(a.months.reduce((s,v)=>s+v,0)>0?fmtNum(a.months.reduce((s,v)=>s+v,0)):'–')+'</span></td>'+renderMonthCells(a.months,false)+'</tr>';
     });
-    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td>'+renderMonthCells(specialTotals,true)+'</tr>';
+    const stSpec=specialList.reduce((s,a)=>s+a.months.reduce((ss,v)=>ss+v,0),0);
+    tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stSpec>0?fmtNum(stSpec):'–')+'</span></td>'+renderMonthCells(specialTotals,true)+'</tr>';
   }
 
   // === TOTAL GÉNÉRAL ===
   const grandTotal=new Array(12).fill(0);
-  if(factFilter==='all'||factFilter==='etudes') etudes.forEach(a=>a.months.forEach((v,i)=>{grandTotal[i]+=v}));
-  if(factFilter==='all'||factFilter==='travaux') travaux.forEach(a=>a.months.forEach((v,i)=>{grandTotal[i]+=v}));
-  if(factFilter==='all'||factFilter==='special') specialList.forEach(a=>a.months.forEach((v,i)=>{grandTotal[i]+=v}));
-  tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td>'+renderMonthCells(grandTotal,true)+'</tr>';
+  const allAffList=[];
+  if(factFilter==='all'||factFilter==='etudes'){etudes.forEach(a=>{a.months.forEach((v,i)=>{grandTotal[i]+=v});allAffList.push(a)})}
+  if(factFilter==='all'||factFilter==='travaux'){travaux.forEach(a=>{a.months.forEach((v,i)=>{grandTotal[i]+=v});allAffList.push(a)})}
+  if(factFilter==='all'||factFilter==='special'){specialList.forEach(a=>{a.months.forEach((v,i)=>{grandTotal[i]+=v})})}
+
+  let gtPrevu=0,gtPlan=0,gtReal=0;
+  allAffList.forEach(a=>{
+    gtPrevu+=getPrevuValue(factYear,a.name);
+    gtPlan+=computePlanChargeYear(factYear,a.name,selectedCollab||null);
+    gtReal+=a.months.reduce((s,v)=>s+v,0);
+  });
+  if(factFilter==='all'||factFilter==='special'){
+    specialList.forEach(a=>{gtReal+=a.months.reduce((s,v)=>s+v,0)});
+  }
+
+  tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td>';
+  tb+='<td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+(gtPrevu>0?fmtNum(gtPrevu):'–')+'</span></td>';
+  tb+='<td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gtPlan>0?fmtNum(gtPlan):'–')+'</span></td>';
+  tb+='<td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gtReal>0?fmtNum(gtReal):'–')+'</span></td>';
+  tb+=renderMonthCells(grandTotal,true)+'</tr>';
 
   tb+='</tbody>';
   document.getElementById('factTable').innerHTML=th+tb;
 }
 
 // ============================================================
-// EXPORT CSV FACTURATION
+// EXPORT CSV
 // ============================================================
 function exportFactCSV(){
   const {affaires,specials}=buildFactData(factYear);
+  const selectedCollab=document.getElementById('factCollabSelect').value;
   const rows=[];
-  const header=['Affaire','Type','Prestation'];
+  const header=['Affaire','Type','Prestation','Prévu (manuel)','Plan de charge','Réalisé'];
   for(let m=0;m<12;m++) header.push(MN[m]);
   header.push('Total');
   rows.push(header);
 
-  const selectedCollab=document.getElementById('factCollabSelect').value;
   let collabLabel='Tous';
-  if(selectedCollab){
-    Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
-  }
+  if(selectedCollab) Co.forEach(c=>{if(c.name.replace(/[.#$\[\]\/]/g,'_')===selectedCollab)collabLabel=formatName(c.name)});
 
   Object.keys(affaires).sort().forEach(name=>{
     const a=affaires[name];
     const typeLabel=a.type==='etudes'?'Études':'Travaux';
     if(factFilter!=='all'&&factFilter!==a.type) return;
 
-    // Ligne principale affaire
-    const row=[name,typeLabel,''];
+    const totalRealise=a.months.reduce((s,v)=>s+v,0);
+    const prevu=getPrevuValue(factYear,name);
+    const planCharge=computePlanChargeYear(factYear,name,selectedCollab||null);
+
+    const row=[name,typeLabel,'',prevu||'',planCharge||'',totalRealise];
     let total=0;
     a.months.forEach(v=>{row.push(v);total+=v});
     row.push(total);
     rows.push(row);
 
-    // Sous-détails travaux
     if(a.type==='travaux'){
       const orderedKeys=[];
-      TRAVAUX_SUB_CATS.forEach(cat=>{
-        if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0)) orderedKeys.push(cat);
-      });
-      Object.keys(a.subdetails).forEach(k=>{
-        if(!orderedKeys.includes(k)&&a.subdetails[k].some(v=>v>0)) orderedKeys.push(k);
-      });
-
+      TRAVAUX_SUB_CATS.forEach(cat=>{if(a.subdetails[cat]&&a.subdetails[cat].some(v=>v>0))orderedKeys.push(cat)});
+      Object.keys(a.subdetails).forEach(k=>{if(!orderedKeys.includes(k)&&a.subdetails[k].some(v=>v>0))orderedKeys.push(k)});
       orderedKeys.forEach(sd=>{
-        const srow=['  ↳ '+name,typeLabel,sd];
-        let st=0;
-        a.subdetails[sd].forEach(v=>{srow.push(v);st+=v});
-        srow.push(st);
+        const srow=['  ↳ '+name,typeLabel,sd,'','',a.subdetails[sd].reduce((s,v)=>s+v,0)];
+        a.subdetails[sd].forEach(v=>{srow.push(v)});
+        srow.push(a.subdetails[sd].reduce((s,v)=>s+v,0));
         rows.push(srow);
       });
     }
   });
 
-  // Spéciales
   if(factFilter==='all'||factFilter==='special'){
     Object.keys(specials).sort().forEach(name=>{
-      const row=[name,'Autre',''];
-      let total=0;
-      specials[name].months.forEach(v=>{row.push(v);total+=v});
-      row.push(total);
+      const row=[name,'Autre','','','',specials[name].months.reduce((s,v)=>s+v,0)];
+      specials[name].months.forEach(v=>{row.push(v)});
+      row.push(specials[name].months.reduce((s,v)=>s+v,0));
       rows.push(row);
     });
   }
 
-  // Ligne info filtre
   rows.push([]);
   rows.push(['Export: '+factYear,'Collaborateur: '+collabLabel,'Filtre: '+factFilter]);
 
@@ -876,6 +991,7 @@ function exportFactCSV(){
 function getIni(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 function formatName(n){const p=n.trim().split(/\s+/);if(p.length<2)return n;return p[p.length-1]+' '+p.slice(0,-1).map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ')}
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escAttr(s){return s.replace(/'/g,"\\'")}
 function fmtNum(n){const r=Math.round(n*100)/100;return r%1===0?r.toFixed(0):parseFloat(r.toFixed(2)).toString()}
 </script>
 </body>
