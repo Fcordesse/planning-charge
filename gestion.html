@@ -130,21 +130,21 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .fact-collab-filter label{font-size:.78rem;font-weight:600;color:var(--text-light);white-space:nowrap}
 .fact-collab-select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:.82rem;font-weight:600;background:#fff;color:var(--text);cursor:pointer;min-width:180px;outline:none;transition:.2s}
 .fact-collab-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.1)}
-.th-prevu{background:#e8eaf6!important;color:var(--accent)!important;border-left:2px solid #90caf9}
+.th-budget{background:#e8eaf6!important;color:var(--accent)!important;border-left:2px solid #90caf9}
 .th-plancharge{background:#e3f2fd!important;color:#1565c0!important}
 .th-realise{background:#e8f5e9!important;color:#2e7d32!important;border-right:2px solid #a5d6a7}
-.td-prevu{border-left:2px solid #e8eaf6!important;background:#fafafe!important}
+.td-budget{border-left:2px solid #e8eaf6!important;background:#fafafe!important}
 .td-plancharge{background:#f5faff!important}
 .td-realise{border-right:2px solid #e8f5e9!important;background:#f5faf5!important}
-.fact-table tr:hover .td-prevu{background:#f0f0ff!important}
+.fact-table tr:hover .td-budget{background:#f0f0ff!important}
 .fact-table tr:hover .td-plancharge{background:#eef5ff!important}
 .fact-table tr:hover .td-realise{background:#eef8ee!important}
-.prevu-input{width:72px;text-align:center;font-weight:700;font-size:.82rem;border:1.5px solid #c5cae9;border-radius:6px;padding:4px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
-.prevu-input::-webkit-outer-spin-button,.prevu-input::-webkit-inner-spin-button{-webkit-appearance:none}
-.prevu-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.12)}
-.prevu-input-sd{width:60px;text-align:center;font-weight:600;font-size:.76rem;border:1.5px solid #ffe0b2;border-radius:5px;padding:3px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
-.prevu-input-sd::-webkit-outer-spin-button,.prevu-input-sd::-webkit-inner-spin-button{-webkit-appearance:none}
-.prevu-input-sd:focus{border-color:var(--travaux-border);box-shadow:0 0 0 3px rgba(230,81,0,.1)}
+.budget-input{width:72px;text-align:center;font-weight:700;font-size:.82rem;border:1.5px solid #c5cae9;border-radius:6px;padding:4px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
+.budget-input::-webkit-outer-spin-button,.budget-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.budget-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,52,96,.12)}
+.budget-input-sd{width:60px;text-align:center;font-weight:600;font-size:.76rem;border:1.5px solid #ffe0b2;border-radius:5px;padding:3px 2px;outline:none;background:#fff;transition:.2s;-moz-appearance:textfield}
+.budget-input-sd::-webkit-outer-spin-button,.budget-input-sd::-webkit-inner-spin-button{-webkit-appearance:none}
+.budget-input-sd:focus{border-color:var(--travaux-border);box-shadow:0 0 0 3px rgba(230,81,0,.1)}
 .ecart-badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:.68rem;font-weight:700;margin-left:2px}
 .ecart-ok{background:#e8f5e9;color:#2e7d32}
 .ecart-danger{background:#fce4ec;color:#c62828}
@@ -159,11 +159,14 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .taux-active{color:#a5d6a7;font-size:.82rem;font-weight:700;white-space:nowrap}
 .taux-hint{color:rgba(255,255,255,.65);font-size:.75rem;flex:1}
 .sd-total-row td{background:#fff3e0!important;font-weight:700!important;border-top:1.5px solid #ffcc80!important;color:var(--travaux-border)!important;font-style:normal!important}
-.btn-save-prevus{padding:8px 20px;border:none;border-radius:8px;background:#9c27b0;color:#fff;font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-.btn-save-prevus:hover{background:#7b1fa2}
-.btn-save-prevus.saving{opacity:.6;cursor:wait}
-.btn-save-prevus.saved{background:var(--success)}
-.th-prevu-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.th-budget-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.btn-budget{padding:6px 14px;border:none;border-radius:6px;font-size:.72rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.btn-budget-edit{background:#e8eaf6;color:var(--accent);border:1px solid #c5cae9}
+.btn-budget-edit:hover{background:#c5cae9}
+.btn-budget-save{background:#9c27b0;color:#fff}
+.btn-budget-save:hover{background:#7b1fa2}
+.btn-budget.saving{opacity:.6;cursor:wait}
+.btn-budget.saved{background:var(--success)!important;color:#fff!important;border-color:var(--success)!important}
 @media(max-width:700px){
   .team-header-bar,.fact-header-bar{flex-direction:column;text-align:center}
   .regie-legend{justify-content:center}
@@ -228,12 +231,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script>
 firebase.initializeApp({apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"});
 const auth=firebase.auth(),db=firebase.database();
-let Co=[],Af=[],Dt={},LT=[],LD={},allPtg={};
-// UN SEUL OBJET pour tous les prévus, stocké sous planning/prevus
-let PREVUS={};
+let Co=[],Af=[],Dt={},LT=[],LD={},allPtg={},PREVUS={};
 let activeTaux=500,teamYear=new Date().getFullYear();
 let TY={temps:new Date().getFullYear(),fact:new Date().getFullYear()};
 let TF={temps:'all',fact:'all'};
+let editMode={temps:false,fact:false};
 let firstLoad=true,ready=false;
 let EXP={temps:new Set(),fact:new Set()};
 const MN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
@@ -252,49 +254,47 @@ auth.onAuthStateChanged(u=>{
     document.getElementById('loadingOverlay').classList.remove('show');
     if(!ROLES.includes(role)){document.getElementById('accessDenied').style.display='block';return}
     document.getElementById('teamContent').style.display='block';ready=true;
-    // Écouter les prevus en temps réel depuis planning/prevus
-    db.ref('planning/prevus').on('value',s=>{PREVUS=s.val()||{};if(ready)refreshActive()});
-    db.ref('pointages').on('value',snap=>{
-      const prev=JSON.stringify(allPtg);allPtg=snap.val()||{};
-      if(ready){renderTeamView();refreshActive();if(!firstLoad&&JSON.stringify(allPtg)!==prev)showToast('🔄 Mise à jour')}
-      firstLoad=false;
-    });
-  }).catch(e=>{console.error(e);document.getElementById('loadingOverlay').classList.remove('show')});
+    db.ref('planning/prevus').on('value',s=>{PREVUS=s.val()||{};if(ready&&!editMode.temps&&!editMode.fact)refreshActive()});
+    db.ref('pointages').on('value',snap=>{const prev=JSON.stringify(allPtg);allPtg=snap.val()||{};if(ready){renderTeamView();refreshActive();if(!firstLoad&&JSON.stringify(allPtg)!==prev)showToast('🔄 Mise à jour')}firstLoad=false});
+  }).catch(e=>{console.error(e);document.getElementById('loadingOverlay').classList.remove('show')})
 });
 function refreshActive(){const t=aTab();if(t==='temps')renderTempsView();if(t==='facturation')renderFactView()}
 function aTab(){if(document.getElementById('tab-temps').classList.contains('active'))return'temps';if(document.getElementById('tab-facturation').classList.contains('active'))return'facturation';return'pointages'}
 function logout(){db.ref('pointages').off();db.ref('planning/prevus').off();auth.signOut().then(()=>{window.location.href='index.html'})}
 function applyTaux(){const el=document.getElementById('tauxInput');let v=parseFloat(el.value.replace(',','.').replace(/[^0-9.]/g,''));if(isNaN(v)||v<=0)v=500;activeTaux=v;el.value=v;document.getElementById('tauxActive').textContent='Taux actif : '+v+'€/j';renderFactView();showToast('💶 Taux : '+v+'€/j')}
 
-// === PREVUS — Lecture depuis PREVUS[tab][year][key] ===
-function gP(tab,yr,affKey){return(PREVUS[tab]&&PREVUS[tab][yr]&&PREVUS[tab][yr][affKey])||0}
-function gPSD(tab,yr,affKey,catKey){return(PREVUS[tab]&&PREVUS[tab][yr]&&PREVUS[tab][yr][affKey+'__'+catKey])||0}
+function gP(tab,yr,k){return(PREVUS[tab]&&PREVUS[tab][yr]&&PREVUS[tab][yr][k])||0}
+function gPSD(tab,yr,ak,ck){return gP(tab,yr,ak+'__'+ck)}
 
-// === PREVUS — Collecte depuis les inputs du DOM puis écriture unique ===
-function savePrevus(tabKey){
-  const btn=document.getElementById('btnSave_'+tabKey);
-  btn.classList.add('saving');btn.textContent='⏳ Sauvegarde...';
-  // Lire tous les inputs prevu du tableau
+function toggleEditMode(tabKey){
+  if(editMode[tabKey]){
+    saveBudgets(tabKey);
+  }else{
+    editMode[tabKey]=true;
+    if(tabKey==='temps')renderTempsView();else renderFactView();
+    showToast('✏️ Mode édition activé — modifiez les budgets puis sauvegardez');
+  }
+}
+
+function saveBudgets(tabKey){
+  const btn=document.getElementById('btnBudget_'+tabKey);
+  btn.classList.add('saving');btn.innerHTML='⏳ Sauvegarde...';
   const tableId=tabKey==='fact'?'factTable':'tempsTable';
   const yr=TY[tabKey];
   const obj={};
-  document.querySelectorAll('#'+tableId+' input[data-prevkey]').forEach(inp=>{
-    const key=inp.dataset.prevkey;
+  document.querySelectorAll('#'+tableId+' input[data-bkey]').forEach(inp=>{
     let v=parseFloat(inp.value.replace(',','.').replace(/[^0-9.]/g,''));
     if(isNaN(v))v=0;
-    if(v>0)obj[key]=v;
+    if(v>0)obj[inp.dataset.bkey]=v;
   });
-  // Écrire tout d'un coup sous planning/prevus/{tab}/{year}
-  const path='planning/prevus/'+tabKey+'/'+yr;
-  console.log('💾 Sauvegarde vers:',path,obj);
-  db.ref(path).set(obj).then(()=>{
-    console.log('✅ Sauvegardé !');
-    btn.classList.remove('saving');btn.classList.add('saved');btn.textContent='✓ Sauvegardé !';
-    setTimeout(()=>{btn.classList.remove('saved');btn.textContent='💾 Sauvegarder les prévus'},2500);
-    showToast('💾 Tous les prévus sauvegardés !');
+  db.ref('planning/prevus/'+tabKey+'/'+yr).set(obj).then(()=>{
+    editMode[tabKey]=false;
+    btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML='✓ Sauvegardé !';
+    setTimeout(()=>{btn.classList.remove('saved');if(tabKey==='temps')renderTempsView();else renderFactView()},1500);
+    showToast('💾 Budgets sauvegardés !');
   }).catch(err=>{
-    console.error('❌ Erreur sauvegarde:',err);
-    btn.classList.remove('saving');btn.textContent='❌ Erreur — Réessayer';
+    console.error(err);
+    btn.classList.remove('saving');btn.innerHTML='❌ Erreur — Réessayer';
     showToast('❌ Erreur de sauvegarde');
   });
 }
@@ -308,16 +308,16 @@ function isWE(d){return d.getDay()===0||d.getDay()===6}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function getOuvres(y,m){const o=[];const dim=new Date(y,m+1,0).getDate();for(let d=1;d<=dim;d++){const dt=new Date(y,m,d);if(!isWE(dt)&&!isF(dt))o.push(dk(dt))}return o}
 function mmk(y,m){return y+'-'+String(m+1).padStart(2,'0')}
-function compPlan(y,m,cN){const ouv=getOuvres(y,m),nb=ouv.length;const ac={};let ts=0;Af.forEach(a=>{let sl=0;ouv.forEach(dk=>{const k=a.name+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]===cN)sl++}}});if(sl>0){ac[a.name]={slots:sl,jours:sl/5,type:a.type};ts+=sl}});const tj=ts/5;const cc={};let tc=0;ouv.forEach(dk=>{const lv=LD[cN+'|'+dk];if(lv){cc[lv]=(cc[lv]||0)+1;tc++}});return{nb,ac,tj,cc,tc}}
+function compPlan(y,m,cN){const ouv=getOuvres(y,m),nb=ouv.length;const ac={};let ts=0;Af.forEach(a=>{let sl=0;ouv.forEach(dk=>{const k=a.name+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]===cN)sl++}}});if(sl>0){ac[a.name]={jours:sl/5,type:a.type};ts+=sl}});return{nb,ac,tj:ts/5,cc:{},tc:0}}
 function planYr(y,aff,fsk){let ts=0;const cls=fsk?Co.filter(c=>SK(c.name)===fsk):Co;for(let m=0;m<12;m++){getOuvres(y,m).forEach(dk=>{const k=aff+'|'+dk,s=Dt[k];if(s&&Array.isArray(s)){for(let i=0;i<5;i++){if(s[i]&&cls.some(c=>c.name===s[i]))ts++}}})}return Math.round((ts/5)*100)/100}
 function changeTeamYear(o){teamYear+=o;renderTeamView()}
 function chgY(t,o){TY[t]+=o;if(t==='temps')renderTempsView();else renderFactView()}
 function setFilter(t,f){TF[t]=f;document.querySelectorAll('.fact-filter-btn[data-tab="'+t+'"]').forEach(b=>b.classList.toggle('active',b.dataset.f===f));if(t==='temps')renderTempsView();else renderFactView()}
-function popSel(id){const s=document.getElementById(id),v=s.value;let h='<option value="">Tous les collaborateurs</option>';Co.slice().sort((a,b)=>fmtN(a.name).localeCompare(fmtN(b.name))).forEach(c=>{const sk=SK(c.name);h+='<option value="'+sk+'">'+eH(fmtN(c.name))+'</option>'});s.innerHTML=h;if(v)s.value=v}
+function popSel(id){const s=document.getElementById(id),v=s.value;let h='<option value="">Tous les collaborateurs</option>';Co.slice().sort((a,b)=>fmtN(a.name).localeCompare(fmtN(b.name))).forEach(c=>{h+='<option value="'+SK(c.name)+'">'+eH(fmtN(c.name))+'</option>'});s.innerHTML=h;if(v)s.value=v}
 
 function renderTeamView(){
   document.getElementById('teamYearLabel').textContent=teamYear;const now=new Date(),cm=now.getMonth(),cy=now.getFullYear();const td=[];
-  Co.forEach(c=>{const sk=SK(c.name),cp=allPtg[sk]||{};const ms=[];let v=0,hd=0,em=0;for(let m=0;m<12;m++){const k=mmk(teamYear,m),p=cp[k];const iF=teamYear>cy||(teamYear===cy&&m>cm);const pl=compPlan(teamYear,m,c.name);const hP=pl.tj>0||pl.tc>0;const iV=p&&p.lines&&p.validatedAt;let s='empty';if(iF)s='future';else if(iV){s='validated';v++}else if(hP){s='has-data';hd++}else em++;ms.push({month:m,status:s})}let ec=0;for(let m=0;m<12;m++){if(!(teamYear>cy||(teamYear===cy&&m>cm)))ec++}td.push({name:c.name,color:c.color,sk,ms,v,hd,em,ec})});
+  Co.forEach(c=>{const sk=SK(c.name),cp=allPtg[sk]||{};const ms=[];let v=0,hd=0,em=0;for(let m=0;m<12;m++){const k=mmk(teamYear,m),p=cp[k];const iF=teamYear>cy||(teamYear===cy&&m>cm);const pl=compPlan(teamYear,m,c.name);const hP=pl.tj>0;const iV=p&&p.lines&&p.validatedAt;let s='empty';if(iF)s='future';else if(iV){s='validated';v++}else if(hP){s='has-data';hd++}else em++;ms.push({month:m,status:s})}let ec=0;for(let m=0;m<12;m++){if(!(teamYear>cy||(teamYear===cy&&m>cm)))ec++}td.push({name:c.name,color:c.color,sk,ms,v,hd,em,ec})});
   const tC=td.length,tV=td.reduce((s,c)=>s+c.v,0),tH=td.reduce((s,c)=>s+c.hd,0),tEm=td.reduce((s,c)=>s+c.em,0),tE=td.reduce((s,c)=>s+c.ec,0),pV=tE>0?Math.round(tV/tE*100):0,cAJ=td.filter(c=>c.v===c.ec&&c.ec>0).length;
   document.getElementById('teamStats').innerHTML='<div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+tC+'</div><div class="tl">Collaborateurs</div></div><div class="team-stat-card"><div class="tv" style="color:var(--success)">'+tV+'</div><div class="tl">Mois validés</div></div><div class="team-stat-card"><div class="tv" style="color:#ff9800">'+tH+'</div><div class="tl">En attente</div></div><div class="team-stat-card"><div class="tv" style="color:var(--highlight)">'+tEm+'</div><div class="tl">Non pointés</div></div><div class="team-stat-card"><div class="tv" style="color:var(--accent)">'+pV+'%</div><div class="tl">Taux validation</div></div><div class="team-stat-card"><div class="tv" style="color:var(--success)">'+cAJ+'/'+tC+'</div><div class="tl">100% à jour</div></div>';
   let th='<thead><tr><th>Collaborateur</th>';for(let m=0;m<12;m++)th+='<th>'+MS[m]+'</th>';th+='<th>Progression</th></tr></thead>';let tb='<tbody>';td.sort((a,b)=>a.v-b.v);
@@ -331,9 +331,11 @@ function closeDetailModal(){document.getElementById('modalDetailOverlay').classL
 function buildD(yr,selId){const af={},sp={};const sc=document.getElementById(selId)?.value||'';Co.forEach(c=>{const sk=SK(c.name);if(sc&&sk!==sc)return;const cp=allPtg[sk]||{};for(let m=0;m<12;m++){const k=mmk(yr,m),p=cp[k];if(!p||!p.lines||!p.validatedAt)continue;p.lines.forEach(l=>{if(l.category==='conge')return;if(l.category==='special'){if(!sp[l.label])sp[l.label]={mo:new Array(12).fill(0)};sp[l.label].mo[m]+=l.jours||0;return}if(l.category==='affaire'){const n=l.label,t=l.type||'etudes';if(!af[n])af[n]={type:t,mo:new Array(12).fill(0),sd:{}};af[n].mo[m]+=l.jours||0;if(t==='travaux'){if(l.subDetail&&typeof l.subDetail==='object'){Object.keys(l.subDetail).forEach(c=>{const v=l.subDetail[c]||0;if(v>0){if(!af[n].sd[c])af[n].sd[c]=new Array(12).fill(0);af[n].sd[c][m]+=v}})}else{const j=l.jours||0;if(j>0){if(!af[n].sd['Autre'])af[n].sd['Autre']=new Array(12).fill(0);af[n].sd['Autre'][m]+=j}}}}})}});return{af,sp}}
 
 function renderG(cfg){
-  const yr=TY[cfg.k],fl=TF[cfg.k],isE=cfg.isE,rate=isE?activeTaux:0;
+  const yr=TY[cfg.k],fl=TF[cfg.k],isE=cfg.isE,rate=isE?activeTaux:0,editing=editMode[cfg.k];
   const fV=v=>isE?Math.round(v*rate).toLocaleString('fr-FR')+'€':fN(v)+'j';
   const fVS=v=>{if(isE){const x=Math.round(v*rate);return x>=1e6?(x/1e6).toFixed(1)+'M€':x>=1e3?Math.round(x/1e3)+'k€':x+'€'}return fN(v)+'j'};
+  const fBudget=(v,u)=>v>0?(isE?Math.round(v).toLocaleString('fr-FR')+'€':fN(v)+'j'):'–';
+
   document.getElementById(cfg.ylId).textContent=yr;
   const{af,sp}=buildD(yr,cfg.csId);const sc=document.getElementById(cfg.csId)?.value||'';
   const et=[],tr=[];Object.keys(af).sort().forEach(n=>{if(af[n].type==='etudes')et.push({n,...af[n]});else tr.push({n,...af[n]})});
@@ -342,19 +344,30 @@ function renderG(cfg){
   let cl='';if(sc)Co.forEach(c=>{if(SK(c.name)===sc)cl=fmtN(c.name)});
   document.getElementById(cfg.ttId).textContent=cl?(isE?'📋 Budget – ':'📋 Jours – ')+cl+' – '+yr:(isE?'📋 Budget par affaire':'📋 Jours validés par affaire');
   document.getElementById(cfg.sId).innerHTML='<div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+fVS(tG)+'</div><div class="tl">Total validé</div></div><div class="fact-stat-card"><div class="tv" style="color:#1565c0">'+fVS(tE)+'</div><div class="tl">Études</div></div><div class="fact-stat-card"><div class="tv" style="color:#e65100">'+fVS(tT)+'</div><div class="tl">Travaux</div></div><div class="fact-stat-card"><div class="tv" style="color:#6a1b9a">'+fVS(tS)+'</div><div class="tl">Autres</div></div><div class="fact-stat-card"><div class="tv" style="color:var(--accent)">'+(et.length+tr.length)+'</div><div class="tl">Affaires</div></div>';
+
   const CS=17;const exp=EXP[cfg.k];
-  // Bouton sauvegarder dans le header de colonne Prévu
-  let th='<thead><tr><th>Affaire / Prestation</th><th class="th-prevu"><div class="th-prevu-wrap">🎯 Prévu'+(isE?' (€)':' (j)')+'<button class="btn-save-prevus" id="btnSave_'+cfg.k+'" onclick="savePrevus(\''+cfg.k+'\')">💾 Sauvegarder les prévus</button></div></th><th class="th-plancharge">📊 Plan charge'+(isE?' (€)':' (j)')+'</th><th class="th-realise">✅ Réalisé'+(isE?' (€)':' (j)')+'</th>';
+  // Bouton dans le header Budget
+  const btnLabel=editing?'💾 Sauvegarder les budgets':'✏️ Modifier les budgets';
+  const btnClass=editing?'btn-budget btn-budget-save':'btn-budget btn-budget-edit';
+  let th='<thead><tr><th>Affaire / Prestation</th><th class="th-budget"><div class="th-budget-wrap">💰 Budget'+(isE?' (€)':' (j)')+'<button class="'+btnClass+'" id="btnBudget_'+cfg.k+'" onclick="toggleEditMode(\''+cfg.k+'\')">'+btnLabel+'</button></div></th><th class="th-plancharge">📊 Plan charge'+(isE?' (€)':' (j)')+'</th><th class="th-realise">✅ Réalisé'+(isE?' (€)':' (j)')+'</th>';
   for(let m=0;m<12;m++)th+='<th>'+MS[m]+'</th>';th+='<th>Total</th></tr></thead>';
   let tb='<tbody>';
 
   function mC(mo,isT){let h='';const tot=mo.reduce((s,v)=>s+v,0);for(let m=0;m<12;m++){const v=mo[m];h+='<td><span class="fact-val '+(v>0?(isT?'total':'has-value'):'zero')+'">'+(v>0?fV(v):'–')+'</span></td>'}h+='<td><span class="fact-val '+(tot>0?(isT?'total':'has-value'):'zero')+'" style="font-weight:800">'+(tot>0?fV(tot):'–')+'</span></td>';return h}
   function ecB(pv,rv){if(pv<=0)return'';const pc=Math.round(rv/pv*100);return pc<=100?'<span class="ecart-badge ecart-ok">'+pc+'%</span>':'<span class="ecart-badge ecart-danger">'+pc+'%</span>'}
 
+  function budgetCell(bkey,pv,cls){
+    if(editing){
+      return'<td class="td-budget"><input type="text" class="'+cls+'" data-bkey="'+bkey+'" value="'+pv+'" /></td>';
+    }else{
+      return'<td class="td-budget"><span class="fact-val '+(pv>0?'has-value':'zero')+'">'+fBudget(pv)+'</span></td>';
+    }
+  }
+
   function sCAff(an,mo){
     const tR=mo.reduce((s,v)=>s+v,0);const pJ=planYr(yr,an,sc||null);const ka=SK(an);
-    let pv=gP(cfg.k,yr,ka);
-    let h='<td class="td-prevu"><input type="text" class="prevu-input" data-prevkey="'+ka+'" value="'+pv+'" /></td>';
+    const pv=gP(cfg.k,yr,ka);
+    let h=budgetCell(ka,pv,'budget-input');
     const plV=isE?Math.round(pJ*rate):pJ;
     h+='<td class="td-plancharge"><span class="fact-val '+(plV>0?'has-value':'zero')+'">'+(plV>0?fV(pJ):'–')+'</span></td>';
     const rlV=isE?Math.round(tR*rate):tR;
@@ -362,15 +375,15 @@ function renderG(cfg){
     return h;
   }
   function sCsd(an,cat,mo){
-    const tR=mo.reduce((s,v)=>s+v,0);const ka=SK(an),kc=SK(cat);
-    let pv=gPSD(cfg.k,yr,ka,kc);
-    let h='<td class="td-prevu"><input type="text" class="prevu-input-sd" data-prevkey="'+ka+'__'+kc+'" value="'+pv+'" /></td>';
+    const tR=mo.reduce((s,v)=>s+v,0);const ka=SK(an),kc=SK(cat),bkey=ka+'__'+kc;
+    const pv=gPSD(cfg.k,yr,ka,kc);
+    let h=budgetCell(bkey,pv,'budget-input-sd');
     h+='<td class="td-plancharge"></td>';
     const rlV=isE?Math.round(tR*rate):tR;
     h+='<td class="td-realise"><span class="fact-val '+(rlV>0?'has-value':'zero')+'">'+(rlV>0?fV(tR):'–')+'</span>'+ecB(pv,isE?rlV:tR)+'</td>';
     return h;
   }
-  function sT(list){let tP=0,tPC=0,tR=0;list.forEach(a=>{tP+=gP(cfg.k,yr,SK(a.n));tPC+=planYr(yr,a.n,sc||null);tR+=a.mo.reduce((s,v)=>s+v,0)});const fP=tP>0?(isE?Math.round(tP).toLocaleString('fr-FR')+'€':fN(tP)+'j'):'–';return'<td class="td-prevu" style="font-weight:700"><span class="fact-val total">'+fP+'</span></td><td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+(tPC>0?fV(tPC):'–')+'</span></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(tR>0?fV(tR):'–')+'</span></td>'}
+  function sT(list){let tP=0,tPC=0,tR=0;list.forEach(a=>{tP+=gP(cfg.k,yr,SK(a.n));tPC+=planYr(yr,a.n,sc||null);tR+=a.mo.reduce((s,v)=>s+v,0)});return'<td class="td-budget" style="font-weight:700"><span class="fact-val total">'+fBudget(tP)+'</span></td><td class="td-plancharge" style="font-weight:700"><span class="fact-val total">'+(tPC>0?fV(tPC):'–')+'</span></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(tR>0?fV(tR):'–')+'</span></td>'}
 
   if((fl==='all'||fl==='etudes')&&et.length>0){tb+='<tr class="fact-section-row"><td colspan="'+CS+'">📐 Études ('+et.length+')</td></tr>';const tots=new Array(12).fill(0);et.forEach(a=>{a.mo.forEach((v,i)=>tots[i]+=v);tb+='<tr class="fact-affaire-row"><td>'+eH(a.n)+'</td>'+sCAff(a.n,a.mo)+mC(a.mo,false)+'</tr>'});tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Études</td>'+sT(et)+mC(tots,true)+'</tr>'}
 
@@ -380,20 +393,17 @@ function renderG(cfg){
       let sdPT=0,sdRT=0;
       TSC.forEach(cat=>{const hd=iO?'':'hidden';const moData=a.sd[cat]||new Array(12).fill(0);const realSD=moData.reduce((s,v)=>s+v,0);const prevSD=gPSD(cfg.k,yr,SK(a.n),SK(cat));sdPT+=prevSD;sdRT+=realSD;tb+='<tr class="fact-subdetail-row fsd-'+cfg.k+'-'+ak+' '+hd+'"><td>'+(cat==='Autre'?'📦':'🔧')+' '+eH(cat)+'</td>'+sCsd(a.n,cat,moData)+mC(moData,false)+'</tr>'});
       const hdT=iO?'':'hidden';const sdTotMo=new Array(12).fill(0);TSC.forEach(cat=>{const md=a.sd[cat]||new Array(12).fill(0);md.forEach((v,i)=>sdTotMo[i]+=v)});
-      const fsdP=sdPT>0?(isE?Math.round(sdPT).toLocaleString('fr-FR')+'€':fN(sdPT)+'j'):'–';const fsdR=sdRT>0?fV(sdRT):'–';
-      tb+='<tr class="fact-subdetail-row sd-total-row fsd-'+cfg.k+'-'+ak+' '+hdT+'"><td style="padding-left:44px!important">📊 Total sous-détail</td><td class="td-prevu"><span class="fact-val total">'+fsdP+'</span></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val total">'+fsdR+'</span></td>'+mC(sdTotMo,true)+'</tr>'});
+      tb+='<tr class="fact-subdetail-row sd-total-row fsd-'+cfg.k+'-'+ak+' '+hdT+'"><td style="padding-left:44px!important">📊 Total sous-détail</td><td class="td-budget"><span class="fact-val total">'+fBudget(sdPT)+'</span></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val total">'+(sdRT>0?fV(sdRT):'–')+'</span></td>'+mC(sdTotMo,true)+'</tr>'});
     tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Travaux</td>'+sT(tr)+mC(tots,true)+'</tr>'}
 
-  if((fl==='all'||fl==='special')&&sl.length>0){tb+='<tr class="fact-section-row section-special"><td colspan="'+CS+'">📂 Autres ('+sl.length+')</td></tr>';const tots=new Array(12).fill(0);sl.forEach(a=>{a.mo.forEach((v,i)=>tots[i]+=v);const rv=a.mo.reduce((s,v)=>s+v,0);tb+='<tr class="fact-affaire-row"><td>'+eH(a.n)+'</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(rv>0?'has-value':'zero')+'" style="font-weight:700">'+(rv>0?fV(rv):'–')+'</span></td>'+mC(a.mo,false)+'</tr>'});const stMo=new Array(12).fill(0);sl.forEach(a=>a.mo.forEach((v,i)=>stMo[i]+=v));const stS=sl.reduce((s,a)=>s+a.mo.reduce((ss,v)=>ss+v,0),0);tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-prevu"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stS>0?fV(stS):'–')+'</span></td>'+mC(stMo,true)+'</tr>'}
+  if((fl==='all'||fl==='special')&&sl.length>0){tb+='<tr class="fact-section-row section-special"><td colspan="'+CS+'">📂 Autres ('+sl.length+')</td></tr>';const tots=new Array(12).fill(0);sl.forEach(a=>{a.mo.forEach((v,i)=>tots[i]+=v);const rv=a.mo.reduce((s,v)=>s+v,0);tb+='<tr class="fact-affaire-row"><td>'+eH(a.n)+'</td><td class="td-budget"></td><td class="td-plancharge"></td><td class="td-realise"><span class="fact-val '+(rv>0?'has-value':'zero')+'" style="font-weight:700">'+(rv>0?fV(rv):'–')+'</span></td>'+mC(a.mo,false)+'</tr>'});const stMo=new Array(12).fill(0);sl.forEach(a=>a.mo.forEach((v,i)=>stMo[i]+=v));const stS=sl.reduce((s,a)=>s+a.mo.reduce((ss,v)=>ss+v,0),0);tb+='<tr class="fact-subtotal-row"><td style="padding-left:20px">Sous-total Autres</td><td class="td-budget"></td><td class="td-plancharge"></td><td class="td-realise" style="font-weight:700"><span class="fact-val total">'+(stS>0?fV(stS):'–')+'</span></td>'+mC(stMo,true)+'</tr>'}
 
   const gT=new Array(12).fill(0);const aA=[];
   if(fl==='all'||fl==='etudes')et.forEach(a=>{a.mo.forEach((v,i)=>gT[i]+=v);aA.push(a)});
   if(fl==='all'||fl==='travaux')tr.forEach(a=>{a.mo.forEach((v,i)=>gT[i]+=v);aA.push(a)});
   if(fl==='all'||fl==='special')sl.forEach(a=>a.mo.forEach((v,i)=>gT[i]+=v));
-  let gPv=0,gPC=0,gR=0;aA.forEach(a=>{gPv+=gP(cfg.k,yr,SK(a.n));gPC+=planYr(yr,a.n,sc||null);gR+=a.mo.reduce((s,v)=>s+v,0)});
-  if(fl==='all'||fl==='special')sl.forEach(a=>gR+=a.mo.reduce((s,v)=>s+v,0));
-  const fGP=gPv>0?(isE?Math.round(gPv).toLocaleString('fr-FR')+'€':fN(gPv)+'j'):'–';
-  tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td><td class="td-prevu" style="font-weight:800"><span class="fact-val total">'+fGP+'</span></td><td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gPC>0?fV(gPC):'–')+'</span></td><td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gR>0?fV(gR):'–')+'</span></td>'+mC(gT,true)+'</tr></tbody>';
+  let gPv=0,gPC=0,gR=0;aA.forEach(a=>{gPv+=gP(cfg.k,yr,SK(a.n));gPC+=planYr(yr,a.n,sc||null);gR+=a.mo.reduce((s,v)=>s+v,0)});if(fl==='all'||fl==='special')sl.forEach(a=>gR+=a.mo.reduce((s,v)=>s+v,0));
+  tb+='<tr class="fact-total-row"><td style="font-size:.9rem">🏁 TOTAL GÉNÉRAL</td><td class="td-budget" style="font-weight:800"><span class="fact-val total">'+fBudget(gPv)+'</span></td><td class="td-plancharge" style="font-weight:800"><span class="fact-val total">'+(gPC>0?fV(gPC):'–')+'</span></td><td class="td-realise" style="font-weight:800"><span class="fact-val total">'+(gR>0?fV(gR):'–')+'</span></td>'+mC(gT,true)+'</tr></tbody>';
   document.getElementById(cfg.tId).innerHTML=th+tb;
 }
 
@@ -401,12 +411,11 @@ function tgSD(tk,ak){const e=EXP[tk];if(e.has(ak))e.delete(ak);else e.add(ak);do
 function renderTempsView(){renderG({k:'temps',isE:false,ylId:'tempsYearLabel',csId:'tempsCollabSelect',sId:'tempsStats',tId:'tempsTable',ttId:'tempsTableTitle'})}
 function renderFactView(){renderG({k:'fact',isE:true,ylId:'factYearLabel',csId:'factCollabSelect',sId:'factStats',tId:'factTable',ttId:'factTableTitle'})}
 
-function exportCSV(tk){const isE=tk==='fact',yr=TY[tk],rate=isE?activeTaux:0,fl=TF[tk];const sId=tk==='fact'?'factCollabSelect':'tempsCollabSelect';const sc=document.getElementById(sId)?.value||'';const{af,sp}=buildD(yr,sId);const cv=v=>isE?Math.round(v*rate):v;const u=isE?'€':'j';const rows=[];const hdr=['Affaire','Type','Prestation','Prévu ('+u+')','Plan charge ('+u+')','Réalisé ('+u+')'];for(let m=0;m<12;m++)hdr.push(MN[m]);hdr.push('Total');rows.push(hdr);let cl='Tous';if(sc)Co.forEach(c=>{if(SK(c.name)===sc)cl=fmtN(c.name)});Object.keys(af).sort().forEach(n=>{const a=af[n];const tl=a.type==='etudes'?'Études':'Travaux';if(fl!=='all'&&fl!==a.type)return;const tR=a.mo.reduce((s,v)=>s+v,0);const pv=gP(tk,yr,SK(n));const pc=planYr(yr,n,sc||null);const r=[n,tl,'',pv||'',cv(pc)||'',cv(tR)];a.mo.forEach(v=>r.push(cv(v)));r.push(cv(tR));rows.push(r);if(a.type==='travaux'){TSC.forEach(cat=>{const md=a.sd[cat]||new Array(12).fill(0);const sr=md.reduce((s,v)=>s+v,0);const pvSD=gPSD(tk,yr,SK(n),SK(cat));const row=['  ↳ '+n,tl,cat,pvSD||'','',cv(sr)];md.forEach(v=>row.push(cv(v)));row.push(cv(sr));rows.push(row)})}});if(fl==='all'||fl==='special'){Object.keys(sp).sort().forEach(n=>{const r=[n,'Autre','','','',cv(sp[n].mo.reduce((s,v)=>s+v,0))];sp[n].mo.forEach(v=>r.push(cv(v)));r.push(cv(sp[n].mo.reduce((s,v)=>s+v,0)));rows.push(r)})}rows.push([]);rows.push(['Export: '+yr,'Collab: '+cl,'Filtre: '+fl,isE?'Taux: '+rate+'€/j':'']);const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(isE?'facturation_':'temps_')+yr+(sc?'_'+cl.replace(/\s/g,'_'):'')+'.csv';a.click();URL.revokeObjectURL(url);showToast('📥 CSV exporté')}
+function exportCSV(tk){const isE=tk==='fact',yr=TY[tk],rate=isE?activeTaux:0,fl=TF[tk];const sId=tk==='fact'?'factCollabSelect':'tempsCollabSelect';const sc=document.getElementById(sId)?.value||'';const{af,sp}=buildD(yr,sId);const cv=v=>isE?Math.round(v*rate):v;const u=isE?'€':'j';const rows=[];const hdr=['Affaire','Type','Prestation','Budget ('+u+')','Plan charge ('+u+')','Réalisé ('+u+')'];for(let m=0;m<12;m++)hdr.push(MN[m]);hdr.push('Total');rows.push(hdr);let cl='Tous';if(sc)Co.forEach(c=>{if(SK(c.name)===sc)cl=fmtN(c.name)});Object.keys(af).sort().forEach(n=>{const a=af[n];const tl=a.type==='etudes'?'Études':'Travaux';if(fl!=='all'&&fl!==a.type)return;const tR=a.mo.reduce((s,v)=>s+v,0);const pv=gP(tk,yr,SK(n));const pc=planYr(yr,n,sc||null);const r=[n,tl,'',pv||'',cv(pc)||'',cv(tR)];a.mo.forEach(v=>r.push(cv(v)));r.push(cv(tR));rows.push(r);if(a.type==='travaux'){TSC.forEach(cat=>{const md=a.sd[cat]||new Array(12).fill(0);const sr=md.reduce((s,v)=>s+v,0);const pvSD=gPSD(tk,yr,SK(n),SK(cat));const row=['  ↳ '+n,tl,cat,pvSD||'','',cv(sr)];md.forEach(v=>row.push(cv(v)));row.push(cv(sr));rows.push(row)})}});if(fl==='all'||fl==='special'){Object.keys(sp).sort().forEach(n=>{const r=[n,'Autre','','','',cv(sp[n].mo.reduce((s,v)=>s+v,0))];sp[n].mo.forEach(v=>r.push(cv(v)));r.push(cv(sp[n].mo.reduce((s,v)=>s+v,0)));rows.push(r)})}rows.push([]);rows.push(['Export: '+yr,'Collab: '+cl,'Filtre: '+fl,isE?'Taux: '+rate+'€/j':'']);const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(isE?'facturation_':'temps_')+yr+(sc?'_'+cl.replace(/\s/g,'_'):'')+'.csv';a.click();URL.revokeObjectURL(url);showToast('📥 CSV exporté')}
 
 function gI(n){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
 function fmtN(n){const p=n.trim().split(/\s+/);if(p.length<2)return n;return p[p.length-1]+' '+p.slice(0,-1).map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ')}
 function eH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function eA(s){return s.replace(/'/g,"\\'")}
 function fN(n){const r=Math.round(n*100)/100;return r%1===0?r.toFixed(0):parseFloat(r.toFixed(2)).toString()}
 </script>
 </body>
