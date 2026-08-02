@@ -62,7 +62,14 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .aff-header-cell .abtn{padding:3px 10px;border:none;border-radius:5px;font-size:.7rem;font-weight:600;cursor:pointer;transition:.2s}
 .aff-header-cell .abtn-add{background:var(--success);color:#fff}.aff-header-cell .abtn-add:hover{background:#218838}
 .aff-header-cell .abtn-del{background:var(--danger);color:#fff}.aff-header-cell .abtn-del:hover{background:#c82333}
-.aff-header-cell .abtn-pdf{background:#7c4dff;color:#fff}.aff-header-cell .abtn-pdf:hover{background:#5e35b1}
+/* PDF dropdown */
+.pdf-dropdown{position:relative;display:inline-block}
+.pdf-dropdown .abtn-pdf{background:#7c4dff;color:#fff;cursor:pointer}.pdf-dropdown .abtn-pdf:hover{background:#5e35b1}
+.pdf-menu{display:none;position:absolute;top:100%;left:0;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:100;min-width:140px;margin-top:4px}
+.pdf-menu.show{display:block}
+.pdf-menu-item{display:block;width:100%;padding:8px 14px;border:none;background:none;text-align:left;font-size:.78rem;font-weight:500;cursor:pointer;transition:.1s;color:var(--text)}
+.pdf-menu-item:hover{background:var(--bg);color:var(--accent)}
+.pdf-menu-item:first-child{border-radius:6px 6px 0 0}.pdf-menu-item:last-child{border-radius:0 0 6px 6px}
 .row-year th{background:var(--primary);color:#fff;padding:5px 4px;font-weight:700;font-size:.78rem}
 .row-month th{background:var(--accent);color:#fff;padding:4px 4px;font-weight:600;font-size:.73rem}
 .row-week th{background:#3a6ea5;color:#fff;padding:3px 3px;font-weight:500;font-size:.68rem}
@@ -154,17 +161,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </style>
 </head>
 <body>
-
 <div class="loading-overlay show" id="loadingOverlay"><div class="spinner"></div><div style="font-size:.9rem;color:var(--text-light)">Chargement des données...</div></div>
 
 <div class="top-bar">
   <div class="logo">📊 Planning <span>de Charge</span></div>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button>
-    <button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button>
-    <button class="tab-btn" onclick="swT('conges',this)">🏖️ Congés</button>
-    <button class="tab-btn" onclick="swT('parametrage',this)">⚙️ Paramétrage</button>
-  </div>
+  <div class="tabs"><button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button><button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button><button class="tab-btn" onclick="swT('conges',this)">🏖️ Congés</button><button class="tab-btn" onclick="swT('parametrage',this)">⚙️ Paramétrage</button></div>
   <div class="right-info"><span id="curDate"></span><button class="hbtn" onclick="window.location.href='hub.html'">🏠 Accueil</button><button class="hbtn" onclick="logout()">🚪 Déconnexion</button></div>
 </div>
 
@@ -201,17 +202,16 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH3"></thead><tbody id="pB3"></tbody></table></div></div>
 </div>
 
-<div id="tab-parametrage" class="tab-content">
-  <div class="param-page">
-    <div class="param-card"><h3>👤 Collaborateurs</h3><ul class="collab-list" id="cList"></ul><div class="param-input-row"><input type="text" id="newCN" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')addC()"><input type="color" id="newCC" value="#e94560"><button class="btn-nav" style="background:var(--success)" onclick="addC()">＋</button></div><div style="margin-top:12px"><div class="param-input-row"><input type="text" id="delCN" placeholder="Supprimer: NOM Prénom exact" onkeydown="if(event.key==='Enter')delC()"><button class="btn-nav" style="background:var(--danger)" onclick="delC()">✕</button></div></div></div>
-    <div class="param-card"><h3>🏖️ Types de congés</h3><div class="leave-type-list" id="ltList"></div><div class="param-input-row"><input type="text" id="newLT" placeholder="Nouveau type (ex: Formation)" onkeydown="if(event.key==='Enter')addLT()"><button class="btn-nav" style="background:var(--success)" onclick="addLT()">＋</button></div></div>
-  </div>
-</div>
+<div id="tab-parametrage" class="tab-content"><div class="param-page">
+  <div class="param-card"><h3>👤 Collaborateurs</h3><ul class="collab-list" id="cList"></ul><div class="param-input-row"><input type="text" id="newCN" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')addC()"><input type="color" id="newCC" value="#e94560"><button class="btn-nav" style="background:var(--success)" onclick="addC()">＋</button></div><div style="margin-top:12px"><div class="param-input-row"><input type="text" id="delCN" placeholder="Supprimer: NOM Prénom exact" onkeydown="if(event.key==='Enter')delC()"><button class="btn-nav" style="background:var(--danger)" onclick="delC()">✕</button></div></div></div>
+  <div class="param-card"><h3>🏖️ Types de congés</h3><div class="leave-type-list" id="ltList"></div><div class="param-input-row"><input type="text" id="newLT" placeholder="Nouveau type" onkeydown="if(event.key==='Enter')addLT()"><button class="btn-nav" style="background:var(--success)" onclick="addLT()">＋</button></div></div>
+</div></div>
 
-<div class="modal-overlay" id="mAdd"><div class="modal"><div class="modal-header"><h2>Ajouter une affaire</h2></div><div class="modal-body"><label>Nom</label><input type="text" id="nAN" placeholder="Projet Alpha"><label>Type</label><select id="nAT" onchange="updJF('add')"><option value="etudes">📐 Études</option><option value="travaux">🔨 Travaux</option></select><label>Années</label><div class="year-tags" id="addYearTags"></div><div class="jalons-section"><h4>🚩 Jalons (optionnels)</h4><div id="addJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mAdd')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="addAff()">Valider</button></div></div></div>
+<!-- MODALS -->
+<div class="modal-overlay" id="mAdd"><div class="modal"><div class="modal-header"><h2>Ajouter une affaire</h2></div><div class="modal-body"><label>Nom</label><input type="text" id="nAN" placeholder="Projet Alpha"><label>Type</label><select id="nAT" onchange="updJF('add')"><option value="etudes">📐 Études</option><option value="travaux">🔨 Travaux</option></select><label>Années</label><div class="year-tags" id="addYearTags"></div><div class="jalons-section"><h4>🚩 Jalons</h4><div id="addJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mAdd')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="addAff()">Valider</button></div></div></div>
 <div class="modal-overlay" id="mDel"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#c82333,#dc3545)"><h2>Supprimer</h2></div><div class="modal-body"><label>Nom exact</label><input type="text" id="dAN"><div id="dAL" style="font-size:.8rem;color:var(--text-light);margin-top:-8px;margin-bottom:8px"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mDel')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="delAff()">Supprimer</button></div></div></div>
 <div class="modal-overlay" id="mEJ"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>Modifier l'affaire</h2></div><div class="modal-body"><div style="font-size:.9rem;font-weight:600;margin-bottom:12px" id="eJN"></div><label>Années</label><div class="year-tags" id="editYearTags"></div><div class="jalons-section"><h4>🚩 Jalons</h4><div id="eJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mEJ')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="saveJ()">Enregistrer</button></div></div></div>
-<div class="modal-overlay" id="mLeaveConfirm"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>⚠️ Conflit détecté</h2></div><div class="modal-body"><div id="leaveConflictMsg" style="font-size:.9rem;line-height:1.5"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="cancelLeaveConflict()">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmLeaveConflict()">Appliquer le congé</button></div></div></div>
+<div class="modal-overlay" id="mLeaveConfirm"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#e65100,#ff9800)"><h2>⚠️ Conflit</h2></div><div class="modal-body"><div id="leaveConflictMsg" style="font-size:.9rem;line-height:1.5"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="cancelLeaveConflict()">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmLeaveConflict()">Appliquer</button></div></div></div>
 <div class="modal-overlay" id="mRenameCollab"><div class="modal"><div class="modal-header"><h2>✏️ Renommer</h2></div><div class="modal-body"><label>Ancien nom</label><div id="renameOldName" style="font-size:.9rem;font-weight:600;margin-bottom:16px;padding:10px 14px;background:var(--bg);border-radius:8px"></div><label>Nouveau nom</label><input type="text" id="renameNewName" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')confirmRenameCollab()"></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mRenameCollab')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="confirmRenameCollab()">Renommer</button></div></div></div>
 <div class="toast-container" id="toastC"></div>
 <div id="pdfRender"></div>
@@ -219,7 +219,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <script>
 const firebaseConfig={apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"};
 firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.database();
@@ -234,12 +233,12 @@ const DAYS=90,JE=['Prébouclage','Bouclage','Remise offre','Oral'],JT=['Fin pré
 const JC={'Prébouclage':'#ff1744','Bouclage':'#d500f9','Remise offre':'#2979ff','Oral':'#00c853','Fin prépa':'#ff6d00','Fin GO':'#aa00ff','Réception':'#00bfa5'};
 
 function sv(){if(_saving)return;_saving=true;setTimeout(()=>{_saving=false},300);db.ref('planning').set({collaborateurs:Co,affaires:Af,donnees:Dt,typesConges:LT,conges:LD}).then(()=>toast('Sauvegardé ✓','success')).catch(()=>toast('Erreur !','error'))}
-function loadFromFirebase(){return db.ref('planning').once('value').then(snap=>{const d=snap.val();if(d){Co=d.collaborateurs||[];Af=d.affaires||[];Dt=d.donnees||{};LT=d.typesConges||["CP","RTT","CM","AM"];LD=d.conges||{};Af.forEach(a=>{if(!a.years)a.years=[new Date().getFullYear()];if(a.type==='etudes'&&a.jalons&&!a.offres){const h=JE.some(j=>a.jalons[j]!==undefined);if(h){a.offres=[{label:'Offre 1',jalons:{}}];JE.forEach(j=>{if(a.jalons[j]){a.offres[0].jalons[j]=a.jalons[j];delete a.jalons[j]}})}}})}}).catch(()=>toast('Erreur chargement !','error'))}
+function loadFromFirebase(){return db.ref('planning').once('value').then(snap=>{const d=snap.val();if(d){Co=d.collaborateurs||[];Af=d.affaires||[];Dt=d.donnees||{};LT=d.typesConges||["CP","RTT","CM","AM"];LD=d.conges||{};Af.forEach(a=>{if(!a.years)a.years=[new Date().getFullYear()];if(a.type==='etudes'&&a.jalons&&!a.offres){const h=JE.some(j=>a.jalons[j]!==undefined);if(h){a.offres=[{label:'Offre 1',jalons:{}}];JE.forEach(j=>{if(a.jalons[j]){a.offres[0].jalons[j]=a.jalons[j];delete a.jalons[j]}})}}})}}).catch(()=>toast('Erreur !','error'))}
 
 function toast(m,t='info'){const c=document.getElementById('toastC'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),3000)}
 function swT(t,b){curTab=t;document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');b.classList.add('active');render()}
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
-function getFeries(y){const s=new Set(),f=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};s.add(f(new Date(y,0,1)));s.add(f(new Date(y,4,1)));s.add(f(new Date(y,4,8)));s.add(f(new Date(y,6,14)));s.add(f(new Date(y,7,15)));s.add(f(new Date(y,10,1)));s.add(f(new Date(y,10,11)));s.add(f(new Date(y,11,25)));const e=getEaster(y);s.add(f(ad(e,1)));s.add(f(ad(e,39)));s.add(f(ad(e,50)));return s}
+function getFeries(y){const s=new Set(),f=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};[new Date(y,0,1),new Date(y,4,1),new Date(y,4,8),new Date(y,6,14),new Date(y,7,15),new Date(y,10,1),new Date(y,10,11),new Date(y,11,25)].forEach(x=>s.add(f(x)));const e=getEaster(y);[1,39,50].forEach(n=>s.add(f(ad(e,n))));return s}
 let _fc={};function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
 function wn(d){const dt=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())),dn=dt.getUTCDay()||7;dt.setUTCDate(dt.getUTCDate()+4-dn);const ys=new Date(Date.UTC(dt.getUTCFullYear(),0,1));return Math.ceil((((dt-ys)/864e5)+1)/7)}
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -261,10 +260,10 @@ function setPct(p){selPct=p;document.querySelectorAll('.pct-btn').forEach(b=>{b.
 function setFill(m){fillMode=m;document.querySelectorAll('#tab-affaire .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('fill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
 function setLFill(m){lFillMode=m;document.querySelectorAll('#tab-conges .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('lfill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
 function getBD(f,t){const d=[];const x=new Date(f);while(x<=t){if(!isWE(x)&&!isF(x))d.push(dk(x));x.setDate(x.getDate()+1)}return d}
-function getTD(an,ck){const cd=pdk(ck);if(fillMode==='none')return[ck];if(fillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(fillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));if(fillMode==='jalon'){const af=Af.find(a=>a.name===an);if(!af)return[ck];const all=[];if(af.jalons)Object.values(af.jalons).forEach(v=>{if(v)all.push(v)});if(af.offres)af.offres.forEach(o=>{if(o.jalons)Object.values(o.jalons).forEach(v=>{if(v)all.push(v)})});if(!all.length)return[ck];const jd=all.sort();let tg=null;for(const j of jd){if(j>ck){tg=j;break}}if(!tg)return[ck];const db2=pdk(tg);db2.setDate(db2.getDate()-1);if(db2<cd)return[ck];return getBD(cd,db2)}return[ck]}
-function getLTD(ck){const cd=pdk(ck);if(lFillMode==='none')return[ck];if(lFillMode==='week'){const f=new Date(cd);const dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(lFillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));return[ck]}
+function getTD(an,ck){const cd=pdk(ck);if(fillMode==='none')return[ck];if(fillMode==='week'){const f=new Date(cd),dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(fillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));if(fillMode==='jalon'){const af=Af.find(a=>a.name===an);if(!af)return[ck];const all=[];if(af.jalons)Object.values(af.jalons).forEach(v=>{if(v)all.push(v)});if(af.offres)af.offres.forEach(o=>{if(o.jalons)Object.values(o.jalons).forEach(v=>{if(v)all.push(v)})});if(!all.length)return[ck];let tg=null;for(const j of all.sort()){if(j>ck){tg=j;break}}if(!tg)return[ck];const db2=pdk(tg);db2.setDate(db2.getDate()-1);if(db2<cd)return[ck];return getBD(cd,db2)}return[ck]}
+function getLTD(ck){const cd=pdk(ck);if(lFillMode==='none')return[ck];if(lFillMode==='week'){const f=new Date(cd),dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(lFillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));return[ck]}
 
-function rJI(cid,t,v,offres){const ct=document.getElementById(cid);if(t==='etudes'){let ofs=offres&&offres.length?offres:[{label:'Offre 1',jalons:{}}];let h='';ofs.forEach((o,oi)=>{h+='<div class="offre-section" data-offre-idx="'+oi+'"><h5>📋 '+eH(o.label);if(oi>0)h+=' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+oi+')">✕</button>';h+='</h5>';JE.forEach(k=>{const val=(o.jalons&&o.jalons[k])||'';const col=JC[k]||'#f44';h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+oi+'" data-jalon="'+k+'" value="'+val+'"></div>'});h+='</div>'});h+='<button class="offre-add-btn" onclick="addOffreField(\''+cid+'\')">＋ Ajouter une offre</button>';ct.innerHTML=h}else{ct.innerHTML=JT.map(k=>{const val=v&&v[k]||'';return'<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(JC[k]||'#f44')+';margin-right:6px"></span>'+k+'</label><input type="date" data-jalon="'+k+'" value="'+val+'"></div>'}).join('')}}
+function rJI(cid,t,v,offres){const ct=document.getElementById(cid);if(t==='etudes'){let ofs=offres&&offres.length?offres:[{label:'Offre 1',jalons:{}}];let h='';ofs.forEach((o,oi)=>{h+='<div class="offre-section" data-offre-idx="'+oi+'"><h5>📋 '+eH(o.label);if(oi>0)h+=' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+oi+')">✕</button>';h+='</h5>';JE.forEach(k=>{const val=(o.jalons&&o.jalons[k])||'';h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(JC[k]||'#f44')+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+oi+'" data-jalon="'+k+'" value="'+val+'"></div>'});h+='</div>'});h+='<button class="offre-add-btn" onclick="addOffreField(\''+cid+'\')">＋ Ajouter une offre</button>';ct.innerHTML=h}else{ct.innerHTML=JT.map(k=>{const val=v&&v[k]||'';return'<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(JC[k]||'#f44')+';margin-right:6px"></span>'+k+'</label><input type="date" data-jalon="'+k+'" value="'+val+'"></div>'}).join('')}}
 function addOffreField(cid){const ct=document.getElementById(cid),n=ct.querySelectorAll('.offre-section').length,div=document.createElement('div');div.className='offre-section';div.dataset.offreIdx=n;let h='<h5>📋 Offre '+(n+1)+' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+n+')">✕</button></h5>';JE.forEach(k=>{h+='<div class="jalon-row"><label><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(JC[k]||'#f44')+';margin-right:6px"></span>'+k+'</label><input type="date" data-offre="'+n+'" data-jalon="'+k+'" value=""></div>'});div.innerHTML=h;ct.insertBefore(div,ct.querySelector('.offre-add-btn'))}
 function removeOffreField(cid,idx){const ct=document.getElementById(cid),secs=ct.querySelectorAll('.offre-section');if(idx<secs.length)secs[idx].remove();ct.querySelectorAll('.offre-section').forEach((s,i)=>{s.dataset.offreIdx=i;const h5=s.querySelector('h5');h5.innerHTML=i===0?'📋 Offre '+(i+1):'📋 Offre '+(i+1)+' <button class="offre-remove-btn" onclick="removeOffreField(\''+cid+'\','+i+')">✕</button>';s.querySelectorAll('input[data-offre]').forEach(inp=>{inp.dataset.offre=i})})}
 function updJF(m){if(m==='add')rJI('addJF',document.getElementById('nAT').value,{},[{label:'Offre 1',jalons:{}}])}
@@ -277,13 +276,21 @@ function renderYearTags(id,sel){const cy=new Date().getFullYear();document.getEl
 function getSelectedYears(id){return Array.from(document.getElementById(id).querySelectorAll('.year-tag.yt-on')).map(t=>parseInt(t.textContent))}
 
 function getDates(){const dates=[];let d=new Date(sDate),s=0;while(dates.length<DAYS&&s<250){if(!isWE(d))dates.push(new Date(d));d.setDate(d.getDate()+1);s++}return dates}
-function buildHead(thId,label,btns){const dates=getDates(),thead=document.getElementById(thId);let hc;if(btns==='aff')hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><button class="abtn abtn-add" onclick="openAddAff()">＋ Ajouter</button><button class="abtn abtn-del" onclick="openDelAff()">✕ Supprimer</button><button class="abtn abtn-pdf" onclick="exportPDF(\'affaire\')">📄 PDF</button></div></div></th>';else if(btns==='collab')hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><button class="abtn abtn-pdf" onclick="exportPDF(\'collab\')">📄 PDF</button></div></div></th>';else hc='<th class="col-aff" rowspan="4">'+label+'</th>';let yc=hc,i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}let mc='',wcc='',dc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}i=0;while(i<dates.length){const w=wn(dates[i]),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w&&dates[i+sp].getFullYear()===y)sp++;wcc+='<th colspan="'+sp+'">S'+w+'</th>';i+=sp}dates.forEach(dd=>{let cl='';if(isT(dd))cl+=' today';if(isF(dd))cl+=' ferie-day';dc+='<th class="'+cl+'">'+DI[dd.getDay()]+dd.getDate()+'</th>'});thead.innerHTML='<tr class="row-year">'+yc+'</tr><tr class="row-month">'+mc+'</tr><tr class="row-week">'+wcc+'</tr><tr class="row-day">'+dc+'</tr>';return dates}
+
+// PDF dropdown helper
+function togglePdfMenu(id){const m=document.getElementById(id);m.classList.toggle('show');const close=e=>{if(!m.contains(e.target)){m.classList.remove('show');document.removeEventListener('click',close)}};setTimeout(()=>document.addEventListener('click',close),0)}
+
+function buildHead(thId,label,btns){const dates=getDates(),thead=document.getElementById(thId);let hc;
+if(btns==='aff')hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><button class="abtn abtn-add" onclick="openAddAff()">＋ Ajouter</button><button class="abtn abtn-del" onclick="openDelAff()">✕ Supprimer</button><div class="pdf-dropdown"><button class="abtn abtn-pdf" onclick="event.stopPropagation();togglePdfMenu(\'pdfMenuAff\')">📄 PDF ▾</button><div class="pdf-menu" id="pdfMenuAff"><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',0)">T1 — Jan à Mars</button><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',1)">T2 — Avr à Juin</button><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',2)">T3 — Juil à Sept</button><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',3)">T4 — Oct à Déc</button></div></div></div></div></th>';
+else if(btns==='collab')hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><div class="pdf-dropdown"><button class="abtn abtn-pdf" onclick="event.stopPropagation();togglePdfMenu(\'pdfMenuCol\')">📄 PDF ▾</button><div class="pdf-menu" id="pdfMenuCol"><button class="pdf-menu-item" onclick="exportPDF(\'collab\',0)">T1 — Jan à Mars</button><button class="pdf-menu-item" onclick="exportPDF(\'collab\',1)">T2 — Avr à Juin</button><button class="pdf-menu-item" onclick="exportPDF(\'collab\',2)">T3 — Juil à Sept</button><button class="pdf-menu-item" onclick="exportPDF(\'collab\',3)">T4 — Oct à Déc</button></div></div></div></div></th>';
+else hc='<th class="col-aff" rowspan="4">'+label+'</th>';
+let yc=hc,i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}let mc='',wcc='',dc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}i=0;while(i<dates.length){const w=wn(dates[i]),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w&&dates[i+sp].getFullYear()===y)sp++;wcc+='<th colspan="'+sp+'">S'+w+'</th>';i+=sp}dates.forEach(dd=>{let cl='';if(isT(dd))cl+=' today';if(isF(dd))cl+=' ferie-day';dc+='<th class="'+cl+'">'+DI[dd.getDay()]+dd.getDate()+'</th>'});thead.innerHTML='<tr class="row-year">'+yc+'</tr><tr class="row-month">'+mc+'</tr><tr class="row-week">'+wcc+'</tr><tr class="row-day">'+dc+'</tr>';return dates}
 
 function getAllJalons(aff){const jd={};if(aff.jalons)Object.entries(aff.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}});if(aff.offres)aff.offres.forEach(o=>{if(o.jalons)Object.entries(o.jalons).forEach(([k,v])=>{if(v){if(!jd[v])jd[v]=[];jd[v].push(k)}})});return jd}
 function getAllJalonsBadges(aff){let b='';const e=[];if(aff.jalons)Object.entries(aff.jalons).forEach(([k,v])=>{if(v)e.push([k,v])});if(aff.offres)aff.offres.forEach(o=>{if(o.jalons)Object.entries(o.jalons).forEach(([k,v])=>{if(v)e.push([k,v,o.label])})});if(e.length){b='<div class="jb">';e.forEach(([k,v,l])=>{const col=JC[k]||'#f44';const dt=new Date(v);b+='<span class="jbd" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+k+' '+dt.getDate()+'/'+(dt.getMonth()+1)+(l?' ('+l+')':'')+'</span>'});b+='</div>'}return b}
 
 function renderAffaire(){const dates=buildHead('pH1','Affaires','aff');const tbody=document.getElementById('pB1');const{etudes,travaux}=sortAf();if(!etudes.length&&!travaux.length){tbody.innerHTML='<tr><td class="col-aff" style="color:var(--text-light);font-style:italic;height:calc(var(--slot-h)*5)">Aucune affaire pour '+filterYear+'</td>'+dates.map(()=>'<td></td>').join('')+'</tr>';return}let bh='';
-function sec(items,type){const icon=type==='etudes'?'📐':'🔨',lb=type==='etudes'?'ÉTUDES':'TRAVAUX';bh+='<tr class="section-header-row"><td class="col-aff section-cell">'+icon+' '+lb+'</td>';dates.forEach(()=>{bh+='<td class="section-cell"></td>'});bh+='</tr>';items.forEach(aff=>{const ai=Af.indexOf(aff),jd=getAllJalons(aff),badges=getAllJalonsBadges(aff);bh+='<tr class="row-'+type+'"><td class="col-aff"><span class="affn">'+eH(aff.name)+'</span><button class="edb" onclick="openEJ('+ai+')">✏️</button>'+badges+'</td>';const an=eA(aff.name).replace(/'/g,"\\'");dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>';return}const sl=getSl(aff.name,dkey),blocks=mg(sl);let sh='';blocks.forEach(bl=>{const st='height:calc(var(--slot-h)*'+bl.cnt+')';if(bl.name)sh+='<div class="sb" style="'+st+';background:'+gCol(bl.name)+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+bl.cnt+')" title="'+eA(bl.name)+' '+bl.cnt*20+'%">'+ini(bl.name)+'</div>';else sh+='<div class="sb eb" style="'+st+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+bl.cnt+')"></div>'});let jh='';if(jd[dkey]){const ns=jd[dkey],jc=JC[ns[0]]||'#f44';jh='<div class="jalon-vline" style="background:'+jc+'"></div><div class="jalon-overlay"><div class="jalon-tri" style="border-top-color:'+jc+'"></div><div class="jalon-lbl" style="color:'+jc+'">'+ns.map(x=>x.substring(0,3)).join('/')+'</div></div>'}bh+='<td class="'+cls+'"><div class="sw">'+sh+'</div>'+jh+'</td>'});bh+='</tr>'})}
+function sec(items,type){const icon=type==='etudes'?'📐':'🔨',lb=type==='etudes'?'ÉTUDES':'TRAVAUX';bh+='<tr class="section-header-row"><td class="col-aff section-cell">'+icon+' '+lb+'</td>';dates.forEach(()=>{bh+='<td class="section-cell"></td>'});bh+='</tr>';items.forEach(aff=>{const ai=Af.indexOf(aff),jd=getAllJalons(aff),badges=getAllJalonsBadges(aff);bh+='<tr class="row-'+type+'"><td class="col-aff"><span class="affn">'+eH(aff.name)+'</span><button class="edb" onclick="openEJ('+ai+')">✏️</button>'+badges+'</td>';const an=eA(aff.name).replace(/'/g,"\\'");dates.forEach(dd=>{const dkey=dk(dd),fer=isF(dd);let cls='dc';if(isT(dd))cls+=' tc';if(fer)cls+=' fc';if(fer){bh+='<td class="'+cls+'"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>';return}const sl=getSl(aff.name,dkey),blocks=mg(sl);let sh='';blocks.forEach(bl=>{const st='height:calc(var(--slot-h)*'+bl.cnt+')';if(bl.name)sh+='<div class="sb" style="'+st+';background:'+gCol(bl.name)+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+')" title="'+eA(bl.name)+' '+bl.cnt*20+'%">'+ini(bl.name)+'</div>';else sh+='<div class="sb eb" style="'+st+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+')"></div>'});let jh='';if(jd[dkey]){const ns=jd[dkey],jc=JC[ns[0]]||'#f44';jh='<div class="jalon-vline" style="background:'+jc+'"></div><div class="jalon-overlay"><div class="jalon-tri" style="border-top-color:'+jc+'"></div><div class="jalon-lbl" style="color:'+jc+'">'+ns.map(x=>x.substring(0,3)).join('/')+'</div></div>'}bh+='<td class="'+cls+'"><div class="sw">'+sh+'</div>'+jh+'</td>'});bh+='</tr>'})}
 sec(etudes,'etudes');sec(travaux,'travaux');tbody.innerHTML=bh}
 
 function getLoad(cn,dkey){const entries=[];Af.forEach(aff=>{const sl=getSl(aff.name,dkey);let cnt=0;for(let i=0;i<5;i++){if(sl[i]===cn)cnt++}if(cnt>0)entries.push({name:aff.name,cnt,type:aff.type})});return{used:entries.reduce((s,e)=>s+e.cnt,0),entries}}
@@ -309,7 +316,7 @@ function selLv(lt){leaveEraser=false;selLeave=lt;renderLTB()}function deselLv(){
 function updLD(){const d=document.getElementById('selLDisp');d.classList.remove('active-selection','eraser-active');if(leaveEraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}else if(selLeave){d.textContent='🏖️ '+selLeave;d.classList.add('active-selection')}else d.textContent='Aucun'}
 
 function openAddAff(){document.getElementById('nAN').value='';document.getElementById('nAT').value='etudes';updJF('add');renderYearTags('addYearTags',[filterYear]);document.getElementById('mAdd').classList.add('show');setTimeout(()=>document.getElementById('nAN').focus(),200)}
-function addAff(){const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;if(!n){toast('Nom requis.','error');return}if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}const jData=cJ('addJF',t),years=getSelectedYears('addYearTags');if(!years.length){toast('Sélectionnez une année.','error');return}const a={name:n,type:t,jalons:jData.jalons||{},years};if(t==='etudes'&&jData.offres)a.offres=jData.offres;Af.push(a);sv();closeM('mAdd');render();toast('OK.','success')}
+function addAff(){const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;if(!n){toast('Nom requis.','error');return}if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe.','error');return}const jData=cJ('addJF',t),years=getSelectedYears('addYearTags');if(!years.length){toast('Sélectionnez une année.','error');return}const a={name:n,type:t,jalons:jData.jalons||{},years};if(t==='etudes'&&jData.offres)a.offres=jData.offres;Af.push(a);sv();closeM('mAdd');render()}
 function openDelAff(){document.getElementById('dAN').value='';const{etudes,travaux}=sortAf();let t='';if(etudes.length)t+='<b>Études:</b> '+etudes.map(a=>eH(a.name)).join(', ');if(etudes.length&&travaux.length)t+='<br>';if(travaux.length)t+='<b>Travaux:</b> '+travaux.map(a=>eH(a.name)).join(', ');document.getElementById('dAL').innerHTML=t||'Aucune.';document.getElementById('mDel').classList.add('show')}
 function delAff(){const n=document.getElementById('dAN').value.trim(),idx=Af.findIndex(a=>a.name===n);if(idx<0){toast('Introuvable.','error');return}Af.splice(idx,1);Object.keys(Dt).forEach(k=>{if(k.startsWith(n+'|'))delete Dt[k]});sv();closeM('mDel');render()}
 function openEJ(idx){eIdx=idx;const a=Af[idx];document.getElementById('eJN').textContent=a.name;rJI('eJF',a.type,a.jalons||{},a.offres||[{label:'Offre 1',jalons:{}}]);renderYearTags('editYearTags',a.years||[filterYear]);document.getElementById('mEJ').classList.add('show')}
@@ -328,7 +335,7 @@ function addLT(){const inp=document.getElementById('newLT'),n=inp.value.trim().t
 function remLT(lt){LT=LT.filter(x=>x!==lt);Object.keys(LD).forEach(k=>{if(LD[k]===lt)delete LD[k]});sv();renderLTList();render()}
 
 // ============================================================
-// EXPORT PDF — 4 PAGES TRIMESTRIELLES (REFAIT)
+// EXPORT PDF — 1 TRIMESTRE PAR EXPORT, FUSION COLLAB
 // ============================================================
 function getQuarterDates(year,q){const dates=[];let d=new Date(year,q*3,1);const end=new Date(year,q*3+3,0);while(d<=end){if(!isWE(d)&&!isF(d))dates.push(new Date(d));d.setDate(d.getDate()+1)}return dates}
 
@@ -336,17 +343,16 @@ function buildPdfQuarter(type,year,q){
   const dates=getQuarterDates(year,q);
   const qLabel=['T1 (Janvier – Mars)','T2 (Avril – Juin)','T3 (Juillet – Septembre)','T4 (Octobre – Décembre)'][q];
   const title=type==='affaire'?'Planning par affaire':'Planning par collaborateur';
-  const CW=21,NW=200,SH=14; // cellWidth, nameWidth, slotHeight (par 20%)
-  const rowH=SH*5; // 70px par ligne (5 slots de 14px)
+  const CW=21,NW=200,SH=14,rowH=SH*5;
   const totalW=NW+dates.length*CW;
 
   let h='<div style="font-family:Segoe UI,Arial,sans-serif;padding:10px;width:'+totalW+'px">';
-  h+='<div style="display:flex;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:700;color:#1a1a2e">'+title+' — '+year+' — '+qLabel+'</div><div style="font-size:9px;color:#888">'+new Date().toLocaleDateString('fr-FR')+'</div></div>';
+  h+='<div style="display:flex;justify-content:space-between;margin-bottom:6px"><div style="font-size:14px;font-weight:700;color:#1a1a2e">'+title+' — '+year+' — '+qLabel+'</div><div style="font-size:9px;color:#888">'+new Date().toLocaleDateString('fr-FR')+'</div></div>';
   h+='<table style="border-collapse:collapse;table-layout:fixed;width:'+totalW+'px">';
 
   // THEAD
-  let mc='<th rowspan="3" style="width:'+NW+'px;min-width:'+NW+'px;background:#1a1a2e;color:#fff;font-size:9px;font-weight:700;text-align:left;padding:4px 8px;border:1px solid #555;vertical-align:middle">'+title+'</th>';
-  let i=0;while(i<dates.length){const m=dates[i].getMonth();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m)sp++;mc+='<th colspan="'+sp+'" style="background:#0f3460;color:#fff;font-size:8px;padding:3px;border:1px solid #555;width:'+(sp*CW)+'px">'+MN[m]+'</th>';i+=sp}
+  let mc='<th rowspan="3" style="width:'+NW+'px;min-width:'+NW+'px;background:#1a1a2e;color:#fff;font-size:9px;font-weight:700;text-align:left;padding:4px 8px;border:1px solid #555">'+title+'</th>';
+  let i=0;while(i<dates.length){const m=dates[i].getMonth();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m)sp++;mc+='<th colspan="'+sp+'" style="background:#0f3460;color:#fff;font-size:8px;padding:3px;border:1px solid #555">'+MN[m]+'</th>';i+=sp}
   let wc='';i=0;while(i<dates.length){const w=wn(dates[i]);let sp=0;while(i+sp<dates.length&&wn(dates[i+sp])===w)sp++;wc+='<th colspan="'+sp+'" style="background:#3a6ea5;color:#fff;font-size:7px;padding:2px;border:1px solid #555">S'+w+'</th>';i+=sp}
   let dc='';dates.forEach(dd=>{dc+='<th style="width:'+CW+'px;min-width:'+CW+'px;font-size:6.5px;padding:2px;background:'+(isF(dd)?'#9e9e9e':'#5a8fc5')+';color:#fff;border:1px solid #555">'+DI[dd.getDay()]+dd.getDate()+'</th>'});
   h+='<thead><tr>'+mc+'</tr><tr>'+wc+'</tr><tr>'+dc+'</tr></thead><tbody>';
@@ -358,85 +364,68 @@ function buildPdfQuarter(type,year,q){
       h+='<tr><td colspan="'+(dates.length+1)+'" style="background:#1a1a2e;color:#fff;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 8px;border:none">'+(tp==='etudes'?'📐 ÉTUDES':'🔨 TRAVAUX')+'</td></tr>';
       items.forEach(aff=>{
         const jd=getAllJalons(aff);
-        // Nom + badges jalons dans la colonne gauche
         let nameHtml='<div style="font-size:8px;font-weight:700;margin-bottom:2px">'+eH(aff.name)+'</div>';
         const jEntries=[];
         if(aff.jalons)Object.entries(aff.jalons).forEach(([k,v])=>{if(v)jEntries.push([k,v])});
         if(aff.offres)aff.offres.forEach(o=>{if(o.jalons)Object.entries(o.jalons).forEach(([k,v])=>{if(v)jEntries.push([k,v,o.label])})});
-        if(jEntries.length){
-          nameHtml+='<div style="display:flex;flex-wrap:wrap;gap:2px">';
-          jEntries.forEach(([k,v,lbl])=>{const col=JC[k]||'#f44';const dt=new Date(v);nameHtml+='<span style="font-size:6px;padding:1px 4px;border-radius:2px;background:'+col+'22;color:'+col+';border:1px solid '+col+'44;font-weight:600">'+k+' '+dt.getDate()+'/'+(dt.getMonth()+1)+(lbl?' ('+lbl+')':'')+'</span>'});
-          nameHtml+='</div>';
-        }
+        if(jEntries.length){nameHtml+='<div style="display:flex;flex-wrap:wrap;gap:2px">';jEntries.forEach(([k,v,lbl])=>{const col=JC[k]||'#f44';const dt=new Date(v);nameHtml+='<span style="font-size:5.5px;padding:1px 3px;border-radius:2px;background:'+col+'22;color:'+col+';border:1px solid '+col+'44;font-weight:600">'+k+' '+dt.getDate()+'/'+(dt.getMonth()+1)+(lbl?' ('+lbl+')':'')+'</span>'});nameHtml+='</div>'}
         h+='<tr><td style="width:'+NW+'px;min-width:'+NW+'px;text-align:left;padding:3px 6px;border:1px solid #ccc;border-left:4px solid '+(tp==='etudes'?'#1565c0':'#e65100')+';background:'+(tp==='etudes'?'#f0f6ff':'#fff8f0')+';vertical-align:top;height:'+rowH+'px">'+nameHtml+'</td>';
         dates.forEach(dd=>{
-          const dkey=dk(dd),fer=isF(dd);
-          if(fer){h+='<td style="background:#e0e0e0;height:'+rowH+'px;border:1px solid #ccc"></td>';return}
+          const dkey=dk(dd);
+          if(isF(dd)){h+='<td style="background:#e0e0e0;height:'+rowH+'px;border:1px solid #ccc"></td>';return}
           const sl=getSl(aff.name,dkey),blocks=mg(sl);
-          // Reproduire les barres empilées comme à l'écran
           let cellH='<div style="display:flex;flex-direction:column;width:100%;height:'+rowH+'px">';
-          blocks.forEach(bl=>{
-            const bh=SH*bl.cnt;
-            if(bl.name){
-              cellH+='<div style="height:'+bh+'px;background:'+gCol(bl.name)+';display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#000;border-bottom:1px dotted rgba(0,0,0,.1);overflow:hidden">'+ini(bl.name)+'</div>';
-            }else{
-              cellH+='<div style="height:'+bh+'px;background:transparent;border-bottom:1px dotted rgba(0,0,0,.05)"></div>';
-            }
-          });
+          blocks.forEach(bl=>{const bh=SH*bl.cnt;if(bl.name)cellH+='<div style="height:'+bh+'px;background:'+gCol(bl.name)+';display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;border-bottom:1px dotted rgba(0,0,0,.1);overflow:hidden">'+ini(bl.name)+'</div>';else cellH+='<div style="height:'+bh+'px;border-bottom:1px dotted rgba(0,0,0,.05)"></div>'});
           cellH+='</div>';
-          // Jalons : texte + trait
           let jalonHtml='';
-          if(jd[dkey]){
-            const ns=jd[dkey],jc=JC[ns[0]]||'#f44';
-            const lbl=ns.map(x=>x.substring(0,3)).join('/');
-            jalonHtml='<div style="position:absolute;top:0;left:0;right:0;text-align:center;font-size:5.5px;font-weight:800;color:'+jc+';z-index:2;text-shadow:0 0 2px #fff,0 0 2px #fff">▼'+lbl+'</div><div style="position:absolute;top:0;left:50%;width:2px;height:100%;background:'+jc+';opacity:.3;z-index:1"></div>';
-          }
-          h+='<td style="height:'+rowH+'px;padding:0;border:1px solid #ccc;position:relative;vertical-align:top">'+cellH+jalonHtml+'</td>';
-        });
+          if(jd[dkey]){const ns=jd[dkey],jc=JC[ns[0]]||'#f44',lbl=ns.map(x=>x.substring(0,3)).join('/');jalonHtml='<div style="position:absolute;top:0;left:0;right:0;text-align:center;font-size:5.5px;font-weight:800;color:'+jc+';z-index:2;text-shadow:0 0 2px #fff,0 0 2px #fff">▼'+lbl+'</div><div style="position:absolute;top:0;left:50%;width:2px;height:100%;background:'+jc+';opacity:.3;z-index:1"></div>'}
+          h+='<td style="height:'+rowH+'px;padding:0;border:1px solid #ccc;position:relative;vertical-align:top">'+cellH+jalonHtml+'</td>'});
         h+='</tr>';
       });
     }
     pdfSec(etudes,'etudes');pdfSec(travaux,'travaux');
   } else {
-    // COLLABORATEURS — reproduire exactement le rendu écran
+    // COLLABORATEURS avec FUSION comme à l'écran
     Co.forEach(col=>{
       const loads=dates.map(dd=>{
-        if(isF(dd))return{fer:true,used:0,entries:[],status:'fer',leave:null};
+        if(isF(dd))return{fer:true,used:0,entries:[],status:'fer',leave:null,pct:0};
         const lv=hasLeave(col.name,dk(dd));
-        if(lv)return{fer:false,leave:lv,used:5,entries:[],status:'leave'};
+        if(lv)return{fer:false,leave:lv,used:5,entries:[],status:'leave',pct:100};
         const ld=getLoad(col.name,dk(dd));
         let st='full';if(ld.used>5)st='over';else if(ld.used<5)st='free';
-        return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st};
+        return{fer:false,leave:null,used:ld.used,entries:ld.entries,status:st,pct:ld.used*20};
       });
+      // Signatures et groupement (fusion)
+      const sigs=loads.map(l=>makeLoadSig(l));
+      const groups=[];let gi=0;
+      while(gi<dates.length){const sig=sigs[gi];let gl=1;while(gi+gl<dates.length&&sigs[gi+gl]===sig)gl++;groups.push({start:gi,len:gl,load:loads[gi]});gi+=gl}
 
       h+='<tr><td style="width:'+NW+'px;min-width:'+NW+'px;text-align:left;padding:3px 6px;border:1px solid #ccc;border-left:4px solid '+col.color+';background:#f4f6ff;font-size:8px;font-weight:600;height:'+rowH+'px;vertical-align:middle"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+col.color+';color:#fff;text-align:center;line-height:14px;font-size:6px;font-weight:700;margin-right:4px;vertical-align:middle">'+ini(col.name)+'</span>'+eH(col.name)+'</td>';
 
-      dates.forEach((dd,di)=>{
-        const ld=loads[di],fer=isF(dd);
-        if(fer){h+='<td style="background:#e0e0e0;height:'+rowH+'px;border:1px solid #ccc"></td>';return}
-        if(ld.leave){h+='<td style="background:#333;color:#fff;font-size:6px;font-weight:700;height:'+rowH+'px;border:1px solid #ccc;text-align:center;vertical-align:middle">'+eH(ld.leave)+'</td>';return}
+      groups.forEach(g=>{
+        const ld=g.load,nj=g.len,cs=nj>1?' colspan="'+nj+'"':'';
+        const cellW=CW*nj;
+
+        if(ld.fer){h+='<td style="background:#e0e0e0;height:'+rowH+'px;border:1px solid #ccc"'+cs+'></td>';return}
+        if(ld.leave){h+='<td style="background:#333;color:#fff;font-size:7px;font-weight:700;height:'+rowH+'px;border:1px solid #ccc;text-align:center;vertical-align:middle"'+cs+'>'+eH(ld.leave)+(nj>1?' - '+nj+'j':'')+'</td>';return}
 
         let cellContent='<div style="display:flex;flex-direction:column;width:100%;height:'+rowH+'px">';
-        // Barres d'affaires
         ld.entries.forEach(e=>{
-          const bh=SH*e.cnt;
-          const bg=e.type==='etudes'?'#ffe0b2':'#bbdefb';
-          const label=e.name.length>5?e.name.substring(0,5)+'…':e.name;
-          cellContent+='<div style="height:'+bh+'px;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:5.5px;font-weight:700;color:#000;border-bottom:1px dotted rgba(0,0,0,.1);overflow:hidden;white-space:nowrap;padding:0 1px">'+eH(label)+' '+e.cnt*20+'%</div>';
+          const bh=SH*e.cnt,bg=e.type==='etudes'?'#ffe0b2':'#bbdefb';
+          const label=e.name+(nj>1?' - '+nj+'j':'')+' - '+e.cnt*20+'%';
+          cellContent+='<div style="height:'+bh+'px;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#000;border-bottom:1px dotted rgba(0,0,0,.1);overflow:hidden;white-space:nowrap;padding:0 1px">'+eH(label)+'</div>';
         });
-        // Surcharge
         if(ld.status==='over'){
-          const os=ld.used-5;
-          cellContent+='<div style="height:'+SH*Math.max(os,1)+'px;background:#fff3f3;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#d32f2f">⚠'+ld.used*20+'%</div>';
+          cellContent+='<div style="height:'+SH*Math.max(ld.used-5,1)+'px;background:#fff3f3;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#d32f2f">⚠ '+ld.pct+'%</div>';
         }
-        // Dispo
         if(ld.status==='free'){
           const fs=5-ld.used,fp=fs*20;
-          cellContent+='<div style="height:'+SH*fs+'px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:800;color:#2e7d32">'+fp+'%</div>';
+          const fLabel=nj>1?fp+'% - '+nj+'j':fp+'%';
+          cellContent+='<div style="height:'+SH*fs+'px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:800;color:#2e7d32">'+fLabel+'</div>';
         }
         cellContent+='</div>';
         const outline=ld.status==='over'?'outline:2px solid #d32f2f;outline-offset:-2px;':'';
-        h+='<td style="height:'+rowH+'px;padding:0;border:1px solid #ccc;vertical-align:top;'+outline+'">'+cellContent+'</td>';
+        h+='<td style="height:'+rowH+'px;padding:0;border:1px solid #ccc;vertical-align:top;'+outline+'"'+cs+'>'+cellContent+'</td>';
       });
       h+='</tr>';
     });
@@ -445,28 +434,56 @@ function buildPdfQuarter(type,year,q){
   return h;
 }
 
-async function exportPDF(type){
-  toast('Génération du PDF (4 trimestres)...','info');
+async function exportPDF(type,q){
+  // Fermer le menu dropdown
+  document.querySelectorAll('.pdf-menu').forEach(m=>m.classList.remove('show'));
+  const qLabel=['T1','T2','T3','T4'][q];
+  toast('Génération PDF '+qLabel+'...','info');
   const year=filterYear,container=document.getElementById('pdfRender');
   const{jsPDF}=window.jspdf;
-  const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a3'});
-  const pageW=pdf.internal.pageSize.getWidth()-10,pageH=pdf.internal.pageSize.getHeight()-10;
 
-  for(let q=0;q<4;q++){
-    if(q>0)pdf.addPage();
-    container.innerHTML=buildPdfQuarter(type,year,q);
-    await new Promise(r=>setTimeout(r,400));
-    try{
-      const canvas=await html2canvas(container.firstChild,{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff'});
-      const ratio=canvas.height/canvas.width;
-      let imgW=pageW,imgH=pageW*ratio;
-      if(imgH>pageH){imgH=pageH;imgW=pageH/ratio}
+  container.innerHTML=buildPdfQuarter(type,year,q);
+  await new Promise(r=>setTimeout(r,400));
+
+  try{
+    const el=container.firstChild;
+    const canvas=await html2canvas(el,{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff'});
+    const ratio=canvas.height/canvas.width;
+
+    // Déterminer si on a besoin de plusieurs pages
+    const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a3'});
+    const pageW=pdf.internal.pageSize.getWidth()-10;
+    const pageH=pdf.internal.pageSize.getHeight()-10;
+    const imgW=pageW;
+    const imgH=imgW*ratio;
+
+    if(imgH<=pageH){
+      // Tient sur une page
       pdf.addImage(canvas.toDataURL('image/png'),'PNG',5,5,imgW,imgH);
-    }catch(err){console.error(err);toast('Erreur T'+(q+1),'error')}
-  }
-  container.innerHTML='';
-  pdf.save('planning_'+type+'_'+year+'.pdf');
-  toast('PDF exporté ✓','success');
+    }else{
+      // Multi-pages : découper verticalement
+      const totalCanvasH=canvas.height;
+      const pageCanvasH=Math.floor(totalCanvasH*(pageH/imgH));
+      let yOffset=0,pageNum=0;
+      while(yOffset<totalCanvasH){
+        if(pageNum>0)pdf.addPage();
+        const sliceH=Math.min(pageCanvasH,totalCanvasH-yOffset);
+        const sliceCanvas=document.createElement('canvas');
+        sliceCanvas.width=canvas.width;
+        sliceCanvas.height=sliceH;
+        const ctx=sliceCanvas.getContext('2d');
+        ctx.drawImage(canvas,0,yOffset,canvas.width,sliceH,0,0,canvas.width,sliceH);
+        const sliceRatio=sliceH/canvas.width;
+        const sliceImgH=imgW*sliceRatio;
+        pdf.addImage(sliceCanvas.toDataURL('image/png'),'PNG',5,5,imgW,sliceImgH);
+        yOffset+=sliceH;
+        pageNum++;
+      }
+    }
+    container.innerHTML='';
+    pdf.save('planning_'+type+'_'+year+'_'+qLabel+'.pdf');
+    toast('PDF '+qLabel+' exporté ✓','success');
+  }catch(err){console.error(err);toast('Erreur export.','error');container.innerHTML=''}
 }
 
 document.getElementById('nAN').addEventListener('keydown',e=>{if(e.key==='Enter')addAff()});
