@@ -203,6 +203,7 @@ auth.onAuthStateChanged(user => {
           });
         } else {
           currentUserRole = null;
+          sessionStorage.removeItem('userRole');
           document.getElementById('roleBadge').textContent = 'Non autorisé';
           document.getElementById('hubContainer').style.display = 'none';
           document.getElementById('blockedScreen').classList.add('active');
@@ -213,7 +214,13 @@ auth.onAuthStateChanged(user => {
 });
 
 function showAccess() {
-  document.getElementById('roleBadge').textContent = ROLE_LABELS[currentUserRole] || currentUserRole;
+  const displayLabel = ROLE_LABELS[currentUserRole] || currentUserRole;
+  document.getElementById('roleBadge').textContent = displayLabel;
+  
+  // Stocker le rôle lisible pour les autres pages
+  sessionStorage.setItem('userRole', displayLabel);
+  sessionStorage.setItem('roleKey', currentUserRole);
+
   document.getElementById('hubContainer').style.display = 'flex';
   document.getElementById('blockedScreen').classList.remove('active');
   applyRoleVisibility();
@@ -231,12 +238,17 @@ function applyRoleVisibility() {
   cardPointage.classList.remove('visible');
   btnAdmin.classList.remove('visible');
 
+  // Remise à zéro des liens par défaut
+  cardPlanning.href = 'planning.html';
+  cardGestion.href = 'gestion.html';
+  cardPointage.href = 'pointage.html';
+
   switch (currentUserRole) {
     case 'admin':
       cardPlanning.classList.add('visible');
       cardGestion.classList.add('visible');
       cardPointage.classList.add('visible');
-      btnAdmin.classList.add('visible');  // Bouton header visible uniquement pour admin
+      btnAdmin.classList.add('visible');
       break;
     case 'responsable':
       cardPlanning.classList.add('visible');
@@ -252,12 +264,17 @@ function applyRoleVisibility() {
       cardPointage.classList.add('visible');
       break;
     case 'collaborateur':
+      // MODIFICATION : Le collaborateur voit désormais le planning en lecture seule
+      cardPlanning.href = 'planning.html?viewer=true';
+      cardPlanning.classList.add('visible');
       cardPointage.classList.add('visible');
       break;
   }
 }
 
 function logout() {
+  sessionStorage.removeItem('userRole');
+  sessionStorage.removeItem('roleKey');
   auth.signOut().then(() => { window.location.href = 'index.html'; });
 }
 
