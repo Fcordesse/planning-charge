@@ -17,7 +17,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .tab-btn:hover{color:rgba(255,255,255,.9)}.tab-btn.active{color:#fff;border-bottom-color:var(--highlight);background:rgba(255,255,255,.08)}
 .top-bar .right-info{display:flex;align-items:center;gap:10px;font-size:.75rem;opacity:.8}
 .top-bar .hbtn{padding:4px 12px;border:1px solid rgba(255,255,255,.3);border-radius:16px;background:rgba(255,255,255,.08);color:#fff;font-size:.72rem;cursor:pointer;transition:.2s;white-space:nowrap}.top-bar .hbtn:hover{background:rgba(255,255,255,.2)}
-.role-badge{font-size:.68rem;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.2);font-weight:700;letter-spacing:.3px}
+.role-badge{font-size:.68rem;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.2);font-weight:700;letter-spacing:.3px;border:1px solid rgba(255,255,255,.3)}
+
+/* VERROUILLAGE LECTURE SEULE */
+body.readonly-mode .admin-only{display:none!important;pointer-events:none!important}
+body.readonly-mode .sb{cursor:default!important}
+body.readonly-mode .sb:hover{filter:none!important}
+body.readonly-mode .sb.eb{cursor:default!important}
+body.readonly-mode .sb.eb:hover{background:transparent!important}
+
 .compact-toolbox{display:flex;align-items:center;gap:10px;padding:6px 20px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
 .compact-toolbox .tb-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px}
 .compact-toolbox .tb-collabs{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
@@ -96,9 +104,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .sb{display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#000;cursor:pointer;overflow:hidden;user-select:none;transition:filter .15s;position:relative;border-bottom:1px dotted rgba(0,0,0,.06)}
 .sb:last-child{border-bottom:none}.sb:hover{filter:brightness(1.15)}
 .sb.eb{color:transparent;background:transparent;cursor:pointer}.sb.eb:hover{background:rgba(0,0,0,.05)}
-.readonly-mode .sb{cursor:default!important}
-.readonly-mode .sb:hover{filter:none!important}
-.readonly-mode .sb.eb:hover{background:transparent!important}
 
 .cvb{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;overflow:hidden;user-select:none;border-bottom:1px dotted rgba(0,0,0,.06);white-space:nowrap;padding:0 2px}.cvb:last-child{border-bottom:none}
 .cv-avail{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;user-select:none}
@@ -256,6 +261,21 @@ firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.da
 let userRole = 'Collaborateur';
 let isReadOnly = true;
 
+// Vérification stricte des rôles
+function checkIsReadOnly(roleStr){
+  if(!roleStr) return true;
+  const r = String(roleStr).trim().toLowerCase();
+  // "Responsable viewer" et "Collaborateur" sont explicitement en lecture seule
+  if(r === 'responsable viewer' || r === 'collaborateur' || r === 'viewer'){
+    return true;
+  }
+  // "Admin" et "Responsable" sont en écriture
+  if(r === 'admin' || r === 'administrateur' || r === 'responsable'){
+    return false;
+  }
+  return true;
+}
+
 auth.onAuthStateChanged(u=>{
   if(!u){
     window.location.href='hub.html';
@@ -266,37 +286,45 @@ auth.onAuthStateChanged(u=>{
   });
 });
 
-function fetchUserRole(user){
-  return db.ref('users/' + user.uid).once('value').then(snap=>{
-    const d=snap.val();
-    if(d && d.role) userRole = d.role;
-    else if(sessionStorage.getItem('userRole')) userRole = sessionStorage.getItem('userRole');
-    else userRole = 'Collaborateur';
-    
-    // Rôles en consultation seule
-    isReadOnly = (userRole === 'Collaborateur' || userRole === 'Responsable Viewer');
-    
-    applyRoleUI();
-  }).catch(()=>{
-    if(sessionStorage.getItem('userRole')) userRole = sessionStorage.getItem('userRole');
-    isReadOnly = (userRole === 'Collaborateur' || userRole === 'Responsable Viewer');
-    applyRoleUI();
-  });
+async function fetchUserRole(user){
+  let foundRole = null;
+
+  // 1. Chercher dans sessionStorage et localStorage
+  foundRole = sessionStorage.getItem('userRole') || sessionStorage.getItem('role') || localStorage.getItem('userRole') || localStorage.getItem('role');
+
+  // 2. Chercher dans la base Firebase Realtime Database
+  if(!foundRole){
+    try{
+      let snap = await db.ref('users/' + user.uid).once('value');
+      let val = snap.val();
+      if(val && (val.role || val.type)) foundRole = val.role || val.type;
+      
+      if(!foundRole){
+        snap = await db.ref('utilisateurs/' + user.uid).once('value');
+        val = snap.val();
+        if(val && (val.role || val.type)) foundRole = val.role || val.type;
+      }
+    }catch(e){
+      console.warn("Info rôle :", e);
+    }
+  }
+
+  userRole = foundRole || 'Collaborateur';
+  isReadOnly = checkIsReadOnly(userRole);
+  applyRoleUI();
 }
 
 function applyRoleUI(){
   const b = document.getElementById('userRoleBadge');
   if(b){
-    b.textContent = isReadOnly ? `👁️ ${userRole} (Lecture)` : `✏️ ${userRole}`;
+    b.textContent = isReadOnly ? `👁️ ${userRole} (Lecture seule)` : `✏️ ${userRole}`;
     b.style.background = isReadOnly ? 'rgba(255,255,255,.15)' : 'rgba(40,167,69,.4)';
   }
   if(isReadOnly){
     document.body.classList.add('readonly-mode');
-    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none');
     if(curTab==='parametrage') swT('affaire', document.querySelector('.tab-btn'));
   }else{
     document.body.classList.remove('readonly-mode');
-    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='');
   }
 }
 
@@ -353,6 +381,7 @@ function loadFromFirebase(){
 }
 
 function toast(m,t='info'){const c=document.getElementById('toastC'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),3000)}
+
 function swT(t,b){
   if(isReadOnly && t==='parametrage') return;
   curTab=t;
@@ -496,7 +525,7 @@ function isLineEmpty(affName,li){
 }
 
 function addAffLine(ai){
-  if(isReadOnly)return;
+  if(isReadOnly) return;
   const a=Af[ai];if(!a)return;
   a.lines=(a.lines||1)+1;
   sv();render();
@@ -504,7 +533,7 @@ function addAffLine(ai){
 }
 
 function remAffLine(ai){
-  if(isReadOnly)return;
+  if(isReadOnly) return;
   const a=Af[ai];if(!a)return;
   const curLines=a.lines||1;
   if(curLines<=1){toast('Impossible de retirer la ligne principale.','error');return}
@@ -521,7 +550,7 @@ function remAffLine(ai){
 }
 
 function moveAff(ai,dir){
-  if(isReadOnly)return;
+  if(isReadOnly) return;
   const a=Af[ai];if(!a)return;
   const sameTypeIdxs=[];
   Af.forEach((item,i)=>{
@@ -1179,12 +1208,24 @@ function initApp(){
   sDate=new Date();sDate.setDate(sDate.getDate()-3);
   loadFromFirebase().then(()=>{
     document.getElementById('loadingOverlay').classList.remove('show');
-    renderCL();renderLTList();setFill('none');setLFill('none');render();
+    if(!isReadOnly){
+      renderCL();
+      renderLTList();
+    }
+    setFill('none');
+    setLFill('none');
+    render();
     setTimeout(()=>navToday(),300);
   }).catch(()=>{
     document.getElementById('loadingOverlay').classList.remove('show');
     toast('Erreur Firebase.','error');
-    renderCL();renderLTList();setFill('none');setLFill('none');render();
+    if(!isReadOnly){
+      renderCL();
+      renderLTList();
+    }
+    setFill('none');
+    setLFill('none');
+    render();
   });
 }
 </script>
