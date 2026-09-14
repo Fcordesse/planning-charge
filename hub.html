@@ -12,7 +12,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .app-header h1{font-size:1.3rem;font-weight:600}.app-header h1 span{color:var(--highlight)}
 .header-right{display:flex;align-items:center;gap:12px}
 .user-badge{font-size:.8rem;opacity:.8}
-.role-badge{font-size:.7rem;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px}
+.role-badge{font-size:.7rem;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px;font-weight:600}
 .btn-logout{padding:6px 16px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:.78rem;cursor:pointer;transition:.2s}
 .btn-logout:hover{background:rgba(255,255,255,.2)}
 .btn-admin-header{padding:5px 14px;border:1px solid rgba(255,255,255,.3);border-radius:20px;background:rgba(233,69,96,.25);color:#fff;font-size:.75rem;cursor:pointer;transition:.2s;display:none;font-weight:600}
@@ -21,7 +21,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .hub-container{flex:1;display:none;align-items:center;justify-content:center;padding:40px 20px}
 .hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,320px));gap:32px;justify-content:center;max-width:1100px;width:100%}
 .hub-card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:40px 32px;text-align:center;cursor:pointer;transition:.3s;border:2px solid transparent;text-decoration:none;color:var(--text);display:none}
-.hub-card.visible{display:block}
+.hub-card.visible{display:block!important}
 .hub-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.12)}
 .hub-card.card-planning:hover{border-color:var(--accent)}
 .hub-card.card-pointage:hover{border-color:var(--highlight)}
@@ -75,7 +75,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <header class="app-header">
   <h1>📊 Planning <span>de Charge</span></h1>
   <div class="header-right">
-    <span class="role-badge" id="roleBadge"></span>
+    <span class="role-badge" id="roleBadge">...</span>
     <span class="user-badge" id="userBadge"></span>
     <button class="btn-admin-header" id="btnAdminHeader" onclick="openAdminModal()">⚙️ Utilisateurs</button>
     <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
@@ -87,7 +87,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     <a id="cardPlanning" href="planning.html" class="hub-card card-planning">
       <div class="hub-icon">📅</div>
       <h2>Planning de Charge</h2>
-      <p>Gérer les affectations, les affaires et visualiser la charge globale de l'équipe.</p>
+      <p>Consulter les affectations, les affaires et la charge globale de l'équipe.</p>
       <div class="arrow">→</div>
     </a>
     <a id="cardGestion" href="gestion.html" class="hub-card card-gestion">
@@ -214,12 +214,11 @@ auth.onAuthStateChanged(user => {
 });
 
 function showAccess() {
-  const displayLabel = ROLE_LABELS[currentUserRole] || currentUserRole;
-  document.getElementById('roleBadge').textContent = displayLabel;
+  const normKey = String(currentUserRole || '').trim().toLowerCase().replace(/\s+/g, '_');
+  const displayLabel = ROLE_LABELS[normKey] || currentUserRole;
   
-  // Stocker le rôle lisible pour les autres pages
+  document.getElementById('roleBadge').textContent = displayLabel;
   sessionStorage.setItem('userRole', displayLabel);
-  sessionStorage.setItem('roleKey', currentUserRole);
 
   document.getElementById('hubContainer').style.display = 'flex';
   document.getElementById('blockedScreen').classList.remove('active');
@@ -238,49 +237,55 @@ function applyRoleVisibility() {
   cardPointage.classList.remove('visible');
   btnAdmin.classList.remove('visible');
 
-  // Remise à zéro des liens par défaut
-  cardPlanning.href = 'planning.html';
-  cardGestion.href = 'gestion.html';
-  cardPointage.href = 'pointage.html';
+  // Normalisation pour accepter "Collaborateur", "collaborateur", "Responsable viewer", etc.
+  const r = String(currentUserRole || '').trim().toLowerCase().replace(/\s+/g, '_');
 
-  switch (currentUserRole) {
-    case 'admin':
-      cardPlanning.classList.add('visible');
-      cardGestion.classList.add('visible');
-      cardPointage.classList.add('visible');
-      btnAdmin.classList.add('visible');
-      break;
-    case 'responsable':
-      cardPlanning.classList.add('visible');
-      cardGestion.classList.add('visible');
-      cardPointage.classList.add('visible');
-      break;
-    case 'responsable_viewer':
-      cardPlanning.href = 'planning.html?viewer=true';
-      cardGestion.href = 'gestion.html?viewer=true';
-      cardPointage.href = 'pointage.html?viewer=true';
-      cardPlanning.classList.add('visible');
-      cardGestion.classList.add('visible');
-      cardPointage.classList.add('visible');
-      break;
-    case 'collaborateur':
-      // MODIFICATION : Le collaborateur voit désormais le planning en lecture seule
-      cardPlanning.href = 'planning.html?viewer=true';
-      cardPlanning.classList.add('visible');
-      cardPointage.classList.add('visible');
-      break;
+  if (r === 'admin' || r === 'administrateur') {
+    cardPlanning.href = 'planning.html';
+    cardGestion.href = 'gestion.html';
+    cardPointage.href = 'pointage.html';
+    cardPlanning.classList.add('visible');
+    cardGestion.classList.add('visible');
+    cardPointage.classList.add('visible');
+    btnAdmin.classList.add('visible');
+  } else if (r === 'responsable') {
+    cardPlanning.href = 'planning.html';
+    cardGestion.href = 'gestion.html';
+    cardPointage.href = 'pointage.html';
+    cardPlanning.classList.add('visible');
+    cardGestion.classList.add('visible');
+    cardPointage.classList.add('visible');
+  } else if (r === 'responsable_viewer') {
+    cardPlanning.href = 'planning.html?viewer=true';
+    cardGestion.href = 'gestion.html?viewer=true';
+    cardPointage.href = 'pointage.html?viewer=true';
+    cardPlanning.classList.add('visible');
+    cardGestion.classList.add('visible');
+    cardPointage.classList.add('visible');
+  } else if (r === 'collaborateur') {
+    // Le Collaborateur a désormais accès au Planning de charge en lecture seule
+    cardPlanning.href = 'planning.html?viewer=true';
+    cardPointage.href = 'pointage.html';
+    cardPlanning.classList.add('visible');
+    cardPointage.classList.add('visible');
+  } else {
+    // Rôle non reconnu : par défaut, affichage du planning en lecture seule et du pointage
+    cardPlanning.href = 'planning.html?viewer=true';
+    cardPointage.href = 'pointage.html';
+    cardPlanning.classList.add('visible');
+    cardPointage.classList.add('visible');
   }
 }
 
 function logout() {
   sessionStorage.removeItem('userRole');
-  sessionStorage.removeItem('roleKey');
   auth.signOut().then(() => { window.location.href = 'index.html'; });
 }
 
 // ========== MODAL ==========
 function openAdminModal() {
-  if (currentUserRole !== 'admin') return;
+  const r = String(currentUserRole || '').trim().toLowerCase();
+  if (r !== 'admin' && r !== 'administrateur') return;
   document.getElementById('adminModal').classList.add('active');
   clearMsg();
   loadUsers();
@@ -383,14 +388,15 @@ function loadUsers() {
       <thead><tr><th>Email</th><th>Rôle</th><th>Action</th></tr></thead><tbody>`;
 
     Object.entries(users).forEach(([uid, u]) => {
+      const uRole = String(u.role || '').trim().toLowerCase().replace(/\s+/g, '_');
       html += `<tr>
         <td>${u.email}</td>
         <td>
           <select onchange="updateRole('${uid}', this.value)">
-            <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Admin</option>
-            <option value="responsable" ${u.role === 'responsable' ? 'selected' : ''}>Responsable</option>
-            <option value="responsable_viewer" ${u.role === 'responsable_viewer' ? 'selected' : ''}>Responsable viewer</option>
-            <option value="collaborateur" ${u.role === 'collaborateur' ? 'selected' : ''}>Collaborateur</option>
+            <option value="admin" ${uRole === 'admin' ? 'selected' : ''}>Admin</option>
+            <option value="responsable" ${uRole === 'responsable' ? 'selected' : ''}>Responsable</option>
+            <option value="responsable_viewer" ${uRole === 'responsable_viewer' ? 'selected' : ''}>Responsable viewer</option>
+            <option value="collaborateur" ${uRole === 'collaborateur' ? 'selected' : ''}>Collaborateur</option>
           </select>
         </td>
         <td><button class="btn-delete" onclick="deleteUser('${uid}', '${u.email}')">🗑 Supprimer</button></td>
