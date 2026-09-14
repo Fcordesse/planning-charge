@@ -17,6 +17,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .tab-btn:hover{color:rgba(255,255,255,.9)}.tab-btn.active{color:#fff;border-bottom-color:var(--highlight);background:rgba(255,255,255,.08)}
 .top-bar .right-info{display:flex;align-items:center;gap:10px;font-size:.75rem;opacity:.8}
 .top-bar .hbtn{padding:4px 12px;border:1px solid rgba(255,255,255,.3);border-radius:16px;background:rgba(255,255,255,.08);color:#fff;font-size:.72rem;cursor:pointer;transition:.2s;white-space:nowrap}.top-bar .hbtn:hover{background:rgba(255,255,255,.2)}
+.role-badge{font-size:.68rem;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.2);font-weight:700;letter-spacing:.3px}
 .compact-toolbox{display:flex;align-items:center;gap:10px;padding:6px 20px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
 .compact-toolbox .tb-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px}
 .compact-toolbox .tb-collabs{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
@@ -95,6 +96,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .sb{display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#000;cursor:pointer;overflow:hidden;user-select:none;transition:filter .15s;position:relative;border-bottom:1px dotted rgba(0,0,0,.06)}
 .sb:last-child{border-bottom:none}.sb:hover{filter:brightness(1.15)}
 .sb.eb{color:transparent;background:transparent;cursor:pointer}.sb.eb:hover{background:rgba(0,0,0,.05)}
+.readonly-mode .sb{cursor:default!important}
+.readonly-mode .sb:hover{filter:none!important}
+.readonly-mode .sb.eb:hover{background:transparent!important}
+
 .cvb{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;overflow:hidden;user-select:none;border-bottom:1px dotted rgba(0,0,0,.06);white-space:nowrap;padding:0 2px}.cvb:last-child{border-bottom:none}
 .cv-avail{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;user-select:none}
 .cv-avail.avail-free{background:#e8f5e9;color:#2e7d32}
@@ -170,16 +175,68 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </head>
 <body>
 <div class="loading-overlay show" id="loadingOverlay"><div class="spinner"></div><div style="font-size:.9rem;color:var(--text-light)">Chargement des données...</div></div>
-<div class="top-bar"><div class="logo">📊 Planning <span>de Charge</span></div><div class="tabs"><button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button><button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button><button class="tab-btn" onclick="swT('conges',this)">🏖️ Congés</button><button class="tab-btn" onclick="swT('parametrage',this)">⚙️ Paramétrage</button></div><div class="right-info"><span id="curDate"></span><button class="hbtn" onclick="window.location.href='hub.html'">🏠 Accueil</button><button class="hbtn" onclick="logout()">🚪 Déconnexion</button></div></div>
+<div class="top-bar">
+  <div class="logo">📊 Planning <span>de Charge</span></div>
+  <div class="tabs" id="mainTabs">
+    <button class="tab-btn active" onclick="swT('affaire',this)">📅 Par affaire</button>
+    <button class="tab-btn" onclick="swT('collab',this)">👤 Par collaborateur</button>
+    <button class="tab-btn" onclick="swT('conges',this)">🏖️ Congés</button>
+    <button class="tab-btn admin-only" id="tabBtnParam" onclick="swT('parametrage',this)">⚙️ Paramétrage</button>
+  </div>
+  <div class="right-info">
+    <span class="role-badge" id="userRoleBadge">Rôle : ...</span>
+    <span id="curDate"></span>
+    <button class="hbtn" onclick="window.location.href='hub.html'">🏠 Accueil</button>
+    <button class="hbtn" onclick="logout()">🚪 Déconnexion</button>
+  </div>
+</div>
 
 <div id="tab-affaire" class="tab-content active">
-  <div class="compact-toolbox"><span class="tb-label">👥 COLLABORATEURS</span><div class="tb-collabs" id="cTB"></div><span class="selected-collab-display" id="selDisp">Aucun</span></div>
-  <div class="controls-row"><div class="ctrl-group"><span class="ctrl-label">Ventilation :</span><button class="pct-btn" data-pct="20" onclick="setPct(20)">20%</button><button class="pct-btn" data-pct="40" onclick="setPct(40)">40%</button><button class="pct-btn" data-pct="60" onclick="setPct(60)">60%</button><button class="pct-btn" data-pct="80" onclick="setPct(80)">80%</button><button class="pct-btn pct-active" data-pct="100" onclick="setPct(100)">100%</button></div><div class="tb-sep"></div><div class="ctrl-group"><span class="ctrl-label">Remplissage :</span><button class="fill-btn" id="fillNone" onclick="setFill('none')">📍 Jour</button><button class="fill-btn" id="fillWeek" onclick="setFill('week')">📅 Semaine</button><button class="fill-btn" id="fillMonth" onclick="setFill('month')">🗓 Mois</button><button class="fill-btn" id="fillJalon" onclick="setFill('jalon')">🚩 Jalon</button></div><div class="tb-sep"></div><div class="ctrl-group"><span class="ctrl-label">Année :</span><span id="yearFilterBtns"></span></div><div class="ctrl-spacer"></div><div class="nav-group"><button class="btn-nav" onclick="navD(-30)">◀</button><button class="btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn-nav" onclick="navD(30)">▶</button></div></div>
+  <div class="compact-toolbox admin-only" id="affToolbox"><span class="tb-label">👥 COLLABORATEURS</span><div class="tb-collabs" id="cTB"></div><span class="selected-collab-display" id="selDisp">Aucun</span></div>
+  <div class="controls-row">
+    <div class="ctrl-group admin-only" id="grpVentilation"><span class="ctrl-label">Ventilation :</span><button class="pct-btn" data-pct="20" onclick="setPct(20)">20%</button><button class="pct-btn" data-pct="40" onclick="setPct(40)">40%</button><button class="pct-btn" data-pct="60" onclick="setPct(60)">60%</button><button class="pct-btn" data-pct="80" onclick="setPct(80)">80%</button><button class="pct-btn pct-active" data-pct="100" onclick="setPct(100)">100%</button><div class="tb-sep"></div></div>
+    <div class="ctrl-group admin-only" id="grpRemplissage"><span class="ctrl-label">Remplissage :</span><button class="fill-btn" id="fillNone" onclick="setFill('none')">📍 Jour</button><button class="fill-btn" id="fillWeek" onclick="setFill('week')">📅 Semaine</button><button class="fill-btn" id="fillMonth" onclick="setFill('month')">🗓 Mois</button><button class="fill-btn" id="fillJalon" onclick="setFill('jalon')">🚩 Jalon</button><div class="tb-sep"></div></div>
+    <div class="ctrl-group"><span class="ctrl-label">Année :</span><span id="yearFilterBtns"></span></div>
+    <div class="ctrl-spacer"></div>
+    <div class="nav-group"><button class="btn-nav" onclick="navD(-30)">◀</button><button class="btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn-nav" onclick="navD(30)">▶</button></div>
+  </div>
   <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH1"></thead><tbody id="pB1"></tbody></table></div></div>
 </div>
-<div id="tab-collab" class="tab-content"><div class="controls-row"><div class="ctrl-group"><span class="ctrl-label">Année :</span><span id="yearFilterBtnsCollab"></span></div><div class="ctrl-spacer"></div><div class="nav-group"><button class="btn-nav" onclick="navD(-30)">◀</button><button class="btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn-nav" onclick="navD(30)">▶</button></div></div><div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH2"></thead><tbody id="pB2"></tbody></table></div></div></div>
-<div id="tab-conges" class="tab-content"><div class="compact-toolbox"><span class="tb-label">🏖️ TYPE DE CONGÉ</span><div class="tb-collabs" id="lTB"></div><span class="selected-collab-display" id="selLDisp">Aucun</span></div><div class="controls-row"><div class="ctrl-group"><span class="ctrl-label">Remplissage :</span><button class="fill-btn" id="lfillNone" onclick="setLFill('none')">📍 Jour</button><button class="fill-btn" id="lfillWeek" onclick="setLFill('week')">📅 Semaine</button><button class="fill-btn" id="lfillMonth" onclick="setLFill('month')">🗓 Mois</button></div><div class="ctrl-spacer"></div><div class="nav-group"><button class="btn-nav" onclick="navD(-30)">◀</button><button class="btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn-nav" onclick="navD(30)">▶</button></div></div><div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH3"></thead><tbody id="pB3"></tbody></table></div></div></div>
-<div id="tab-parametrage" class="tab-content"><div class="param-page"><div class="param-card"><h3>👤 Collaborateurs</h3><ul class="collab-list" id="cList"></ul><div class="param-input-row"><input type="text" id="newCN" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')addC()"><input type="color" id="newCC" value="#e94560"><button class="btn-nav" style="background:var(--success)" onclick="addC()">＋</button></div><div style="margin-top:12px"><div class="param-input-row"><input type="text" id="delCN" placeholder="Supprimer: NOM Prénom exact" onkeydown="if(event.key==='Enter')delC()"><button class="btn-nav" style="background:var(--danger)" onclick="delC()">✕</button></div></div></div><div class="param-card"><h3>🏖️ Types de congés</h3><div class="leave-type-list" id="ltList"></div><div class="param-input-row"><input type="text" id="newLT" placeholder="Nouveau type" onkeydown="if(event.key==='Enter')addLT()"><button class="btn-nav" style="background:var(--success)" onclick="addLT()">＋</button></div></div></div></div>
+
+<div id="tab-collab" class="tab-content">
+  <div class="controls-row">
+    <div class="ctrl-group"><span class="ctrl-label">Année :</span><span id="yearFilterBtnsCollab"></span></div>
+    <div class="ctrl-spacer"></div>
+    <div class="nav-group"><button class="btn-nav" onclick="navD(-30)">◀</button><button class="btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn-nav" onclick="navD(30)">▶</button></div>
+  </div>
+  <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH2"></thead><tbody id="pB2"></tbody></table></div></div>
+</div>
+
+<div id="tab-conges" class="tab-content">
+  <div class="compact-toolbox admin-only" id="congesToolbox"><span class="tb-label">🏖️ TYPE DE CONGÉ</span><div class="tb-collabs" id="lTB"></div><span class="selected-collab-display" id="selLDisp">Aucun</span></div>
+  <div class="controls-row">
+    <div class="ctrl-group admin-only" id="grpLRemplissage"><span class="ctrl-label">Remplissage :</span><button class="fill-btn" id="lfillNone" onclick="setLFill('none')">📍 Jour</button><button class="fill-btn" id="lfillWeek" onclick="setLFill('week')">📅 Semaine</button><button class="fill-btn" id="lfillMonth" onclick="setLFill('month')">🗓 Mois</button><div class="tb-sep"></div></div>
+    <div class="ctrl-spacer"></div>
+    <div class="nav-group"><button class="btn-nav" onclick="navD(-30)">◀</button><button class="btn-nav" onclick="navToday()">Aujourd'hui</button><button class="btn-nav" onclick="navD(30)">▶</button></div>
+  </div>
+  <div class="planning-container"><div class="table-scroll"><table class="planning-table"><thead id="pH3"></thead><tbody id="pB3"></tbody></table></div></div>
+</div>
+
+<div id="tab-parametrage" class="tab-content admin-only">
+  <div class="param-page">
+    <div class="param-card">
+      <h3>👤 Collaborateurs</h3>
+      <ul class="collab-list" id="cList"></ul>
+      <div class="param-input-row"><input type="text" id="newCN" placeholder="NOM Prénom" onkeydown="if(event.key==='Enter')addC()"><input type="color" id="newCC" value="#e94560"><button class="btn-nav" style="background:var(--success)" onclick="addC()">＋</button></div>
+      <div style="margin-top:12px"><div class="param-input-row"><input type="text" id="delCN" placeholder="Supprimer: NOM Prénom exact" onkeydown="if(event.key==='Enter')delC()"><button class="btn-nav" style="background:var(--danger)" onclick="delC()">✕</button></div></div>
+    </div>
+    <div class="param-card">
+      <h3>🏖️ Types de congés</h3>
+      <div class="leave-type-list" id="ltList"></div>
+      <div class="param-input-row"><input type="text" id="newLT" placeholder="Nouveau type" onkeydown="if(event.key==='Enter')addLT()"><button class="btn-nav" style="background:var(--success)" onclick="addLT()">＋</button></div>
+    </div>
+  </div>
+</div>
 
 <div class="modal-overlay" id="mAdd"><div class="modal"><div class="modal-header"><h2>Ajouter une affaire</h2></div><div class="modal-body"><label>Nom</label><input type="text" id="nAN" placeholder="Projet Alpha"><label>Type</label><select id="nAT" onchange="updJF('add')"><option value="etudes">📐 Études</option><option value="conception">💡 Conception</option><option value="travaux">🔨 Travaux</option></select><label>Années</label><div class="year-tags" id="addYearTags"></div><div class="jalons-section"><h4>🚩 Jalons</h4><div id="addJF"></div></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mAdd')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="addAff()">Valider</button></div></div></div>
 <div class="modal-overlay" id="mDel"><div class="modal"><div class="modal-header" style="background:linear-gradient(135deg,#c82333,#dc3545)"><h2>Supprimer</h2></div><div class="modal-body"><label>Nom exact</label><input type="text" id="dAN"><div id="dAL" style="font-size:.8rem;color:var(--text-light);margin-top:-8px;margin-bottom:8px"></div></div><div class="modal-footer"><button class="btn-modal btn-modal-cancel" onclick="closeM('mDel')">Annuler</button><button class="btn-modal btn-modal-confirm" onclick="delAff()">Supprimer</button></div></div></div>
@@ -195,7 +252,54 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script>
 const firebaseConfig={apiKey:"AIzaSyCILhNSayQOLHis6ZZIXAuAwXJxDbiVtSM",authDomain:"planning-charge-18dea.firebaseapp.com",databaseURL:"https://planning-charge-18dea-default-rtdb.europe-west1.firebasedatabase.app",projectId:"planning-charge-18dea",storageBucket:"planning-charge-18dea.firebasestorage.app",messagingSenderId:"876833423306",appId:"1:876833423306:web:f0e352b6648269f526d933"};
 firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.database();
-auth.onAuthStateChanged(u=>{if(!u)window.location.href='hub.html'});
+
+let userRole = 'Collaborateur';
+let isReadOnly = true;
+
+auth.onAuthStateChanged(u=>{
+  if(!u){
+    window.location.href='hub.html';
+    return;
+  }
+  fetchUserRole(u).then(()=>{
+    initApp();
+  });
+});
+
+function fetchUserRole(user){
+  return db.ref('users/' + user.uid).once('value').then(snap=>{
+    const d=snap.val();
+    if(d && d.role) userRole = d.role;
+    else if(sessionStorage.getItem('userRole')) userRole = sessionStorage.getItem('userRole');
+    else userRole = 'Collaborateur';
+    
+    // Rôles en consultation seule
+    isReadOnly = (userRole === 'Collaborateur' || userRole === 'Responsable Viewer');
+    
+    applyRoleUI();
+  }).catch(()=>{
+    if(sessionStorage.getItem('userRole')) userRole = sessionStorage.getItem('userRole');
+    isReadOnly = (userRole === 'Collaborateur' || userRole === 'Responsable Viewer');
+    applyRoleUI();
+  });
+}
+
+function applyRoleUI(){
+  const b = document.getElementById('userRoleBadge');
+  if(b){
+    b.textContent = isReadOnly ? `👁️ ${userRole} (Lecture)` : `✏️ ${userRole}`;
+    b.style.background = isReadOnly ? 'rgba(255,255,255,.15)' : 'rgba(40,167,69,.4)';
+  }
+  if(isReadOnly){
+    document.body.classList.add('readonly-mode');
+    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none');
+    if(curTab==='parametrage') swT('affaire', document.querySelector('.tab-btn'));
+  }else{
+    document.body.classList.remove('readonly-mode');
+    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='');
+  }
+}
+
 function logout(){auth.signOut().then(()=>{window.location.href='hub.html'})}
 
 let Co=[],Af=[],Dt={},LT=["CP","RTT","CM","AM"],LD={};
@@ -214,11 +318,51 @@ const JC={
   'OS Travaux':'#ff3d00','Fin prépa':'#ff9100','Fin GO':'#aa00ff','Réception':'#00bfa5'
 };
 
-function sv(){if(_saving)return;_saving=true;setTimeout(()=>{_saving=false},300);db.ref('planning').set({collaborateurs:Co,affaires:Af,donnees:Dt,typesConges:LT,conges:LD}).then(()=>toast('Sauvegardé ✓','success')).catch(()=>toast('Erreur !','error'))}
-function loadFromFirebase(){return db.ref('planning').once('value').then(snap=>{const d=snap.val();if(d){Co=d.collaborateurs||[];Af=d.affaires||[];Dt=d.donnees||{};LT=d.typesConges||["CP","RTT","CM","AM"];LD=d.conges||{};Af.forEach(a=>{if(!a.years)a.years=[new Date().getFullYear()];if(!a.lines)a.lines=1;if(a.type==='etudes'&&a.jalons&&!a.offres){const h=JE.some(j=>a.jalons[j]!==undefined);if(h){a.offres=[{label:'Offre 1',jalons:{}}];JE.forEach(j=>{if(a.jalons[j]){a.offres[0].jalons[j]=a.jalons[j];delete a.jalons[j]}})}}})}}).catch(()=>toast('Erreur !','error'))}
+function sv(){
+  if(isReadOnly) return;
+  if(_saving)return;
+  _saving=true;
+  setTimeout(()=>{_saving=false},300);
+  db.ref('planning').set({collaborateurs:Co,affaires:Af,donnees:Dt,typesConges:LT,conges:LD}).then(()=>toast('Sauvegardé ✓','success')).catch(()=>toast('Erreur !','error'));
+}
+
+function loadFromFirebase(){
+  return db.ref('planning').once('value').then(snap=>{
+    const d=snap.val();
+    if(d){
+      Co=d.collaborateurs||[];
+      Af=d.affaires||[];
+      Dt=d.donnees||{};
+      LT=d.typesConges||["CP","RTT","CM","AM"];
+      LD=d.conges||{};
+      Af.forEach(a=>{
+        if(!a.years)a.years=[new Date().getFullYear()];
+        if(!a.lines)a.lines=1;
+        if(a.type==='etudes'&&a.jalons&&!a.offres){
+          const h=JE.some(j=>a.jalons[j]!==undefined);
+          if(h){
+            a.offres=[{label:'Offre 1',jalons:{}}];
+            JE.forEach(j=>{
+              if(a.jalons[j]){a.offres[0].jalons[j]=a.jalons[j];delete a.jalons[j]}
+            });
+          }
+        }
+      });
+    }
+  }).catch(()=>toast('Erreur chargement !','error'));
+}
 
 function toast(m,t='info'){const c=document.getElementById('toastC'),e=document.createElement('div');e.className='toast '+t;e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),3000)}
-function swT(t,b){curTab=t;document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');b.classList.add('active');render()}
+function swT(t,b){
+  if(isReadOnly && t==='parametrage') return;
+  curTab=t;
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  b.classList.add('active');
+  render();
+}
+
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
 function getFeries(y){const s=new Set(),f=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),ad=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};[new Date(y,0,1),new Date(y,4,1),new Date(y,4,8),new Date(y,6,14),new Date(y,7,15),new Date(y,10,1),new Date(y,10,11),new Date(y,11,25)].forEach(x=>s.add(f(x)));const e=getEaster(y);[1,39,50].forEach(n=>s.add(f(ad(e,n))));return s}
 let _fc={};function isF(d){const y=d.getFullYear();if(!_fc[y])_fc[y]=getFeries(y);return _fc[y].has(dk(d))}
@@ -249,9 +393,9 @@ function getSl(a,d,li=0){const k=getSlKey(a,d,li);if(!Dt[k])Dt[k]=[null,null,nul
 function setSl(a,d,li,s){Dt[getSlKey(a,d,li)]=s}
 function mg(sl){const b=[];let i=0;while(i<5){const c=sl[i];let n=1;while(i+n<5&&sl[i+n]===c)n++;b.push({name:c,cnt:n,si:i});i+=n}return b}
 
-function setPct(p){selPct=p;document.querySelectorAll('.pct-btn').forEach(b=>{b.classList.toggle('pct-active',parseInt(b.dataset.pct)===p)});updD()}
-function setFill(m){fillMode=m;document.querySelectorAll('#tab-affaire .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('fill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
-function setLFill(m){lFillMode=m;document.querySelectorAll('#tab-conges .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('lfill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
+function setPct(p){if(isReadOnly)return;selPct=p;document.querySelectorAll('.pct-btn').forEach(b=>{b.classList.toggle('pct-active',parseInt(b.dataset.pct)===p)});updD()}
+function setFill(m){if(isReadOnly)return;fillMode=m;document.querySelectorAll('#tab-affaire .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('fill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
+function setLFill(m){if(isReadOnly)return;lFillMode=m;document.querySelectorAll('#tab-conges .fill-btn').forEach(b=>b.classList.remove('fill-active'));document.getElementById('lfill'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('fill-active')}
 function getBD(f,t){const d=[];const x=new Date(f);while(x<=t){if(!isWE(x)&&!isF(x))d.push(dk(x));x.setDate(x.getDate()+1)}return d}
 function getTD(an,ck){const cd=pdk(ck);if(fillMode==='none')return[ck];if(fillMode==='week'){const f=new Date(cd),dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(fillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));if(fillMode==='jalon'){const af=Af.find(a=>a.name===an);if(!af)return[ck];const all=[];if(af.jalons)Object.values(af.jalons).forEach(v=>{if(v)all.push(v)});if(af.offres)af.offres.forEach(o=>{if(o.jalons)Object.values(o.jalons).forEach(v=>{if(v)all.push(v)})});if(!all.length)return[ck];let tg=null;for(const j of all.sort()){if(j>ck){tg=j;break}}if(!tg)return[ck];const db2=pdk(tg);db2.setDate(db2.getDate()-1);if(db2<cd)return[ck];return getBD(cd,db2)}return[ck]}
 function getLTD(ck){const cd=pdk(ck);if(lFillMode==='none')return[ck];if(lFillMode==='week'){const f=new Date(cd),dw=f.getDay();if(dw===0)f.setDate(f.getDate()+5);else if(dw===6)f.setDate(f.getDate()+6);else f.setDate(f.getDate()+(5-dw));return getBD(cd,f)}if(lFillMode==='month')return getBD(cd,new Date(cd.getFullYear(),cd.getMonth()+1,0));return[ck]}
@@ -313,9 +457,16 @@ function togglePdfMenu(id){const m=document.getElementById(id);m.classList.toggl
 function buildHead(thId,label,btns){
   const dates=getDates(),thead=document.getElementById(thId);
   let hc;
-  if(btns==='aff')hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><button class="abtn abtn-add" onclick="openAddAff()">＋ Ajouter</button><button class="abtn abtn-del" onclick="openDelAff()">✕ Supprimer</button><div class="pdf-dropdown"><button class="abtn" style="background:#7c4dff;color:#fff" onclick="event.stopPropagation();togglePdfMenu(\'pdfMenuAff\')">📄 PDF ▾</button><div class="pdf-menu" id="pdfMenuAff"><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',0)">T1 — Jan à Mars</button><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',1)">T2 — Avr à Juin</button><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',2)">T3 — Juil à Sept</button><button class="pdf-menu-item" onclick="exportPDF(\'affaire\',3)">T4 — Oct à Déc</button></div></div></div></div></th>';
-  else if(btns==='collab')hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns"><div class="pdf-dropdown"><button class="abtn" style="background:#7c4dff;color:#fff" onclick="event.stopPropagation();togglePdfMenu(\'pdfMenuCol\')">📄 PDF ▾</button><div class="pdf-menu" id="pdfMenuCol"><button class="pdf-menu-item" onclick="exportPDF(\'collab\',0)">T1 — Jan à Mars</button><button class="pdf-menu-item" onclick="exportPDF(\'collab\',1)">T2 — Avr à Juin</button><button class="pdf-menu-item" onclick="exportPDF(\'collab\',2)">T3 — Juil à Sept</button><button class="pdf-menu-item" onclick="exportPDF(\'collab\',3)">T4 — Oct à Déc</button></div></div></div></div></th>';
-  else hc='<th class="col-aff" rowspan="4">'+label+'</th>';
+  const pdfBtnHtml = '<div class="pdf-dropdown"><button class="abtn" style="background:#7c4dff;color:#fff" onclick="event.stopPropagation();togglePdfMenu(\'pdfMenu'+thId+'\')">📄 PDF ▾</button><div class="pdf-menu" id="pdfMenu'+thId+'"><button class="pdf-menu-item" onclick="exportPDF(\''+(btns==='collab'?'collab':'affaire')+'\',0)">T1 — Jan à Mars</button><button class="pdf-menu-item" onclick="exportPDF(\''+(btns==='collab'?'collab':'affaire')+'\',1)">T2 — Avr à Juin</button><button class="pdf-menu-item" onclick="exportPDF(\''+(btns==='collab'?'collab':'affaire')+'\',2)">T3 — Juil à Sept</button><button class="pdf-menu-item" onclick="exportPDF(\''+(btns==='collab'?'collab':'affaire')+'\',3)">T4 — Oct à Déc</button></div></div>';
+  
+  if(btns==='aff'){
+    const addDelBtns = isReadOnly ? '' : '<button class="abtn abtn-add" onclick="openAddAff()">＋ Ajouter</button><button class="abtn abtn-del" onclick="openDelAff()">✕ Supprimer</button>';
+    hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns">'+addDelBtns+pdfBtnHtml+'</div></div></th>';
+  } else if(btns==='collab'){
+    hc='<th class="col-aff" rowspan="4"><div class="aff-header-cell"><span class="aff-title">'+label+'</span><div class="aff-btns">'+pdfBtnHtml+'</div></div></th>';
+  } else {
+    hc='<th class="col-aff" rowspan="4">'+label+'</th>';
+  }
   
   let yc=hc,i=0;while(i<dates.length){const y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getFullYear()===y)sp++;yc+='<th colspan="'+sp+'">'+y+'</th>';i+=sp}
   let mc='',wcc='',dc='';i=0;while(i<dates.length){const m=dates[i].getMonth(),y=dates[i].getFullYear();let sp=0;while(i+sp<dates.length&&dates[i+sp].getMonth()===m&&dates[i+sp].getFullYear()===y)sp++;mc+='<th colspan="'+sp+'">'+MN[m]+'</th>';i+=sp}
@@ -345,6 +496,7 @@ function isLineEmpty(affName,li){
 }
 
 function addAffLine(ai){
+  if(isReadOnly)return;
   const a=Af[ai];if(!a)return;
   a.lines=(a.lines||1)+1;
   sv();render();
@@ -352,6 +504,7 @@ function addAffLine(ai){
 }
 
 function remAffLine(ai){
+  if(isReadOnly)return;
   const a=Af[ai];if(!a)return;
   const curLines=a.lines||1;
   if(curLines<=1){toast('Impossible de retirer la ligne principale.','error');return}
@@ -368,6 +521,7 @@ function remAffLine(ai){
 }
 
 function moveAff(ai,dir){
+  if(isReadOnly)return;
   const a=Af[ai];if(!a)return;
   const sameTypeIdxs=[];
   Af.forEach((item,i)=>{
@@ -416,15 +570,20 @@ function renderAffaire(){
           bh+='<td class="col-aff" rowspan="'+linesCount+'">';
           bh+='<div style="display:flex;align-items:center;justify-content:space-between;gap:4px">';
           bh+='<span class="affn">'+eH(aff.name)+(linesCount>1?' <b style="font-size:.7rem;color:var(--highlight)">('+linesCount*100+'%)</b>':'')+'</span>';
-          bh+='<div style="display:flex;align-items:center;gap:2px;flex-shrink:0">';
-          bh+='<button class="aff-act-btn" onclick="moveAff('+ai+',-1)" title="Monter">▲</button>';
-          bh+='<button class="aff-act-btn" onclick="moveAff('+ai+',1)" title="Descendre">▼</button>';
-          bh+='<button class="aff-act-btn" onclick="addAffLine('+ai+')" title="Ajouter une ligne (+100%)">＋</button>';
-          if(linesCount>1){
-            bh+='<button class="aff-act-btn" onclick="remAffLine('+ai+')" title="Retirer une ligne (-100%)">－</button>';
+          
+          if(!isReadOnly){
+            bh+='<div style="display:flex;align-items:center;gap:2px;flex-shrink:0">';
+            bh+='<button class="aff-act-btn" onclick="moveAff('+ai+',-1)" title="Monter">▲</button>';
+            bh+='<button class="aff-act-btn" onclick="moveAff('+ai+',1)" title="Descendre">▼</button>';
+            bh+='<button class="aff-act-btn" onclick="addAffLine('+ai+')" title="Ajouter une ligne (+100%)">＋</button>';
+            if(linesCount>1){
+              bh+='<button class="aff-act-btn" onclick="remAffLine('+ai+')" title="Retirer une ligne (-100%)">－</button>';
+            }
+            bh+='<button class="edb" onclick="openEJ('+ai+')" title="Modifier">✏️</button>';
+            bh+='</div>';
           }
-          bh+='<button class="edb" onclick="openEJ('+ai+')" title="Modifier">✏️</button>';
-          bh+='</div></div>'+badges+'</td>';
+          
+          bh+='</div>'+badges+'</td>';
         }
 
         dates.forEach(dd=>{
@@ -443,10 +602,11 @@ function renderAffaire(){
           let sh='';
           blocks.forEach(bl=>{
             const st='height:calc(var(--slot-h)*'+bl.cnt+')';
+            const clickAttr = isReadOnly ? '' : 'onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+li+')"';
             if(bl.name){
-              sh+='<div class="sb" style="'+st+';background:'+gCol(bl.name)+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+li+')" title="'+eA(bl.name)+' '+bl.cnt*20+'%'+(linesCount>1?' (Ligne '+(li+1)+')':'')+'">'+ini(bl.name)+'</div>';
+              sh+='<div class="sb" style="'+st+';background:'+gCol(bl.name)+'" '+clickAttr+' title="'+eA(bl.name)+' '+bl.cnt*20+'%'+(linesCount>1?' (Ligne '+(li+1)+')':'')+'">'+ini(bl.name)+'</div>';
             }else{
-              sh+='<div class="sb eb" style="'+st+'" onclick="onBl(\''+an+'\',\''+dkey+'\','+bl.si+','+li+')"></div>';
+              sh+='<div class="sb eb" style="'+st+'" '+clickAttr+'></div>';
             }
           });
 
@@ -561,8 +721,10 @@ function renderConges(){
       if(fer)cls+=' fc';
       if(fer){bh+='<td class="'+cls+'"><div class="sw"></div></td>';return}
       const lv=hasLeave(col.name,dkey);
-      if(lv)bh+='<td class="'+cls+'" onclick="onLC(\''+cn+'\',\''+dkey+'\')"><div class="leave-cell">'+eH(lv)+'</div></td>';
-      else bh+='<td class="'+cls+'" style="cursor:pointer" onclick="onLC(\''+cn+'\',\''+dkey+'\')"><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>';
+      const clickAttr = isReadOnly ? '' : 'onclick="onLC(\''+cn+'\',\''+dkey+'\')"';
+      const cursorStyle = isReadOnly ? '' : 'style="cursor:pointer"';
+      if(lv)bh+='<td class="'+cls+'" '+clickAttr+'><div class="leave-cell">'+eH(lv)+'</div></td>';
+      else bh+='<td class="'+cls+'" '+cursorStyle+' '+clickAttr+'><div class="sw"><div class="sb eb" style="height:calc(var(--slot-h)*5)"></div></div></td>';
     });
     bh+='</tr>';
   });
@@ -571,12 +733,13 @@ function renderConges(){
 
 function render(){
   renderYearFilter();
-  if(curTab==='affaire'){renderToolbox();renderAffaire()}
+  if(curTab==='affaire'){if(!isReadOnly)renderToolbox();renderAffaire()}
   else if(curTab==='collab')renderCollab();
-  else if(curTab==='conges'){renderLTB();renderConges()}
+  else if(curTab==='conges'){if(!isReadOnly)renderLTB();renderConges()}
 }
 
 function onBl(aff,dkey,si,li=0){
+  if(isReadOnly) return;
   const sl=getSl(aff,dkey,li);
   if(eraser){
     const nm=sl[si];
@@ -610,6 +773,7 @@ function onBl(aff,dkey,si,li=0){
 }
 
 function onLC(cn,dkey){
+  if(isReadOnly) return;
   if(leaveEraser){
     if(LD[cn+'|'+dkey]){
       getLTD(dkey).forEach(d=>{delete LD[cn+'|'+d]});
@@ -653,7 +817,7 @@ function onLC(cn,dkey){
 }
 
 function confirmLeaveConflict(){
-  if(!_pendingLeave)return;
+  if(isReadOnly||!_pendingLeave)return;
   const{cn,days,leaveType,conflicts}=_pendingLeave;
   conflicts.forEach(c=>{
     const sl=getSl(c.aff,c.day,c.li||0);
@@ -669,6 +833,7 @@ function cancelLeaveConflict(){_pendingLeave=null;closeM('mLeaveConfirm')}
 
 function renderToolbox(){
   const box=document.getElementById('cTB');
+  if(!box) return;
   if(!Co.length){box.innerHTML='<span class="no-collab-msg">Aucun collaborateur.</span>';updD();return}
   let h='';
   Co.forEach(c=>{
@@ -680,11 +845,12 @@ function renderToolbox(){
   updD();
 }
 
-function selCo(n){eraser=false;selCol=n;renderToolbox();render();toast(n+' '+selPct+'%','success')}
+function selCo(n){if(isReadOnly)return;eraser=false;selCol=n;renderToolbox();render();toast(n+' '+selPct+'%','success')}
 function desel(){selCol=null;eraser=false;renderToolbox();render()}
-function togE(){eraser=!eraser;if(eraser)selCol=null;renderToolbox();render()}
+function togE(){if(isReadOnly)return;eraser=!eraser;if(eraser)selCol=null;renderToolbox();render()}
 function updD(){
   const d=document.getElementById('selDisp');
+  if(!d)return;
   d.classList.remove('active-selection','eraser-active');
   if(eraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}
   else if(selCol){d.textContent='🎯 '+selCol+' '+selPct+'%';d.classList.add('active-selection')}
@@ -693,6 +859,7 @@ function updD(){
 
 function renderLTB(){
   const box=document.getElementById('lTB');
+  if(!box)return;
   let h='';
   LT.forEach(lt=>{
     const sel=(selLeave===lt&&!leaveEraser)?' selected':'';
@@ -702,11 +869,12 @@ function renderLTB(){
   box.innerHTML=h;
   updLD();
 }
-function selLv(lt){leaveEraser=false;selLeave=lt;renderLTB()}
+function selLv(lt){if(isReadOnly)return;leaveEraser=false;selLeave=lt;renderLTB()}
 function deselLv(){selLeave=null;leaveEraser=false;renderLTB()}
-function togLE(){leaveEraser=!leaveEraser;if(leaveEraser)selLeave=null;renderLTB()}
+function togLE(){if(isReadOnly)return;leaveEraser=!leaveEraser;if(leaveEraser)selLeave=null;renderLTB()}
 function updLD(){
   const d=document.getElementById('selLDisp');
+  if(!d)return;
   d.classList.remove('active-selection','eraser-active');
   if(leaveEraser){d.textContent='🧹 Gomme';d.classList.add('eraser-active')}
   else if(selLeave){d.textContent='🏖️ '+selLeave;d.classList.add('active-selection')}
@@ -714,6 +882,7 @@ function updLD(){
 }
 
 function openAddAff(){
+  if(isReadOnly)return;
   document.getElementById('nAN').value='';
   document.getElementById('nAT').value='etudes';
   updJF('add');
@@ -723,6 +892,7 @@ function openAddAff(){
 }
 
 function addAff(){
+  if(isReadOnly)return;
   const n=document.getElementById('nAN').value.trim(),t=document.getElementById('nAT').value;
   if(!n){toast('Nom requis.','error');return}
   if(Af.some(a=>a.name.toLowerCase()===n.toLowerCase())){toast('Existe déjà.','error');return}
@@ -735,6 +905,7 @@ function addAff(){
 }
 
 function openDelAff(){
+  if(isReadOnly)return;
   document.getElementById('dAN').value='';
   const{etudes,conception,travaux}=sortAf();
   let t='';
@@ -746,6 +917,7 @@ function openDelAff(){
 }
 
 function delAff(){
+  if(isReadOnly)return;
   const n=document.getElementById('dAN').value.trim(),idx=Af.findIndex(a=>a.name===n);
   if(idx<0){toast('Introuvable.','error');return}
   Af.splice(idx,1);
@@ -756,6 +928,7 @@ function delAff(){
 }
 
 function openEJ(idx){
+  if(isReadOnly)return;
   eIdx=idx;
   const a=Af[idx];
   document.getElementById('eJN').textContent=a.name;
@@ -765,7 +938,7 @@ function openEJ(idx){
 }
 
 function saveJ(){
-  if(eIdx<0)return;
+  if(isReadOnly||eIdx<0)return;
   const a=Af[eIdx],jData=cJ('eJF',a.type);
   a.jalons=jData.jalons||{};
   if(a.type==='etudes'&&jData.offres)a.offres=jData.offres;
@@ -779,11 +952,13 @@ document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('clic
 
 function renderCL(){
   const ul=document.getElementById('cList');
+  if(!ul)return;
   if(!Co.length){ul.innerHTML='<li style="color:var(--text-light);font-style:italic">Aucun.</li>';return}
   ul.innerHTML=Co.map((c,i)=>'<li><div style="display:flex;align-items:center"><div class="ca" style="background:'+c.color+'">'+ini(c.name)+'</div><span class="ci">'+eH(c.name)+'</span></div><button class="cedit" onclick="openRenameCollab('+i+')">✏️</button><input type="color" class="cce" value="'+c.color+'" onchange="chCol('+i+',this.value)"></li>').join('');
 }
-function chCol(i,col){Co[i].color=col;sv();renderCL();render()}
+function chCol(i,col){if(isReadOnly)return;Co[i].color=col;sv();renderCL();render()}
 function addC(){
+  if(isReadOnly)return;
   const inp=document.getElementById('newCN'),n=inp.value.trim(),c=document.getElementById('newCC').value;
   if(!n)return;
   if(Co.some(x=>x.name.toLowerCase()===n.toLowerCase())){toast('Existe déjà.','error');return}
@@ -791,6 +966,7 @@ function addC(){
   sv();inp.value='';renderCL();render();
 }
 function delC(){
+  if(isReadOnly)return;
   const inp=document.getElementById('delCN'),n=inp.value.trim(),idx=Co.findIndex(c=>c.name===n);
   if(idx<0){toast('Introuvable.','error');return}
   Co.splice(idx,1);
@@ -803,6 +979,7 @@ function delC(){
   sv();inp.value='';renderCL();render();
 }
 function openRenameCollab(idx){
+  if(isReadOnly)return;
   _renameIdx=idx;
   document.getElementById('renameOldName').textContent=Co[idx].name;
   document.getElementById('renameNewName').value=Co[idx].name;
@@ -810,7 +987,7 @@ function openRenameCollab(idx){
   setTimeout(()=>{const i=document.getElementById('renameNewName');i.focus();i.select()},200);
 }
 function confirmRenameCollab(){
-  if(_renameIdx<0)return;
+  if(isReadOnly||_renameIdx<0)return;
   const old=Co[_renameIdx].name,nw=document.getElementById('renameNewName').value.trim();
   if(!nw){toast('Nom requis.','error');return}
   if(nw===old){closeM('mRenameCollab');return}
@@ -832,9 +1009,13 @@ function confirmRenameCollab(){
   sv();renderCL();render();
   toast(old+' → '+nw,'success');
 }
-function renderLTList(){document.getElementById('ltList').innerHTML=LT.map(lt=>'<span class="leave-type-tag">'+eH(lt)+' <span class="ltx" onclick="remLT(\''+eA(lt)+'\')">✕</span></span>').join('')}
-function addLT(){const inp=document.getElementById('newLT'),n=inp.value.trim().toUpperCase();if(!n)return;if(LT.includes(n)){toast('Existe déjà.','error');return}LT.push(n);sv();inp.value='';renderLTList()}
-function remLT(lt){LT=LT.filter(x=>x!==lt);Object.keys(LD).forEach(k=>{if(LD[k]===lt)delete LD[k]});sv();renderLTList();render()}
+function renderLTList(){
+  const el=document.getElementById('ltList');
+  if(!el)return;
+  el.innerHTML=LT.map(lt=>'<span class="leave-type-tag">'+eH(lt)+' <span class="ltx" onclick="remLT(\''+eA(lt)+'\')">✕</span></span>').join('');
+}
+function addLT(){if(isReadOnly)return;const inp=document.getElementById('newLT'),n=inp.value.trim().toUpperCase();if(!n)return;if(LT.includes(n)){toast('Existe déjà.','error');return}LT.push(n);sv();inp.value='';renderLTList()}
+function remLT(lt){if(isReadOnly)return;LT=LT.filter(x=>x!==lt);Object.keys(LD).forEach(k=>{if(LD[k]===lt)delete LD[k]});sv();renderLTList();render()}
 
 // ============ EXPORT PDF ============
 function getQuarterDates(year,q){const dates=[];let d=new Date(year,q*3,1);const end=new Date(year,q*3+3,0);while(d<=end){if(!isWE(d)&&!isF(d))dates.push(new Date(d));d.setDate(d.getDate()+1)}return dates}
@@ -992,7 +1173,8 @@ async function exportPDF(type,q){
 
 document.getElementById('nAN').addEventListener('keydown',e=>{if(e.key==='Enter')addAff()});
 document.getElementById('dAN').addEventListener('keydown',e=>{if(e.key==='Enter')delAff()});
-(function(){
+
+function initApp(){
   document.getElementById('curDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'short',year:'numeric',month:'long',day:'numeric'});
   sDate=new Date();sDate.setDate(sDate.getDate()-3);
   loadFromFirebase().then(()=>{
@@ -1004,7 +1186,7 @@ document.getElementById('dAN').addEventListener('keydown',e=>{if(e.key==='Enter'
     toast('Erreur Firebase.','error');
     renderCL();renderLTList();setFill('none');setLFill('none');render();
   });
-})();
+}
 </script>
 </body>
 </html>
